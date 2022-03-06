@@ -10,7 +10,8 @@ Footer.propTypes = {};
 
 function Footer(props) {
   return (
-    <div className={style.footer}>
+    <div className={`${style.footer} wrap`}>
+      {" "}
       <div className={style.foot_top_group}>
         <div className=" d-flex justify-content-between">
           <div className={style.logo_social}>
@@ -52,7 +53,7 @@ function Footer(props) {
             </li>
           </ul>
           <ul className={style.more_rubix}>
-            <li class={style.title_foot_top}>Chính sách</li>
+            <li className={style.title_foot_top}>Chính sách</li>
             <li>
               <a href="/">Chính sách đổi trả hàng</a>
             </li>
@@ -113,7 +114,7 @@ function Footer(props) {
             <a href="/">ThaiHien Team</a>
           </span>
         </p>
-        <div class={`${style.img_foot_bot} d-flex `}>
+        <div className={`${style.img_foot_bot} d-flex `}>
           {" "}
           <div>
             <img src={logohand1} alt="" />

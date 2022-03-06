@@ -1,0 +1,25 @@
+.title {
+  margin-top: 20px;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.groupstar {
+  cursor: pointer;
+  i {
+    font-size: 18px;
+    // color: rgb(253, 216, 53);
+    // color: rgb(167, 167, 167);
+  }
+  // .fourstar {
+  //   span {
+  //     :last-child {
+  //       color: none;
+  //     }
+  //   }
+  // }
+  span:last-child {
+    margin-right: 95px;
+  }
+}

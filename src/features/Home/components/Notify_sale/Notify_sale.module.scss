@@ -1,0 +1,117 @@
+.slideshow_bg {
+  background-image: url(../../../../assets/images/notify_sale/slideshow.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 650px;
+  width: 100%;
+  font-family: "Red Hat Display", sans-serif;
+  position: relative;
+  margin-top: 40px;
+  text-align: center;
+
+  .container {
+    width: 100%;
+  }
+
+  .slideshow {
+    background: rgba(#fff, 0.5);
+    padding: 45px;
+    text-align: center;
+    width: 80%;
+
+    //height: 420px;
+
+    @media (max-width: 380px) {
+      h2 {
+        font-size: 22px;
+      }
+    }
+
+    p {
+      color: #444444;
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 15px;
+
+      span {
+        color: #ba933e;
+      }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    .price_week {
+      font-size: 16px;
+      font-weight: 400;
+      color: #444444;
+    }
+
+    h4 {
+      font-size: 16px;
+      color: #1a1a1a;
+      margin-bottom: 15px;
+    }
+
+    a {
+      padding: 15px 23px;
+      background: #1a1a1a;
+      color: #fff;
+      font-weight: 700;
+      border-radius: 4px;
+      transition: all 0.4s;
+      display: inline-block;
+      margin-top: 23px;
+
+      i {
+        margin-left: 20px;
+      }
+
+      &:hover {
+        background: #ba933e;
+      }
+    }
+  }
+
+  &:hover {
+    &::after {
+      opacity: 1;
+      transform: scaleX(0);
+    }
+
+    &::before {
+      opacity: 1;
+      transform: scaleY(0);
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(#fff, 0.5);
+    opacity: 0;
+    transition: all 0.5s ease-out;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(#fff, 0.5);
+    opacity: 0;
+    transition: all 0.5s ease-out;
+  }
+}

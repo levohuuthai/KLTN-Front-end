@@ -1,0 +1,115 @@
+.blog {
+  padding: 60px 60px;
+
+  width: 100%;
+
+  .title_blog {
+    text-align: center;
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    p {
+      margin-bottom: 30px;
+      color: #444444;
+    }
+  }
+
+  .list_blog {
+    .item_blog {
+      width: 100%;
+
+      .img_blog {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        height: 280px;
+        img {
+          width: 100%;
+          transition: all 0.5s;
+          height: 100%;
+          object-fit: cover;
+          &:hover {
+            transform: scale(1.12);
+          }
+        }
+
+        .fashion_blog {
+          width: 72px;
+          height: 22px;
+          background: #ba933e;
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          border-radius: 4px;
+
+          a {
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+          }
+        }
+      }
+
+      .content_blog {
+        margin-top: 20px;
+
+        .date_blog {
+          .admin {
+            color: #ba933e;
+            font-weight: 700;
+          }
+
+          a {
+            color: #444444;
+            font-size: 14px;
+            display: inline-block;
+          }
+        }
+
+        h2 {
+          margin-bottom: 10px;
+
+          a {
+            color: #1a1a1a;
+            transition: all 0.3s;
+
+            &:hover {
+              color: #ba933e;
+            }
+          }
+        }
+
+        p {
+          line-height: 30px;
+          padding-bottom: 35px;
+        }
+
+        .readmore {
+          padding: 12.5px 30px;
+          border: 2px solid #e5e5e5;
+          font-weight: 700;
+          font-size: 14px;
+          border-radius: 4px;
+          color: #444;
+          transition: all 0.3s;
+          display: inline-block;
+
+          i {
+            margin-left: 8px;
+          }
+
+          &:hover {
+            background: #ba933e;
+            border: 2px solid #ba933e;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
