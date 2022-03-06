@@ -1,0 +1,83 @@
+.list_service {
+  padding: 60px 0px;
+  background: #f8f8f8;
+
+  font-family: "Red Hat Display", sans-serif;
+  text-align: center;
+
+  .service {
+    .content_service {
+      border-right: 1px solid rgba(#444444, 0.1);
+
+      &.c_s_second {
+        border: none;
+      }
+
+      &.c_s_last {
+        border-left: 1px solid rgba(#444444, 0.1);
+      }
+
+      img {
+        cursor: pointer;
+
+        &:hover {
+          animation: service 1s backwards 1 alternate ease-in-out;
+        }
+      }
+
+      .title_service {
+        h2 {
+          margin: 8px 0px;
+
+          a {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a1a;
+          }
+        }
+
+        p {
+          margin-bottom: 20px;
+          color: #444444;
+        }
+      }
+    }
+
+    .learn_more_service {
+      font-size: 14px;
+      color: #1a1a1a;
+      font-weight: 700;
+
+      i {
+        margin-left: 8px;
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@keyframes service {
+  16.65% {
+    transform: translateX(8px);
+  }
+
+  33.3% {
+    transform: translateX(-6px);
+  }
+
+  49.95% {
+    transform: translateX(4px);
+  }
+
+  66.6% {
+    transform: translateX(-2px);
+  }
+
+  83.25% {
+    transform: translateX(1px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
