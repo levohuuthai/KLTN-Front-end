@@ -1,19 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Header.module.scss";
 import logoRubic from "assets/images/logoRubic.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import BackToTop from "components/BackToTop/BackToTop";
 import MyCartAside from "components/myCartAside/MyCartAside";
-
 import { GlobalContext } from "../../store/store";
 import { ACTIOS } from "../../store/actions";
+import { useSelector } from "react-redux";
+import Search from "components/Search/Search";
+import FormLogout from "components/FormLogout/FormLogout";
+import FormInformation from "features/Form-Information/FormInformation";
+import cartApi from "api/cartApi";
+import wishlishApi from "api/wishlishApi";
 
 Header.propTypes = {};
 
 function Header(props) {
   const [showHeader, setShowHeader] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const [isAudio, setAudio] = useState(false);
+  const [isForm, setIsForm] = useState(false);
   const { dispatch, state } = useContext(GlobalContext);
+  let navigate = useNavigate();
+
   const { activeCart } = state;
   const showMyCart = (e) => {
     e.preventDefault();
@@ -27,11 +37,64 @@ function Header(props) {
     }
   });
 
-  // const showMyCart = (e) => {
-  //   e.preventDefault();
-  //   setActive_cart(true);
-  // };
+  const handleShowSearch = (e) => {
+    e.preventDefault();
+    setShowSearch(true);
+  };
+  const handleCancelSearch = (falseformSearch) => {
+    setShowSearch(falseformSearch);
+  };
+  const loggedInUser = useSelector((state) => state.user.current);
+  const [isOpenFormLogOut, seIsOpenFormLogOut] = useState(false);
+  const handleLogout = () => {
+    seIsOpenFormLogOut(true);
+  };
+  const falseFromLogOut = () => {
+    seIsOpenFormLogOut(false);
+  };
+  const handleInfomation = () => {
+    setIsForm(true);
+  };
+  const formfalseHandler = (falseFromForm) => {
+    setIsForm(falseFromForm);
+  };
 
+  useEffect(() => {
+    const fetchGetProductCartByUserId = async () => {
+      try {
+        const requestGetProductCartByUserId =
+          await cartApi.getProductCartByUserId(loggedInUser._id);
+        dispatch({
+          type: ACTIOS.dataCart,
+          payload: requestGetProductCartByUserId.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchGetProductCartByUserId();
+  }, [state.activeCart]);
+  useEffect(() => {
+    const fetchGetProductWishList = async () => {
+      try {
+        const requestGetProductWishList = await wishlishApi.getWishListUser(
+          loggedInUser._id
+        );
+        if (requestGetProductWishList.status === 200) {
+          dispatch({
+            type: ACTIOS.dataWishList,
+            payload: requestGetProductWishList.data.products,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchGetProductWishList();
+  }, []);
+  const handleLinkMyOrder = () => {
+    navigate("/myorder");
+  };
   return (
     <>
       <div className="wrap">
@@ -95,14 +158,21 @@ function Header(props) {
             </div>
             {/* Menu */}
             <ul className={`${style.list_menu}`}>
-              <li className={`${style.home_menu} `}>
+              <li
+                className={`${style.home_menu} `}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+              >
                 <a href="\" className={`${style.h} `}>
                   Trang chủ
-                  <i className="bi bi-chevron-down"></i>
                 </a>
               </li>
 
-              <li className={`${style.product_menu}`}>
+              <li
+                className={`${style.product_menu}`}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+              >
                 <a href="\">
                   Sản phẩm<i className="bi bi-chevron-down"></i>{" "}
                 </a>
@@ -154,9 +224,13 @@ function Header(props) {
                 </div>
               </li>
 
-              <li className={`${style.introduce_menu} `}>
+              <li
+                className={`${style.introduce_menu} `}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+              >
                 <a href="\">
-                  Giới thiệu<i className="bi bi-chevron-down"></i>{" "}
+                  Giới thiệu<i className="bi bi-chevron-down"></i>
                 </a>
                 <div className={`${style.dropdown_introduce} `}>
                   <ul>
@@ -175,7 +249,11 @@ function Header(props) {
                   </ul>
                 </div>
               </li>
-              <li className={`${style.knowDress_menu} `}>
+              <li
+                className={`${style.knowDress_menu} `}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+              >
                 <a href="\">
                   Kiến thức mặc đẹp<i className="bi bi-chevron-down"></i>{" "}
                 </a>
@@ -193,7 +271,11 @@ function Header(props) {
                   </ul>
                 </div>
               </li>
-              <li className={`${style.serviceCustom_menu} `}>
+              <li
+                className={`${style.serviceCustom_menu} `}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+              >
                 <a href="\">
                   Dịch vụ khách hàng<i className="bi bi-chevron-down"></i>{" "}
                 </a>
@@ -214,29 +296,88 @@ function Header(props) {
             </ul>
 
             <div className={`${style.header_right} `}>
-              <div className={`${style.account}`}>
-                <i className="far fa-user"></i>
-                <Link to="/login">Đăng nhập /</Link>
-                <Link to="/register"> Đăng ký</Link>
+              <div className={`${style.account}  `}>
+                {loggedInUser !== null ? (
+                  <span className={style.avatar_header}>
+                    <img src={loggedInUser?.avatar} alt="avatar" />
+                  </span>
+                ) : (
+                  <i className="far fa-user"></i>
+                )}
+
+                {loggedInUser?.userName == undefined ? (
+                  <>
+                    <Link
+                      to="/auth/login"
+                      onMouseMove={() => setAudio(true)}
+                      onMouseLeave={() => setAudio(false)}
+                    >
+                      Đăng nhập /{" "}
+                    </Link>
+                    <Link
+                      to="/auth/register"
+                      onMouseMove={() => setAudio(true)}
+                      onMouseLeave={() => setAudio(false)}
+                    >
+                      Đăng ký
+                    </Link>
+                  </>
+                ) : (
+                  <>
+                    <span>Hi {loggedInUser?.userName}</span>
+                    {/* <span> {loggedInUser?.firstName}</span> */}
+                    <div className={style.dropdownInfo}>
+                      <ul>
+                        <li onClick={handleLinkMyOrder}>Đơn hàng của tôi</li>
+                        <li onClick={handleInfomation}>Thông tin cá nhân</li>
+                        <li onClick={handleLogout}>Thoát tài khoản</li>
+                      </ul>
+                    </div>
+                  </>
+                )}
+                {/* {loggedInUser?.lastName == undefined ? (
+                  <Link
+                    to="/auth/register"
+                    onMouseMove={() => setAudio(true)}
+                    onMouseLeave={() => setAudio(false)}
+                  >
+                    Đăng ký
+                  </Link>
+                ) : (
+                  <span> {loggedInUser?.firstName}</span>
+                )} */}
               </div>
               <div className={`${style.bar_vertical}`}></div>
-              <div className={`${style.wishlist}`} title="View Wishlist">
-                <a href="../html/wishlist.html">
+              <div
+                className={`${style.wishlist}`}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+                title="Yêu thích"
+              >
+                <Link to="/wishlist">
                   <i className="bi bi-suit-heart"></i>
-                </a>
-                <p className={`${style.qty_wl}`}>
+                  <p className={`${style.qty_wl}`}>
+                    {state.dataWishList.length}
+                  </p>
+                </Link>
+                {/* <p className={`${style.qty_wl}`}>
                   <a href="\">0</a>
-                </p>
+                </p> */}
               </div>
-              <div className={`${style.my_cart}`} onClick={showMyCart}>
-                <a href="">
+              <div
+                className={`${style.my_cart}`}
+                onClick={showMyCart}
+                onMouseMove={() => setAudio(true)}
+                onMouseLeave={() => setAudio(false)}
+              >
+                <a href="\">
                   <i className="bi bi-handbag"></i>
                 </a>
                 <p className={`${style.qty_mc} `}>
-                  <a href="\">0</a>
+                  <a href="\">{state.dataCart.length}</a>
                 </p>
               </div>
-              <div className={`${style.search} `}>
+              <div className={`${style.search}`} onClick={handleShowSearch}>
                 <a href="\">
                   <i className="bi bi-search"></i>
                 </a>
@@ -247,6 +388,17 @@ function Header(props) {
         <BackToTop />
       </div>
       <MyCartAside active_cart={activeCart} />
+      <Search showSearch={showSearch} onReceiveFalse={handleCancelSearch} />
+      {isAudio && (
+        <audio autoPlay src={process.env.PUBLIC_URL + "/sound1.mp3"}>
+          dfvdvdv d
+        </audio>
+      )}
+      <FormLogout
+        isOpenFormLogOut={isOpenFormLogOut}
+        onFormFalse={falseFromLogOut}
+      ></FormLogout>
+      <FormInformation isForm={isForm} onFormFalse={formfalseHandler} />
     </>
   );
 }

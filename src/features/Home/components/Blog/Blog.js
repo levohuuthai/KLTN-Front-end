@@ -76,7 +76,7 @@ function Blog(props) {
                   sẽ dễ làm loang màu từ áo mới sang các áo ...
                 </p>
                 <a href="\" className={style.readmore}>
-                  Read More <i className="bi bi-chevron-right"></i>
+                  Xem thêm <i className="bi bi-chevron-right"></i>
                 </a>
               </div>
             </div>
@@ -109,7 +109,7 @@ function Blog(props) {
                   hợp túi tiền của học sinh, sinh viên ...
                 </p>
                 <a href="\" className={style.readmore}>
-                  Read More <i className="bi bi-chevron-right"></i>
+                  Xem thêm <i className="bi bi-chevron-right"></i>
                 </a>
               </div>
             </div>
@@ -145,7 +145,7 @@ function Blog(props) {
                   phát triển sản phẩm trọn bộ sắc màu:
                 </p>
                 <a href="\" className={style.readmore}>
-                  Read More <i className="bi bi-chevron-right"></i>
+                  Xem thêm <i className="bi bi-chevron-right"></i>
                 </a>
               </div>
             </div>
@@ -181,7 +181,7 @@ function Blog(props) {
                   hoạ tiết,
                 </p>
                 <a href="\" className={style.readmore}>
-                  Read More <i className="bi bi-chevron-right"></i>
+                  Xem thêm <i className="bi bi-chevron-right"></i>
                 </a>
               </div>
             </div>

@@ -19,30 +19,42 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function InputField(props) {
-  const { form, name, label, disabled } = props;
+  const { form, name, label, disabled, onChange, value } = props;
   const { errors, formState } = form;
-  const hasError = formState.touched[name] && errors[name];
+  const hasError = errors[name];
   // console.log(errors[name], formState[name]);
-
   const classes = useStyles();
-
   return (
     <Controller
-      name={name}
-      control={form.control}
       as={TextField}
+      name={name}
       label={label}
+      control={form.control}
+      defaultValue=""
+      value={value}
       margin="normal"
       variant="outlined"
       fullWidth
-      // disabled={disabled}
-      // className={classes.root}
+      error={!!hasError}
+      helperText={errors[name]?.message}
       InputProps={{
         className: classes.root,
       }}
-      // error={!!hasError}
-      // helperText={errors[name]?.message}
-    ></Controller>
+      // render={({ props }) => {
+      //   return (
+      //     <TextField
+      //       label={label}
+      //       onChange={onChange}
+      //       value={value}
+      //       margin="normal"
+      //       variant="outlined"
+      //       fullWidth
+      //       error={!!hasError}
+      //       helperText={errors[name]?.message}
+      //     />
+      //   );
+      // }}
+    />
   );
 }
 

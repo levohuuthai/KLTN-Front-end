@@ -1,39 +1,53 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import style from "./FiltersByColor.module.scss";
-
+import { GlobalContext } from "store/store";
+import { ACTIOS } from "store/actions";
 FiltersByColor.propTypes = {};
 
 function FiltersByColor(props) {
+  const [datacheckbox, setDataCheckbox] = useState([]);
+  const { dispatch, state } = useContext(GlobalContext);
+
+  const handleChangeDataProduct = (data, idx) => (e) => {
+    let color = [...datacheckbox];
+    if (e.target.checked == true) {
+      color = [...datacheckbox, e.target.value];
+      // props.onReceiveDataColor(color);
+      dispatch({
+        type: ACTIOS.dataFilterColor,
+        payload: color,
+      });
+    } else {
+      color.splice(datacheckbox.indexOf(e.target.value), 1);
+      // props.onReceiveDataColor(color);
+      dispatch({
+        type: ACTIOS.dataFilterColor,
+        payload: color,
+      });
+    }
+    setDataCheckbox(color);
+  };
   return (
     <div className={style.color}>
       <span className={style.title}> Màu sắc</span>
       <div className={`${style.groupcheckbox} d-flex align-items-center`}>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Tất cả</label>
-        </div>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" style={{ background: "#fff" }} />{" "}
-          <label>Đỏ</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Vàng</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Xanh lá</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Trắng</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Xanh dương</label>
-        </div>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Đen</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>Xám</label>
-        </div>
+        {props.dataArrayColor?.map((data, idx) => {
+          return (
+            <div
+              className={`${style.checkbox} d-flex align-items-center`}
+              key={idx}
+            >
+              <input
+                type="checkbox"
+                id={data}
+                value={data}
+                onChange={handleChangeDataProduct(data, idx)}
+              />
+              <label htmlFor={data}>{data}</label>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

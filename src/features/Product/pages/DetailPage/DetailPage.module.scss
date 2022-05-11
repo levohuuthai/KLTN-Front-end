@@ -34,17 +34,18 @@
   .img_detailproduct_group {
     width: 47%;
     display: flex;
-    justify-content: center;
-    align-items: start;
-    margin-right: 60px;
+    margin-right: 40px;
     .img_display {
-      width: 80%;
+      width: 100%;
+      width: 600px;
+      height: 600px;
       overflow: hidden;
+      position: relative;
       .img_showcase {
         display: flex;
-        width: 100%;
+        width: 600px;
+        height: 600px;
         transition: all 0.3s;
-        height: 100%;
         img {
           width: 100%;
           height: 100%;
@@ -53,16 +54,15 @@
     }
 
     .img_select {
-      width: 20%;
-      // background: red;
-
-      .img_item {
-        width: 80%;
-        margin-bottom: 20px;
-        height: 100%;
+      width: 100px;
+      height: 590px;
+      margin-right: 20px;
+      .item_img_select {
+        width: 100px;
+        height: 120px;
         border: 1px solid black;
         transition: all 0.3s;
-
+        opacity: 0.7;
         img {
           width: 100%;
           height: 100%;
@@ -86,7 +86,7 @@
     .rating_purchase {
       padding: 10px 0px;
       display: flex;
-      align-items: start;
+      align-items: flex-start;
       .rating {
         color: rgb(253, 216, 53);
         margin-right: 5px;
@@ -125,20 +125,26 @@
 
       .btn_addtocart {
         padding: 10px 35px;
-        background: #1a1a1a;
+        background: #cfcfcf;
         color: #fff;
         transition: all 0.3s;
         cursor: pointer;
         border-radius: 4px;
         font-weight: 700;
         margin: 0px 10px;
+        cursor: not-allowed;
+        &.active {
+          background: #1a1a1a;
+          color: #fff;
+
+          cursor: pointer;
+          &:hover {
+            background: #ba933e;
+          }
+        }
 
         i {
           margin-right: 10px;
-        }
-
-        &:hover {
-          background: #ba933e;
         }
       }
 
@@ -196,12 +202,20 @@
       }
       .btn_size {
         span {
-          padding: 4px 25px;
-          // border: 1px solid #e5e5e5;
-          background: #e5e5e5;
-
+          display: inline-block;
           cursor: pointer;
           border-radius: 4px;
+          margin-right: 5px;
+          border: 1px solid rgb(218, 218, 218);
+          padding: 4px 10px;
+          &.active {
+            background: #ba933e;
+            color: #fff;
+            border: 1px solid #ba933e;
+          }
+          &:hover {
+            border: 1px solid #ba933e;
+          }
         }
       }
     }
@@ -220,10 +234,19 @@
       }
       .btn_color {
         span {
-          padding: 4px 25px;
-          background: #e5e5e5;
+          display: inline-block;
           cursor: pointer;
           border-radius: 4px;
+          margin-right: 5px;
+          border: 1px solid rgb(218, 218, 218);
+          padding: 4px 10px;
+          &.active {
+            background: #ba933e;
+            color: #fff;
+          }
+          &:hover {
+            border: 1px solid #ba933e;
+          }
         }
       }
     }
@@ -283,13 +306,11 @@
     background: #f5f5f5;
     position: relative;
     .active_seemore {
-      // height: 1000px;
       overflow: visible;
-      // overflow: hidden;
     }
     .notactive_seemore {
       overflow: hidden;
-      height: 310px;
+      height: 210px;
     }
     .btn_backdropseemore {
       width: 100%;
@@ -337,4 +358,67 @@
       }
     }
   }
+}
+.detail_product_review {
+  border: 1px solid rgb(231, 231, 231);
+  height: 1000px;
+  margin-left: 20px;
+  margin-right: 250px;
+  margin-bottom: 20px;
+}
+.prevEl {
+  opacity: 1;
+  width: 40px;
+  height: 40px;
+  background: white !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: all 0.3s;
+  position: absolute !important;
+  top: 50% !important;
+  left: 0% !important;
+  transform: translateY(-50%) !important;
+  z-index: 99999 !important;
+  cursor: pointer;
+  box-shadow: 0px 8px 15px rgba(#292929, 0.1);
+}
+.prevEl::after {
+  content: "\f053";
+  font-size: 20px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+}
+.prevEl:hover {
+  background: #ba933e !important;
+  color: #fff;
+}
+.nextEl {
+  opacity: 1;
+  width: 40px;
+  height: 40px;
+  background: white !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: all 0.3s;
+  position: absolute !important;
+  top: 50% !important;
+  right: 0% !important;
+  transform: translateY(-50%) !important;
+  z-index: 99999 !important;
+  cursor: pointer;
+  box-shadow: 0px 8px 15px rgba(#292929, 0.1);
+}
+.nextEl::after {
+  content: "\f054";
+  font-size: 20px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+}
+.nextEl:hover {
+  background: #ba933e !important;
+  color: #fff;
 }

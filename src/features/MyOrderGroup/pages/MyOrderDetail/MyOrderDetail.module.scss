@@ -1,0 +1,194 @@
+.myorder_detail {
+  display: flex;
+  padding: 1rem;
+  background: #f5f5fa;
+
+  .myorder_detail_right {
+    margin-top: 25px;
+    width: 80%;
+    h6 {
+      .id_orderDetai {
+        color: rgb(36, 36, 36);
+        font-weight: 400;
+      }
+    }
+
+    .date_order {
+      text-align: right;
+    }
+    .address_methodpayment {
+      display: flex;
+      .address_orderDetail {
+        width: 100%;
+        margin-right: 20px;
+        .frameAdress {
+          background: #fff;
+          padding: 10px;
+          border-radius: 5px;
+          padding: 10px 20px;
+          background: #fff;
+          border-radius: 10px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        }
+      }
+      .address_methodpaymentDetail {
+        width: 100%;
+        .frameMethodpayment {
+          padding: 10px 20px;
+          background: #fff;
+          border-radius: 10px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          height: 95px;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    .list_product_order_frame {
+      padding: 10px 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      margin-top: 20px;
+      border-radius: 5px;
+      .title_item_product {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1rem;
+        font-weight: 500;
+        .title_image_item {
+          width: 25%;
+        }
+        .title_price1 {
+          width: 18%;
+        }
+        .title_discount {
+          width: 18%;
+        }
+        .title_quantity {
+          width: 18%;
+        }
+        .title_price2 {
+          width: 18%;
+        }
+      }
+      .list_product_order {
+        padding: 0rem 1rem;
+        background: #fff;
+        width: 100%;
+        margin-top: 0px;
+
+        .item_product_order {
+          border-bottom: 1px solid rgb(244, 244, 244);
+          border-top: 1px solid rgb(244, 244, 244);
+          padding: 28px 0px;
+          .image_item_order {
+            display: flex;
+            width: 300px;
+            height: 150px;
+            margin-right: -10px;
+            img {
+              width: 40%;
+              height: 100%;
+            }
+            .name_order {
+              margin-left: 15px;
+              white-space: nowrap;
+              // overflow: hidden;
+              text-overflow: ellipsis;
+              font-weight: 500;
+              color: #ba933e;
+              font-size: 18px;
+              .size_order {
+                color: black;
+                font-size: 14px;
+                font-weight: 400;
+              }
+              .color_order {
+                color: black;
+                margin-left: 20px;
+                font-size: 14px;
+                font-weight: 400;
+              }
+              .brand_order {
+                color: black;
+                font-size: 14px;
+                margin-bottom: 12px;
+                font-weight: 400;
+              }
+              .write_review {
+                display: inline-block;
+                // border: 1px solid #ba933e;
+                border-radius: 5px;
+                padding: 6px 12px;
+                background: black;
+                color: #fff;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.3s;
+                // margin-top: -130px;
+                &:hover {
+                  background: #ba933e;
+                }
+              }
+            }
+          }
+          .price1 {
+            width: 15%;
+          }
+
+          .quantity {
+            width: 20%;
+          }
+          .discount {
+            width: 18%;
+          }
+          .price2 {
+            width: 18%;
+          }
+        }
+      }
+      .totalMoney {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-right: 80px;
+        .total {
+          margin-left: 120px;
+          color: rgb(255, 59, 39);
+          font-size: 18px;
+          font-weight: 500;
+        }
+        .title_total {
+          color: rgb(120, 120, 120);
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+.notify_add_Review {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 0;
+  opacity: 0;
+  transition: all 0.5s;
+  &.active {
+    opacity: 1;
+    z-index: 9;
+  }
+  p {
+    box-shadow: 0px 0px 10px rgba(#1a1a1a, 0.9);
+    border-radius: 4px;
+    padding: 20px;
+    background: #ba933e;
+    color: #fff;
+    font-weight: 700;
+  }
+}

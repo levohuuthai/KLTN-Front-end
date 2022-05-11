@@ -4,12 +4,13 @@
 
 .title {
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .groupcheckbox {
   flex-wrap: wrap;
   padding-bottom: 20px;
+  padding-top: 5px;
   .checkbox {
     width: 120px;
     input {
@@ -28,14 +29,20 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      font-size: 15px;
+      margin-top: 5px;
+      @media (max-width: 1436px) {
+        // paddi  ng-left: 10px;
+      }
       &::before {
         content: "";
         width: 20px;
         height: 20px;
         position: absolute;
-        border: 2px solid rgb(109, 109, 109);
+        border: 1.6px solid rgb(109, 109, 109);
         border-radius: 4px;
         left: 0;
+        // margin-top: 10px;
       }
       &::after {
         content: "\f00c";

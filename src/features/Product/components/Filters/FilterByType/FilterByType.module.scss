@@ -1,0 +1,50 @@
+.checkbox {
+  // width: 120px;
+  input {
+    // margin-right: 5px;
+    display: none;
+  }
+  input:checked ~ label:after {
+    opacity: 1;
+  }
+  input:checked ~ label:before {
+    background: #ba933e;
+  }
+  label {
+    position: relative;
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 5px;
+    @media (max-width: 1436px) {
+      // paddi  ng-left: 10px;
+    }
+    &::before {
+      content: "";
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      border: 1.6px solid rgb(109, 109, 109);
+      border-radius: 4px;
+      left: 0;
+      // margin-top: 10px;
+    }
+    &::after {
+      content: "\f00c";
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      // background: red;
+      border-radius: 4px;
+      top: 2px;
+      left: 3px;
+      font-family: "Font Awesome 5 Free";
+      font-weight: 600;
+      opacity: 0;
+      font-size: 14px;
+      color: #fff;
+    }
+  }
+}

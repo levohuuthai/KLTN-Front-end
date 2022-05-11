@@ -1,7 +1,7 @@
 .viewcart {
   padding: 0rem 1rem;
   background: #f5f5fa;
-  margin: 20px 0px;
+  padding: 20px 20px;
   .title {
     margin: 0 auto;
     width: 80%;
@@ -180,6 +180,20 @@
     .cart_right_top {
       padding: 1rem 1rem;
       background: #fff;
+      .nameProduct {
+        border: 1px solid rgb(167, 167, 167);
+        margin-top: 15px;
+        margin-bottom: 10px;
+        width: 100%;
+        border-radius: 4px;
+        padding: 10px;
+      }
+      .selectCoupon {
+        color: #ba933e;
+        cursor: pointer;
+        margin-top: 20px;
+        font-weight: 500;
+      }
     }
     .cart_right_bottom {
       margin-top: 20px;

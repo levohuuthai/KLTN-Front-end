@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper";
@@ -7,10 +7,63 @@ import "swiper/css/pagination";
 import style from "./Slider.module.scss";
 import img_slider1 from "assets/images/slider/img_slider1.jpg";
 import img_slider2 from "assets/images/slider/img_slider2.jpg";
+import couponApi from "api/couponApi";
+import { useSelector } from "react-redux";
 
 Slider.propTypes = {};
 
 function Slider(props) {
+  const [arrCoupon, setArrCoupon] = useState();
+  const [endDayCoupon, setEndDayCoupon] = useState({
+    day: "",
+    month: "",
+    year: "",
+    hour: "",
+    minute: "",
+  });
+
+  useEffect(() => {
+    const fetchRequestGetAllCoupon = async () => {
+      try {
+        const requestGetAllCoupon = await couponApi.getAllCoupon();
+        setArrCoupon(requestGetAllCoupon.data);
+        // setDataTypeProduct(requestGetAllCoupon.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllCoupon();
+  }, []);
+  useEffect(() => {
+    var date = new Date(arrCoupon?.[0]?.endDate);
+    setEndDayCoupon({
+      minute: date.getMinutes(),
+      hour: date.getHours(),
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    });
+  }, [arrCoupon]);
+  const loggedInUser = useSelector((state) => state.user.current);
+
+  const addSaveCoupon = () => {
+    const fetchRequestAddCoupon = async () => {
+      try {
+        const requestAddCoupon = await couponApi.addCoupon({
+          // name: arrCoupon?.[0]?.name,
+          // endDate: arrCoupon?.[0]?.endDate,
+          // discount: arrCoupon?.[0]?.discount,
+          // type: arrCoupon?.[0]?.type,
+          // count: arrCoupon?.[0]?.count,
+          couponId: arrCoupon?.[0]?._id,
+          userId: loggedInUser._id,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestAddCoupon();
+  };
   return (
     <div className="slider wrap">
       <Swiper
@@ -22,10 +75,10 @@ function Slider(props) {
         }}
         loop={true}
         navigation={true}
-        autoplay={{
-          delay: 4000,
-          disableOnInteraction: true,
-        }}
+        // autoplay={{
+        //   delay: 4000,
+        //   disableOnInteraction: true,
+        // }}
         breakpoints={{
           375: {
             slidesPerView: 1,
@@ -44,18 +97,59 @@ function Slider(props) {
                 <img src={img_slider2} alt="slider 1" />
               </div>
             </div>
-            <div></div>
             <div className={style.content_slider}>
-              <p className={style.item1_p}>
-                Giao hàng nhanh chóng, <span>chỉ từ 100.000 vnđ</span>
-              </p>
-              <h2 className={style.item1_h2}>
-                Áo thun thoải mái làm từ vải cotton
-              </h2>
-              <h3 className={style.item1_h3}>100% cao cấp</h3>
-              <a href="\" className={style.start_shop}>
-                Start Shopping
-              </a>
+              <p className={style.item1_p}>Săn mã giảm giá đến 50%</p>
+              <h3>MÃ FREESHIP ĐẶC BIỆT</h3>
+              <h4>LƯU MÃ ĐỂ SỬ DỤNG</h4>
+              {arrCoupon?.slice(0, 1)?.map((data) => {
+                console.log(data);
+                return (
+                  <div className={style.coupon}>
+                    <div className={style.left}>
+                      <div className={`${style.price} d-flex flex-column`}>
+                        <span>
+                          {data?.name}
+                          <b style={{ fontSize: "35px" }}>
+                            {" "}
+                            {data?.priceToDiscount}
+                          </b>
+                        </span>
+                        <div>
+                          <span
+                            style={{
+                              fontWeight: "500",
+                              fontSize: "18px",
+                              color: "#fff",
+                            }}
+                          >
+                            10 lượt/khách
+                          </span>
+                          <span
+                            className={style.btnSaveCodeCoupon}
+                            onClick={addSaveCoupon}
+                          >
+                            Lưu mã
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={`${style.right}  d-flex flex-column`}>
+                      <div className={style.date}>
+                        Hiệu lực đến
+                        <br />
+                        <b style={{ fontSize: "17px" }}>
+                          {endDayCoupon.hour}:{endDayCoupon.minute}
+                        </b>{" "}
+                        ngày
+                        <b style={{ fontSize: "17px" }}>
+                          {endDayCoupon.day}/{endDayCoupon.month}
+                        </b>
+                      </div>
+                      <div className={style.date}>Số lượng có hạn</div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </SwiperSlide>
@@ -70,11 +164,38 @@ function Slider(props) {
               <p>
                 Giao hàng nhanh chóng, <span>chỉ từ 100.000 vnđ</span>
               </p>
-              <h2>Bộ sưu tập của Rubix</h2>
-              <h3>Giảm giá lên đến 70%</h3>
-              <a href="\" className={style.start_shop}>
-                Start Shopping
-              </a>
+              <h3>VOUCHER TOÀN SÀN</h3>
+              <h4>LƯU MÃ ĐỂ SỬ DỤNG</h4>
+              <div className={style.coupon}>
+                <div className={style.left}>
+                  <div className={`${style.price} d-flex flex-column`}>
+                    <span>
+                      MIỄN PHÍ SHIP TỪ <b style={{ fontSize: "35px" }}>20K</b>
+                    </span>
+                    <div>
+                      <span
+                        style={{
+                          fontWeight: "500",
+                          fontSize: "18px",
+                          color: "#fff",
+                        }}
+                      >
+                        10 lượt/khách
+                      </span>
+                      <span className={style.btnSaveCodeCoupon}>Lưu mã</span>
+                    </div>
+                  </div>
+                </div>
+                <div className={`${style.right}  d-flex flex-column`}>
+                  <div className={style.date}>
+                    Hiệu lực đến
+                    <br />
+                    <b style={{ fontSize: "17px" }}>23:59</b> ngày
+                    <b style={{ fontSize: "17px" }}> 11/05</b>
+                  </div>
+                  <div className={style.date}>Số lượng có hạn</div>
+                </div>
+              </div>
             </div>
           </div>
         </SwiperSlide>

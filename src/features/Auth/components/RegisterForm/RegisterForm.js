@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import style from "./RegisterForm.module.scss";
 import PropTypes from "prop-types";
@@ -12,6 +12,7 @@ import iconGoogle from "assets/images/auth//login/iconGoogle.jpg";
 import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import authAPI from "api/authAPI";
 
 RegisterForm.propTypes = { onSubmit: PropTypes.func };
 const useStyles = makeStyles((theme) => ({
@@ -41,14 +42,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function RegisterForm(props) {
+  const [error, setError] = useState("");
   let navigate = useNavigate();
-
+  const schema = yup.object().shape({
+    SDT: yup
+      .string()
+      .required("Vui lòng nhập số điện thoại")
+      .test(
+        "Số điện thoại bắt đầu là 0 và gồm 10 kí số ",
+        "Số điện thoại bắt đầu là 0 và gồm 10 kí số",
+        (value) => {
+          const regex = /^(0|84)[0-9]{9}$/;
+          return regex.test(value);
+        }
+      ),
+    // .test("Số điện thoại bắt đầu là 0 và gồm 10 kí số ", error, (value) => {
+    //   return error;
+    // }),
+  });
   const classes = useStyles();
   const form = useForm({
     defaultValues: {
       SDT: "",
     },
-    //  resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
   const handleSubmit = (values) => {
     const { onSubmit } = props;
@@ -56,7 +73,27 @@ function RegisterForm(props) {
       onSubmit(values);
     }
     form.reset();
-    navigate("/authenregister");
+    // navigate("/auth/authenregister");
+  };
+  const handleLoginGoogle = (e) => {
+    const fetchRequestLoginGoogle = async () => {
+      try {
+        const requestLoginGoogle = await authAPI.loginGoogle();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestLoginGoogle();
+  };
+  const handleLoginFacebook = (e) => {
+    const fetchRequestLoginFacebook = async () => {
+      try {
+        const requestLoginFacebook = await authAPI.loginFacebook();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestLoginFacebook();
   };
   return (
     <div className={`${style.form_register} wrap`}>
@@ -78,17 +115,16 @@ function RegisterForm(props) {
         </Typography>
         <InputField name="SDT" label="Nhập số điện thoại" form={form} />
         <Button type="submit" className={classes.submit}>
-          {" "}
           Tiếp theo
         </Button>
         <div className={`${style.or} position-relative`}>
           <p className="position-absolute">Hoặc tiếp tục bằng</p>
         </div>
         <div className={style.buttonsns}>
-          <div className={style.facebook}>
+          <div className={style.facebook} onClick={handleLoginFacebook}>
             <i className="fab fa-facebook"></i> Facebook
           </div>
-          <div className={style.google}>
+          <div className={style.google} onClick={handleLoginGoogle}>
             <img src={iconGoogle} alt="icon google" /> Google
           </div>
         </div>

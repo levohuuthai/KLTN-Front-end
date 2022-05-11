@@ -2,7 +2,7 @@
   margin-top: 20px;
   display: inline-block;
   font-size: 17px;
-  font-weight: 900;
+  font-weight: 700;
 }
 
 .group_price {
@@ -13,12 +13,25 @@
     border-radius: 14px;
     margin-bottom: 8px;
     cursor: pointer;
+    &.active {
+      background: #ba933e;
+      color: #fff;
+      border: 1px solid #ba933e;
+    }
+    // &.notactive {
+    //   background: black;
+    //   color: #fff;
+    //   border: 1px solid #ba933e;
+    // }
   }
   .inputprice {
     input {
       border: 1px solid black;
       border-radius: 5px;
       width: 100px;
+      margin: 5px 0px;
+      padding: 5px 0px;
+      text-align: center;
     }
   }
   button {

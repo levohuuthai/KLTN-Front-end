@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import style from "./AuthenRegisterForm.module.scss";
 import PropTypes from "prop-types";
@@ -10,7 +10,10 @@ import { makeStyles } from "@material-ui/styles";
 import PasswordField from "components/Form-control/PasswordField";
 import { Button, TextField, Typography } from "@material-ui/core";
 import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
-
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 AuthenRegisterForm.propTypes = { onSubmit: PropTypes.func };
 const useStyles = makeStyles((theme) => ({
   // emailInput: { padding: theme.spacing(2) },
@@ -41,11 +44,21 @@ const useStyles = makeStyles((theme) => ({
 
 function AuthenRegisterForm(props) {
   const classes = useStyles();
-  const schema = yup.object().shape({});
+  const schema = yup.object().shape({
+    code: yup.string().required("Vui lòng nhập mã Code"),
+    firstName: yup.string().required("Vui lòng nhập Họ"),
+    lastName: yup.string().required("Vui lòng nhập Tên"),
+    password: yup.string().required("Vui lòng nhập mật khẩu"),
+    Repassword: yup
+      .string()
+      .required("Vui lòng nhập lại mật khẩu")
+      .oneOf([yup.ref("password")], "Mật khẩu không khớp"),
+  });
   const form = useForm({
     defaultValues: {
       code: "",
-      SDT: "",
+      firstName: "",
+      lastName: "",
       password: "",
       Repassword: "",
     },
@@ -53,10 +66,12 @@ function AuthenRegisterForm(props) {
   });
   const handleSubmit = (values) => {
     const { onSubmit } = props;
+
     if (onSubmit) {
       onSubmit(values);
     }
-    form.reset();
+
+    // form.reset();
   };
   return (
     <div className={`${style.form_login} wrap`}>
@@ -76,7 +91,7 @@ function AuthenRegisterForm(props) {
         <div className={style.code_bg}>
           <div className={style.content_code}>
             <span>Mã kích hoạt đã được gửi đến số điện thoại</span>
-            <span className={style.sdt}>0327364753</span>
+            <span className={style.sdt}>{props.onFromPhone}</span>
 
             <div className={style.inputCode}>
               <InputField name="code" label="Nhập mã code ở " form={form} />
@@ -84,10 +99,20 @@ function AuthenRegisterForm(props) {
             <span className={style.receive_code}>Nhận lại mã kích hoạt</span>
           </div>
         </div>
-        <Typography className={classes.title}>
-          Tên tài khoản <span style={{ color: "red" }}>*</span>
-        </Typography>
-        <InputField name="SDT" label="Nhập tên tài khoản" form={form} />
+        <div className="d-flex">
+          <div>
+            <Typography className={classes.title}>
+              Họ <span style={{ color: "red" }}>*</span>
+            </Typography>
+            <InputField name="firstName" label="Nhập họ" form={form} />
+          </div>
+          <div style={{ marginLeft: "50px" }}>
+            <Typography className={classes.title}>
+              Tên <span style={{ color: "red" }}>*</span>
+            </Typography>
+            <InputField name="lastName" label="Nhập tên" form={form} />
+          </div>
+        </div>
         <Typography className={classes.titlePassword}>
           Mật Khẩu <span style={{ color: "red" }}>*</span>
         </Typography>
@@ -103,8 +128,10 @@ function AuthenRegisterForm(props) {
         <Button type="submit" variant="contained" className={classes.submit}>
           Xác nhận
         </Button>
-
-        <div className={`${style.comeback}`}>Quay lại</div>
+        <div className={`${style.comeback}`}>
+          <Link to="/auth/register" />
+          Quay lại
+        </div>
       </form>
     </div>
   );

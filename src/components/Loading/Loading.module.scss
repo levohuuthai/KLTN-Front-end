@@ -1,0 +1,22 @@
+.loading_showcart {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50% -50%);
+  z-index: 9999999;
+  display: flex;
+
+  .backdrop_loading {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 300%;
+    height: 300%;
+    background: rgba(#1a1a1a, 0.6);
+    z-index: 99999;
+    display: block;
+  }
+  .itemLoading {
+    z-index: 9999999;
+  }
+}

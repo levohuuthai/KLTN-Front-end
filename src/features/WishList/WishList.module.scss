@@ -1,0 +1,155 @@
+.my_cart_wishtlist {
+  padding: 10px 30px;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+
+    thead {
+      tr {
+        th {
+          border-bottom: 1px solid #e5e5e5;
+          padding: 15px 0px;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          font-size: 14px;
+          border-bottom: 1px solid #e5e5e5;
+          padding: 20px 0px;
+
+          &.close_product_wishlist {
+            font-size: 18px;
+            cursor: pointer;
+          }
+
+          &.img_product_wishlist {
+            width: 140px;
+            height: 140px;
+            // padding: 0px 20px;
+            margin-right: 20px;
+            img {
+              width: 80%;
+              height: 100%;
+            }
+          }
+
+          &.name_product_wishlist {
+            color: #1a1a1a;
+            font-weight: 700;
+            font-size: 16px;
+            padding-left: 20px;
+          }
+
+          &.unitprice_product_wishlist {
+            color: green;
+            font-weight: 500;
+          }
+
+          &.detail_product {
+            a {
+              font-size: 16px;
+              font-weight: 400px;
+              color: #1a1a1a;
+              transition: all 0.3s;
+
+              &:hover {
+                color: #ba933e;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .share_on {
+    padding: 100px 0px;
+
+    h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .share_social {
+      a {
+        padding: 5px;
+        transition: all 0.3s;
+
+        i {
+          color: #fff;
+        }
+
+        &.face {
+          background: #39599e;
+
+          &:hover {
+            background: #39599e;
+          }
+        }
+
+        &.twitter {
+          background: #45afe2;
+
+          &:hover {
+            background: #39599e;
+          }
+        }
+
+        &.pin {
+          background: #ab2e31;
+
+          &:hover {
+            background: #39599e;
+          }
+        }
+
+        &.em {
+          background: #fbb102;
+
+          &:hover {
+            background: #39599e;
+          }
+        }
+
+        &.vi {
+          background: #00a901;
+
+          &:hover {
+            background: #39599e;
+          }
+        }
+      }
+    }
+  }
+}
+.background_slider {
+  background: #f1f1f1;
+  height: 300px;
+  position: relative;
+  .imgbackground {
+    position: absolute;
+    left: 55%;
+    img {
+      width: 100%;
+      height: 300px;
+    }
+  }
+  .title_background {
+    position: absolute;
+    font-family: "Roboto", sans-serif;
+    font-size: 32px;
+    margin: 0 auto;
+    font-weight: 900;
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    p {
+      padding-top: 20px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+}

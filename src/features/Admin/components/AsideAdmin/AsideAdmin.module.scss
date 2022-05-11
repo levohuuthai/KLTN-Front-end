@@ -1,0 +1,67 @@
+.aside_admin {
+  width: 18%;
+  background: #f7fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  .frame_aside {
+    background: #fff;
+    width: 80%;
+    height: 95%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+    .logo_rubix {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transform: scale(0.4);
+      flex-direction: column;
+      .line_logo {
+        width: 200%;
+        height: 3px;
+        background: black;
+        margin-top: 40px;
+      }
+    }
+
+    .content_aside {
+      padding: 10px 20px;
+      margin-top: -20px;
+      p {
+        cursor: pointer;
+        padding: 0px 10px;
+        width: 120%;
+        i {
+          margin-right: 20px;
+        }
+        a {
+          color: black;
+          width: 80%;
+          border-radius: 5px;
+          padding: 4px 8px;
+        }
+        &.active {
+          a {
+            color: #fff;
+            background: #ba933e;
+            border-radius: 5px;
+            padding: 4px 8px;
+          }
+        }
+        // &:hover {
+        //   background: #c5c1ba;
+        //   border-radius: 5px;
+        //   padding: 4px 10px;
+        //   a {
+        //     color: #fff;
+        //   }
+        // }
+      }
+      h6 {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

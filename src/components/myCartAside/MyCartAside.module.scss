@@ -5,9 +5,9 @@
   top: 0;
   bottom: 0;
   background: #fff;
-  z-index: 99999;
+  z-index: 9999999;
   height: 100vh;
-  font-family: "Red Hat Display", sans-serif;
+  font-family: "Montserrat", sans-serif;
   transform: translateX(100%);
   transition: all 0.5s;
   opacity: 0;
@@ -89,7 +89,7 @@
           //height: 90px;
           width: 100%;
           display: flex;
-
+          margin-bottom: 10px;
           &.active_item_product_cart {
             display: none;
           }
@@ -114,15 +114,18 @@
               font-size: 14px;
               color: #444444;
               font-weight: 700;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
 
-            p {
+            span {
               font-size: 14px;
             }
           }
 
           .close_product_cart {
-            padding-left: 10px;
+            padding-left: 15px;
             color: #1a1a1a;
             cursor: pointer;
           }

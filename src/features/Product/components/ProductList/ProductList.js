@@ -1,228 +1,179 @@
-import React from "react";
-import aothuntron from "assets/images/type/aothuntron.jpg";
-import aothuninhinh from "assets/images/type/aothuninhinh.jpg";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./ProductList.module.scss";
-
+import aothun2_front from "assets/images/product_promotion/ao2_front.png";
+import ao2_back from "assets/images/product_promotion/ao2_back.png";
+import { Link, useLocation } from "react-router-dom";
+import productApi from "api/productApi";
+import { GlobalContext } from "store/store";
+import { ACTIOS } from "store/actions";
+import Quickview from "components/Quickview/Quickview";
 function ProductList(props) {
+  const { dispatch, state } = useContext(GlobalContext);
+
+  const showMyCart = (e) => {
+    e.preventDefault();
+  };
+
+  const location = useLocation();
+  const nameTypeProduct = location.state?.nameTypeProduct;
+  //Mặc định khi load 3 loại
+
+  // useEffect(() => {
+  //   if (
+  //     state.dataFilterBrand.length +
+  //       state.dataFilterSize.length +
+  //       state.dataFilterColor.length +
+  //       (state.dataFilterPriceUnder200 === undefined ? 0 : 1) +
+  //       state.dataFilterStyle.length ===
+  //     0
+  //   ) {
+  //     const fetchRequestGetAllProductByCategory = async () => {
+  //       try {
+  //         const requestGetAllProductByCategory =
+  //           await productApi.getAllProductByCategory(nameTypeProduct, filters);
+  //         console.log(requestGetAllProductByCategory);
+  //         // if (requestGetAllProductByCategory.status == 200) {
+  //         await dispatch({
+  //           type: ACTIOS.dataProductFilter,
+  //           payload: requestGetAllProductByCategory.data.data,
+  //         });
+  //         dispatch({
+  //           type: ACTIOS.loading,
+  //           payload: false,
+  //         });
+  //         setPagination(requestGetAllProductByCategory.data.pagination);
+  //         // }
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     };
+  //     fetchRequestGetAllProductByCategory();
+  //   }
+  // }, [filters]);
   return (
     <div>
       <div className="row ">
-        <div className={`${style.item_product} col-3`}>
-          <div className={`${style.img_product}`}>
-            <a href="/">
-              <img src={aothuntron} alt="" />
-              <img src={aothuninhinh} className={style.img_hover} alt="" />
-            </a>
-            <a
-              href="/"
-              className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-            >
-              <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
-            </a>
-            <div className={`${style.item_buttons} f-column `}>
-              <a href="/" className={`${style.wishlist} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
+        {state.dataProductFilter?.map((data, idx) => {
+          console.log(data);
+          const showQuickView = (e) => {
+            e.preventDefault();
+            dispatch({ type: ACTIOS.loadingQuickView, payload: true });
 
-              <p className={`${style.detail_wishlist} `}>Thêm vào yêu thích</p>
+            const fetchRequestGetIdProdcut = async () => {
+              try {
+                const requestGetIdProduct = await productApi.getIdProduct(
+                  data._id
+                );
+                dispatch({
+                  type: ACTIOS.dataQuickView,
+                  payload: requestGetIdProduct.data,
+                });
+                dispatch({ type: ACTIOS.activeQuickView, payload: true });
+                setTimeout(() => {
+                  dispatch({ type: ACTIOS.loadingQuickView, payload: false });
+                }, 500);
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            fetchRequestGetIdProdcut();
+          };
+          return (
+            <div className={`${style.item_product} col-4`} key={idx}>
+              <div className={`${style.img_trend_product}`}>
+                <Link to={`/products/detail`} state={{ dataProduct: data }}>
+                  <img src={data.image_front} alt="img front" />
+                  <img
+                    src={data.image_back}
+                    className={style.img_hover}
+                    alt="img back"
+                  />
+                </Link>
+                <a
+                  href="/"
+                  className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
+                  onClick={showMyCart}
+                >
+                  <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
+                </a>
+                <div className={`${style.item_buttons} f-column `}>
+                  <a href="/" className={`${style.wishlist} `}>
+                    <i className="bi bi-suit-heart"></i>
+                  </a>
 
-              <a href="/" className={`${style.compare} `}>
-                <i className="bi bi-sliders"></i>
-              </a>
-              <p className={`${style.detail_compare} `}>So sánh</p>
-              <a href="/" className={`${style.quickview} `}>
-                <i className="bi bi-eye"></i>
-              </a>
-              <p className={`${style.detail_quickview} `}>Xem nhanh</p>
+                  <p className={`${style.detail_wishlist} `}>
+                    Thêm vào yêu thích
+                  </p>
+
+                  <a href="/" className={`${style.compare} `}>
+                    <i className="bi bi-sliders"></i>
+                  </a>
+                  <p className={`${style.detail_compare} `}>So sánh</p>
+                  <a
+                    href="/"
+                    className={`${style.quickview} `}
+                    onClick={showQuickView}
+                  >
+                    <i className="bi bi-eye"></i>
+                  </a>
+                  <p className={`${style.detail_quickview} `}>Xem nhanh</p>
+                </div>
+
+                <div className={`${style.item_buttons_res} `}>
+                  <a href="/" className={`${style.btn_wishlist_respon} `}>
+                    <i className="bi bi-suit-heart"></i>
+                  </a>
+                  <a href="/" className={`${style.btn_addtocart_respon} `}>
+                    <i className="bi bi-handbag"></i>
+                  </a>
+                </div>
+                {/* salse */}
+                {data.priceBase !== data.priceMin &&
+                  data.priceBase !== data.priceMax && (
+                    <div className={style.sale}>
+                      <span>Sale!</span>
+                    </div>
+                  )}
+              </div>
+              <h2 className={`${style.title_trend_product} `}>
+                <a href="/">{data.title}</a>
+              </h2>
+              <p className={`${style.price_trend_product} `}>
+                {data.priceBase !== data.priceMin &&
+                data.priceBase !== data.priceMax ? (
+                  <span>
+                    <span className={`${style.price_notoff}`}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceBase)}
+                    </span>
+                    <span className={style.price_off}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceMin) +
+                        ` - ` +
+                        new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(data.priceMax)}
+                    </span>
+                  </span>
+                ) : (
+                  <span className={style.price_off}>
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(data.priceBase)}
+                  </span>
+                )}
+              </p>
             </div>
-
-            <div className={`${style.item_buttons_res} `}>
-              <a href="/" className={`${style.btn_wishlist_respon} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-              <a href="/" className={`${style.btn_addtocart_respon} `}>
-                <i className="bi bi-handbag"></i>
-              </a>
-            </div>
-          </div>
-          <h2 className={`${style.title_trend_product} `}>
-            <a href="/">ÁO THUN</a>
-          </h2>
-          <p className={`${style.price_trend_product} `}>$80.00</p>
-        </div>
-        <div className={`${style.item_product} col-3`}>
-          <div className={`${style.img_product}`}>
-            <a href="/">
-              <img src={aothuntron} alt="" />
-              <img src={aothuninhinh} className={style.img_hover} alt="" />
-            </a>
-            <a
-              href="/"
-              className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-            >
-              <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
-            </a>
-            <div className={`${style.item_buttons} f-column `}>
-              <a href="/" className={`${style.wishlist} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-
-              <p className={`${style.detail_wishlist} `}>Thêm vào yêu thích</p>
-
-              <a href="/" className={`${style.compare} `}>
-                <i className="bi bi-sliders"></i>
-              </a>
-              <p className={`${style.detail_compare} `}>So sánh</p>
-              <a href="/" className={`${style.quickview} `}>
-                <i className="bi bi-eye"></i>
-              </a>
-              <p className={`${style.detail_quickview} `}>Xem nhanh</p>
-            </div>
-
-            <div className={`${style.item_buttons_res} `}>
-              <a href="/" className={`${style.btn_wishlist_respon} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-              <a href="/" className={`${style.btn_addtocart_respon} `}>
-                <i className="bi bi-handbag"></i>
-              </a>
-            </div>
-          </div>
-          <h2 className={`${style.title_trend_product} `}>
-            <a href="/">ÁO THUN</a>
-          </h2>
-          <p className={`${style.price_trend_product} `}>$80.00</p>
-        </div>
-        <div className={`${style.item_product} col-3`}>
-          <div className={`${style.img_product}`}>
-            <a href="/">
-              <img src={aothuntron} alt="" />
-              <img src={aothuninhinh} className={style.img_hover} alt="" />
-            </a>
-            <a
-              href="/"
-              className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-            >
-              <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
-            </a>
-            <div className={`${style.item_buttons} f-column `}>
-              <a href="/" className={`${style.wishlist} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-
-              <p className={`${style.detail_wishlist} `}>Thêm vào yêu thích</p>
-
-              <a href="/" className={`${style.compare} `}>
-                <i className="bi bi-sliders"></i>
-              </a>
-              <p className={`${style.detail_compare} `}>So sánh</p>
-              <a href="/" className={`${style.quickview} `}>
-                <i className="bi bi-eye"></i>
-              </a>
-              <p className={`${style.detail_quickview} `}>Xem nhanh</p>
-            </div>
-
-            <div className={`${style.item_buttons_res} `}>
-              <a href="/" className={`${style.btn_wishlist_respon} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-              <a href="/" className={`${style.btn_addtocart_respon} `}>
-                <i className="bi bi-handbag"></i>
-              </a>
-            </div>
-          </div>
-          <h2 className={`${style.title_trend_product} `}>
-            <a href="/">ÁO THUN</a>
-          </h2>
-          <p className={`${style.price_trend_product} `}>$80.00</p>
-        </div>
-        <div className={`${style.item_product} col-3`}>
-          <div className={`${style.img_product}`}>
-            <a href="/">
-              <img src={aothuntron} alt="" />
-              <img src={aothuninhinh} className={style.img_hover} alt="" />
-            </a>
-            <a
-              href="/"
-              className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-            >
-              <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
-            </a>
-            <div className={`${style.item_buttons} f-column `}>
-              <a href="/" className={`${style.wishlist} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-
-              <p className={`${style.detail_wishlist} `}>Thêm vào yêu thích</p>
-
-              <a href="/" className={`${style.compare} `}>
-                <i className="bi bi-sliders"></i>
-              </a>
-              <p className={`${style.detail_compare} `}>So sánh</p>
-              <a href="/" className={`${style.quickview} `}>
-                <i className="bi bi-eye"></i>
-              </a>
-              <p className={`${style.detail_quickview} `}>Xem nhanh</p>
-            </div>
-
-            <div className={`${style.item_buttons_res} `}>
-              <a href="/" className={`${style.btn_wishlist_respon} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-              <a href="/" className={`${style.btn_addtocart_respon} `}>
-                <i className="bi bi-handbag"></i>
-              </a>
-            </div>
-          </div>
-          <h2 className={`${style.title_trend_product} `}>
-            <a href="/">ÁO THUN</a>
-          </h2>
-          <p className={`${style.price_trend_product} `}>$80.00</p>
-        </div>
-        <div className={`${style.item_product} col-3`}>
-          <div className={`${style.img_product}`}>
-            <a href="/">
-              <img src={aothuntron} alt="" />
-              <img src={aothuninhinh} className={style.img_hover} alt="" />
-            </a>
-            <a
-              href="/"
-              className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-            >
-              <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
-            </a>
-            <div className={`${style.item_buttons} f-column `}>
-              <a href="/" className={`${style.wishlist} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-
-              <p className={`${style.detail_wishlist} `}>Thêm vào yêu thích</p>
-
-              <a href="/" className={`${style.compare} `}>
-                <i className="bi bi-sliders"></i>
-              </a>
-              <p className={`${style.detail_compare} `}>So sánh</p>
-              <a href="/" className={`${style.quickview} `}>
-                <i className="bi bi-eye"></i>
-              </a>
-              <p className={`${style.detail_quickview} `}>Xem nhanh</p>
-            </div>
-
-            <div className={`${style.item_buttons_res} `}>
-              <a href="/" className={`${style.btn_wishlist_respon} `}>
-                <i className="bi bi-suit-heart"></i>
-              </a>
-              <a href="/" className={`${style.btn_addtocart_respon} `}>
-                <i className="bi bi-handbag"></i>
-              </a>
-            </div>
-          </div>
-          <h2 className={`${style.title_trend_product} `}>
-            <a href="/">ÁO THUN</a>
-          </h2>
-          <p className={`${style.price_trend_product} `}>$80.00</p>
-        </div>
-      </div>
+          );
+        })}
+      </div>{" "}
+      <Quickview />
     </div>
   );
 }

@@ -1,0 +1,192 @@
+.dashboard {
+  width: 82%;
+  background: #f7fafc;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .dashboard_frame {
+    width: 97%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    // overflow: hidden;
+    .title_search {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 50px;
+      .search {
+        display: flex;
+        span {
+          padding: 10px;
+          border-left: 1px solid black;
+          border-top: 1px solid black;
+          border-bottom: 1px solid black;
+          border-bottom-left-radius: 5px;
+          border-top-left-radius: 5px;
+          display: inline-block;
+        }
+        input {
+          border-right: 1px solid black;
+          border-top: 1px solid black;
+          border-bottom: 1px solid black;
+          border-bottom-right-radius: 5px;
+          border-top-right-radius: 5px;
+        }
+      }
+    }
+    .list_block_statistic {
+      display: flex;
+      justify-content: space-between;
+      height: 120px;
+      align-items: center;
+      .block_statistic {
+        width: 24%;
+        height: 100px;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+        border-radius: 10px;
+        display: flex;
+        padding: 10px 15px;
+        .left_block_statistic {
+          display: flex;
+          flex-direction: column;
+          width: 80%;
+          font-size: 14px;
+          // justify-content: space-between;
+          .price_today {
+            font-weight: 700;
+            margin-bottom: 15px;
+          }
+        }
+        .right_block_statistic {
+          text-align: center;
+          width: 20%;
+          i {
+            font-size: 30px;
+          }
+        }
+      }
+    }
+    .chart {
+      display: flex;
+      height: 300px;
+      .chart_curve {
+        width: 70%;
+        background: #fff;
+        margin-right: 10px;
+        border-radius: 10px;
+        canvas {
+          height: 300px !important;
+        }
+      }
+      .chart_column {
+        background: #fff;
+        width: 30%;
+        border-radius: 10px;
+      }
+    }
+    .new_transaction_customer {
+      display: flex;
+      height: 200px;
+      margin-top: 10px;
+      .new_transaction {
+        width: 70%;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+        margin-right: 10px;
+        border-radius: 10px;
+        padding: 10px 10px;
+        overflow-y: hidden;
+        .title_transaction {
+          span {
+            color: black;
+            font-weight: 700;
+          }
+          p {
+            background: #1a1a1a;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: all 0.5s;
+            font-size: 14px;
+            padding: 5px 10px;
+            cursor: pointer;
+            &:hover {
+              background: #ba933e;
+            }
+          }
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          thead {
+            tr {
+              th {
+                border-bottom: 1px solid #e5e5e5;
+              }
+            }
+          }
+          tbody {
+            tr {
+              td {
+                border-bottom: 1px solid #e5e5e5;
+              }
+            }
+          }
+        }
+      }
+      .new_customer {
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+        width: 30%;
+        border-radius: 10px;
+        padding: 10px 10px;
+        overflow-y: hidden;
+        .title_customer {
+          span {
+            color: black;
+            font-weight: 700;
+          }
+          p {
+            background: #1a1a1a;
+            color: #fff;
+            font-weight: 700;
+            border-radius: 5px;
+            transition: all 0.5s;
+            font-size: 14px;
+            padding: 5px 10px;
+            cursor: pointer;
+            &:hover {
+              background: #ba933e;
+            }
+          }
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          thead {
+            tr {
+              th {
+                border-bottom: 1px solid #e5e5e5;
+              }
+            }
+          }
+          tbody {
+            tr {
+              td {
+                border-bottom: 1px solid #e5e5e5;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

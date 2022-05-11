@@ -1,40 +1,60 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import style from "./FiltersBySize.module.scss";
-
-FiltersBySize.propTypes = {};
+import { GlobalContext } from "store/store";
+import { ACTIOS } from "store/actions";
 
 function FiltersBySize(props) {
+  const { dispatch, state } = useContext(GlobalContext);
+
+  const handleChangeDataProduct = (data, idx) => async (e) => {
+    // let size = [...datacheckbox];
+    // if (e.target.checked == true) {
+    //   size = [...datacheckbox, e.target.value];
+    //   dispatch({
+    //     type: ACTIOS.dataFilterSize,
+    //     payload: size,
+    //   });
+    // } else {
+    //   size.splice(datacheckbox.indexOf(e.target.value), 1);
+    //   dispatch({
+    //     type: ACTIOS.dataFilterSize,
+    //     payload: size,
+    //   });
+    // }
+    // setDataCheckbox(size);
+    let prev = await state.dataFilterSize;
+    let itemIndex = prev.indexOf(data);
+    if (itemIndex !== -1) {
+      prev.splice(itemIndex, 1);
+    } else {
+      prev.push(data);
+    }
+    await dispatch({
+      type: ACTIOS.dataFilterSize,
+      payload: [...prev],
+    });
+  };
   return (
     <div className={style.size}>
       <span className={style.title}> Kích thước</span>
       <div className={`${style.groupcheckbox} d-flex align-items-center`}>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <div className={`${style.checkbox} d-flex align-items-center`}>
-            <input type="checkbox" /> <label>Tất cả</label>
-          </div>{" "}
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>S</label>
-        </div>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>M</label>
-        </div>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>L</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>XL</label>
-        </div>
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>2XL</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>3XL</label>
-        </div>{" "}
-        <div className={`${style.checkbox} d-flex align-items-center`}>
-          <input type="checkbox" /> <label>5XL</label>
-        </div>
+        {props.dataArraySize?.map((data, idx) => {
+          return (
+            <div
+              className={`${style.checkbox} d-flex align-items-center`}
+              key={idx}
+            >
+              <input
+                type="checkbox"
+                id={`size-checkbox-${idx}`}
+                value={data}
+                onChange={handleChangeDataProduct(data, idx)}
+                checked={state.dataFilterSize.includes(data)}
+              />
+              <label htmlFor={`size-checkbox-${idx}`}>{data}</label>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

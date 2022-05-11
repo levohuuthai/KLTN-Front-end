@@ -1,0 +1,346 @@
+.payment {
+  background: #f5f5fa;
+  display: flex;
+  padding: 1rem 1rem;
+  .payment_left {
+    width: 70%;
+    margin-right: 20px;
+    .infor_order {
+      background: #fff;
+      border: 1px solid rgb(221, 221, 221);
+      border-radius: 4px;
+      padding: 1rem 1rem;
+
+      .title_item_order {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title_image_item {
+          width: 12%;
+          margin-right: 30px;
+
+          display: flex;
+          justify-content: center;
+        }
+        .title_name_item {
+          width: 30%;
+          display: flex;
+          justify-content: center;
+        }
+        .title_price1 {
+          width: 25%;
+          display: flex;
+          justify-content: center;
+        }
+        .title_quantity {
+          width: 10%;
+          display: flex;
+          justify-content: center;
+        }
+        .title_price2 {
+          width: 25%;
+          display: flex;
+          justify-content: center;
+        }
+      }
+      .list_item {
+        .item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          .img_item {
+            width: 12%;
+            height: 120px;
+            margin-right: 30px;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .name {
+            width: 30%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            p {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+          }
+          .price {
+            width: 25%;
+            display: flex;
+            justify-content: center;
+          }
+          .quantity {
+            width: 10%;
+            display: flex;
+            justify-content: center;
+          }
+          .price2 {
+            width: 25%;
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+    }
+    .payment_method {
+      background: #fff;
+      border: 1px solid rgb(221, 221, 221);
+      border-radius: 4px;
+      padding: 1rem 1rem;
+      margin-top: 10px;
+      /* Customize the label (the container) */
+      .label_payment {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 16px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Hide the browser's default radio button */
+      .label_payment input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      /* Create a custom radio button */
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 50%;
+      }
+
+      /* On mouse-over, add a grey background color */
+      .label_payment:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+
+      /* When the radio button is checked, add a blue background */
+      .label_payment input:checked ~ .checkmark {
+        background-color: #ba933e;
+      }
+
+      /* Create the indicator (the dot/circle - hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Show the indicator (dot/circle) when checked */
+      .label_payment input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      /* Style the indicator (dot/circle) */
+      .label_payment .checkmark:after {
+        top: 9px;
+        left: 9px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: white;
+      }
+      .info_creditcard {
+        width: 100%;
+        .credit_left {
+          width: 60%;
+          .form_adressnew {
+            width: 90%;
+
+            .title_lable {
+              width: 30%;
+            }
+
+            .group_btn_address_new {
+              margin: 0 auto;
+            }
+          }
+        }
+        .credit_right {
+          width: 40%;
+          .credit_card {
+            width: 290px;
+            height: 182px;
+            position: relative;
+            .credit_card_front {
+              // backface-visibility: hidden;
+              background: linear-gradient(
+                25deg,
+                rgb(147, 147, 147),
+                rgb(113, 113, 113)
+              );
+              height: 100%;
+              color: #fff;
+              border-radius: 14.5px;
+              overflow: hidden;
+              transform-style: preserve-3d;
+              box-shadow: rgb(0 0 0 / 20%) 0px 0px 20px;
+              z-index: 20;
+              .card_background {
+                position: absolute;
+                height: 200%;
+                top: -60%;
+                transform: rotate(25deg);
+                transition: all 0.5s ease-out;
+                width: 150%;
+                left: -170%;
+                z-index: -1;
+                &.active_background {
+                  background: linear-gradient(
+                    25deg,
+                    rgb(15, 80, 158),
+                    rgb(19, 153, 205)
+                  );
+                  left: -22%;
+                  z-index: 1;
+                  transform: rotate(25deg);
+                }
+              }
+              .card_issuer {
+                z-index: 99;
+                background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSIxNjZweCIgdmlld0JveD0iMCAwIDUxMiAxNjYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQiPiAgICA8Zz4gICAgICAgIDxwYXRoIGQ9Ik0yNjQuNzk0MTg3LDExMi40Nzk0OTEgQzI2NC41MDIwNzIsODkuNDQ4NTYxNiAyODUuMzE5MDgsNzYuNTk1NTE5OCAzMDEuMDAxMDIxLDY4Ljk1NDQxNzIgQzMxNy4xMTM0NDcsNjEuMTEzNDQ2NiAzMjIuNTI1MjU0LDU2LjA4NjAwMDggMzIyLjQ2Mzc1Niw0OS4wNzUyNTA3IEMzMjIuMzQwNzYsMzguMzQzODgzMyAzMDkuNjEwNzE0LDMzLjYwODU1MiAyOTcuNjk1NTE0LDMzLjQyNDA1ODYgQzI3Ni45MDkyNTUsMzMuMTAxMTk1MSAyNjQuODI0OTM1LDM5LjAzNTczMzYgMjU1LjIxNTkwMyw0My41MjUwNzM2IEwyNDcuNzI4NTQ1LDguNDg2Njk3NSBDMjU3LjM2ODMyNiw0LjA0MzQ4MDg3IDI3NS4yMTgwNjUsMC4xNjkxMTg5NzIgMjkzLjcyODkwNSwtMS40MjEwODU0N2UtMTQgQzMzNy4xNzcxMDYsLTEuNDIxMDg1NDdlLTE0IDM2NS42MDQ0NjgsMjEuNDQ3MzYwNSAzNjUuNzU4MjEzLDU0LjcwMjMwMDIgQzM2NS45MjczMzIsOTYuOTA1MTcwOSAzMDcuMzgxNDE5LDk5LjI0MjA4NzYgMzA3Ljc4MTE1NCwxMTguMTA2NTQgQzMwNy45MTk1MjQsMTIzLjgyNTgzNiAzMTMuMzc3NDU1LDEyOS45Mjk0OTQgMzI1LjMzODc3OCwxMzEuNDgyMzEzIEMzMzEuMjU3OTQyLDEzMi4yNjY0MSAzNDcuNjAwOTg1LDEzMi44NjYwMTQgMzY2LjEyNzIsMTI0LjMzMzE5MyBMMzczLjM5OTMxNSwxNTguMjMzODYgQzM2My40MzY2NywxNjEuODYyMjMgMzUwLjYyOTc1MiwxNjUuMzM2ODU3IDMzNC42ODY0NDUsMTY1LjMzNjg1NyBDMjkzLjc5MDQwMywxNjUuMzM2ODU3IDI2NS4wMjQ4MDMsMTQzLjU5NzM4MiAyNjQuNzk0MTg3LDExMi40Nzk0OTEgTTQ0My4yNzYyLDE2Mi40MTU3MTEgQzQzNS4zNDI5ODIsMTYyLjQxNTcxMSA0MjguNjU1MDk2LDE1Ny43ODgwMDEgNDI1LjY3MjQ1MiwxNTAuNjg1MDA0IEwzNjMuNjA1Nzg5LDIuNDkwNjYxMjIgTDQwNy4wMjMyNDIsMi40OTA2NjEyMiBMNDE1LjY2MzY4NCwyNi4zNjcxODUyIEw0NjguNzIwOTE4LDI2LjM2NzE4NTIgTDQ3My43MzI5ODksMi40OTA2NjEyMiBMNTEyLDIuNDkwNjYxMjIgTDQ3OC42MDY2OSwxNjIuNDE1NzExIEw0NDMuMjc2MiwxNjIuNDE1NzExIE00NDkuMzQ5MTA4LDExOS4yMTM1MDEgTDQ2MS44NzkyODcsNTkuMTYwODkxMiBMNDI3LjU2MzUxLDU5LjE2MDg5MTIgTDQ0OS4zNDkxMDgsMTE5LjIxMzUwMSBNMjEyLjE1MjA2MywxNjIuNDE1NzExIEwxNzcuOTI4NTMzLDIuNDkwNjYxMjIgTDIxOS4zMDExODMsMi40OTA2NjEyMiBMMjUzLjUwOTMzOSwxNjIuNDE1NzExIEwyMTIuMTUyMDYzLDE2Mi40MTU3MTEgTTE1MC45NDYzNywxNjIuNDE1NzExIEwxMDcuODgyNTMsNTMuNTY0NTkwNyBMOTAuNDYzMjc1NSwxNDYuMTE4NzkyIEM4OC40MTg0NzM0LDE1Ni40NTA0MjMgODAuMzQ2ODg2MSwxNjIuNDE1NzExIDcxLjM4MzU4MDYsMTYyLjQxNTcxMSBMMC45ODM5NjQ5MjcsMTYyLjQxNTcxMSBMMCwxNTcuNzcyNjI2IEMxNC40NTE5ODQ5LDE1NC42MzYyMzggMzAuODcxODk5NiwxNDkuNTc4MDQzIDQwLjgxOTE3LDE0NC4xNjYyMzYgQzQ2LjkwNzQ1MywxNDAuODYwNzI5IDQ4LjY0NDc2NjEsMTM3Ljk3MDMzMiA1MC42NDM0NDQ4LDEzMC4xMTM5ODcgTDgzLjYzNzAxODgsMi40OTA2NjEyMiBMMTI3LjM2MTk2LDIuNDkwNjYxMjIgTDE5NC4zOTQ1NzEsMTYyLjQxNTcxMSBMMTUwLjk0NjM3LDE2Mi40MTU3MTEiIGZpbGw9IiNGRkZGRkYiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI1Ni4wMDAwMDAsIDgyLjY2ODQyOCkgc2NhbGUoMSwgLTEpIHRyYW5zbGF0ZSgtMjU2LjAwMDAwMCwgLTgyLjY2ODQyOCkgIj48L3BhdGg+ICAgIDwvZz48L3N2Zz4=");
+                background-position: right top;
+                background-repeat: no-repeat;
+                height: 103%;
+                position: absolute;
+                right: 10%;
+                top: 10%;
+                width: 40%;
+                background-size: 75%;
+              }
+              .card_cvc {
+                font-size: 25px;
+                position: absolute;
+                top: 38%;
+                left: 10%;
+                color: #fff;
+                z-index: 99;
+                .digit_wrapper {
+                  display: inline-block;
+                  width: 13px;
+                  .digit {
+                    display: inline-block;
+                    width: 100%;
+                    vertical-align: middle;
+                    transition: all 0.3s ease-in-out;
+                    position: absolute;
+                    top: 10px;
+                  }
+
+                  &:nth-child(4n) {
+                    margin-right: 10px;
+                  }
+                }
+                .shown {
+                  transform: translateY(0);
+                  opacity: 1;
+                }
+
+                .hidden:nth-child(1) {
+                  transform: translateY(-15px);
+                  opacity: 0;
+                }
+
+                .hidden:nth-child(2) {
+                  transform: translateY(15px);
+                  opacity: 0;
+                }
+              }
+              .card_name {
+                position: absolute;
+                // width: 60%;
+                bottom: 10%;
+                left: 10%;
+                overflow: hidden;
+                text-transform: uppercase;
+                color: #ccc;
+                font-weight: 500;
+                z-index: 99;
+              }
+              .card_expiry {
+                position: absolute;
+                bottom: 10%;
+                right: 10%;
+                font-size: 16px;
+                color: #ccc;
+                z-index: 99;
+              }
+              .card_chip {
+                z-index: 99;
+                background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9Ijc2IiB2aWV3Qm94PSIwIDAgMTAwIDc2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHByZXNlcnZlQXNwZWN0UmF0aW89InhNaWRZTWlkIj48ZGVmcz48bGluZWFyR3JhZGllbnQgeDE9IjEwMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSIgaWQ9ImEiPjxzdG9wIHN0b3AtY29sb3I9IiNGM0QwOEYiIG9mZnNldD0iMCUiLz48c3RvcCBzdG9wLWNvbG9yPSIjRkFENzY2IiBvZmZzZXQ9IjEwMCUiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz48cGF0aCBkPSJNOTIuNzI3IDc1LjQ1NWgtODUuNDU1Yy00IDAtNy4yNzMtMy4yNzMtNy4yNzMtNy4yNzN2LTYwLjkwOWMwLTQgMy4yNzMtNy4yNzMgNy4yNzMtNy4yNzNoODUuNDU1YzQgMCA3LjI3MyAzLjI3MyA3LjI3MyA3LjI3M3Y2MC45MDljMCA0LTMuMjczIDcuMjczLTcuMjczIDcuMjczIiBmaWxsPSJ1cmwoI2EpIi8+PHBhdGggZD0iTTcyLjEyMyAyOC40ODVoMjcuODc4di0xLjgxOGgtMjkuNjQ4Yy0uOTY1IDAtMS44MzIuNjAxLTIuMTcyIDEuNTA0LTIuMjg3IDYuMDcyLTIuNDMzIDEyLjU5NC0uNDM4IDE5Ljg0Mi40NTUgMS42NTQuNDM1IDMuNC0uMSA1LjAzLTIuMDM2IDYuMTk1LTcuNzc5IDE5Ljk4OC0xOC41NTEgMTkuOTg4LTExLjAwOCAwLTE2LjA5Ni0xNS42OTktMTcuMzM0LTIxLjk1Mi0uMTU1LS43ODQtLjEyMi0xLjU5Mi4xMDctMi4zNTcgMS42OTUtNS42NDggMi4wOTQtMTAuNjQtLjAxNi0xOS41OS0uMjA1LS44Ny0uMTgyLTEuNzgzLjA0OC0yLjY0NiA0LjQ4LTE2Ljc1NSAxMi44ODItMjAuMTQ3IDEyLjk2NS0yMC4xNzkuMzU2LS4xMzIuNTkzLS40NzIuNTkzLS44NTJ2LTUuNDU1aC0xLjgxOHYzLjc3NmMwIC42NS0uMzMyIDEuMjUyLS44ODQgMS41OTYtMi44MDMgMS43NDItOC45MDQgNi45MzYtMTIuNTU3IDIwLjQ1Ni0uMTguNjY4LS43ODEgMS4xMzYtMS40NzMgMS4xMzNsLTI4LjcyMi0uMTM5djEuODE4bDI3LjQxNi4xMzNjMS40NjguMDA3IDIuNzM1IDEuMDQxIDMuMDM3IDIuNDc4IDEuNDE2IDYuNzQxIDEuMjE5IDExLjAzOS4wODIgMTUuNDU4LS4zMTYgMS4yMy0xLjQyIDIuMDk2LTIuNjkgMi4xMDlsLTI3Ljg0NC4yN3YxLjgxOWwyOC42MDUtLjI3OGMuNjkzLS4wMDcgMS4yOTYuNDczIDEuNDM1IDEuMTUyIDEuNDQyIDcuMDQxIDYuODg3IDIzLjA3IDE5LjA1IDIzLjA3IDYuMzY4IDAgMTIuMDYyLTQuMjUgMTYuNDY3LTEyLjI5IDIuNjQ0LTQuODI4IDQuMDY3LTkuNTkxIDQuNTQxLTExLjM0NmgyOS45MDF2LTEuODE4aC0yOC4wMTZjLTEuMTU4IDAtMi4xODMtLjc3Mi0yLjQ4OS0xLjg4OS0xLjY5Mi02LjE2NC0xLjc2MS0xMS43NTUtLjItMTYuOTU5LjM3MS0xLjIzNSAxLjUzOC0yLjA2MSAyLjgyNy0yLjA2MXptLTE3LjE1LTIxLjkxNGMuMDQ1LjAyMiA0LjUxOSAyLjMyMiA5LjI1MyAxMC4wNDEuMTcyLjI4LjQ3LjQzNC43NzYuNDM0LjE5OCAwIC4zOTktLjA2NC41NzEtLjIwMi4zNjUtLjI5Mi40MTYtLjgzNy4xNzItMS4yMzUtMy41Ny01LjgwNS03LjAyNC04LjcxLTguNzc1LTkuOTMxLS40My0uMjk5LS42OC0uNzkyLS42OC0xLjMxNXYtNC4zNjNoLTEuODE4djUuNzU4YzAgLjM0NS4xOTUuNjU5LjUwMi44MTN6IiBmaWxsPSIjMEMwMjAwIi8+PC9zdmc+");
+                background-repeat: no-repeat;
+                background-size: contain;
+                position: absolute;
+                height: 26px;
+                left: 10%;
+                top: 10%;
+                width: 42px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .payment_right {
+    width: 30%;
+    .address {
+      background: #fff;
+      margin-top: 30px;
+      border-radius: 4px;
+      border: 1px solid rgb(204, 204, 204);
+      padding: 0.5rem 1rem;
+      .update_address {
+        background: linear-gradient(rgb(255, 255, 255), rgb(247, 247, 247));
+        padding: 0.3rem 1rem;
+        color: black;
+        border-radius: 4px;
+        border: 1px solid rgb(204, 204, 204);
+        cursor: pointer;
+      }
+      .line {
+        border-bottom: 1px solid rgb(204, 204, 204);
+        margin-bottom: 10px;
+      }
+    }
+    .order_subtotal {
+      background: #fff;
+      margin-top: 30px;
+      border-radius: 4px;
+      border: 1px solid rgb(204, 204, 204);
+      padding: 0.5rem 1rem;
+      .update_order {
+        background: linear-gradient(rgb(255, 255, 255), rgb(247, 247, 247));
+        padding: 0.3rem 1rem;
+        color: black;
+        border-radius: 4px;
+        border: 1px solid rgb(204, 204, 204);
+        cursor: pointer;
+      }
+      .line {
+        border-bottom: 1px solid rgb(204, 204, 204);
+        margin-bottom: 10px;
+      }
+    }
+  }
+}

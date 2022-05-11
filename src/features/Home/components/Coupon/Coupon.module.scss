@@ -1,0 +1,143 @@
+.coupon {
+  width: 100%;
+  padding: 0rem 1rem;
+  .title_coupon {
+    text-align: center;
+    margin-bottom: 40px;
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: black;
+    }
+  }
+  .item_coupon {
+    display: flex;
+    width: 400px;
+    background: #ac8d4b;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+      rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+    .left {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0px 10px;
+      .price {
+        font-size: 17px;
+        font-weight: 700;
+        color: #fff;
+        .btnSaveCodeCoupon {
+          padding: 2px 10px;
+          background: black;
+          color: #fff;
+          font-size: 16px;
+          border-radius: 30px;
+          font-weight: 500;
+          margin-left: 20px;
+          cursor: pointer;
+          transition: all 0.3s;
+          display: flex;
+          align-items: center;
+          &:hover {
+            background: rgba(rgb(10, 10, 10), 0.5);
+          }
+        }
+      }
+    }
+    .right {
+      position: relative;
+      box-sizing: border-box;
+      display: flex;
+      width: 160px;
+      padding: 10px 10px;
+      border-left: 2px dashed #e0e6ef;
+      justify-content: center;
+      .date {
+        font-size: 15px;
+        color: #fff;
+        font-weight: 500;
+        text-align: center;
+        padding: 10px 0px;
+      }
+    }
+    .right::before,
+    .right::after {
+      position: absolute;
+      display: block;
+      content: "";
+      border-radius: 100%;
+      background: #fff;
+      width: 22px;
+      height: 22px;
+    }
+    .right::before {
+      top: -11px;
+      left: -12px;
+    }
+    .right::after {
+      bottom: -11px;
+      left: -12px;
+    }
+  }
+}
+.prevEl {
+  opacity: 1;
+  width: 50px;
+  height: 50px;
+  background: white !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: all 0.3s;
+  position: absolute !important;
+  top: 50% !important;
+  left: 0% !important;
+  transform: translateY(-50%) !important;
+  z-index: 99999 !important;
+  cursor: pointer;
+  box-shadow: 0px 8px 15px rgba(#292929, 0.1);
+}
+.prevEl::after {
+  content: "\f053";
+  font-size: 20px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+}
+.prevEl:hover {
+  background: #ba933e !important;
+  color: #fff;
+}
+.nextEl {
+  opacity: 1;
+  width: 50px;
+  height: 50px;
+  background: white !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: all 0.3s;
+  position: absolute !important;
+  top: 50% !important;
+  right: 0% !important;
+  transform: translateY(-50%) !important;
+  z-index: 99999 !important;
+  cursor: pointer;
+  box-shadow: 0px 8px 15px rgba(#292929, 0.1);
+}
+.nextEl::after {
+  content: "\f054";
+  font-size: 20px;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 600;
+}
+.nextEl:hover {
+  background: #ba933e !important;
+  color: #fff;
+}

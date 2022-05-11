@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import style from "./LoginForm.module.scss";
 import PropTypes from "prop-types";
@@ -10,6 +10,8 @@ import PasswordField from "components/Form-control/PasswordField";
 import { Button, Typography } from "@material-ui/core";
 import iconGoogle from "assets/images/auth//login/iconGoogle.jpg";
 import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
+import authAPI from "api/authAPI";
+import { GoogleLogin } from "react-google-login";
 
 LoginForm.propTypes = { onSubmit: PropTypes.func };
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +43,6 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm(props) {
   const classes = useStyles();
-
   // const schema = yup.object().shape({
   //   title: yup
   //     .string()
@@ -55,12 +56,36 @@ function LoginForm(props) {
     },
     //  resolver: yupResolver(schema),
   });
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
     form.reset();
+  };
+  // const handleLoginGoogle = (e) => {
+  //   const fetchRequestLoginGoogle = async () => {
+  //     try {
+  //       const requestLoginGoogle = await authAPI.loginGoogle();
+  //       console.log(requestLoginGoogle);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchRequestLoginGoogle();
+  // };
+  // const handleLoginFacebook = (e) => {
+  //   const fetchRequestLoginFacebook = async () => {
+  //     try {
+  //       const requestLoginFacebook = await authAPI.loginFacebook();
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchRequestLoginFacebook();
+  // };
+  const responseGoogle = (response) => {
+    console.log(response);
   };
   return (
     <div className={`${style.form_login} wrap`}>
@@ -80,7 +105,7 @@ function LoginForm(props) {
         <Typography className={classes.title}>
           Số điện thoại <span style={{ color: "red" }}>*</span>
         </Typography>
-        <InputField name="SDT" label="Nhập số điện thoại" form={form} />{" "}
+        <InputField name="SDT" label="Nhập số điện thoại" form={form} />
         <Typography className={classes.titlePassword}>
           Mật Khẩu <span style={{ color: "red" }}>*</span>
         </Typography>
@@ -99,6 +124,13 @@ function LoginForm(props) {
             <i className="fab fa-facebook"></i> Facebook
           </div>
           <div className={style.google}>
+            <GoogleLogin
+              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={responseGoogle}
+              onFailure={responseGoogle}
+              cookiePolicy={"single_host_origin"}
+            ></GoogleLogin>
             <img src={iconGoogle} alt="icon google" /> Google
           </div>
         </div>

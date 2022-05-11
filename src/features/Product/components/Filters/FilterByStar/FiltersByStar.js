@@ -11,76 +11,39 @@ function FiltersByStar(props) {
       <div className={style.groupstar}>
         <div className={`${style.fivestar} d-flex justify-content-between`}>
           <span>
-            {" "}
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill "
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill " style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
           </span>
 
           <span>5 sao</span>
         </div>
         <div className={`${style.fourstar} d-flex justify-content-between`}>
           <span>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
             <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
+              className="bi bi-star-fill"
               style={{ color: " rgb(167, 167, 167)" }}
             ></i>
           </span>
           <span>4 sao</span>
-        </div>{" "}
+        </div>
         <div className={`${style.fourstar} d-flex justify-content-between`}>
           <span>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e", }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
             <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
+              className="bi bi-star-fill"
               style={{ color: " rgb(167, 167, 167)" }}
             ></i>
             <i
-              class="bi bi-star-fill"
+              className="bi bi-star-fill"
               style={{ color: " rgb(167, 167, 167)" }}
             ></i>
           </span>
@@ -88,24 +51,18 @@ function FiltersByStar(props) {
         </div>{" "}
         <div className={`${style.fourstar} d-flex justify-content-between`}>
           <span>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
+            <i className="bi bi-star-fill" style={{ color: "#ba933e" }}></i>
             <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
-              style={{ color: " rgb(253, 216, 53)" }}
-            ></i>
-            <i
-              class="bi bi-star-fill"
+              className="bi bi-star-fill"
               style={{ color: " rgb(167, 167, 167)" }}
             ></i>
             <i
-              class="bi bi-star-fill"
+              className="bi bi-star-fill"
               style={{ color: " rgb(167, 167, 167)" }}
             ></i>
             <i
-              class="bi bi-star-fill"
+              className="bi bi-star-fill"
               style={{ color: " rgb(167, 167, 167)" }}
             ></i>
           </span>

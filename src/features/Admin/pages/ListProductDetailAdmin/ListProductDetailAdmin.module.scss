@@ -1,0 +1,271 @@
+.listproduct_admin {
+  width: 82%;
+  background: #f7fafc;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-y: hidden;
+
+  .listproduct_admin_frame {
+    background: #fff;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    border-radius: 10px;
+    width: 95%;
+    // height: 600px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: hidden;
+
+    .title_add_listproduct {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 20px;
+      .title_listproduct {
+        font-size: 22px;
+      }
+      .add_product {
+        display: inline-block;
+        padding: 10px;
+        background: black;
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        font-family: "Red Hat Display", sans-serif;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s;
+
+        &:hover {
+          background: #ba933e;
+        }
+      }
+    }
+    .searchListProduct {
+      padding: 0px 20px;
+
+      .searchNameProduct {
+        .nameProduct {
+          border: 1px solid rgb(167, 167, 167);
+          width: 100%;
+          border-radius: 4px;
+          padding: 10px;
+        }
+      }
+    }
+    .listproduct {
+      .title_item_product {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1rem;
+        background: #fff;
+        border-bottom: 1px solid rgb(212, 212, 212);
+        font-weight: 500;
+        font-size: 17px;
+        .title_image_item {
+          width: 15%;
+        }
+        .title_size {
+          width: 8%;
+        }
+        .title_color {
+          width: 18%;
+        }
+        .title_stock {
+          width: 15%;
+        }
+        .title_price {
+          width: 20%;
+        }
+        .title_percentoff {
+          width: 20%;
+        }
+
+        .title_close {
+          width: 7%;
+        }
+      }
+      .list_item_product {
+        padding: 0rem 1rem;
+        background: #fff;
+        width: 100%;
+        overflow-y: scroll;
+        height: 450px;
+        &.zebra {
+          background: #f8f8f8;
+        }
+        .item_product {
+          padding: 10px 0;
+          border-bottom: 1px solid rgb(212, 212, 212);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          &.zebra {
+            background: #f8f8f8;
+          }
+          &.stop_selling {
+            color: #999999;
+          }
+          .stop_selling_backdrop {
+            background: rgb(226, 226, 226);
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 5;
+          }
+          .cover_notify {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            .notify_stop_selling {
+              position: absolute;
+              background: #ba933e;
+              top: 20px;
+              left: -20px;
+              width: 100px;
+              height: 20px;
+              color: #fff;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              transform: rotate(-45deg);
+              font-weight: 500;
+              z-index: 5;
+              font-size: 14px;
+            }
+          }
+
+          .button_resell {
+            position: absolute;
+            background: black;
+            top: 80%;
+            right: 40px;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 30px;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            &:hover {
+              background: #ba933e;
+            }
+          }
+          p {
+            margin-bottom: 0px;
+          }
+          .image_item_product {
+            width: 11%;
+            height: 90px;
+            img {
+              width: 80%;
+              height: 100%;
+            }
+          }
+          .size {
+            width: 8%;
+            text-align: center;
+          }
+          .color {
+            width: 12%;
+            text-align: center;
+
+            // margin-right: 10px;
+          }
+
+          .stock {
+            width: 12%;
+            text-align: center;
+            color: rgb(26, 145, 26);
+            font-weight: 500;
+          }
+          .price {
+            width: 15%;
+            margin-left: 15px;
+            text-align: center;
+          }
+          .title_percentoff {
+            width: 18%;
+            text-align: center;
+          }
+          .close {
+            width: 3%;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+.delete {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 3px;
+  p {
+    color: gray;
+  }
+  nav {
+    ul {
+      .ItemDelete {
+        width: 50%;
+        height: 100%;
+        position: relative;
+        &.active {
+          .dropdown {
+            visibility: visible;
+          }
+        }
+        i {
+          font-size: 16px;
+          margin-right: 20px;
+          padding: 5px 8px;
+          border-radius: 4px;
+          opacity: 1;
+          &:hover {
+            background: rgba(gray, 0.2);
+          }
+        }
+        .dropdown {
+          position: absolute;
+          bottom: 0%;
+          left: 40%;
+          width: 130px;
+          height: 90px;
+          box-shadow: rgba(17, 17, 26, 0.2) 0px 4px 16px,
+            rgba(17, 17, 26, 0.05) 0px 8px 32px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          background: white;
+          transform: translateX(-100%) translateY(100%);
+          z-index: 9999;
+          visibility: hidden;
+          border-radius: 5px;
+          padding: 5px 0px;
+          li {
+            font-size: 14px;
+            height: 50%;
+            padding: 10px;
+            a {
+              margin: 2px 5px;
+            }
+            &:hover {
+              background: rgba(gray, 0.1);
+            }
+          }
+        }
+      }
+    }
+  }
+}
