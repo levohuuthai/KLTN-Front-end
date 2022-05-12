@@ -22,7 +22,7 @@ function MyOrderDetail(props) {
   });
 
   const location = useLocation();
-  const dataOrderDetail = location.state?.data;
+  const dataOrder = location.state?.data;
   const arrProductOrderDetail = location.state?.data.products;
   const loggedInUser = useSelector((state) => state.user.current);
   //get address
@@ -30,7 +30,7 @@ function MyOrderDetail(props) {
     const fetchGetAddress = async () => {
       try {
         const requestGetAddress = await addressAPI.getAddress(
-          dataOrderDetail.address
+          dataOrder.address
         );
         setCity(requestGetAddress.data.city);
         setDistrict(requestGetAddress.data.district);
@@ -43,7 +43,7 @@ function MyOrderDetail(props) {
     fetchGetAddress();
   }, []);
   useEffect(() => {
-    var date = new Date(dataOrderDetail?.createdAt);
+    var date = new Date(dataOrder?.createdAt);
     setDayReview({
       minute: date.getMinutes(),
       hour: date.getHours(),
@@ -51,7 +51,7 @@ function MyOrderDetail(props) {
       month: date.getMonth() + 1,
       year: date.getFullYear(),
     });
-  }, [dataOrderDetail]);
+  }, [dataOrder]);
   return (
     <div>
       {/* <div className={`${style.background_slider} `}>
@@ -121,7 +121,7 @@ function MyOrderDetail(props) {
               {arrProductOrderDetail?.map((data, idx) => {
                 return (
                   <div key={idx}>
-                    <ItemProductOrderDetail data={data} />
+                    <ItemProductOrderDetail data={data} dataOrder={dataOrder}/>
                   </div>
                 );
               })}
@@ -132,7 +132,7 @@ function MyOrderDetail(props) {
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(dataOrderDetail.amount)}
+                }).format(dataOrder.amount)}
               </span>
             </div>
           </div>

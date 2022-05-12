@@ -75,7 +75,7 @@ function ItemProductOrderDetail(props) {
           {new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
-          }).format(props.data.priceBefore)}
+          }).format(props.data.priceAfter)}
         </span>
         <span className={`${style.quantity} d-flex justify-content-center`}>
           {props.data.quantity}
@@ -85,8 +85,7 @@ function ItemProductOrderDetail(props) {
             style: "currency",
             currency: "VND",
           }).format(
-            (props.data.priceBefore - props.data.priceAfter) *
-              props.data.quantity
+            props.dataOrder?.discountProduct + props.dataOrder?.discountShip
           )}
         </span>
         <span className={`${style.price2} d-flex justify-content-center`}>
@@ -94,9 +93,8 @@ function ItemProductOrderDetail(props) {
             style: "currency",
             currency: "VND",
           }).format(
-            props.data.priceBefore * props.data.quantity -
-              (props.data.priceBefore - props.data.priceAfter) *
-                props.data.quantity
+            props.data.priceAfter * props.data.quantity -
+              (props.dataOrder?.discountProduct + props.dataOrder?.discountShip)
           )}
         </span>
       </div>

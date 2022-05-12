@@ -80,7 +80,7 @@ function ItemUserAdmin(props) {
     };
     fetchRequestLockedUser();
   };
-  console.log(props.data);
+  // console.log(props.data);
   return (
     <div
       className={`${style.item_product} d-flex justify-content-between align-items-center`}

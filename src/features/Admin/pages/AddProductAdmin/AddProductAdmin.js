@@ -263,6 +263,7 @@ function AddProductAdmin(props) {
 
     // setPrice(e.target.value);
   };
+  console.log(price);
   const handleQuantity = (e) => {
     if (e.target.value === "") {
       setQuantity({

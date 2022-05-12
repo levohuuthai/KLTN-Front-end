@@ -49,32 +49,43 @@ function ItemCoupon(props) {
     };
     fetchRequestAddCoupon();
   };
+  console.log(props.data?.type);
   return (
     <div className={style.item_coupon}>
       <div className={style.left}>
-        <div className={`${style.price} d-flex flex-column`}>
-          <span style={{ marginBottom: "20px" }}>
-            {props.data?.name}{" "}
-            <b style={{ fontSize: "18px" }}>
-              {new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }).format(props.data?.priceToDiscount)}
-            </b>
-          </span>
-          <div className="d-flex">
+        <div
+          className={`${style.lottery_box} ${
+            props.data?.type === "Ship" ? style.activeShip : ""
+          }`}
+        >
+          <div className={`${style.price} d-flex flex-column `}>
             <span
-              style={{
-                fontWeight: "500",
-                fontSize: "18px",
-                color: "#fff",
-              }}
+              className={`${style.priceDiscount} ${
+                props.data?.type === "Ship" ? style.activeColorShip : ""
+              }`}
             >
-              10 lượt/khách
+              {props.data?.type === "Product" ? "GIẢM NGAY " : "FREESHIP TỪ"}
+              <b style={{ marginLeft: "10px", fontSize: "22px" }}>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(props.data?.discount)}
+              </b>
             </span>
-            <span className={style.btnSaveCodeCoupon} onClick={addSaveCoupon}>
-              Lưu mã
+            <span className={style.conditionPriceDiscount}>
+              Cho đơn hàng từ{" "}
+              <b style={{ fontSize: "18px" }}>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(props.data?.priceToDiscount)}
+              </b>
             </span>
+            <div className="d-flex justify-content-end">
+              <span className={style.btnSaveCodeCoupon} onClick={addSaveCoupon}>
+                Lưu mã
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -83,11 +94,23 @@ function ItemCoupon(props) {
           Hiệu lực đến
           <br />
           <b style={{ fontSize: "17px" }}>
-            {endDayCoupon.hour}:{endDayCoupon.minute}
+            {endDayCoupon.hour.toString().length === 1
+              ? "0" + endDayCoupon.hour
+              : endDayCoupon.hour}
+            :
+            {endDayCoupon.minute.toString().length === 1
+              ? "0" + endDayCoupon.minute
+              : endDayCoupon.minute}
           </b>{" "}
           ngày{" "}
           <b style={{ fontSize: "17px" }}>
-            {endDayCoupon.day}/{endDayCoupon.month}
+            {endDayCoupon.day.toString().length === 1
+              ? "0" + endDayCoupon.day
+              : endDayCoupon.day}
+            /
+            {endDayCoupon.month.toString().length === 1
+              ? "0" + endDayCoupon.month
+              : endDayCoupon.month}
           </b>
         </div>
         <div className={style.date}>Số lượng có hạn</div>

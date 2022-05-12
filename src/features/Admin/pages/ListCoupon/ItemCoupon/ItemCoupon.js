@@ -29,15 +29,30 @@ function ItemCoupon(props) {
     var date = new Date();
     var endDate = new Date(props?.data.endDate);
 
-    if (date < endDate) {
+    if (date > endDate) {
       setActiveEndDate(true);
     }
   }, []);
   return (
-    <div className={`${style.item_coupon} `}>
-      <span className={`${style.id}  d-flex justify-content-center`}>#sss</span>
-      <span className={`${style.nameCoupon} d-flex justify-content-center`}>
-        {props?.data.name}
+    <div
+      className={`${style.item_coupon} ${
+        props.idx % 2 === 0 ? style.zebra : ""
+      }`}
+    >
+      <div className={`${activeEndDate ? style.locked_backdrop : ""}`}></div>{" "}
+      {activeEndDate && (
+        <div className={style.cover_notify}>
+          <div className={style.notify_endDate}>Đã hết hạn</div>
+        </div>
+      )}
+      <span
+        className={`${style.conditionToDiscount} d-flex justify-content-center`}
+      >
+        Đơn hàng từ{" "}
+        {new Intl.NumberFormat("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }).format(props?.data.priceToDiscount)}
       </span>
       <span className={`${style.priceOff} d-flex justify-content-center`}>
         <span>
@@ -48,7 +63,9 @@ function ItemCoupon(props) {
         </span>
       </span>
       <span className={`${style.category} d-flex justify-content-center`}>
-        <span>{props?.data.type}</span>
+        <span>
+          {props?.data.type === "Ship" ? "Phí Giao Hàng" : "Phí Đơn Hàng"}
+        </span>
       </span>
       <span className={`${style.endDay}  d-flex justify-content-center`}>
         {endDay.hour.toString.length === 1 ? "0" + endDay.hour : endDay.hour}:
@@ -69,6 +86,7 @@ function ItemCoupon(props) {
               >
                 <i className="fas fa-ellipsis-h"></i>
                 <ul className={`${style.dropdown} `}>
+                  <li>Cập nhật giảm giá</li>
                   <li>Xóa mã giảm giá</li>
                 </ul>
               </li>

@@ -15,6 +15,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ItemCart from "./ItemCart/ItemCart";
 import CartSkeletonPage from "./CartSkeletonPage";
 import FormListCoupon from "./FormListCoupon/FormListCoupon";
+import couponApi from "api/couponApi";
+import { useSelector } from "react-redux";
 
 CartFeature.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -62,15 +64,12 @@ function CartFeature(props) {
     form.reset();
   };
   const { dispatch, state } = useContext(GlobalContext);
+  const [tempTotalMoney, setTempTotalMoney] = useState();
   const [totalMoney, setTotalMoney] = useState();
+  const loggedInUser = useSelector((state) => state.user.current);
+
   let navigate = useNavigate();
 
-  useEffect(() => {
-    var rs = state.dataCart.reduce((acc, val) => {
-      return acc + val.product.priceAfter * val.product.quantity;
-    }, 0);
-    setTotalMoney(rs);
-  }, [state.dataCart]);
   const handlePurchase = () => {
     navigate("/checkout/address");
   };
@@ -82,6 +81,54 @@ function CartFeature(props) {
   const falseFromListCoupon = () => {
     seIsOpenFormListCoupon(false);
   };
+  //Nhan coupon khi select
+  const [endDay, setEndDay] = useState({
+    day: "",
+    month: "",
+    year: "",
+    hour: "",
+    minute: "",
+  });
+  const [dataCoupon, setDataCoupon] = useState();
+  useEffect(() => {
+    setDataCoupon(JSON.parse(localStorage.getItem("dataCoupon")));
+  }, [, localStorage.getItem("dataCoupon")]);
+  useEffect(() => {
+    var date = new Date(dataCoupon?.endDate);
+    setEndDay({
+      minute: date.getMinutes(),
+      hour: date.getHours(),
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    });
+  }, [dataCoupon]);
+  //Tính tổng cộng
+  useEffect(() => {
+    var rs = state.dataCart.reduce((acc, val) => {
+      return acc + val.product.priceAfter * val.product.quantity;
+    }, 0);
+    setTempTotalMoney(rs);
+    setTotalMoney(
+      rs - (dataCoupon?.discount === undefined ? 0 : dataCoupon?.discount)
+    );
+  }, [state.dataCart, dataCoupon]);
+  // const handleUseCoupon = (e) => {
+  //   e.preventDefault();
+  //   const fetchUseCoupon = async () => {
+  //     try {
+  //       const requestUseCoupon = await couponApi.useCoupon(
+  //         loggedInUser._id,
+  //         dataCoupon._id
+  //       );
+  //       console.log(requestUseCoupon);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchUseCoupon();
+  // };
+  console.log(dataCoupon);
   return (
     <>
       <Header />
@@ -136,7 +183,11 @@ function CartFeature(props) {
                 <CartSkeletonPage length={state.dataCart.length} />
               ) : (
                 state.dataCart?.map((data, idx) => {
-                  return <ItemCart data={data} />;
+                  return (
+                    <div key={idx}>
+                      <ItemCart data={data} />
+                    </div>
+                  );
                 })
               )}
             </div>
@@ -144,20 +195,82 @@ function CartFeature(props) {
           <div className={style.cart_right}>
             <div className={`${style.cart_right_top} `}>
               <h5>RUBIX khuyến mãi</h5>
+              {dataCoupon !== null && (
+                <div className={style.item_coupon}>
+                  <div className={style.left}>
+                    <div
+                      className={`${style.lottery_box} ${
+                        dataCoupon?.type === "Ship" ? style.activeShip : ""
+                      }`}
+                    >
+                      <div className={`${style.price} d-flex flex-column `}>
+                        <span
+                          className={`${style.priceDiscount} ${
+                            dataCoupon?.type === "Ship"
+                              ? style.activeColorShip
+                              : ""
+                          }`}
+                        >
+                          {dataCoupon?.type === "Product"
+                            ? "GIẢM NGAY "
+                            : "FREESHIP TỪ"}
+                          <b style={{ marginLeft: "10px", fontSize: "22px" }}>
+                            {new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(dataCoupon?.discount)}
+                          </b>
+                        </span>
+                        <span className={style.conditionPriceDiscount}>
+                          Cho đơn hàng từ{" "}
+                          <b style={{ fontSize: "18px" }}>
+                            {new Intl.NumberFormat("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                            }).format(dataCoupon?.priceToDiscount)}
+                          </b>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className={`${style.right}  d-flex flex-column`}>
+                    <div className={style.date}>
+                      Hiệu lực đến
+                      <br />
+                      <b style={{ fontSize: "17px" }}>
+                        {endDay.hour?.toString().length === 1
+                          ? "0" + endDay.hour
+                          : endDay.hour}
+                        :
+                        {endDay.minute?.toString().length === 1
+                          ? "0" + endDay.minute
+                          : endDay.minute}
+                      </b>{" "}
+                      ngày{" "}
+                      <b style={{ fontSize: "17px" }}>
+                        {endDay.day?.toString().length === 1
+                          ? "0" + endDay.day
+                          : endDay.day}
+                        /
+                        {endDay.month?.toString().length === 1
+                          ? "0" + endDay.month
+                          : endDay.month}
+                      </b>
+                    </div>
+                    <div className={style.date}>Số lượng có hạn</div>
+                  </div>
+                </div>
+              )}
               <div>
-                <input
-                  type="text"
-                  // value={nameProduct}
-                  // onChange={handleNameProduct}
-                  // onFocus={handleFocusNameProduct}
-                  // onBlur={handleBlurNameProduct}
-                  className={style.nameProduct}
-                  placeholder="Nhập tên sản phẩm"
-                ></input>
                 <div className="d-flex align-items-center justify-content-between">
-                  <Button type="submit" className={classes.submit}>
+                  {/* <Button
+                    type="submit"
+                    className={classes.submit}
+                    onClick={handleUseCoupon}
+                  >
                     Áp dụng
-                  </Button>
+                  </Button> */}
+
                   <span
                     className={style.selectCoupon}
                     onClick={handleShowFormListCoupon}
@@ -177,14 +290,24 @@ function CartFeature(props) {
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
-                  }).format(totalMoney)}
+                  }).format(tempTotalMoney)}
                 </p>
               </div>
               <div
                 className={`${style.discount} d-flex justify-content-between`}
               >
                 <p>Giảm giá</p>
-                <p>0 vnđ</p>
+                <p>
+                  {dataCoupon?.discount === undefined ? "" : " - "}
+                  {new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(
+                    dataCoupon?.discount === undefined
+                      ? 0
+                      : dataCoupon?.discount
+                  )}
+                </p>
               </div>
               <div className={style.line}></div>
               <div className={`${style.total} d-flex justify-content-between`}>

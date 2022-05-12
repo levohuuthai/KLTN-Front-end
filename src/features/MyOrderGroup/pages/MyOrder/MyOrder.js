@@ -180,12 +180,12 @@ function MyOrder(props) {
           {state.loadingOrderClient ? (
             <Loading />
           ) : (
-            [...state.dataArrOrderClient]?.reverse().map((data, idx) => {
-              console.log(data);
+            [...state.dataArrOrderClient]?.reverse().map((dataOrder, idx) => {
+              console.log(dataOrder);
               const handleDetailOrder = () => {
                 navigate("/myorder/detail", {
                   state: {
-                    data: data,
+                    data: dataOrder,
                   },
                 });
               };
@@ -197,7 +197,7 @@ function MyOrder(props) {
                 const fetchCancelOrder = async () => {
                   try {
                     const requestCancelOrder = await orderApi.updateStatusOrder(
-                      data._id,
+                      dataOrder._id,
                       { status: "Đã Hủy" }
                     );
                     console.log(requestCancelOrder);
@@ -243,29 +243,29 @@ function MyOrder(props) {
                     ></i>
                     <span
                       className={`${style.statusItem} ${
-                        data.status === "Đang Giao Hàng"
+                        dataOrder.status === "Đang Giao Hàng"
                           ? style.activeShipping
-                          : data.status === "Đã Giao"
+                          : dataOrder.status === "Đã Giao"
                           ? style.activeDelivered
-                          : data.status === "Đã Hủy"
+                          : dataOrder.status === "Đã Hủy"
                           ? style.activeCancel
-                          : data.status === "Đang Xử Lý"
+                          : dataOrder.status === "Đang Xử Lý"
                           ? style.activeWaitting
                           : ""
                       }`}
                     >
                       {" "}
-                      {data.status}
+                      {dataOrder.status}
                     </span>
                   </h6>
                   <div className={style.line_value_tab_order}></div>
                   <div
                     className={`${style.list_order} d-flex justify-content-between flex-column`}
                   >
-                    {data.products.map((data, idx) => {
+                    {dataOrder.products.map((data, idx) => {
                       return (
                         <div key={idx}>
-                          <ItemProductOrder data={data} />
+                          <ItemProductOrder data={data} dataOrder={dataOrder} />
                         </div>
                       );
                     })}
@@ -277,11 +277,11 @@ function MyOrder(props) {
                         {new Intl.NumberFormat("vi-VN", {
                           style: "currency",
                           currency: "VND",
-                        }).format(data.amount)}
+                        }).format(dataOrder.amount)}
                       </span>
                     </span>
                     <div>
-                      {data.status === "Đang Xử Lý" && (
+                      {dataOrder.status === "Đang Xử Lý" && (
                         <span
                           className={style.cancel_order}
                           onClick={handleCancelOrder}

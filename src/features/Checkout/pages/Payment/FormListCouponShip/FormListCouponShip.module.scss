@@ -80,10 +80,10 @@
             rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
           margin-bottom: 20px;
           position: relative;
-          // &.activeBackground {
-          //   background: #fff;
-          //   color: rgb(120, 120, 120);
-          // }
+          &.activeBackground {
+            background: #fff;
+            color: rgb(120, 120, 120);
+          }
           .activeBackdrop {
             background: rgb(241, 241, 241);
             position: absolute;

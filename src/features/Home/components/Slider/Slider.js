@@ -104,32 +104,46 @@ function Slider(props) {
               {arrCoupon?.slice(0, 1)?.map((data) => {
                 console.log(data);
                 return (
-                  <div className={style.coupon}>
+                  <div className={style.item_coupon}>
                     <div className={style.left}>
-                      <div className={`${style.price} d-flex flex-column`}>
-                        <span>
-                          {data?.name}
-                          <b style={{ fontSize: "35px" }}>
-                            {" "}
-                            {data?.priceToDiscount}
-                          </b>
-                        </span>
-                        <div>
+                      <div
+                        className={`${style.lottery_box} ${
+                          data?.type === "Ship" ? style.activeShip : ""
+                        }`}
+                      >
+                        <div className={`${style.price} d-flex flex-column `}>
                           <span
-                            style={{
-                              fontWeight: "500",
-                              fontSize: "18px",
-                              color: "#fff",
-                            }}
+                            className={`${style.priceDiscount} ${
+                              data?.type === "Ship" ? style.activeColorShip : ""
+                            }`}
                           >
-                            10 lượt/khách
+                            {data?.type === "Product"
+                              ? "GIẢM NGAY "
+                              : "FREESHIP TỪ"}
+                            <b style={{ marginLeft: "10px", fontSize: "22px" }}>
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(data?.discount)}
+                            </b>
                           </span>
-                          <span
-                            className={style.btnSaveCodeCoupon}
-                            onClick={addSaveCoupon}
-                          >
-                            Lưu mã
+                          <span className={style.conditionPriceDiscount}>
+                            Cho đơn hàng từ{" "}
+                            <b style={{ fontSize: "18px" }}>
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(data?.priceToDiscount)}
+                            </b>
                           </span>
+                          <div className="d-flex justify-content-end">
+                            <span
+                              className={style.btnSaveCodeCoupon}
+                              onClick={addSaveCoupon}
+                            >
+                              Lưu mã
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -166,36 +180,68 @@ function Slider(props) {
               </p>
               <h3>VOUCHER TOÀN SÀN</h3>
               <h4>LƯU MÃ ĐỂ SỬ DỤNG</h4>
-              <div className={style.coupon}>
-                <div className={style.left}>
-                  <div className={`${style.price} d-flex flex-column`}>
-                    <span>
-                      MIỄN PHÍ SHIP TỪ <b style={{ fontSize: "35px" }}>20K</b>
-                    </span>
-                    <div>
-                      <span
-                        style={{
-                          fontWeight: "500",
-                          fontSize: "18px",
-                          color: "#fff",
-                        }}
+              {arrCoupon?.slice(0, 1)?.map((data) => {
+                return (
+                  <div className={style.item_coupon}>
+                    <div className={style.left}>
+                      <div
+                        className={`${style.lottery_box} ${
+                          data?.type === "Ship" ? style.activeShip : ""
+                        }`}
                       >
-                        10 lượt/khách
-                      </span>
-                      <span className={style.btnSaveCodeCoupon}>Lưu mã</span>
+                        <div className={`${style.price} d-flex flex-column `}>
+                          <span
+                            className={`${style.priceDiscount} ${
+                              data?.type === "Ship" ? style.activeColorShip : ""
+                            }`}
+                          >
+                            {data?.type === "Product"
+                              ? "GIẢM NGAY "
+                              : "FREESHIP TỪ"}
+                            <b style={{ marginLeft: "10px", fontSize: "22px" }}>
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(data?.discount)}
+                            </b>
+                          </span>
+                          <span className={style.conditionPriceDiscount}>
+                            Cho đơn hàng từ{" "}
+                            <b style={{ fontSize: "18px" }}>
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(data?.priceToDiscount)}
+                            </b>
+                          </span>
+                          <div className="d-flex justify-content-end">
+                            <span
+                              className={style.btnSaveCodeCoupon}
+                              onClick={addSaveCoupon}
+                            >
+                              Lưu mã
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={`${style.right}  d-flex flex-column`}>
+                      <div className={style.date}>
+                        Hiệu lực đến
+                        <br />
+                        <b style={{ fontSize: "17px" }}>
+                          {endDayCoupon.hour}:{endDayCoupon.minute}
+                        </b>{" "}
+                        ngày
+                        <b style={{ fontSize: "17px" }}>
+                          {endDayCoupon.day}/{endDayCoupon.month}
+                        </b>
+                      </div>
+                      <div className={style.date}>Số lượng có hạn</div>
                     </div>
                   </div>
-                </div>
-                <div className={`${style.right}  d-flex flex-column`}>
-                  <div className={style.date}>
-                    Hiệu lực đến
-                    <br />
-                    <b style={{ fontSize: "17px" }}>23:59</b> ngày
-                    <b style={{ fontSize: "17px" }}> 11/05</b>
-                  </div>
-                  <div className={style.date}>Số lượng có hạn</div>
-                </div>
-              </div>
+                );
+              })}
             </div>
           </div>
         </SwiperSlide>

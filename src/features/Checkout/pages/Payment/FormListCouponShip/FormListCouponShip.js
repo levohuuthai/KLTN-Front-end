@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import style from "./FormListCoupon.module.scss";
+import style from "./FormListCouponShip.module.scss";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,13 +7,13 @@ import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import couponApi from "api/couponApi";
 import { useSelector } from "react-redux";
-import ItemCoupon from "./ItemCoupon/ItemCoupon";
+import ItemCouponShip from "./ItemCouponShip/ItemCouponShip";
 toast.configure();
-const FormListCoupon = (props) => {
+const FormListCouponShip = (props) => {
   const [isOpenForm, setIsOpenForm] = useState("");
   const { dispatch, state } = useContext(GlobalContext);
   const loggedInUser = useSelector((state) => state.user.current);
-  const [arrAllCouponProduct, setArrAllCouponProduct] = useState([]);
+  const [arrAllCouponShip, setArrAllCouponShip] = useState([]);
 
   const cancelHandler = (e) => {
     e.preventDefault();
@@ -22,12 +22,12 @@ const FormListCoupon = (props) => {
   };
 
   useEffect(() => {
-    if (props.isOpenFormListCoupon) {
+    if (props.isOpenFormListCouponShip) {
       setIsOpenForm(style.active);
     } else {
       setIsOpenForm("");
     }
-  }, [props.isOpenFormListCoupon]);
+  }, [props.isOpenFormListCouponShip]);
 
   const handleDeleProduct = (event) => {
     event.preventDefault();
@@ -75,9 +75,7 @@ const FormListCoupon = (props) => {
         const requestGetAllCouponOfUser = await couponApi.getCouponOfUser(
           loggedInUser._id
         );
-        setArrAllCouponProduct(
-          requestGetAllCouponOfUser.data.listCouponProduct
-        );
+        setArrAllCouponShip(requestGetAllCouponOfUser.data.listCouponShip);
       } catch (error) {
         console.log(error);
       }
@@ -88,6 +86,7 @@ const FormListCoupon = (props) => {
   const handleFalse = (data) => {
     props.onFormFalse(data.turnOffForm);
   };
+
   return (
     <div className={style.modalFormLogOut}>
       <div className={` ${style.backdrop} ${isOpenForm}`}></div>
@@ -106,10 +105,10 @@ const FormListCoupon = (props) => {
             <span style={{ fontSize: "14px" }}>Áp dụng tối đa: 1</span>
           </div>
           <div className={style.listCoupon}>
-            {arrAllCouponProduct?.map((data, idx) => {
+            {arrAllCouponShip?.map((data, idx) => {
               return (
                 <div key={idx}>
-                  <ItemCoupon data={data} onFormFalseItem={handleFalse} />
+                  <ItemCouponShip data={data} onFormFalseItem={handleFalse} />
                 </div>
               );
             })}
@@ -120,4 +119,4 @@ const FormListCoupon = (props) => {
   );
 };
 
-export default FormListCoupon;
+export default FormListCouponShip;

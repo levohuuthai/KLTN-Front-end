@@ -20,6 +20,8 @@ import orderApi from "api/orderApi";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import FormListCouponShip from "./FormListCouponShip/FormListCouponShip";
+import couponApi from "api/couponApi";
 toast.configure();
 
 Payment.propTypes = {};
@@ -123,16 +125,14 @@ function Payment(props) {
   const dataAddress = location.state?.dataAddress;
   const userName = location.state?.userName;
   const phone = location.state?.phone;
-  const [totalMoney, setTotalMoney] = useState();
   const { dispatch, state } = useContext(GlobalContext);
   const { activeCart } = state;
+  const [totalMoney, setTotalMoney] = useState();
+  const [temptotalMoney, setTemTotalMoney] = useState();
+  const [dataCouponProduct, setDataCouponProduct] = useState();
+  const [dataCouponShip, setDataCouponShip] = useState();
+  const [priceShipByProvince, setPriceShipByProvince] = useState();
 
-  useEffect(() => {
-    var rs = state.dataCart.reduce((acc, val) => {
-      return acc + val.product.priceAfter * val.product.quantity;
-    }, 0);
-    setTotalMoney(rs);
-  }, [state.dataCart]);
   let navigate = useNavigate();
 
   const handleLinkAddress = () => {
@@ -142,6 +142,31 @@ function Payment(props) {
     navigate("/cart");
   };
   const handleCheckout = () => {
+    //useCouponShip
+    const fetchUseCouponShip = async () => {
+      try {
+        const requestUseCoupon = await couponApi.useCoupon(
+          loggedInUser._id,
+          dataCouponShip._id
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUseCouponShip();
+    //useCouponProduct
+    const fetchUseCouponProduct = async () => {
+      try {
+        const requestUseCoupon = await couponApi.useCoupon(
+          loggedInUser._id,
+          dataCouponProduct._id
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUseCouponProduct();
+    //addOrder
     const fetchAddOrder = async () => {
       try {
         const requestAddOrder = await orderApi.addOrder({
@@ -157,8 +182,17 @@ function Payment(props) {
           amount: totalMoney,
           address: dataAddress._id,
           status: "Đang Xử Lý",
+          discountShip:
+            dataCouponShip?.discount === undefined
+              ? 0
+              : dataCouponShip?.discount,
+          discountProduct:
+            dataCouponProduct?.discount === undefined
+              ? 0
+              : dataCouponProduct?.discount,
         });
-        console.log(requestAddOrder);
+        localStorage.removeItem("dataCoupon");
+        localStorage.removeItem("dataCouponShip");
         if (requestAddOrder.status === 200) {
           navigate("/myorder");
         }
@@ -192,6 +226,67 @@ function Payment(props) {
     };
     fetchGetProductCartByUserId();
   }, [state.activeCart]);
+  const [isOpenFormListCouponShip, seIsOpenFormListCouponShip] =
+    useState(false);
+
+  const handleShowFormListCouponShip = () => {
+    seIsOpenFormListCouponShip(true);
+  };
+  const falseFromListCoupon = () => {
+    seIsOpenFormListCouponShip(false);
+  };
+  //select couponship
+  const [endDay, setEndDay] = useState({
+    day: "",
+    month: "",
+    year: "",
+    hour: "",
+    minute: "",
+  });
+
+  useEffect(() => {
+    var date = new Date(dataCouponShip?.endDate);
+    setEndDay({
+      minute: date.getMinutes(),
+      hour: date.getHours(),
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+    });
+  }, [dataCouponShip]);
+  //Lấy bên giỏ hàng để tính tạm tính
+  useEffect(() => {
+    setDataCouponProduct(JSON.parse(localStorage.getItem("dataCoupon")));
+  }, [, localStorage.getItem("dataCoupon")]);
+  useEffect(() => {
+    setDataCouponShip(JSON.parse(localStorage.getItem("dataCouponShip")));
+  }, [, localStorage.getItem("dataCouponShip")]);
+  useEffect(() => {
+    var rs = state.dataCart.reduce((acc, val) => {
+      return acc + val.product.priceAfter * val.product.quantity;
+    }, 0);
+    setTemTotalMoney(
+      rs -
+        (dataCouponProduct?.discount === undefined
+          ? 0
+          : dataCouponProduct?.discount)
+    );
+    setTotalMoney(
+      rs -
+        (dataCouponProduct?.discount === undefined
+          ? 0
+          : dataCouponProduct?.discount) -
+        (dataCouponShip?.discount === undefined
+          ? 0
+          : dataCouponShip?.discount) +
+        priceShipByProvince
+    );
+  }, [state.dataCart, dataCouponShip, priceShipByProvince]);
+  useEffect(() => {
+    setPriceShipByProvince(
+      dataAddress?.city === "Thành phố Hồ Chí Minh" ? 20000 : 30000
+    );
+  }, [dataAddress]);
   return (
     <div>
       <div className={`${style.payment} wrap`}>
@@ -223,7 +318,6 @@ function Payment(props) {
             </div>
             <div className={style.list_item}>
               {state.dataCart?.map((data, idx) => {
-                console.log(data);
                 return (
                   <div className={style.item} key={idx}>
                     <div className={style.img_item}>
@@ -411,6 +505,83 @@ function Payment(props) {
               <br /> {phone}
             </p>
           </div>
+          <div className={`${style.cart_right_top} `}>
+            <div className="d-flex justify-content-between">
+              <h5>RUBIX khuyến mãi</h5>
+              <span
+                className={style.selectCoupon}
+                onClick={handleShowFormListCouponShip}
+              >
+                Chọn mã khuyến mãi
+              </span>
+            </div>
+            {dataCouponShip !== null && (
+              <div className={style.item_coupon}>
+                <div className={style.left}>
+                  <div
+                    className={`${style.lottery_box} ${
+                      dataCouponShip?.type === "Ship" ? style.activeShip : ""
+                    }`}
+                  >
+                    <div className={`${style.price} d-flex flex-column `}>
+                      <span
+                        className={`${style.priceDiscount} ${
+                          dataCouponShip?.type === "Ship"
+                            ? style.activeColorShip
+                            : ""
+                        }`}
+                      >
+                        {dataCouponShip?.type === "Product"
+                          ? "GIẢM NGAY "
+                          : "FREESHIP TỪ"}
+                        <b style={{ marginLeft: "10px", fontSize: "22px" }}>
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(dataCouponShip?.discount)}
+                        </b>
+                      </span>
+                      <span className={style.conditionPriceDiscount}>
+                        Cho đơn hàng từ{" "}
+                        <b style={{ fontSize: "18px" }}>
+                          {new Intl.NumberFormat("vi-VN", {
+                            style: "currency",
+                            currency: "VND",
+                          }).format(dataCouponShip?.priceToDiscount)}
+                        </b>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className={`${style.right}  d-flex flex-column`}>
+                  <div className={style.date}>
+                    Hiệu lực đến
+                    <br />
+                    <b style={{ fontSize: "17px" }}>
+                      {endDay.hour?.toString().length === 1
+                        ? "0" + endDay.hour
+                        : endDay.hour}
+                      :
+                      {endDay.minute?.toString().length === 1
+                        ? "0" + endDay.minute
+                        : endDay.minute}
+                    </b>{" "}
+                    ngày{" "}
+                    <b style={{ fontSize: "17px" }}>
+                      {endDay.day?.toString().length === 1
+                        ? "0" + endDay.day
+                        : endDay.day}
+                      /
+                      {endDay.month?.toString().length === 1
+                        ? "0" + endDay.month
+                        : endDay.month}
+                    </b>
+                  </div>
+                  <div className={style.date}>Số lượng có hạn</div>
+                </div>
+              </div>
+            )}
+          </div>
           <div className={`${style.order_subtotal} `}>
             <div className="d-flex align-items-center justify-content-between">
               <div>
@@ -445,14 +616,35 @@ function Payment(props) {
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(totalMoney)}
+                }).format(temptotalMoney)}
               </p>
             </div>
             <div
               className={`${style.transport_fee} d-flex justify-content-between`}
             >
               <p>Phí vận chuyển</p>
-              <p>35.500đ</p>
+              <p>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(priceShipByProvince)}
+              </p>
+            </div>
+            <div
+              className={`${style.transport_fee} d-flex justify-content-between`}
+            >
+              <p>Giảm phí vận chuyển</p>
+              <p>
+                {dataCouponShip?.discount === undefined ? "" : "- "}
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(
+                  dataCouponShip?.discount === undefined
+                    ? 0
+                    : dataCouponShip?.discount
+                )}
+              </p>
             </div>
             <div className={`${style.total} d-flex justify-content-between`}>
               <p style={{ color: "rgb(51, 51, 51)", fontWeight: "700" }}>
@@ -478,6 +670,10 @@ function Payment(props) {
         </div>
       </div>{" "}
       <MyCartAside active_cart={activeCart} />
+      <FormListCouponShip
+        isOpenFormListCouponShip={isOpenFormListCouponShip}
+        onFormFalse={falseFromListCoupon}
+      />
     </div>
   );
 }

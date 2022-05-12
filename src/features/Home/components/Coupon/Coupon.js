@@ -8,7 +8,7 @@ import couponApi from "api/couponApi";
 import ItemCoupon from "./ItemCoupon/ItemCoupon";
 
 function Coupon(props) {
-  const [arrCoupon, setArrCoupon] = useState();
+  const [arrCoupon, setArrCoupon] = useState([]);
 
   useEffect(() => {
     const fetchRequestGetAllCoupon = async () => {
@@ -22,19 +22,20 @@ function Coupon(props) {
     };
     fetchRequestGetAllCoupon();
   }, []);
+
   return (
     <div className={`${style.coupon} wrap section`}>
       <div className={`${style.title_coupon}`}>
         <h2>Mã khuyến mãi hấp dẫn</h2>
-      </div>{" "}
-      <div className={`prevElProductpromotion ${style.prevEl}`}></div>{" "}
-      <div className={`nextElProductpromotion ${style.nextEl}`}></div>
+      </div>
+      <div className={`prevElProductCoupon ${style.prevElCoupon}`}></div>{" "}
+      <div className={`nextElProductCoupon ${style.nextElCoupon}`}></div>
       <Swiper
         className="position-relative"
-        style={{ margin: "0px 120px" }}
+        style={{ margin: "0px 120px", padding: "10px 0px" }}
         modules={[Autoplay, Navigation]}
         slidesPerView={3}
-        spaceBetween={20}
+        spaceBetween={70}
         pagination={{
           clickable: true,
         }}
@@ -44,8 +45,8 @@ function Coupon(props) {
           disableOnInteraction: true,
         }}
         navigation={{
-          prevEl: ".prevElProductpromotion",
-          nextEl: ".nextElProductpromotion",
+          prevEl: ".prevElProductCoupon",
+          nextEl: ".nextElProductCoupon",
         }}
       >
         {arrCoupon?.map((data, idx) => {
