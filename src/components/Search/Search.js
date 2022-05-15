@@ -35,11 +35,11 @@ const Search = (props) => {
   };
   const handleAllProduct = (e) => {
     e.preventDefault();
-    // navigate("/search", {
-    //   state: {
-    //     dataTitle: "",
-    //   },
-    // });
+    navigate("/search", {
+      state: {
+        dataTitle: "",
+      },
+    });
     props.onReceiveFalse(false);
   };
   const handleSearch = (e) => {

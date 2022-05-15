@@ -20,7 +20,7 @@ function ProductList(props) {
     const fetchRequestGetAllProductBySearch = async () => {
       try {
         const requestGetAllProductBySearch =
-          await productApi.getAllProductBySearchTD(dataTitle);
+          await productApi.getAllProductBySearch(dataTitle);
         setArrProductSearch(requestGetAllProductBySearch.data);
       } catch (error) {
         console.log(error);

@@ -105,6 +105,22 @@ function ListOrderAdmin(props) {
   };
   const handleFilterStatus = (e) => {
     setStatusFilter(e.target.value);
+    const fetchRequestGetOrderByStatus = async () => {
+      try {
+        const requestGetOrderByStatus = await orderAdminApi.getOrderByStatus(
+          e.target.value
+        );
+        console.log(requestGetOrderByStatus);
+        // setPagination(requestGetOrderByStatus.pagination);
+        dispatch({
+          type: ACTIOS.dataAllOrder,
+          payload: requestGetOrderByStatus.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetOrderByStatus();
   };
   const handleSearch = () => {
     setLoadingSearch(true);
@@ -274,10 +290,10 @@ function ListOrderAdmin(props) {
                         width: "100%",
                       }}
                     >
-                      <MenuItem value="dangxuly">Đang xử lý </MenuItem>
-                      <MenuItem value="danggiaohang">Đang giao hàng</MenuItem>
-                      <MenuItem value="dagiao">Đã giao</MenuItem>
-                      <MenuItem value="dahuy">Đã hủy</MenuItem>
+                      <MenuItem value="Đang Xử Lý">Đang xử lý </MenuItem>
+                      <MenuItem value="Đang Giao Hàng">Đang giao hàng</MenuItem>
+                      <MenuItem value="Đã Giao">Đã giao</MenuItem>
+                      <MenuItem value="Đã Hủy">Đã hủy</MenuItem>
                     </Select>
                   </FormControl>
                 </div>

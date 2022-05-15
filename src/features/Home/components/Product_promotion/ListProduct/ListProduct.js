@@ -52,7 +52,6 @@ function ListProduct(props) {
         }}
       >
         {props.dataProduct?.slice(0, 20).map((data, i) => {
-          console.log(data);
           const showQuickView = (e) => {
             e.preventDefault();
             dispatch({ type: ACTIOS.loadingQuickView, payload: true });
@@ -170,15 +169,15 @@ function ListProduct(props) {
                         </div>
                       )}
                   </div>
-                  <h2 className={`${style.title_trend_product} d-flex`}>
+                  <h2
+                    className={`${style.title_trend_product} d-flex justify-content-between`}
+                  >
                     <Link to={`/products/detail`} state={{ dataProduct: data }}>
-                      {data.title}
+                      {data.title} sssss sss sss
                     </Link>
                     <div
                       style={{
                         fontSize: "15px",
-                        marginTop: "3px",
-                        marginLeft: "15px",
                       }}
                     >
                       <TotalStar productId={data._id} />

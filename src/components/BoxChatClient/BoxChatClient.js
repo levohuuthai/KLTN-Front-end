@@ -154,7 +154,7 @@ function BoxChatClient(props) {
             <img src={aothuninhinh} alt="avatar" />
           </div>
           <div className={style.name}>
-            <h2>aaa</h2>
+            <h2>RUBIX</h2>
           </div>
         </div>
       </div>

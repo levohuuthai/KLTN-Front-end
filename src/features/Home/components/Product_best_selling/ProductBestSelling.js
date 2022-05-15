@@ -53,7 +53,7 @@ function ProductBestSelling(props) {
     <>
       <div className={`${style.trend_product} wrap section`}>
         <div className={`${style.title_trend}`}>
-          <h2>Khuyến mãi hấp dẫn</h2>
+          <h2>Bán chạy nhất</h2>
           <p>
             Những sản phẩm áo thun mới nhất, tuyệt vời nhất đã được RUBIX cập
             nhật

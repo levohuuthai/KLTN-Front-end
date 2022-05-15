@@ -12,6 +12,7 @@ import productApi from "api/productApi";
 import { Autoplay, Navigation } from "swiper";
 import wishlishApi from "api/wishlishApi";
 import { useSelector } from "react-redux";
+import TotalStar from "components/TotalStar/TotalStar";
 
 function ListProductBestSeller(props) {
   const { dispatch } = useContext(GlobalContext);
@@ -160,8 +161,19 @@ function ListProductBestSeller(props) {
                       </div>
                     )}
                 </div>
-                <h2 className={`${style.title_trend_product} `}>
-                  <a href="/">{data.title}</a>
+                <h2
+                  className={`${style.title_trend_product} d-flex justify-content-between`}
+                >
+                  <Link to={`/products/detail`} state={{ dataProduct: data }}>
+                    {data.title}
+                  </Link>
+                  <div
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    <TotalStar productId={data._id} />
+                  </div>
                 </h2>
                 <p className={`${style.price_trend_product} `}>
                   {data.priceBase !== data.priceMin &&

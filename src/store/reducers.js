@@ -53,15 +53,30 @@ const reducer = (state, action) => {
         ...state,
         dataFilterPriceOver1000: action.payload,
       };
-    case ACTIOS.dataFilterPriceFrom200To1000:
+    case ACTIOS.dataFilterPrice200To500:
       return {
         ...state,
-        dataFilterPriceFrom200To1000: action.payload,
+        dataFilterPrice200To500: action.payload,
+      };
+    case ACTIOS.dataFilterStar:
+      return {
+        ...state,
+        dataFilterStar: action.payload,
       };
     case ACTIOS.dataFilter:
       return {
         ...state,
         dataFilter: action.payload,
+      };
+    case ACTIOS.filterPaginationByProduct:
+      return {
+        ...state,
+        filterPaginationByProduct: action.payload,
+      };
+    case ACTIOS.paginationByFilterProduct:
+      return {
+        ...state,
+        paginationByFilterProduct: action.payload,
       };
     case ACTIOS.dataProductFilter:
       return {

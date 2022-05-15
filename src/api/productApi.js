@@ -52,34 +52,19 @@ const productApi = {
       },
     };
   },
-  async getAllProductByCategory(category, params) {
-    const url = "/products";
-    return axiosClient.get(url, {
-      params: {
-        category,
-      },
+  async getAllProductByCategory(_page, _limit, category) {
+    const productList = await axiosClient.get("/products", {
+      params: { _page, _limit, category },
     });
-    // const newParams = { ...params };
-    // newParams._start =
-    //   !params._page || params._page <= 1
-    //     ? 0
-    //     : (params._page - 1) * (params._limit || 50);
-    // // Remove un-needed key
-    // delete newParams._page;
-    // // Fetch product list + count
-    // const productList = await axiosClient.get("/products", {
-    //   params: { category },
-    //   newParams,
-    // });
-    // const count = productList.data.length;
-    // return {
-    //   data: productList,
-    //   pagination: {
-    //     page: params._page,
-    //     limit: params._limit,
-    //     total: count,
-    //   },
-    // };
+    const count = await axiosClient.get("/products");
+    return {
+      data: productList.data,
+      pagination: {
+        page: _page,
+        limit: _limit,
+        total: count.data.length,
+      },
+    };
   },
   getIdProduct(id) {
     const url = "/products/find/" + id;
@@ -146,7 +131,9 @@ const productApi = {
       },
     });
   },
-  getAllProductByFilter(
+  async getAllProductByFilter(
+    _page,
+    _limit,
     brandData,
     sizeData,
     colorData,
@@ -154,16 +141,17 @@ const productApi = {
     priceLT,
     priceGT,
     priceMin,
-    priceMax
+    priceMax,
+    fromStar
   ) {
     let brand = brandData?.join(",");
     let size = sizeData?.join(",");
     let color = colorData?.join(",");
     let category = categoryData?.join(",");
-
-    const url = "/products";
-    return axiosClient.get(url, {
+    const productList = await axiosClient.get("/products", {
       params: {
+        _page,
+        _limit,
         brand,
         size,
         color,
@@ -172,8 +160,37 @@ const productApi = {
         priceGT,
         priceMin,
         priceMax,
+        fromStar,
       },
     });
+    const count = await axiosClient.get("/products");
+    return {
+      data: productList.data,
+      pagination: {
+        page: _page,
+        limit: _limit,
+        total: count.data.length,
+      },
+    };
+
+    // let brand = brandData?.join(",");
+    // let size = sizeData?.join(",");
+    // let color = colorData?.join(",");
+    // let category = categoryData?.join(",");
+    // const url = "/products";
+    // return axiosClient.get(url, {
+    //   params: {
+    //     brand,
+    //     size,
+    //     color,
+    //     category,
+    //     priceLT,
+    //     priceGT,
+    //     priceMin,
+    //     priceMax,
+    //     fromStar,
+    //   },
+    // });
   },
   getAllSize(category) {
     const url = "/products/allSize";

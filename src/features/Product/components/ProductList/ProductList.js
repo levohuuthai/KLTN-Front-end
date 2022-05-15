@@ -7,6 +7,7 @@ import productApi from "api/productApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import Quickview from "components/Quickview/Quickview";
+import TotalStar from "components/TotalStar/TotalStar";
 function ProductList(props) {
   const { dispatch, state } = useContext(GlobalContext);
 
@@ -54,11 +55,9 @@ function ProductList(props) {
     <div>
       <div className="row ">
         {state.dataProductFilter?.map((data, idx) => {
-          console.log(data);
           const showQuickView = (e) => {
             e.preventDefault();
             dispatch({ type: ACTIOS.loadingQuickView, payload: true });
-
             const fetchRequestGetIdProdcut = async () => {
               try {
                 const requestGetIdProduct = await productApi.getIdProduct(
@@ -135,8 +134,19 @@ function ProductList(props) {
                     </div>
                   )}
               </div>
-              <h2 className={`${style.title_trend_product} `}>
-                <a href="/">{data.title}</a>
+              <h2
+                className={`${style.title_trend_product} d-flex justify-content-between`}
+              >
+                <Link to={`/products/detail`} state={{ dataProduct: data }}>
+                  {data.title}
+                </Link>
+                <div
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  <TotalStar productId={data._id} />
+                </div>
               </h2>
               <p className={`${style.price_trend_product} `}>
                 {data.priceBase !== data.priceMin &&

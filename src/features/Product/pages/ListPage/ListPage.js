@@ -10,8 +10,18 @@ import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import FilterByType from "features/Product/components/Filters/FilterByType/FilterByType";
 import { Pagination } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core";
 
+const useStyles = makeStyles((theme) => ({
+  ul: {
+    "& .MuiPaginationItem-page.Mui-selected": {
+      background: "#ba933e",
+      color: "#fff",
+    },
+  },
+}));
 function ListPage(props) {
+  const classes = useStyles();
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -74,64 +84,141 @@ function ListPage(props) {
     // let arrayDataFilter = data.split(",");
     // setDataFilter(arrayDataFilter);
   };
-  const handleCancelPriceUnder200 = () => {
-    dispatch({
-      type: ACTIOS.dataFilterPriceUnder200,
-      payload: undefined,
-    });
-    // dataFilter.splice(dataFilter.indexOf(data), 1);
-  };
 
   const handleReceiveDataType = (dataType) => {
     setDataTypeProduct(dataType);
   };
-  const [filters, setFilters] = useState({
-    _page: 1,
-    _limit: 2,
-  });
-  const [pagination, setPagination] = useState({
-    limit: 2,
-    total: 10,
-    page: 1,
-  });
+
+  const handlePageChange = (e, page) => {
+    dispatch({
+      type: ACTIOS.filterPagination,
+      payload: { _limit: 2, _page: page },
+    });
+  };
   useEffect(() => {
     if (
       state.dataFilterBrand.length +
         state.dataFilterSize.length +
         state.dataFilterColor.length +
-        (state.dataFilterPriceUnder200 === undefined ? 0 : 1) +
-        state.dataFilterStyle.length ===
+        (!state.dataFilterPriceUnder200.active ? 0 : 1) +
+        (!state.dataFilterPriceOver1000.active ? 0 : 1) +
+        (!state.dataFilterPrice200To500.active ? 0 : 1) +
+        (!state.dataFilterPrice200To500.active500To1000 ? 0 : 1) +
+        state.dataFilterStyle.length +
+        (!state.dataFilterStar.active ? 0 : 1) +
+        (!state.dataFilterStar.active4 ? 0 : 1) +
+        (!state.dataFilterStar.active3 ? 0 : 1) +
+        (!state.dataFilterStar.active2 ? 0 : 1) ===
       0
     ) {
       const fetchRequestGetAllProductByCategory = async () => {
         try {
           const requestGetAllProductByCategory =
-            await productApi.getAllProductByCategory(nameTypeProduct, filters);
-          // if (requestGetAllProductByCategory.status == 200) {
+            await productApi.getAllProductByCategory(
+              state.filterPaginationByProduct._page,
+              state.filterPaginationByProduct._limit,
+              nameTypeProduct
+            );
+          console.log(requestGetAllProductByCategory);
           await dispatch({
             type: ACTIOS.dataProductFilter,
             payload: requestGetAllProductByCategory.data,
           });
           dispatch({
+            type: ACTIOS.paginationByFilterProduct,
+            payload: requestGetAllProductByCategory.pagination,
+          });
+          dispatch({
             type: ACTIOS.loading,
             payload: false,
           });
-          // setPagination(requestGetAllProductByCategory.pagination);
-          // }
         } catch (error) {
           console.log(error);
         }
       };
       fetchRequestGetAllProductByCategory();
     }
-  }, [filters]);
-  // console.log(pagination);
-  // const handlePageChange = (e, page) => {
-  //   setFilters((prevFilters) => ({
-  //     ...prevFilters,
-  //     _page: page,
-  //   }));
-  // };
+  }, [
+    state.dataFilterBrand,
+    state.dataFilterSize,
+    state.dataFilterColor,
+    state.dataFilterPriceUnder200,
+    state.dataFilterPriceOver1000,
+    state.dataFilterPrice200To500,
+    state.dataFilterStyle,
+    state.dataFilterStar,
+  ]);
+  const handleCancelPriceUnder200 = () => {
+    dispatch({
+      type: ACTIOS.dataFilterPriceUnder200,
+      payload: { value: 199999, active: false },
+    });
+  };
+  const handleCancelPriceOver1000 = () => {
+    dispatch({
+      type: ACTIOS.dataFilterPriceOver1000,
+      payload: { value: 1000001, active: false },
+    });
+  };
+  const handleCancelPrice500To1000 = () => {
+    dispatch({
+      type: ACTIOS.dataFilterPrice200To500,
+      payload: {
+        priceMin: undefined,
+        priceMax: undefined,
+        active: false,
+        active500To1000: false,
+      },
+    });
+  };
+  const handleCancel5star = () => {
+    dispatch({
+      type: ACTIOS.dataFilterStar,
+      payload: {
+        value: 5,
+        active: false,
+        active4: false,
+        active3: false,
+        active2: false,
+      },
+    });
+  };
+  const handleCancel4star = () => {
+    dispatch({
+      type: ACTIOS.dataFilterStar,
+      payload: {
+        value: 4,
+        active: false,
+        active4: false,
+        active3: false,
+        active2: false,
+      },
+    });
+  };
+  const handleCancel3star = () => {
+    dispatch({
+      type: ACTIOS.dataFilterStar,
+      payload: {
+        value: 3,
+        active: false,
+        active4: false,
+        active3: false,
+        active2: false,
+      },
+    });
+  };
+  const handleCancel2star = () => {
+    dispatch({
+      type: ACTIOS.dataFilterStar,
+      payload: {
+        value: 2,
+        active: false,
+        active4: false,
+        active3: false,
+        active2: false,
+      },
+    });
+  };
   return (
     <div>
       <div className={`${style.background_slider} `}>
@@ -156,8 +243,15 @@ function ListPage(props) {
               {state.dataFilterBrand.length +
                 state.dataFilterSize.length +
                 state.dataFilterColor.length +
-                (state.dataFilterPriceUnder200 === undefined ? 0 : 1) +
-                state.dataFilterStyle.length}
+                (!state.dataFilterPriceUnder200.active ? 0 : 1) +
+                (!state.dataFilterPriceOver1000.active ? 0 : 1) +
+                (!state.dataFilterPrice200To500.active ? 0 : 1) +
+                (!state.dataFilterPrice200To500.active500To1000 ? 0 : 1) +
+                state.dataFilterStyle.length +
+                (!state.dataFilterStar.active ? 0 : 1) +
+                (!state.dataFilterStar.active2 ? 0 : 1) +
+                (!state.dataFilterStar.active3 ? 0 : 1) +
+                (!state.dataFilterStar.active4 ? 0 : 1)}
               )
             </p>
             <p className={style.cancel_all}>Xóa hết</p>
@@ -217,7 +311,15 @@ function ListPage(props) {
             })}
             {state.dataFilterColor?.map((data, idx) => {
               const handleCancelElement = () => {
-                // dataFilter.splice(dataFilter.indexOf(data), 1);
+                let prev = state.dataFilterColor;
+                let itemIndex = prev.indexOf(data);
+                if (itemIndex !== -1) {
+                  prev.splice(itemIndex, 1);
+                }
+                dispatch({
+                  type: ACTIOS.dataFilterColor,
+                  payload: [...prev],
+                });
               };
               return data === "" ? (
                 ""
@@ -233,7 +335,7 @@ function ListPage(props) {
                 </span>
               );
             })}
-            {state.dataFilterPriceUnder200 !== undefined && (
+            {state.dataFilterPriceUnder200.active && (
               <span className={style.element_filtered}>
                 <span className={style.name_element_filtered}>
                   Dưới 200.000 đ
@@ -241,6 +343,45 @@ function ListPage(props) {
                 <span
                   className={style.cancel_element_filtered}
                   onClick={handleCancelPriceUnder200}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}
+            {state.dataFilterPriceOver1000.active && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>
+                  Trên 1.000.000 đ
+                </span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancelPriceOver1000}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}
+            {state.dataFilterPrice200To500.active && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>
+                  Từ 200.000 đ - 500.000 đ
+                </span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancelPrice500To1000}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}{" "}
+            {state.dataFilterPrice200To500.active500To1000 && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>
+                  Từ 500.000 đ - 1.000.000 đ
+                </span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancelPrice500To1000}
                 >
                   <i className="bi bi-x"></i>
                 </span>
@@ -263,9 +404,52 @@ function ListPage(props) {
                   </span>
                 </span>
               );
-            })}
+            })}{" "}
+            {state.dataFilterStar.active && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>Từ 5 sao</span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancel5star}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}
+            {state.dataFilterStar.active4 && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>Từ 4 sao</span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancel4star}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}{" "}
+            {state.dataFilterStar.active3 && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>Từ 3 sao</span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancel3star}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}
+            {state.dataFilterStar.active2 && (
+              <span className={style.element_filtered}>
+                <span className={style.name_element_filtered}>Từ 2 sao</span>
+                <span
+                  className={style.cancel_element_filtered}
+                  onClick={handleCancel2star}
+                >
+                  <i className="bi bi-x"></i>
+                </span>
+              </span>
+            )}
           </div>
-
           <ProductFilter
             dataArrayBrand={dataArrayBrand}
             dataArraySize={dataArraySize}
@@ -345,12 +529,15 @@ function ListPage(props) {
           </div>
           {state.loading ? <ProductSkeletonList /> : <ProductList />}{" "}
           <div className="d-flex justify-content-center">
-            {/* <Pagination
-              color="primary"
-              count={Math.ceil(pagination?.total / pagination?.limit)}
-              page={pagination?.page}
+            <Pagination
+              classes={{ ul: classes.ul }}
+              count={Math.ceil(
+                state.paginationByFilterProduct?.total /
+                  state.paginationByFilterProduct.limit
+              )}
+              page={state.paginationByFilterProduct?.page}
               onChange={handlePageChange}
-            ></Pagination> */}
+            ></Pagination>
           </div>
         </div>
       </div>

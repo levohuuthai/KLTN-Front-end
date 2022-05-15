@@ -33,8 +33,9 @@
     margin: 0px;
     position: relative;
     .item_trend_product {
+      width: 320px;
       .img_trend_product {
-        width: 320px;
+        width: 100%;
         height: 360px;
         position: relative;
         overflow: hidden;
@@ -106,7 +107,6 @@
             display: block;
             padding: 8px 10px;
             margin-bottom: 10px;
-            // background: rgb(247, 247, 247);
             background: #fff;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
             border-radius: 4px;
@@ -251,17 +251,17 @@
       .title_trend_product {
         margin-top: 10px;
         margin-bottom: 5px;
-
         a {
           font-size: 16px;
           color: black;
           transition: all 0.3s;
           font-family: "Montserrat", sans-serif;
           font-weight: 700;
+          width: 60%;
+          display: inline-block;
           @media (max-width: 450px) {
             font-size: 13px;
           }
-
           &:hover {
             color: #ba933e;
           }
@@ -269,7 +269,7 @@
       }
 
       .price_trend_product {
-        font-size: 14px;
+        font-size: 16px;
         color: black;
         margin-bottom: 10px;
         font-weight: 600;

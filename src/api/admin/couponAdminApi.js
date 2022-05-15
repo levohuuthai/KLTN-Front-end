@@ -16,6 +16,22 @@ const couponAdminApi = {
     const url = "/coupon/" + id;
     return axiosClient.delete(url);
   },
+  getCouponByDate(hansudung) {
+    const url = "/coupon/";
+    return axiosClient.get(url, {
+      params: {
+        hansudung,
+      },
+    });
+  },
+  getCouponByType(loai) {
+    const url = "/coupon/";
+    return axiosClient.get(url, {
+      params: {
+        loai,
+      },
+    });
+  },
 };
 
 export default couponAdminApi;

@@ -7,6 +7,7 @@ import FiltersByPrice from "../Filters/FilterByPrice/FiltersByPrice";
 import productApi from "api/productApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
+import FiltersByPrice1 from "../Filters/FilterByPrice/FiltersByPrice1";
 
 function ProductFilter(props) {
   const { dispatch, state } = useContext(GlobalContext);
@@ -16,17 +17,20 @@ function ProductFilter(props) {
       payload: true,
     });
     if (
-      state.dataProductFilter.length > 0 ||
-      state.dataFilterBrand.length > 0 ||
-      state.dataFilterSize.length > 0 ||
-      state.dataFilterColor.length > 0 ||
-      state.dataFilterPriceUnder200 !== undefined ||
-      state.dataFilterPriceOver1000 !== undefined ||
-      state.dataFilterPriceFrom200To1000 !== undefined ||
-      state.dataFilterStyle.length > 0
+      state.dataFilterBrand.length +
+        state.dataFilterSize.length +
+        state.dataFilterColor.length +
+        (!state.dataFilterPriceUnder200.active ? 0 : 1) +
+        (!state.dataFilterPriceOver1000.active ? 0 : 1) +
+        (!state.dataFilterPrice200To500.active ? 0 : 1) +
+        (!state.dataFilterPrice200To500.active500To1000 ? 0 : 1) +
+        state.dataFilterStyle.length +
+        (!state.dataFilterStar.active ? 0 : 1) +
+        (!state.dataFilterStar.active4 ? 0 : 1) +
+        (!state.dataFilterStar.active3 ? 0 : 1) +
+        (!state.dataFilterStar.active2 ? 0 : 1) !==
+      0
     ) {
-      console.log("hihi");
-
       const fetchRequestGetAllProductByBrand = async () => {
         try {
           const requestGetAllProductByBrand =
@@ -35,12 +39,13 @@ function ProductFilter(props) {
               state.dataFilterSize,
               state.dataFilterColor,
               state.dataFilterStyle,
-              state.dataFilterPriceUnder200,
-              state.dataFilterPriceOver1000,
-              state.dataFilterPriceFrom200To1000?.priceMin,
-              state.dataFilterPriceFrom200To1000?.priceMax
+              state.dataFilterPriceUnder200.value,
+              state.dataFilterPriceOver1000.value,
+              state.dataFilterPrice200To500?.priceMin,
+              state.dataFilterPrice200To500?.priceMax,
+              state.dataFilterStar.value
             );
-          // console.log(requestGetAllProductByBrand);
+          console.log(requestGetAllProductByBrand);
           dispatch({
             type: ACTIOS.dataProductFilter,
             payload: requestGetAllProductByBrand.data,
@@ -61,8 +66,9 @@ function ProductFilter(props) {
     state.dataFilterColor,
     state.dataFilterPriceUnder200,
     state.dataFilterPriceOver1000,
-    state.dataFilterPriceFrom200To1000,
+    state.dataFilterPrice200To500,
     state.dataFilterStyle,
+    state.dataFilterStar,
   ]);
 
   return (
@@ -71,7 +77,7 @@ function ProductFilter(props) {
       <FiltersBySize dataArraySize={props.dataArraySize} />
       <FiltersByColor dataArrayColor={props.dataArrayColor} />
       <FiltersByStar />
-      <FiltersByPrice />
+      <FiltersByPrice1 />
     </div>
   );
 }

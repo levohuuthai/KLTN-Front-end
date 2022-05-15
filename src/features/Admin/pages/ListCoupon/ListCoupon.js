@@ -44,9 +44,10 @@ function ListCoupon(props) {
     };
     fetchRequestGetAllCoupon();
   }, []);
-  console.log(state.dataAllCoupon);
   const [isForm, setIsForm] = useState(false);
   const [loadingAll, setLoadingAll] = useState(false);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("");
 
   const handleShowFormAdd = () => {
     setIsForm(true);
@@ -69,6 +70,43 @@ function ListCoupon(props) {
       }
     };
     fetchRequestGetAllCoupon();
+  };
+
+  //Loc theo trang thai
+  const handleFilterStatus = (e) => {
+    setStatusFilter(e.target.value);
+    const fetchRequestGetAllCouponByDate = async () => {
+      try {
+        const requestGetAllCouponByDate = await couponAdminApi.getCouponByDate(
+          e.target.value
+        );
+        dispatch({
+          type: ACTIOS.dataAllCoupon,
+          payload: requestGetAllCouponByDate.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllCouponByDate();
+  };
+  //Loc theo loại
+  const handleFilterType = (e) => {
+    setTypeFilter(e.target.value);
+    const fetchRequestGetAllCouponByType = async () => {
+      try {
+        const requestGetAllCouponByType = await couponAdminApi.getCouponByType(
+          e.target.value
+        );
+        dispatch({
+          type: ACTIOS.dataAllCoupon,
+          payload: requestGetAllCouponByType.data,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllCouponByType();
   };
   return (
     <>
@@ -112,12 +150,12 @@ function ListCoupon(props) {
                       name="size"
                       labelId="demo-simple-select-autowidth-label"
                       id="demo-simple-select-autowidth"
-                      // value={dayFilter}
-                      // onChange={handleFilter}
+                      value={typeFilter}
+                      onChange={handleFilterType}
                       label="Chọn loại"
                     >
-                      <MenuItem value="ngaymoinhat">Phí Giao Hàng </MenuItem>
-                      <MenuItem value="ngaycunhat">Phí Đơn Hàng</MenuItem>
+                      <MenuItem value="ship">Phí Giao Hàng </MenuItem>
+                      <MenuItem value="product">Phí Đơn Hàng</MenuItem>
                     </Select>
                   </FormControl>
                 </div>
@@ -142,15 +180,15 @@ function ListCoupon(props) {
                       name="size"
                       labelId="demo-simple-select-autowidth-label"
                       id="demo-simple-select-autowidth"
-                      // value={statusFilter}
-                      // onChange={handleFilterStatus}
+                      value={statusFilter}
+                      onChange={handleFilterStatus}
                       label=" Chọn trạng thái"
                       style={{
                         width: "100%",
                       }}
                     >
-                      <MenuItem value="dangxuly">Đã hết hạn</MenuItem>
-                      <MenuItem value="danggiaohang">Chưa hết hạn</MenuItem>
+                      <MenuItem value="het">Đã hết hạn</MenuItem>
+                      <MenuItem value="con">Chưa hết hạn</MenuItem>
                     </Select>
                   </FormControl>
                 </div>

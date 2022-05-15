@@ -30,14 +30,14 @@ function ItemCoupon(props) {
   useEffect(() => {
     var date = new Date();
     var endDate = new Date(props?.data.endDate);
-
     if (date > endDate) {
       setActiveEndDate(true);
+    } else {
+      setActiveEndDate(false);
     }
   }, [props?.data.endDate]);
   const [isForm, setIsForm] = useState(false);
   const [isOpenFormDeleteCoupon, seIsOpenFormDeleteCoupon] = useState(false);
-
   const handleShowFormUpdate = () => {
     setIsForm(true);
   };
@@ -55,6 +55,8 @@ function ItemCoupon(props) {
     var dateNew = new Date(data);
     if (dateNew > dateOld) {
       setActiveEndDate(false);
+    } else {
+      setActiveEndDate(true);
     }
   };
   return (

@@ -28,6 +28,14 @@ const orderAdminApi = {
     const url = "/orders/getOrderMoiNhat";
     return axiosClient.get(url);
   },
+  getOrderByStatus(status) {
+    const url = "/orders";
+    return axiosClient.get(url, {
+      params: {
+        status,
+      },
+    });
+  },
 };
 
 export default orderAdminApi;

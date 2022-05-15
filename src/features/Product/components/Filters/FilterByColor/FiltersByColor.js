@@ -9,24 +9,35 @@ function FiltersByColor(props) {
   const [datacheckbox, setDataCheckbox] = useState([]);
   const { dispatch, state } = useContext(GlobalContext);
 
-  const handleChangeDataProduct = (data, idx) => (e) => {
-    let color = [...datacheckbox];
-    if (e.target.checked == true) {
-      color = [...datacheckbox, e.target.value];
-      // props.onReceiveDataColor(color);
-      dispatch({
-        type: ACTIOS.dataFilterColor,
-        payload: color,
-      });
+  const handleChangeDataProduct = (data, idx) => async (e) => {
+    let prev = await state.dataFilterColor;
+    let itemIndex = prev.indexOf(data);
+    if (itemIndex !== -1) {
+      prev.splice(itemIndex, 1);
     } else {
-      color.splice(datacheckbox.indexOf(e.target.value), 1);
-      // props.onReceiveDataColor(color);
-      dispatch({
-        type: ACTIOS.dataFilterColor,
-        payload: color,
-      });
+      prev.push(data);
     }
-    setDataCheckbox(color);
+    await dispatch({
+      type: ACTIOS.dataFilterColor,
+      payload: [...prev],
+    });
+    // let color = [...datacheckbox];
+    // if (e.target.checked == true) {
+    //   color = [...datacheckbox, e.target.value];
+    //   // props.onReceiveDataColor(color);
+    //   dispatch({
+    //     type: ACTIOS.dataFilterColor,
+    //     payload: color,
+    //   });
+    // } else {
+    //   color.splice(datacheckbox.indexOf(e.target.value), 1);
+    //   // props.onReceiveDataColor(color);
+    //   dispatch({
+    //     type: ACTIOS.dataFilterColor,
+    //     payload: color,
+    //   });
+    // }
+    // setDataCheckbox(color);
   };
   return (
     <div className={style.color}>
@@ -40,11 +51,12 @@ function FiltersByColor(props) {
             >
               <input
                 type="checkbox"
-                id={data}
+                id={`color-checkbox-${idx}`}
                 value={data}
                 onChange={handleChangeDataProduct(data, idx)}
+                checked={state.dataFilterColor.includes(data)}
               />
-              <label htmlFor={data}>{data}</label>
+              <label htmlFor={`color-checkbox-${idx}`}>{data}</label>
             </div>
           );
         })}

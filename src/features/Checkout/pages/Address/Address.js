@@ -204,6 +204,7 @@ function Address(props) {
         const requestGetListAddressUser = await addressAPI.getListAddressUser(
           loggedInUser._id
         );
+        console.log(requestGetListAddressUser);
         dispatch({
           type: ACTIOS.dataAddress,
           payload: requestGetListAddressUser.data,
@@ -242,7 +243,7 @@ function Address(props) {
     };
     fetchGetListAddressUser();
   };
-
+  // console.log(state.dataAddress);
   return (
     <>
       <div className={`${style.checkout_adress} wrap`}>
