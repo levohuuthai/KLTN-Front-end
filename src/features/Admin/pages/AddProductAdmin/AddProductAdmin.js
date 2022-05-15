@@ -1,66 +1,66 @@
-import AsideAdmin from "features/Admin/components/AsideAdmin/AsideAdmin";
-import React, { useEffect, useState } from "react";
-import style from "./AddProductAdmin.module.scss";
-import InputField from "components/Form-control/InputField";
+import AsideAdmin from 'features/Admin/components/AsideAdmin/AsideAdmin';
+import React, { useEffect, useState } from 'react';
+import style from './AddProductAdmin.module.scss';
+import InputField from 'components/Form-control/InputField';
 import {
   Button,
   FormHelperText,
   TextField,
   Typography,
-} from "@material-ui/core";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, useForm } from "react-hook-form";
-import { makeStyles } from "@material-ui/styles";
-import productAdminApi from "api/admin/productAdminApi";
-import typeProductApi from "api/typeProductApi";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
+} from '@material-ui/core';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import { makeStyles } from '@material-ui/styles';
+import productAdminApi from 'api/admin/productAdminApi';
+import typeProductApi from 'api/typeProductApi';
+import aothun2_front from 'assets/images/product_promotion/ao2_front.png';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 toast.configure();
 
 const useStyles = makeStyles((theme) => ({
   // emailInput: { padding: theme.spacing(2) },
   title: {
-    color: "#444",
-    marginBottom: "-10px",
+    color: '#444',
+    marginBottom: '-10px',
   },
   titlePassword: {
-    color: "#444",
-    paddingTop: "13px",
+    color: '#444',
+    paddingTop: '13px',
   },
   submit: {
-    background: "black",
-    width: "150px",
-    height: "50px",
-    color: "#fff",
-    transition: "all 0.6s",
-    marginTop: "20px",
-    "&:hover": {
-      background: "#ba933e",
-      transition: "all 0.6s",
+    background: 'black',
+    width: '150px',
+    height: '50px',
+    color: '#fff',
+    transition: 'all 0.6s',
+    marginTop: '20px',
+    '&:hover': {
+      background: '#ba933e',
+      transition: 'all 0.6s',
     },
   },
   forgetPassword: {
-    color: "#444",
-    paddingTop: "30px",
+    color: '#444',
+    paddingTop: '30px',
   },
 }));
 function AddProductAdmin(props) {
   const classes = useStyles();
   const schema = yup.object().shape({
-    nameProduct: yup.string().required("Vui lòng nhập mã tên sản phẩm"),
-    brand: yup.string().required("Vui lòng nhập thương hiệu"),
-    origin: yup.string().required("Vui lòng nhập xuất xứ"),
-    collar: yup.string().required("Vui lòng nhập cổ áo"),
-    fabricMaterial: yup.string().required("Vui lòng nhập chất liệu"),
-    size: yup.string().required("Vui lòng nhập kích cỡ"),
-    color: yup.string().required("Vui lòng nhập màu"),
-    price: yup.string().required("Vui lòng nhập giá"),
-    quantity: yup.string().required("Vui lòng nhập số lượng"),
-    percentSaleOff: yup.string().required("Vui lòng nhập phần trăm giảm giá"),
+    nameProduct: yup.string().required('Vui lòng nhập mã tên sản phẩm'),
+    brand: yup.string().required('Vui lòng nhập thương hiệu'),
+    origin: yup.string().required('Vui lòng nhập xuất xứ'),
+    collar: yup.string().required('Vui lòng nhập cổ áo'),
+    fabricMaterial: yup.string().required('Vui lòng nhập chất liệu'),
+    size: yup.string().required('Vui lòng nhập kích cỡ'),
+    color: yup.string().required('Vui lòng nhập màu'),
+    price: yup.string().required('Vui lòng nhập giá'),
+    quantity: yup.string().required('Vui lòng nhập số lượng'),
+    percentSaleOff: yup.string().required('Vui lòng nhập phần trăm giảm giá'),
 
     // Repassword: yup
     //   .string()
@@ -69,53 +69,53 @@ function AddProductAdmin(props) {
   });
   const { register, handleSubmit, errors, watch } = useForm({
     defaultValues: {
-      nameProduct: "",
-      brand: "",
-      origin: "",
-      collar: "",
-      fabricMaterial: "",
-      size: "",
-      color: "",
-      price: "",
-      quantity: "",
-      percentSaleOff: "",
+      nameProduct: '',
+      brand: '',
+      origin: '',
+      collar: '',
+      fabricMaterial: '',
+      size: '',
+      color: '',
+      price: '',
+      quantity: '',
+      percentSaleOff: '',
     },
-    mode: "onSubmit",
+    mode: 'onSubmit',
     resolver: yupResolver(schema),
   });
   const [dataTypeProduct, setDataTypeProduct] = useState();
   // const [idTypeProduct, setIdTypeProduct] = useState();
-  const [nameProduct, setNameProduct] = useState("");
-  const [activeDropdown, setActiveDropdown] = useState("");
+  const [nameProduct, setNameProduct] = useState('');
+  const [activeDropdown, setActiveDropdown] = useState('');
   const [arrayTitleProduct, setArrayTitleProduct] = useState([]);
-  const [brand, setBrand] = useState({ value: "", errorBrand: undefined });
-  const [origin, setOrigin] = useState({ value: "", errorOrigin: undefined });
-  const [collar, setCollar] = useState({ value: "", errorCollar: undefined });
+  const [brand, setBrand] = useState({ value: '', errorBrand: undefined });
+  const [origin, setOrigin] = useState({ value: '', errorOrigin: undefined });
+  const [collar, setCollar] = useState({ value: '', errorCollar: undefined });
   const [fabricMaterial, setFabricMaterial] = useState({
-    value: "",
+    value: '',
     errorFabricMaterial: undefined,
   });
-  const [size, setSize] = useState({ value: "", errorSize: undefined });
-  const [color, setColor] = useState({ value: "", errorColor: undefined });
-  const [price, setPrice] = useState({ value: "", errorPrice: undefined });
+  const [size, setSize] = useState({ value: '', errorSize: undefined });
+  const [color, setColor] = useState({ value: '', errorColor: undefined });
+  const [price, setPrice] = useState({ value: '', errorPrice: undefined });
   const [percentSaleOff, setPercentSaleOff] = useState({
-    value: "",
+    value: '',
     errorPercentSaleOff: undefined,
   });
 
   const [quantity, setQuantity] = useState({
-    value: "",
+    value: '',
     errorQuantity: undefined,
   });
   const [disable, setDisable] = useState(false);
   const [describe, setDescribe] = useState();
   const [category, setCategory] = useState();
-  const [imageFront, setImageFront] = useState({ img: "" });
-  const [imageBack, setImageBack] = useState({ img: "" });
-  const [imageDetail, setImageDetail] = useState({ img: "" });
+  const [imageFront, setImageFront] = useState({ img: '' });
+  const [imageBack, setImageBack] = useState({ img: '' });
+  const [imageDetail, setImageDetail] = useState({ img: '' });
 
   const handleFocusNameProduct = (e) => {
-    setActiveDropdown("a");
+    setActiveDropdown('a');
   };
   const handleBlurNameProduct = (e) => {
     // setActiveDropdown("");
@@ -123,7 +123,7 @@ function AddProductAdmin(props) {
   const handleNameProduct = (e) => {
     setActiveDropdown(e.target.value);
     setNameProduct(e.target.value);
-    if (e.target.value !== "") {
+    if (e.target.value !== '') {
       const fetchRequestGetProductByTitle = async () => {
         try {
           const requestGetGetProductByTitle =
@@ -136,7 +136,7 @@ function AddProductAdmin(props) {
       };
       fetchRequestGetProductByTitle();
     } else {
-      setBrand({ ...brand, value: "" });
+      setBrand({ ...brand, value: '' });
       // setOrigin("");
       // setCategory("");
 
@@ -157,14 +157,14 @@ function AddProductAdmin(props) {
     fetchRequestGetAllTypeProdcut();
   }, []);
   const handleClickItemFirst = () => {
-    setActiveDropdown("");
+    setActiveDropdown('');
   };
   const handleBrand = (e) => {
     console.log(e.target.value);
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setBrand({
         value: e.target.value,
-        errorBrand: "Vui lòng nhập thương hiệu",
+        errorBrand: 'Vui lòng nhập thương hiệu',
       });
     } else {
       setBrand({ value: e.target.value, errorBrand: undefined });
@@ -174,30 +174,30 @@ function AddProductAdmin(props) {
     setDescribe(e.target.value);
   };
   const handleOrigin = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setOrigin({
         value: e.target.value,
-        errorOrigin: "Vui lòng nhập Xuất xứ",
+        errorOrigin: 'Vui lòng nhập Xuất xứ',
       });
     } else {
       setOrigin({ value: e.target.value, errorOrigin: undefined });
     }
   };
   const handlecollar = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setCollar({
         value: e.target.value,
-        errorCollar: "Vui lòng nhập cổ áo",
+        errorCollar: 'Vui lòng nhập cổ áo',
       });
     } else {
       setCollar({ value: e.target.value, errorCollar: undefined });
     }
   };
   const handleFabricMaterial = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setFabricMaterial({
         value: e.target.value,
-        errorFabricMaterial: "Vui lòng nhập cổ áo",
+        errorFabricMaterial: 'Vui lòng nhập cổ áo',
       });
     } else {
       setFabricMaterial({
@@ -207,10 +207,10 @@ function AddProductAdmin(props) {
     }
   };
   const handleSize = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setSize({
         value: e.target.value,
-        errorSize: "Vui lòng nhập kích cỡ",
+        errorSize: 'Vui lòng nhập kích cỡ',
       });
     } else {
       setSize({
@@ -220,10 +220,10 @@ function AddProductAdmin(props) {
     }
   };
   const handleColor = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setColor({
         value: e.target.value,
-        errorColor: "Vui lòng nhập màu sắc",
+        errorColor: 'Vui lòng nhập màu sắc',
       });
     } else {
       setColor({
@@ -233,14 +233,14 @@ function AddProductAdmin(props) {
     }
   };
   const handlePrice = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setPrice({
         value: e.target.value,
-        errorPrice: "Vui lòng nhập giá tiền",
+        errorPrice: 'Vui lòng nhập giá tiền',
       });
     } else {
       let val = e.target.value;
-      val = val.replace(/,/g, "");
+      val = val.replace(/,/g, '');
       if (val.length > 3) {
         let noCommas = Math.ceil(val.length / 3) - 1;
         let remain = val.length - noCommas * 3;
@@ -265,10 +265,10 @@ function AddProductAdmin(props) {
   };
   console.log(price);
   const handleQuantity = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setQuantity({
         value: e.target.value,
-        errorQuantity: "Vui lòng nhập số lượng",
+        errorQuantity: 'Vui lòng nhập số lượng',
       });
     } else {
       setQuantity({
@@ -278,10 +278,10 @@ function AddProductAdmin(props) {
     }
   };
   const handlePercentSaleOff = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setPercentSaleOff({
         value: e.target.value,
-        errorPercentSaleOff: "Vui lòng nhập phần trăm giảm giá",
+        errorPercentSaleOff: 'Vui lòng nhập phần trăm giảm giá',
       });
     } else {
       setPercentSaleOff({
@@ -294,85 +294,85 @@ function AddProductAdmin(props) {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post('//localhost:5000/products/addFile', fd)
       .then((res) => {
         setImageFront((pre) => {
           return { ...pre, img: res.data };
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   const handleAddImageBack = (e) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post('//localhost:5000/products/addFile', fd)
       .then((res) => {
         setImageBack((pre) => {
           return { ...pre, img: res.data };
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   const handleAddImageDetail = (e) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post('//localhost:5000/products/addFile', fd)
       .then((res) => {
         setImageDetail((pre) => {
           return { ...pre, img: res.data };
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   //brand origin collar fabricMaterial size price quantity percentSaleOff describe
   const handleAddProduct = (e) => {
     e.preventDefault();
-    console.log("haha");
-    if (brand.value === "") {
-      setBrand({ ...brand, errorBrand: "Vui lòng nhập thương hiệu" });
+    console.log('haha');
+    if (brand.value === '') {
+      setBrand({ ...brand, errorBrand: 'Vui lòng nhập thương hiệu' });
     }
-    if (origin.value === "") {
-      setOrigin({ ...brand, errorOrigin: "Vui lòng nhập xuất xứ" });
+    if (origin.value === '') {
+      setOrigin({ ...brand, errorOrigin: 'Vui lòng nhập xuất xứ' });
     }
-    if (collar.value === "") {
-      setCollar({ ...brand, errorCollar: "Vui lòng nhập cổ áo" });
+    if (collar.value === '') {
+      setCollar({ ...brand, errorCollar: 'Vui lòng nhập cổ áo' });
     }
-    if (fabricMaterial.value === "") {
+    if (fabricMaterial.value === '') {
       setFabricMaterial({
         ...fabricMaterial,
-        errorFabricMaterial: "Vui lòng nhập chất liệu",
+        errorFabricMaterial: 'Vui lòng nhập chất liệu',
       });
     }
-    if (size.value === "") {
-      setSize({ ...size, errorSize: "Vui lòng nhập kích cỡ" });
+    if (size.value === '') {
+      setSize({ ...size, errorSize: 'Vui lòng nhập kích cỡ' });
     }
-    if (color.value === "") {
-      setColor({ ...color, errorColor: "Vui lòng nhập màu sắc" });
+    if (color.value === '') {
+      setColor({ ...color, errorColor: 'Vui lòng nhập màu sắc' });
     }
-    if (price.value === "") {
-      setPrice({ ...price, errorPrice: "Vui lòng nhập giá tiền" });
+    if (price.value === '') {
+      setPrice({ ...price, errorPrice: 'Vui lòng nhập giá tiền' });
     }
-    if (quantity.value === "") {
-      setQuantity({ ...quantity, errorQuantity: "Vui lòng nhập số lượng" });
+    if (quantity.value === '') {
+      setQuantity({ ...quantity, errorQuantity: 'Vui lòng nhập số lượng' });
     }
-    if (percentSaleOff.value === "") {
+    if (percentSaleOff.value === '') {
       setPercentSaleOff({
         ...percentSaleOff,
-        errorPercentSaleOff: "Vui lòng nhập phần trăm giảm giá",
+        errorPercentSaleOff: 'Vui lòng nhập phần trăm giảm giá',
       });
     }
     const fetchRequestGetAddProduct1 = async () => {
@@ -384,7 +384,7 @@ function AddProductAdmin(props) {
           image_front: imageFront.img,
           image_back: imageBack.img,
           category: category,
-          origin: "Viet Nam",
+          origin: 'Viet Nam',
           collar: collar.value,
           fabricMaterial: fabricMaterial.value,
         });
@@ -398,22 +398,22 @@ function AddProductAdmin(props) {
                   size: size.value,
                   price: {
                     original:
-                      typeof price == "string"
+                      typeof price == 'string'
                         ? price.value
-                        : price.value.join(""),
+                        : price.value.join(''),
                     discount: percentSaleOff.value / 100,
-                    currency: "VNĐ",
+                    currency: 'VNĐ',
                   },
                   color_image: {
                     color: color.value,
-                    image: imageDetail.img || "",
+                    image: imageDetail.img || '',
                   },
                   countInStock: quantity.value,
                 }
               );
               console.log(requestGetAddProduct2);
               if (requestGetAddProduct2.status === 200) {
-                toast.success("Thêm sản phẩm thành công", {
+                toast.success('Thêm sản phẩm thành công', {
                   position: toast.POSITION.BOTTOM_RIGHT,
                   autoClose: 2000,
                 });
@@ -440,7 +440,7 @@ function AddProductAdmin(props) {
   }, [arrayTitleProduct]);
 
   return (
-    <div className="d-flex wrap">
+    <div className='d-flex wrap'>
       <AsideAdmin />
       <div className={style.addproduct_admin}>
         <div className={style.addproduct_admin_frame}>
@@ -450,7 +450,7 @@ function AddProductAdmin(props) {
               <div className={style.form_left1}>
                 <div className={style.nameProductGroup}>
                   <Typography className={classes.title}>
-                    Tên sản phẩm <span style={{ color: "red" }}>*</span>
+                    Tên sản phẩm <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   {/* <InputField
                     name="nameProduct"
@@ -458,18 +458,18 @@ function AddProductAdmin(props) {
                     form={form}
                   /> */}
                   <input
-                    type="text"
+                    type='text'
                     value={nameProduct}
                     onChange={handleNameProduct}
                     onFocus={handleFocusNameProduct}
                     onBlur={handleBlurNameProduct}
                     className={style.nameProduct}
-                    placeholder="Nhập tên sản phẩm"
+                    placeholder='Nhập tên sản phẩm'
                   ></input>
-                  {activeDropdown !== "" && (
+                  {activeDropdown !== '' && (
                     <div
                       className={`${style.dropdownNameProduct} ${
-                        height_long ? style.height_long : ""
+                        height_long ? style.height_long : ''
                       }`}
                     >
                       <div className={style.listItemName}>
@@ -481,7 +481,7 @@ function AddProductAdmin(props) {
                         </div>
                         {arrayTitleProduct?.map((data, idx) => {
                           const parts = data.title.split(
-                            new RegExp(`(${nameProduct})`, "gi")
+                            new RegExp(`(${nameProduct})`, 'gi')
                           );
                           const handleClickItemTitle = () => {
                             console.log(data);
@@ -499,7 +499,7 @@ function AddProductAdmin(props) {
                             setImageBack({ img: data.image_back });
 
                             setDisable(true);
-                            setActiveDropdown("");
+                            setActiveDropdown('');
                           };
                           return (
                             <div
@@ -512,7 +512,7 @@ function AddProductAdmin(props) {
                                   <span
                                     key={i}
                                     className={`${
-                                      i % 2 === 1 ? style.hightlight : ""
+                                      i % 2 === 1 ? style.hightlight : ''
                                     }`}
                                   >
                                     {part}
@@ -526,35 +526,35 @@ function AddProductAdmin(props) {
                     </div>
                   )}
                 </div>
-                <div className="d-flex">
-                  <div style={{ marginRight: "20px" }}>
+                <div className='d-flex'>
+                  <div style={{ marginRight: '20px' }}>
                     <Typography className={classes.title}>
-                      Thương hiệu <span style={{ color: "red" }}>*</span>
+                      Thương hiệu <span style={{ color: 'red' }}>*</span>
                     </Typography>
                     <TextField
-                      name="brand"
-                      label="Nhập thương hiệu"
-                      margin="normal"
-                      variant="outlined"
+                      name='brand'
+                      label='Nhập thương hiệu'
+                      margin='normal'
+                      variant='outlined'
                       fullWidth
                       value={brand.value}
                       onChange={handleBrand}
                       error={!!brand.errorBrand}
                       helperText={
-                        brand.errorBrand !== undefined ? brand.errorBrand : ""
+                        brand.errorBrand !== undefined ? brand.errorBrand : ''
                       }
                       disabled={disable}
                     ></TextField>
                   </div>
-                  <div style={{ marginRight: "20px" }}>
+                  <div style={{ marginRight: '20px' }}>
                     <Typography className={classes.title}>
-                      Xuất xứ <span style={{ color: "red" }}>*</span>
+                      Xuất xứ <span style={{ color: 'red' }}>*</span>
                     </Typography>
                     <TextField
-                      name="origin"
-                      label="Nhập xuất xứ"
-                      margin="normal"
-                      variant="outlined"
+                      name='origin'
+                      label='Nhập xuất xứ'
+                      margin='normal'
+                      variant='outlined'
                       fullWidth
                       value={origin.value}
                       onChange={handleOrigin}
@@ -562,20 +562,20 @@ function AddProductAdmin(props) {
                       helperText={
                         origin.errorOrigin !== undefined
                           ? origin.errorOrigin
-                          : ""
+                          : ''
                       }
                     />
                   </div>
                   <div>
                     <Typography className={classes.title}>
-                      Cổ áo <span style={{ color: "red" }}>*</span>
+                      Cổ áo <span style={{ color: 'red' }}>*</span>
                     </Typography>
 
                     <TextField
-                      name="collar"
-                      label="Nhập cổ áo"
-                      margin="normal"
-                      variant="outlined"
+                      name='collar'
+                      label='Nhập cổ áo'
+                      margin='normal'
+                      variant='outlined'
                       fullWidth
                       value={collar.value}
                       onChange={handlecollar}
@@ -584,23 +584,23 @@ function AddProductAdmin(props) {
                       helperText={
                         collar.errorCollar !== undefined
                           ? collar.errorCollar
-                          : ""
+                          : ''
                       }
                       disabled={disable}
                     />
                   </div>
                 </div>
-                <div className="d-flex">
-                  <div style={{ marginRight: "20px" }}>
+                <div className='d-flex'>
+                  <div style={{ marginRight: '20px' }}>
                     <Typography className={classes.title}>
-                      Chất liệu <span style={{ color: "red" }}>*</span>
+                      Chất liệu <span style={{ color: 'red' }}>*</span>
                     </Typography>
 
                     <TextField
-                      name="fabricMaterial"
-                      label="Nhập chất liệu"
-                      margin="normal"
-                      variant="outlined"
+                      name='fabricMaterial'
+                      label='Nhập chất liệu'
+                      margin='normal'
+                      variant='outlined'
                       fullWidth
                       value={fabricMaterial.value}
                       onChange={handleFabricMaterial}
@@ -608,7 +608,7 @@ function AddProductAdmin(props) {
                       helperText={
                         fabricMaterial.errorFabricMaterial !== undefined
                           ? fabricMaterial.errorFabricMaterial
-                          : ""
+                          : ''
                       }
                       disabled={disable}
                     />
@@ -617,49 +617,49 @@ function AddProductAdmin(props) {
                     // style={{ paddingRight: "165px" }}
                     style={{
                       paddingRight:
-                        size.errorSize !== undefined ? "105px" : "165px",
+                        size.errorSize !== undefined ? '105px' : '165px',
                     }}
                   >
                     <Typography className={classes.title}>
-                      Kích cỡ <span style={{ color: "red" }}>*</span>
+                      Kích cỡ <span style={{ color: 'red' }}>*</span>
                     </Typography>
                     <FormControl
-                      variant="outlined"
-                      name="size"
+                      variant='outlined'
+                      name='size'
                       // inputRef={register}
                       error={!!size.errorSize}
                       style={{
-                        width: size.errorSize !== undefined ? "165%" : "325%",
-                        marginTop: "16px",
+                        width: size.errorSize !== undefined ? '165%' : '325%',
+                        marginTop: '16px',
                       }}
                     >
-                      <InputLabel id="demo-simple-select-autowidth-label">
+                      <InputLabel id='demo-simple-select-autowidth-label'>
                         Chọn kích cỡ
                       </InputLabel>
                       <Select
-                        name="size"
-                        labelId="demo-simple-select-autowidth-label"
-                        id="demo-simple-select-autowidth"
+                        name='size'
+                        labelId='demo-simple-select-autowidth-label'
+                        id='demo-simple-select-autowidth'
                         value={size.value}
                         inputRef={register}
                         error={!!size.errorSize}
                         onChange={handleSize}
-                        label="Chọn Kích Cỡ"
+                        label='Chọn Kích Cỡ'
                       >
-                        <MenuItem value="M">M</MenuItem>
-                        <MenuItem value="L">L</MenuItem>
-                        <MenuItem value="XL">XL</MenuItem>
-                        <MenuItem value="2XL">2XL</MenuItem>
-                        <MenuItem value="3XL">3XL</MenuItem>
+                        <MenuItem value='M'>M</MenuItem>
+                        <MenuItem value='L'>L</MenuItem>
+                        <MenuItem value='XL'>XL</MenuItem>
+                        <MenuItem value='2XL'>2XL</MenuItem>
+                        <MenuItem value='3XL'>3XL</MenuItem>
                       </Select>
                       {size.errorSize !== undefined && (
                         <span
                           style={{
-                            fontSize: "0.75rem",
-                            marginTop: "2px",
-                            paddingLeft: "12px",
-                            color: "#f44336",
-                            fontWeight: "400",
+                            fontSize: '0.75rem',
+                            marginTop: '2px',
+                            paddingLeft: '12px',
+                            color: '#f44336',
+                            fontWeight: '400',
                           }}
                         >
                           {size.errorSize}
@@ -669,50 +669,50 @@ function AddProductAdmin(props) {
                   </div>
                   <div>
                     <Typography className={classes.title}>
-                      Màu sắc <span style={{ color: "red" }}>*</span>
+                      Màu sắc <span style={{ color: 'red' }}>*</span>
                     </Typography>
 
                     <FormControl
-                      variant="outlined"
-                      name="size"
+                      variant='outlined'
+                      name='size'
                       error={!!color.errorColor}
                       style={{
-                        width: color.errorColor !== undefined ? "158%" : "292%",
-                        marginTop: "16px",
+                        width: color.errorColor !== undefined ? '158%' : '292%',
+                        marginTop: '16px',
                       }}
                     >
-                      <InputLabel id="demo-simple-select-autowidth-label">
+                      <InputLabel id='demo-simple-select-autowidth-label'>
                         Chọn màu sắc
                       </InputLabel>
                       <Select
-                        name="size"
-                        labelId="demo-simple-select-autowidth-label"
-                        id="demo-simple-select-autowidth"
+                        name='size'
+                        labelId='demo-simple-select-autowidth-label'
+                        id='demo-simple-select-autowidth'
                         value={color.value}
                         error={!!color.errorColor}
                         onChange={handleColor}
-                        label=" Chọn màu sắc"
+                        label=' Chọn màu sắc'
                       >
-                        <MenuItem value="Xanh lá">Xanh lá</MenuItem>
-                        <MenuItem value="Đỏ">Đỏ</MenuItem>
-                        <MenuItem value="Đen">Đen</MenuItem>{" "}
-                        <MenuItem value="Trắng">Trắng</MenuItem>
-                        <MenuItem value="Xanh dương">Xanh dương</MenuItem>{" "}
-                        <MenuItem value="Nâu">Nâu</MenuItem>{" "}
-                        <MenuItem value="Cam">Cam</MenuItem>{" "}
-                        <MenuItem value="Hồng">Hồng</MenuItem>
-                        <MenuItem value="Vàng">Vàng</MenuItem>
-                        <MenuItem value="Tím">Tím</MenuItem>
-                        <MenuItem value="Xám">Xám</MenuItem>
+                        <MenuItem value='Xanh lá'>Xanh lá</MenuItem>
+                        <MenuItem value='Đỏ'>Đỏ</MenuItem>
+                        <MenuItem value='Đen'>Đen</MenuItem>{' '}
+                        <MenuItem value='Trắng'>Trắng</MenuItem>
+                        <MenuItem value='Xanh dương'>Xanh dương</MenuItem>{' '}
+                        <MenuItem value='Nâu'>Nâu</MenuItem>{' '}
+                        <MenuItem value='Cam'>Cam</MenuItem>{' '}
+                        <MenuItem value='Hồng'>Hồng</MenuItem>
+                        <MenuItem value='Vàng'>Vàng</MenuItem>
+                        <MenuItem value='Tím'>Tím</MenuItem>
+                        <MenuItem value='Xám'>Xám</MenuItem>
                       </Select>
                       {color.errorColor !== undefined && (
                         <span
                           style={{
-                            fontSize: "0.75rem",
-                            marginTop: "2px",
-                            paddingLeft: "12px",
-                            color: "#f44336",
-                            fontWeight: "400",
+                            fontSize: '0.75rem',
+                            marginTop: '2px',
+                            paddingLeft: '12px',
+                            color: '#f44336',
+                            fontWeight: '400',
                           }}
                         >
                           {color.errorColor}
@@ -725,20 +725,20 @@ function AddProductAdmin(props) {
               <div className={style.form_left2}>
                 <div className={style.image}>
                   <Typography className={classes.title}>
-                    Hình ảnh trước <span style={{ color: "red" }}>*</span>
+                    Hình ảnh trước <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
                     <span
                       className={`${style.select}`}
-                      style={{ fontSize: "14px" }}
+                      style={{ fontSize: '14px' }}
                     >
                       <i
-                        class="fas fa-camera"
-                        style={{ marginRight: "0px" }}
-                      ></i>{" "}
+                        class='fas fa-camera'
+                        style={{ marginRight: '0px' }}
+                      ></i>{' '}
                       Chọn ảnh
                       <input
-                        type="file"
+                        type='file'
                         onChange={handleAddImageFront}
                         multiple
                         // onFocus={InputHandler}
@@ -746,25 +746,25 @@ function AddProductAdmin(props) {
                     </span>
 
                     <div className={style.image_product}>
-                      {imageFront.img !== "" && (
-                        <img src={imageFront.img} alt="image_product" />
+                      {imageFront.img !== '' && (
+                        <img src={imageFront.img} alt='image_product' />
                       )}
                     </div>
                   </div>
                 </div>
                 <div className={style.image}>
                   <Typography className={classes.title}>
-                    Hình ảnh sau <span style={{ color: "red" }}>*</span>
+                    Hình ảnh sau <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select} style={{ fontSize: "14px" }}>
+                    <span className={style.select} style={{ fontSize: '14px' }}>
                       <i
-                        class="fas fa-camera"
-                        style={{ marginRight: "0px" }}
-                      ></i>{" "}
+                        class='fas fa-camera'
+                        style={{ marginRight: '0px' }}
+                      ></i>{' '}
                       Chọn ảnh
                       <input
-                        type="file"
+                        type='file'
                         onChange={handleAddImageBack}
                         multiple
                         // onFocus={InputHandler}
@@ -772,8 +772,8 @@ function AddProductAdmin(props) {
                     </span>
 
                     <div className={style.image_product}>
-                      {imageBack.img !== "" && (
-                        <img src={imageBack.img} alt="image_product" />
+                      {imageBack.img !== '' && (
+                        <img src={imageBack.img} alt='image_product' />
                       )}
                     </div>
                   </div>
@@ -781,17 +781,17 @@ function AddProductAdmin(props) {
                 {/* Anh chi tiet */}
                 <div className={style.image}>
                   <Typography className={classes.title}>
-                    Hình ảnh chi tiết <span style={{ color: "red" }}>*</span>
+                    Hình ảnh chi tiết <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select} style={{ fontSize: "14px" }}>
+                    <span className={style.select} style={{ fontSize: '14px' }}>
                       <i
-                        class="fas fa-camera"
-                        style={{ marginRight: "0px" }}
-                      ></i>{" "}
+                        class='fas fa-camera'
+                        style={{ marginRight: '0px' }}
+                      ></i>{' '}
                       Chọn ảnh
                       <input
-                        type="file"
+                        type='file'
                         onChange={handleAddImageDetail}
                         multiple
                         // onFocus={InputHandler}
@@ -799,8 +799,8 @@ function AddProductAdmin(props) {
                     </span>
 
                     <div className={style.image_product}>
-                      {imageDetail.img !== "" && (
-                        <img src={imageDetail.img} alt="image_product" />
+                      {imageDetail.img !== '' && (
+                        <img src={imageDetail.img} alt='image_product' />
                       )}
                     </div>
                   </div>
@@ -809,12 +809,12 @@ function AddProductAdmin(props) {
               <div className={style.form_left3}>
                 <div className={style.describe}>
                   <Typography className={classes.title}>
-                    Mô tả <span style={{ color: "red" }}>*</span>
+                    Mô tả <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   <textarea
-                    rows="4"
-                    cols="38"
-                    placeholder="Write your message"
+                    rows='4'
+                    cols='38'
+                    placeholder='Write your message'
                     onChange={handleDescribe}
                     className={`${style.area} pt-3`}
                     value={describe}
@@ -827,32 +827,32 @@ function AddProductAdmin(props) {
               <div className={style.form_right1}>
                 <div>
                   <Typography className={classes.title}>
-                    Giá <span style={{ color: "red" }}>*</span>
+                    Giá <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   <TextField
-                    name="price"
-                    label="Nhập giá tiền"
-                    margin="normal"
-                    variant="outlined"
+                    name='price'
+                    label='Nhập giá tiền'
+                    margin='normal'
+                    variant='outlined'
                     fullWidth
                     value={price.value}
                     onChange={handlePrice}
                     error={!!price.errorPrice}
                     helperText={
-                      price.errorPrice !== undefined ? price.errorPrice : ""
+                      price.errorPrice !== undefined ? price.errorPrice : ''
                     }
                   />
-                </div>{" "}
+                </div>{' '}
                 <div>
                   <Typography className={classes.title}>
-                    Phần trăm giảm giá <span style={{ color: "red" }}>*</span>
+                    Phần trăm giảm giá <span style={{ color: 'red' }}>*</span>
                   </Typography>
 
                   <TextField
-                    name="percentSaleOff"
-                    label="Nhập phần trăm giảm giá"
-                    margin="normal"
-                    variant="outlined"
+                    name='percentSaleOff'
+                    label='Nhập phần trăm giảm giá'
+                    margin='normal'
+                    variant='outlined'
                     fullWidth
                     value={percentSaleOff.value}
                     onChange={handlePercentSaleOff}
@@ -860,28 +860,28 @@ function AddProductAdmin(props) {
                     helperText={
                       percentSaleOff.errorPercentSaleOff !== undefined
                         ? percentSaleOff.errorPercentSaleOff
-                        : ""
+                        : ''
                     }
                   />
                 </div>
                 <div>
                   <Typography className={classes.title}>
-                    Số lượng <span style={{ color: "red" }}>*</span>
+                    Số lượng <span style={{ color: 'red' }}>*</span>
                   </Typography>
                   <TextField
-                    name="quantity"
-                    label="Nhập số lượng"
-                    margin="normal"
-                    variant="outlined"
+                    name='quantity'
+                    label='Nhập số lượng'
+                    margin='normal'
+                    variant='outlined'
                     fullWidth
-                    type="number"
+                    type='number'
                     value={quantity.value}
                     onChange={handleQuantity}
                     error={!!quantity.errorQuantity}
                     helperText={
                       quantity.errorQuantity !== undefined
                         ? quantity.errorQuantity
-                        : ""
+                        : ''
                     }
                   />
                 </div>
@@ -899,7 +899,7 @@ function AddProductAdmin(props) {
                           key={idx}
                         >
                           <input
-                            type="radio"
+                            type='radio'
                             // name="typeProduct"
                             name={`typeProduct-${idx}`}
                             id={data.name}
@@ -913,10 +913,10 @@ function AddProductAdmin(props) {
                     })}
                   </span>
                 </div>
-              </div>{" "}
-              <div style={{ textAlign: "right" }}>
+              </div>{' '}
+              <div style={{ textAlign: 'right' }}>
                 <Button
-                  type="submit"
+                  type='submit'
                   className={classes.submit}
                   onClick={handleAddProduct}
                 >

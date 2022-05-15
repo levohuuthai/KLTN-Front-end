@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react";
-import style from "../ListProductDetailAdmin.module.scss";
-import FormUpdateProductDetail from "../../FormUpdateProductDetail/FormUpdateProductDetail";
-import FormDeleteProductDetail from "../../FormDeleteProductDetail/FormDeleteProductDetail";
-import productAdminApi from "api/admin/productAdminApi";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import productApi from "api/productApi";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useContext, useState } from 'react';
+import style from '../ListProductDetailAdmin.module.scss';
+import FormUpdateProductDetail from '../../FormUpdateProductDetail/FormUpdateProductDetail';
+import FormDeleteProductDetail from '../../FormDeleteProductDetail/FormDeleteProductDetail';
+import productAdminApi from 'api/admin/productAdminApi';
+import { GlobalContext } from 'store/store';
+import { ACTIOS } from 'store/actions';
+import productApi from 'api/productApi';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 toast.configure();
 
 function ItemProductDetailAdmin(props) {
@@ -56,7 +56,7 @@ function ItemProductDetailAdmin(props) {
                 payload: requestGetAllProductDetail.data,
               });
               setLoading(false);
-              toast.success("Bán lại thành công", {
+              toast.success('Bán lại thành công', {
                 position: toast.POSITION.BOTTOM_RIGHT,
                 autoClose: 2000,
               });
@@ -80,12 +80,12 @@ function ItemProductDetailAdmin(props) {
         className={`${
           style.item_product
         } d-flex justify-content-between align-items-center ${
-          props.idx % 2 === 0 ? style.zebra : ""
-        } ${props.data.active === false ? style.stop_selling : ""}`}
+          props.idx % 2 === 0 ? style.zebra : ''
+        } ${props.data.active === false ? style.stop_selling : ''}`}
       >
         <div
           className={`${
-            props.data.active === false ? style.stop_selling_backdrop : ""
+            props.data.active === false ? style.stop_selling_backdrop : ''
           }`}
         ></div>
         {props.data.active === false && (
@@ -97,11 +97,11 @@ function ItemProductDetailAdmin(props) {
           <div className={style.button_resell} onClick={handleReSell}>
             {loading ? (
               <div
-                class="spinner-border"
-                role="status"
-                style={{ width: "22px", height: "22px" }}
+                class='spinner-border'
+                role='status'
+                style={{ width: '22px', height: '22px' }}
               >
-                <span class="sr-only">Loading...</span>
+                <span class='sr-only'>Loading...</span>
               </div>
             ) : (
               <span>Bán lại</span>
@@ -109,7 +109,7 @@ function ItemProductDetailAdmin(props) {
           </div>
         )}
         <p className={`${style.image_item_product}`}>
-          <img src={props.data.color_image.image} alt="anh chi tiet"></img>
+          <img src={props.data.image} alt='anh chi tiet'></img>
         </p>
         <span
           className={`${style.size}  d-flex justify-content-center flex-column`}
@@ -117,15 +117,15 @@ function ItemProductDetailAdmin(props) {
           {props.data?.size}
         </span>
         <span className={`${style.color} d-flex justify-content-center`}>
-          {props.data?.color_image.color}
+          {props.data?.color}
         </span>
         <span className={`${style.stock} d-flex justify-content-center`}>
           {props.data?.countInStock}
         </span>
         <span className={`${style.price} d-flex justify-content-center`}>
-          {new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
+          {new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND',
           }).format(props.data?.price.original)}
         </span>
         <span
@@ -139,11 +139,11 @@ function ItemProductDetailAdmin(props) {
               <ul>
                 <li
                   className={`${style.ItemDelete} ${
-                    activeDropdown ? style.active : ""
+                    activeDropdown ? style.active : ''
                   } `}
                   onClick={handleActiveDropdown}
                 >
-                  <i className="fas fa-ellipsis-h"></i>
+                  <i className='fas fa-ellipsis-h'></i>
                   <ul className={`${style.dropdown} `}>
                     <li onClick={handleShowFormUpdateProductDetail}>
                       <a>Cập nhật</a>
@@ -163,7 +163,7 @@ function ItemProductDetailAdmin(props) {
         onFormFalse={formfalseHandler}
         dataProductDetail={props.data}
         dataProduct={props.dataProduct}
-      />{" "}
+      />{' '}
       <FormDeleteProductDetail
         isOpenFormDeleteProductDetail={isOpenFormDeleteProductDetail}
         onFormFalse={falseFromLogOut}
