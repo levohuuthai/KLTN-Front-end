@@ -1,23 +1,23 @@
-import React, { useContext } from "react";
-import classes from "./FormDeleteProductDetail.module.scss";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import productAdminApi from "api/admin/productAdminApi";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import productApi from "api/productApi";
+import React, { useContext } from 'react';
+import classes from './FormDeleteProductDetail.module.scss';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import productAdminApi from 'api/admin/productAdminApi';
+import { GlobalContext } from 'store/store';
+import { ACTIOS } from 'store/actions';
+import productApi from 'api/productApi';
 toast.configure();
 const FormDeleteProductDetail = (props) => {
-  const [isOpenForm, setIsOpenForm] = useState("");
+  const [isOpenForm, setIsOpenForm] = useState('');
   const { dispatch, state } = useContext(GlobalContext);
 
   let navigate = useNavigate();
 
   const cancelHandler = (e) => {
     e.preventDefault();
-    setIsOpenForm("");
+    setIsOpenForm('');
     props.onFormFalse(false);
   };
 
@@ -25,7 +25,7 @@ const FormDeleteProductDetail = (props) => {
     if (props.isOpenFormDeleteProductDetail) {
       setIsOpenForm(classes.active);
     } else {
-      setIsOpenForm("");
+      setIsOpenForm('');
     }
   }, [props.isOpenFormDeleteProductDetail]);
 
@@ -76,7 +76,7 @@ const FormDeleteProductDetail = (props) => {
           <h2>Xác nhận</h2>
           <div className={classes.cancel} onClick={cancelHandler}>
             <div className={classes.blur}>
-              <i className="bi bi-x"></i>
+              <i className='bi bi-x'></i>
             </div>
           </div>
         </div>
@@ -85,8 +85,8 @@ const FormDeleteProductDetail = (props) => {
             Bạn có muốn xóa
             <b>
               <i>
-                {props.dataProduct.title} - {props.dataProductDetail?.size} -{" "}
-                {props.dataProductDetail?.color_image.color}{" "}
+                {props.dataProduct.title} - {props.dataProductDetail?.size} -{' '}
+                {props.dataProductDetail?.color}{' '}
               </i>
             </b>
             này khỏi hệ thống?

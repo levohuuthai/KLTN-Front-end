@@ -1,48 +1,48 @@
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
-import typeProductApi from "api/typeProductApi";
-import React, { useContext, useEffect, useState } from "react";
-import style from "./FormUpdateProduct.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
-import productAdminApi from "api/admin/productAdminApi";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import productApi from "api/productApi";
-import axios from "axios";
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+import typeProductApi from 'api/typeProductApi';
+import React, { useContext, useEffect, useState } from 'react';
+import style from './FormUpdateProduct.module.scss';
+import aothun2_front from 'assets/images/product_promotion/ao2_front.png';
+import productAdminApi from 'api/admin/productAdminApi';
+import { GlobalContext } from 'store/store';
+import { ACTIOS } from 'store/actions';
+import productApi from 'api/productApi';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   // emailInput: { padding: theme.spacing(2) },
   title: {
-    color: "#444",
-    marginBottom: "-10px",
+    color: '#444',
+    marginBottom: '-10px',
   },
   submit: {
-    background: "black",
-    width: "170px",
-    height: "50px",
-    color: "#fff",
-    transition: "all 0.6s",
-    marginTop: "20px",
-    "&:hover": {
-      background: "#ba933e",
-      transition: "all 0.6s",
+    background: 'black',
+    width: '170px',
+    height: '50px',
+    color: '#fff',
+    transition: 'all 0.6s',
+    marginTop: '20px',
+    '&:hover': {
+      background: '#ba933e',
+      transition: 'all 0.6s',
     },
   },
 }));
 function FormUpdateProduct(props) {
   const [dataTypeProduct, setDataTypeProduct] = useState();
   const classes = useStyles();
-  const [isOpenForm, setIsOpenForm] = useState("");
+  const [isOpenForm, setIsOpenForm] = useState('');
   const { dispatch, state } = useContext(GlobalContext);
 
   useEffect(() => {
     if (props.isForm) {
       setIsOpenForm(style.active);
     } else {
-      setIsOpenForm("");
+      setIsOpenForm('');
     }
   }, [props.isForm]);
   const cancelHandler = () => {
-    setIsOpenForm("");
+    setIsOpenForm('');
     props.onFormFalse(false);
   };
   useEffect(() => {
@@ -58,63 +58,63 @@ function FormUpdateProduct(props) {
     fetchRequestGetAllTypeProdcut();
   }, []);
 
-  const [name, setName] = useState({ value: "", errorName: undefined });
-  const [brand, setBrand] = useState({ value: "", errorBrand: undefined });
-  const [origin, setOrigin] = useState({ value: "", errorOrigin: undefined });
-  const [collar, setCollar] = useState({ value: "", errorCollar: undefined });
+  const [name, setName] = useState({ value: '', errorName: undefined });
+  const [brand, setBrand] = useState({ value: '', errorBrand: undefined });
+  const [origin, setOrigin] = useState({ value: '', errorOrigin: undefined });
+  const [collar, setCollar] = useState({ value: '', errorCollar: undefined });
   const [fabricMaterial, setFabricMaterial] = useState({
-    value: "",
+    value: '',
     errorFabricMaterial: undefined,
   });
-  const [desc, setDesc] = useState({ value: "", errorDesc: undefined });
+  const [desc, setDesc] = useState({ value: '', errorDesc: undefined });
   const [category, setCategory] = useState();
-  const [imageFront, setImageFront] = useState({ img: "" });
-  const [imageBack, setImageBack] = useState({ img: "" });
+  const [imageFront, setImageFront] = useState({ img: '' });
+  const [imageBack, setImageBack] = useState({ img: '' });
   const handleName = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setName({
         value: e.target.value,
-        errorName: "Vui lòng nhập tên sản phẩm",
+        errorName: 'Vui lòng nhập tên sản phẩm',
       });
     } else {
       setName({ value: e.target.value, errorName: undefined });
     }
   };
   const handleBrand = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setBrand({
         value: e.target.value,
-        errorBrand: "Vui lòng nhập thương hiệu",
+        errorBrand: 'Vui lòng nhập thương hiệu',
       });
     } else {
       setBrand({ value: e.target.value, errorBrand: undefined });
     }
   };
   const handleOrigin = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setOrigin({
         value: e.target.value,
-        errorOrigin: "Vui lòng nhập Xuất xứ",
+        errorOrigin: 'Vui lòng nhập Xuất xứ',
       });
     } else {
       setOrigin({ value: e.target.value, errorOrigin: undefined });
     }
   };
   const handlecollar = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setCollar({
         value: e.target.value,
-        errorCollar: "Vui lòng nhập cổ áo",
+        errorCollar: 'Vui lòng nhập cổ áo',
       });
     } else {
       setCollar({ value: e.target.value, errorCollar: undefined });
     }
   };
   const handleFabricMaterial = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setFabricMaterial({
         value: e.target.value,
-        errorFabricMaterial: "Vui lòng nhập cổ áo",
+        errorFabricMaterial: 'Vui lòng nhập cổ áo',
       });
     } else {
       setFabricMaterial({
@@ -189,32 +189,32 @@ function FormUpdateProduct(props) {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post('//localhost:5000/products/addFile', fd)
       .then((res) => {
         setImageFront((pre) => {
           return { ...pre, img: res.data };
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   const handleAddImageBack = (e) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post('//localhost:5000/products/addFile', fd)
       .then((res) => {
         setImageBack((pre) => {
           return { ...pre, img: res.data };
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   return (
@@ -224,133 +224,133 @@ function FormUpdateProduct(props) {
         <div className={style.header}>
           <p>Cập nhật thông tin sản phẩm</p>
           <div onClick={cancelHandler}>
-            <i className="fas fa-times"></i>
+            <i className='fas fa-times'></i>
           </div>
         </div>
         <div className={style.formUpdateProduct}>
           <div className={`${style.form0} d-flex justify-content-between`}>
             <div className={`${style.image}`}>
               <Typography className={classes.title}>
-                Hình ảnh trước <span style={{ color: "red" }}>*</span>
+                Hình ảnh trước <span style={{ color: 'red' }}>*</span>
               </Typography>
               <div className={style.image_product_group}>
                 <span className={style.select}>
-                  <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
+                  <i class='fas fa-camera' style={{ marginRight: '5px' }}></i>{' '}
                   Chọn ảnh
-                  <input type="file" onChange={handleAddImageFront} multiple />
+                  <input type='file' onChange={handleAddImageFront} multiple />
                 </span>
                 <div className={style.image_product}>
-                  <img src={imageFront.img} alt="image_product" />
+                  <img src={imageFront.img} alt='image_product' />
                 </div>
               </div>
             </div>
             <div className={style.image}>
               <Typography className={classes.title}>
-                Hình ảnh sau <span style={{ color: "red" }}>*</span>
+                Hình ảnh sau <span style={{ color: 'red' }}>*</span>
               </Typography>
               <div className={style.image_product_group}>
                 <span className={style.select}>
-                  <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
+                  <i class='fas fa-camera' style={{ marginRight: '5px' }}></i>{' '}
                   Chọn ảnh
                   <input
-                    type="file"
+                    type='file'
                     onChange={handleAddImageBack}
                     multiple
                     // onFocus={InputHandler}
                   />
                 </span>
                 <div className={style.image_product}>
-                  <img src={imageBack.img} alt="image_product" />
+                  <img src={imageBack.img} alt='image_product' />
                 </div>
               </div>
             </div>
           </div>
           <div className={style.form1_form2}>
             <div className={`${style.form1} d-flex`}>
-              <div style={{ marginRight: "20px" }}>
+              <div style={{ marginRight: '20px' }}>
                 <Typography className={classes.title}>
-                  Tên sản phẩm <span style={{ color: "red" }}>*</span>
+                  Tên sản phẩm <span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <TextField
-                  name="origin"
-                  label="Nhập tên sản phẩm"
-                  margin="normal"
-                  variant="outlined"
+                  name='origin'
+                  label='Nhập tên sản phẩm'
+                  margin='normal'
+                  variant='outlined'
                   fullWidth
                   value={name.value}
                   onChange={handleName}
                   error={!!name.errorName}
                   helperText={
-                    name.errorName !== undefined ? name.errorName : ""
+                    name.errorName !== undefined ? name.errorName : ''
                   }
                 />
               </div>
-              <div style={{ marginRight: "20px" }}>
+              <div style={{ marginRight: '20px' }}>
                 <Typography className={classes.title}>
-                  Thương hiệu <span style={{ color: "red" }}>*</span>
+                  Thương hiệu <span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <TextField
-                  name="brand"
-                  label="Nhập thương hiệu"
-                  margin="normal"
-                  variant="outlined"
+                  name='brand'
+                  label='Nhập thương hiệu'
+                  margin='normal'
+                  variant='outlined'
                   fullWidth
                   value={brand.value}
                   onChange={handleBrand}
                   error={!!brand.errorBrand}
                   helperText={
-                    brand.errorBrand !== undefined ? brand.errorBrand : ""
+                    brand.errorBrand !== undefined ? brand.errorBrand : ''
                   }
                 ></TextField>
               </div>
               <div>
                 <Typography className={classes.title}>
-                  Xuất xứ <span style={{ color: "red" }}>*</span>
+                  Xuất xứ <span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <TextField
-                  name="origin"
-                  label="Nhập xuất xứ"
-                  margin="normal"
-                  variant="outlined"
+                  name='origin'
+                  label='Nhập xuất xứ'
+                  margin='normal'
+                  variant='outlined'
                   fullWidth
                   value={origin.value}
                   onChange={handleOrigin}
                   error={!!origin.errorOrigin}
                   helperText={
-                    origin.errorOrigin !== undefined ? origin.errorOrigin : ""
+                    origin.errorOrigin !== undefined ? origin.errorOrigin : ''
                   }
                 />
               </div>
             </div>
             <div className={`${style.form2} d-flex`}>
-              <div style={{ marginRight: "20px" }}>
+              <div style={{ marginRight: '20px' }}>
                 <Typography className={classes.title}>
-                  Cổ áo <span style={{ color: "red" }}>*</span>
+                  Cổ áo <span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <TextField
-                  name="collar"
-                  label="Nhập cổ áo"
-                  margin="normal"
-                  variant="outlined"
+                  name='collar'
+                  label='Nhập cổ áo'
+                  margin='normal'
+                  variant='outlined'
                   fullWidth
                   value={collar.value}
                   onChange={handlecollar}
                   error={!!collar.errorCollar}
                   helperText={
-                    collar.errorCollar !== undefined ? collar.errorCollar : ""
+                    collar.errorCollar !== undefined ? collar.errorCollar : ''
                   }
                 />
               </div>
-              <div style={{ marginRight: "20px" }}>
+              <div style={{ marginRight: '20px' }}>
                 <Typography className={classes.title}>
-                  Chất liệu <span style={{ color: "red" }}>*</span>
+                  Chất liệu <span style={{ color: 'red' }}>*</span>
                 </Typography>
 
                 <TextField
-                  name="fabricMaterial"
-                  label="Nhập chất liệu"
-                  margin="normal"
-                  variant="outlined"
+                  name='fabricMaterial'
+                  label='Nhập chất liệu'
+                  margin='normal'
+                  variant='outlined'
                   fullWidth
                   value={fabricMaterial.value}
                   onChange={handleFabricMaterial}
@@ -358,7 +358,7 @@ function FormUpdateProduct(props) {
                   helperText={
                     fabricMaterial.errorFabricMaterial !== undefined
                       ? fabricMaterial.errorFabricMaterial
-                      : ""
+                      : ''
                   }
                 />
               </div>
@@ -368,12 +368,12 @@ function FormUpdateProduct(props) {
           <div className={`${style.form3} d-flex`}>
             <div className={style.describe}>
               <Typography className={classes.title}>
-                Mô tả <span style={{ color: "red" }}>*</span>
+                Mô tả <span style={{ color: 'red' }}>*</span>
               </Typography>
               <textarea
-                rows="4"
-                cols="50"
-                placeholder="Nhập mô tả"
+                rows='4'
+                cols='50'
+                placeholder='Nhập mô tả'
                 // onChange={handleDescribe}
                 className={`${style.area} pt-3`}
                 value={desc.value}
@@ -381,7 +381,7 @@ function FormUpdateProduct(props) {
             </div>
             <div
               className={`${style.typeproduct} d-flex flex-column`}
-              style={{ width: "40%" }}
+              style={{ width: '40%' }}
             >
               <span>
                 Loại
@@ -396,8 +396,8 @@ function FormUpdateProduct(props) {
                       key={idx}
                     >
                       <input
-                        type="radio"
-                        name="typeProduct"
+                        type='radio'
+                        name='typeProduct'
                         name={`typeProduct-${idx}`}
                         id={data.name}
                         onChange={handleTypeProduct}
@@ -408,10 +408,10 @@ function FormUpdateProduct(props) {
                     </div>
                   );
                 })}
-              </span>{" "}
-              <div style={{ textAlign: "right" }}>
+              </span>{' '}
+              <div style={{ textAlign: 'right' }}>
                 <Button
-                  type="submit"
+                  type='submit'
                   className={classes.submit}
                   onClick={handleUpdateProduct}
                 >
