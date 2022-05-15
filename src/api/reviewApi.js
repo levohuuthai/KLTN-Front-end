@@ -50,6 +50,14 @@ const reviewApi = {
       },
     });
   },
+  getReviewByProductIdAndStar(idProduct, star) {
+    const url = "/review/" + idProduct + "/getReviewByProductIdAndStar";
+    return axiosClient.get(url, {
+      params: {
+        star,
+      },
+    });
+  },
 };
 
 export default reviewApi;

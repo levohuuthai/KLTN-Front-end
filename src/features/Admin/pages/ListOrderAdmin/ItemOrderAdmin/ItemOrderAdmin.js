@@ -45,12 +45,12 @@ function ItemOrderAdmin(props) {
   };
   const { dispatch, state } = useContext(GlobalContext);
 
-  useEffect(() => {
-    dispatch({
-      type: ACTIOS.dataAllOrderDetail,
-      payload: props.data,
-    });
-  }, [props.data, state.dataAllOrderDetail]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: ACTIOS.dataAllOrderDetail,
+  //     payload: props.data,
+  //   });
+  // }, [props.data, state.dataAllOrderDetail]);
   return (
     <div
       className={`${style.item_order} ${
@@ -103,8 +103,9 @@ function ItemOrderAdmin(props) {
               >
                 <i className="fas fa-ellipsis-h"></i>
                 <ul className={`${style.dropdown} `}>
-                  <li onClick={handleUpdateStatus}>Cập nhật trạng thái</li>{" "}
-                  <li>Xem chi tiết đơn hàng</li>
+                  <li onClick={handleUpdateStatus}>
+                    <i class="fas fa-wrench"></i>Cập nhật trạng thái
+                  </li>{" "}
                 </ul>
               </li>
             </ul>

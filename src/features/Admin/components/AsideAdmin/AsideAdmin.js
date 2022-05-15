@@ -6,6 +6,7 @@ import DashBoard from "features/Admin/pages/DashBoard/DashBoard";
 import ListProductAdmin from "features/Admin/pages/ListProductAdmin/ListProductAdmin";
 import AddProductAdmin from "features/Admin/pages/AddProductAdmin/AddProductAdmin";
 import ListUserAdmin from "features/Admin/pages/ListUserAdmin/ListUserAdmin";
+import { useSelector } from "react-redux";
 
 function AsideAdmin(props) {
   // let navigate = useNavigate();
@@ -21,7 +22,7 @@ function AsideAdmin(props) {
     },
     {
       name: "Thống kê",
-      link: "/admin/dashboard1",
+      link: "/admin/statistic",
       icon: "fas fa-chart-bar",
     },
     // {
@@ -54,6 +55,11 @@ function AsideAdmin(props) {
       link: "/admin/listcoupon",
       icon: "fas fa-gift",
     },
+    {
+      name: "Tin nhắn",
+      link: "/admin/listmess",
+      icon: "fas fa-comment",
+    },
     // {
     //   title: "Notifiction",
     //   name: "Mail",
@@ -75,12 +81,25 @@ function AsideAdmin(props) {
   // };
   // console.log(link);
   const location = useLocation();
+  const loggedInUser = useSelector((state) => state.user.current);
+
   return (
     <div className={style.aside_admin}>
       <div className={style.frame_aside}>
         <div className={style.logo_rubix}>
           <img src={logoRubic} alt="logo rubix" />
           <div className={style.line_logo}></div>
+        </div>
+        <div className={`${style.info_account} d-flex `}>
+          <div className={style.avatar}>
+            <img src={loggedInUser?.avatar} alt="avatar" />
+          </div>
+          <div className={style.name_account}>
+            <span>Tài khoản của</span>{" "}
+            <span style={{ color: "black", fontSize: "18px" }}>
+              {loggedInUser?.userName}
+            </span>
+          </div>
         </div>
         <div className={style.content_aside}>
           {data.map((data, index) => {

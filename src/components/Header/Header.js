@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import style from "./Header.module.scss";
 import logoRubic from "assets/images/logoRubic.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
 import BackToTop from "components/BackToTop/BackToTop";
+import Chat from "components/Chat/Chat";
 import MyCartAside from "components/myCartAside/MyCartAside";
 import { GlobalContext } from "../../store/store";
 import { ACTIOS } from "../../store/actions";
@@ -13,10 +14,19 @@ import FormLogout from "components/FormLogout/FormLogout";
 import FormInformation from "features/Form-Information/FormInformation";
 import cartApi from "api/cartApi";
 import wishlishApi from "api/wishlishApi";
+// import io from "socket.io-client";
 
 Header.propTypes = {};
 
 function Header(props) {
+  // //socket
+  // const socket = useRef();
+  // const ENDPOINT = "localhost:3333";
+  // useEffect(() => {
+  //   socket.current = io(ENDPOINT, {
+  //     transports: ["websocket", "polling", "flashsocket"],
+  //   });
+  // }, []);
   const [showHeader, setShowHeader] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [isAudio, setAudio] = useState(false);
@@ -386,6 +396,7 @@ function Header(props) {
           </div>
         </div>
         <BackToTop />
+        <Chat />
       </div>
       <MyCartAside active_cart={activeCart} />
       <Search showSearch={showSearch} onReceiveFalse={handleCancelSearch} />

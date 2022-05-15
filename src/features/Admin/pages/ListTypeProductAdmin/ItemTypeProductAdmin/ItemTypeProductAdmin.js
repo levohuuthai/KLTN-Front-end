@@ -42,7 +42,9 @@ function ItemTypeProductAdmin(props) {
                     className={`${style.dropdown} `}
                     onClick={handleShowFormUpdate}
                   >
-                    <li>Cập nhật loại sản phẩm</li>
+                    <li>
+                      <i class="fas fa-wrench"></i>Cập nhật loại sản phẩm
+                    </li>
                   </ul>
                 </li>
               </ul>

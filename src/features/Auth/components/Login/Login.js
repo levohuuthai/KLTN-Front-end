@@ -23,7 +23,11 @@ function Login(props) {
 
       const resultAction = await dispatch(action);
       const user = unwrapResult(resultAction);
-      navigate("/");
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       toast.error(error.message, {
         position: toast.POSITION.BOTTOM_RIGHT,

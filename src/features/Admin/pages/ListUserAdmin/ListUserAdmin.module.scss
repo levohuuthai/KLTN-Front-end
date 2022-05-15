@@ -21,6 +21,7 @@
       padding: 20px 20px;
       .title_listuser {
         font-size: 22px;
+        font-weight: 500;
       }
       .add_user {
         display: inline-block;
@@ -41,7 +42,6 @@
     }
     .searchListUser {
       padding: 0px 20px;
-
       .searchPhoneUser {
         .phoneUser {
           border: 1px solid rgb(167, 167, 167);
@@ -61,30 +61,24 @@
       }
     }
     .listuser {
+      padding: 0px 20px;
       .title_item_user {
         display: flex;
-        // justify-content: space-between;
         align-items: center;
         padding: 1rem 1rem;
         background: #fff;
-
+        font-weight: 500;
         .title_image_item {
-          width: 10%;
+          width: 20%;
           text-align: center;
         }
         .title_name_item {
-          width: 25%;
-          text-align: center;
-          margin-right: 30px;
-        }
-        .title_phone {
-          width: 15%;
-          text-align: center;
-        }
-        .title_status {
           width: 20%;
           text-align: center;
-          margin-right: 15px;
+        }
+        .title_phone {
+          width: 20%;
+          text-align: center;
         }
         .title_create_date {
           width: 20%;
@@ -92,16 +86,16 @@
         }
 
         .title_close {
-          width: 5%;
+          width: 20%;
           text-align: center;
         }
       }
       .list_item_user {
-        padding: 0rem 1rem;
+        // padding: 0rem 1rem;
         background: #fff;
         width: 100%;
-        overflow-y: scroll;
-        height: 450px;
+        overflow-y: auto;
+        height: 440px;
         .item_product {
           padding: 10px 0;
           border-bottom: 1px solid rgb(212, 212, 212);
@@ -144,9 +138,22 @@
           }
           .button_unlock {
             position: absolute;
-            background: black;
+            background-image: linear-gradient(
+              to right,
+              #0ba360,
+              #3cba92,
+              #30dd8a,
+              #2bb673
+            );
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 50px;
+            moz-transition: all 0.4s ease-in-out;
+            -o-transition: all 0.4s ease-in-out;
+            -webkit-transition: all 0.4s ease-in-out;
+            transition: all 0.4s ease-in-out;
             top: 50%;
-            right: 0px;
+            right: 90px;
             transform: translateY(-50%);
             width: 80px;
             height: 30px;
@@ -160,7 +167,11 @@
             cursor: pointer;
             transition: all 0.3s;
             &:hover {
-              background: #ba933e;
+              background-position: 100% 0;
+              moz-transition: all 0.4s ease-in-out;
+              -o-transition: all 0.4s ease-in-out;
+              -webkit-transition: all 0.4s ease-in-out;
+              transition: all 0.4s ease-in-out;
             }
           }
           p {
@@ -170,8 +181,7 @@
             width: 20%;
             height: 90px;
             text-align: center;
-            margin-left: -60px;
-            margin-right: 50px;
+            padding-left: 20px;
             img {
               width: 40%;
               height: 100%;
@@ -180,28 +190,18 @@
           }
           .name_item {
             width: 20%;
-            // margin-right: -50px;
-
-            // text-align: center;
+            text-align: center;
           }
           .phone {
-            width: 15%;
-            margin-left: -40px;
-            // text-align: center;
-          }
-          .status {
             width: 20%;
-            // text-align: center;
           }
-          .create_date {
-            text-align: center;
 
+          .create_date {
             width: 20%;
           }
 
           .close {
-            width: 3%;
-            text-align: center;
+            width: 20%;
 
             cursor: pointer;
           }
@@ -262,7 +262,7 @@
           padding: 5px 0px;
           li {
             font-size: 14px;
-            padding: 5px;
+            padding: 5px 10px;
             &:hover {
               background: rgba(gray, 0.1);
             }

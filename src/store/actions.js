@@ -32,7 +32,10 @@ export const ACTIOS = {
   dataAllOrder: "dataAllOrder",
   filterPaginationAllOrder: "filterPaginationAllOrder",
   dataAllOrderDetail: "dataAllOrderDetail",
-  dataAllCoupon: "",
+  dataAllCoupon: "dataAllCoupon",
+  arrayMess: "arrayMess",
+  arrayChat: "arrayChat",
+  dataBoxChat: "dataBoxChat",
   // dataProductSearch: "dataProductSearch",
   // dataProductDiscount: "dataProductDiscount",
 };

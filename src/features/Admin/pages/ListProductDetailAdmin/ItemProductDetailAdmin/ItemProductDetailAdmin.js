@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import style from "../ListProductDetailAdmin.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import FormUpdateProductDetail from "../../FormUpdateProductDetail/FormUpdateProductDetail";
 import FormDeleteProductDetail from "../../FormDeleteProductDetail/FormDeleteProductDetail";
 import productAdminApi from "api/admin/productAdminApi";
+import { GlobalContext } from "store/store";
+import { ACTIOS } from "store/actions";
+import productApi from "api/productApi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 function ItemProductDetailAdmin(props) {
   const [activeDropdown, setActiveDropdown] = useState(false);
+  const { dispatch, state } = useContext(GlobalContext);
+
   const handleActiveDropdown = () => {
     setActiveDropdown(!activeDropdown);
   };
   const [isForm, setIsForm] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [isOpenFormDeleteProductDetail, seIsOpenFormDeleteProductDetail] =
     useState(false);
 
@@ -28,6 +37,8 @@ function ItemProductDetailAdmin(props) {
   };
   // console.log(props.dataProduct._id);
   const handleReSell = () => {
+    setLoading(true);
+
     const fetchRequestResellProductDetail = async () => {
       try {
         const requestResellProductDetail =
@@ -35,22 +46,26 @@ function ItemProductDetailAdmin(props) {
             props.dataProduct._id,
             props.data._id
           );
-        console.log(requestResellProductDetail);
-        // if (requestResellProductDetail.status === 200) {
-        //   const fetchRequestGetAllProductDetail = async () => {
-        //     try {
-        //       const requestGetAllProductDetail =
-        //         await productAdminApi.getAllProductDetail();
-        //       dispatch({
-        //         type: ACTIOS.dataAllProduct,
-        //         payload: requestGetAllProductDetail.data,
-        //       });
-        //     } catch (error) {
-        //       console.log(error);
-        //     }
-        //   };
-        //   fetchRequestGetAllProductDetail();
-        // }
+        if (requestResellProductDetail.status === 200) {
+          const fetchRequestGetAllProductDetail = async () => {
+            try {
+              const requestGetAllProductDetail =
+                await productApi.getIdProductDetail(props.dataProduct._id);
+              dispatch({
+                type: ACTIOS.dataAllProductDetail,
+                payload: requestGetAllProductDetail.data,
+              });
+              setLoading(false);
+              toast.success("Bán lại thành công", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+              });
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          fetchRequestGetAllProductDetail();
+        }
       } catch (error) {
         console.log(error);
       }
@@ -58,7 +73,7 @@ function ItemProductDetailAdmin(props) {
     fetchRequestResellProductDetail();
   };
   // console.log(props.data.color_image.image);
-  
+
   return (
     <>
       <div
@@ -80,7 +95,17 @@ function ItemProductDetailAdmin(props) {
         )}
         {props.data.active === false && (
           <div className={style.button_resell} onClick={handleReSell}>
-            Bán lại
+            {loading ? (
+              <div
+                class="spinner-border"
+                role="status"
+                style={{ width: "22px", height: "22px" }}
+              >
+                <span class="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <span>Bán lại</span>
+            )}
           </div>
         )}
         <p className={`${style.image_item_product}`}>
@@ -124,7 +149,7 @@ function ItemProductDetailAdmin(props) {
                       <a>Cập nhật</a>
                     </li>
                     <li onClick={handleShowFormDeleteProductDetail}>
-                      <a>Xóa</a>
+                      <a>Ngưng bán</a>
                     </li>
                   </ul>
                 </li>

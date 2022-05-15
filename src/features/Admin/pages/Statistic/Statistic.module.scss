@@ -1,0 +1,249 @@
+.statistic_admin {
+  width: 82%;
+  background: #f7fafc;
+  height: 100vh;
+  .statistic_admin_frame {
+    width: 98%;
+    .title_add_statistic {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 0px;
+      .title_statistic {
+        font-size: 22px;
+        font-weight: 700;
+      }
+    }
+    .list_block_statistic {
+      display: flex;
+      justify-content: space-between;
+      height: 120px;
+      align-items: center;
+      .block_statistic {
+        width: 24%;
+        height: 100px;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+        border-radius: 10px;
+        display: flex;
+        padding: 10px 15px;
+        color: #fff;
+        &.block1 {
+          background-image: radial-gradient(
+            circle 976px at 51.2% 51%,
+            rgba(11, 27, 103, 1) 0%,
+            rgba(16, 66, 157, 1) 0%,
+            rgba(11, 27, 103, 1) 17.3%,
+            rgba(11, 27, 103, 1) 58.8%,
+            rgba(11, 27, 103, 1) 71.4%,
+            rgba(16, 66, 157, 1) 100.2%,
+            rgba(187, 187, 187, 1) 100.2%
+          );
+        }
+        &.block2 {
+          background-image: radial-gradient(
+            circle 911px at 0.4% 50.5%,
+            rgba(187, 68, 48, 1) 18.7%,
+            rgba(21, 30, 33, 1) 90%
+          );
+        }
+        &.block3 {
+          background-image: radial-gradient(
+            circle farthest-corner at 50.4% 50.5%,
+            rgba(251, 32, 86, 1) 0%,
+            rgba(135, 2, 35, 1) 90%
+          );
+        }
+        &.block4 {
+          background-image: radial-gradient(
+            circle farthest-corner at -1% 57.5%,
+            rgba(19, 170, 82, 1) 0%,
+            rgba(0, 102, 43, 1) 90%
+          );
+        }
+        .left_block_statistic {
+          display: flex;
+          flex-direction: column;
+          width: 80%;
+          font-size: 14px;
+          // justify-content: space-between;
+          .price_today {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 22px;
+          }
+        }
+        .right_block_statistic {
+          text-align: center;
+          width: 20%;
+          i {
+            font-size: 30px;
+          }
+        }
+      }
+    }
+    .search_statistic {
+      margin-bottom: 10px;
+      .searchDay {
+        padding: 10px 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        //
+        margin-right: 30px;
+        padding-top: 20px;
+        .idCoupon {
+          border: 1px solid rgb(167, 167, 167);
+          width: 100%;
+          border-radius: 4px;
+          padding: 10px;
+        }
+      }
+      .filterQuater {
+        padding: 10px 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        margin-right: 30px;
+        width: 250px;
+      }
+    }
+    .list_table {
+      width: 100%;
+      display: flex;
+      height: 370px;
+
+      .list_product_left {
+        width: 48%;
+        margin-right: 30px;
+
+        .list_product_frame {
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(
+            359.8deg,
+            rgba(252, 255, 222, 1) 2.2%,
+            rgba(182, 241, 171, 1) 99.3%
+          );
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          border-radius: 10px;
+          padding: 10px 15px;
+          .title_item_product {
+            // background: red;
+            font-weight: 500;
+            border-bottom: 1px solid rgb(204, 204, 204);
+            padding: 5px 0px;
+
+            .title_top {
+              width: 5%;
+            }
+            .title_name_product {
+              width: 45%;
+            }
+            .title_quantityPurchase {
+              width: 25%;
+            }
+            .title_quantityStock {
+              width: 25%;
+            }
+          }
+          .list_item_product {
+            height: 85%;
+            overflow-y: auto;
+            .item_product {
+              width: 100%;
+              padding: 10px 0px;
+              border-bottom: 1px solid rgb(233, 233, 233);
+              .top {
+                width: 5%;
+                padding-right: 10px;
+              }
+              .image {
+                padding-right: 10px;
+                img {
+                  width: 110%;
+                  height: 80px;
+                }
+              }
+              .name_product {
+                width: 45%;
+                padding-right: 50px;
+              }
+              .quantityPurchase {
+                width: 25%;
+                padding-right: 50px;
+              }
+              .quantityStock {
+                width: 25%;
+                padding-right: 20px;
+              }
+            }
+          }
+        }
+      }
+      .list_order_right {
+        width: 50%;
+        .list_order_frame {
+          width: 100%;
+          height: 100%;
+          background-image: linear-gradient(
+            359.8deg,
+            rgba(252, 255, 222, 1) 2.2%,
+            rgba(182, 241, 171, 1) 99.3%
+          );
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          border-radius: 10px;
+          padding: 10px 15px;
+          .title_item_order {
+            // background: red;
+            font-weight: 500;
+            border-bottom: 1px solid rgb(204, 204, 204);
+            padding: 5px 0px;
+            .title_top {
+              width: 5%;
+            }
+            .title_id_order {
+              width: 20%;
+            }
+            .title_totalMoney {
+              width: 25%;
+            }
+            .title_nameCustomer {
+              width: 25%;
+            }
+            .title_createDate {
+              width: 25%;
+            }
+          }
+          .list_item_order {
+            height: 85%;
+            overflow-y: auto;
+            .item_order {
+              width: 100%;
+              padding: 10px 0px;
+              border-bottom: 1px solid rgb(233, 233, 233);
+              .top {
+                width: 5%;
+              }
+              .id_order {
+                width: 20%;
+              }
+              .totalMoney {
+                width: 25%;
+                padding-left: 15px;
+              }
+              .nameCustomer {
+                width: 25%;
+              }
+              .createDate {
+                width: 25%;
+                font-size: 16px;
+                padding-left: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

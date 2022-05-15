@@ -7,6 +7,9 @@ import FormDeleteProduct from "../../FormDeleteProduct/FormDeleteProduct";
 import productAdminApi from "api/admin/productAdminApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 function ItemProductAdmin(props) {
   let navigate = useNavigate();
@@ -61,6 +64,10 @@ function ItemProductAdmin(props) {
               dispatch({
                 type: ACTIOS.loadingAllProduct,
                 payload: false,
+              });
+              toast.success("Bán lại thành công", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
               });
             } catch (error) {
               console.log(error);
@@ -133,13 +140,19 @@ function ItemProductAdmin(props) {
                   <i className="fas fa-ellipsis-h"></i>
                   <ul className={`${style.dropdown} `}>
                     <li onClick={handleLinkProductDetail}>
-                      <a>Xem chi tiết</a>
+                      <a>
+                        <i class="fas fa-info"></i>Xem chi tiết
+                      </a>
                     </li>
                     <li onClick={handleShowFormUpdateProduct}>
-                      <a>Cập nhật</a>
+                      <a>
+                        <i class="fas fa-wrench"></i>Cập nhật
+                      </a>
                     </li>
                     <li onClick={handleShowFormDeleteProduct}>
-                      <a>Ngừng bán</a>
+                      <a>
+                        <i class="fas fa-trash"></i>Ngừng bán
+                      </a>
                     </li>
                   </ul>
                 </li>

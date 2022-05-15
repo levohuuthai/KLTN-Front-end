@@ -33,7 +33,7 @@ const FormDelete = (props) => {
       setIsOpenForm("");
     }
   }, [props.isOpenFormDelete]);
-  console.log(dataDeleteApi);
+
   const handleDelete = (event) => {
     event.preventDefault();
     const fetchRequestDelete = async () => {
@@ -51,15 +51,17 @@ const FormDelete = (props) => {
           const fetchRequestGet = async () => {
             try {
               const requestGet = await methodGetApi(dataGetApi);
-              console.log(requestGet);
-              dispatch({
-                type: action,
-                payload: requestGet.data?.products,
-              });
-              //   dispatch({
-              //     type: ACTIOS.loading,
-              //     payload: false,
-              //   });
+              if (action === "dataAllUser") {
+                dispatch({
+                  type: action,
+                  payload: requestGet.data?.users,
+                });
+              } else if (action === "dataWishList") {
+                dispatch({
+                  type: action,
+                  payload: requestGet.data?.products,
+                });
+              }
             } catch (error) {
               console.log(error);
             }
@@ -71,18 +73,6 @@ const FormDelete = (props) => {
       }
     };
     fetchRequestDelete();
-    // const fetchRequestDelete = async () => {
-    //   try {
-    //     const requestDelete = await wishlishApi.deleteWishList(
-    //       props.idUser,
-    //       props.idData
-    //     );
-    //     console.log(requestDelete);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchRequestDelete();
   };
 
   return (

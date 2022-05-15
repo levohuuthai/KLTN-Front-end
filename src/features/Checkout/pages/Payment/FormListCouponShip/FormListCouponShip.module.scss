@@ -67,8 +67,10 @@
     }
     .body {
       width: 100%;
-      height: 70px;
+      // height: 70px;
       padding: 10px 10px;
+      height: 90%;
+      overflow-y: auto;
       .listCoupon {
         .item_coupon {
           display: flex;

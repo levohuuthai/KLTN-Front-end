@@ -1,10 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "../ListUserAdmin.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import productAdminApi from "api/admin/productAdminApi";
 import userAdminApi from "api/admin/userAdminApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
+import FormDelete from "components/FormDelete/FormDelete";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 function ItemUserAdmin(props) {
   const [activeDropdown, setActiveDropdown] = useState(false);
@@ -68,6 +71,10 @@ function ItemUserAdmin(props) {
                 type: ACTIOS.dataAllUser,
                 payload: requestGetAllUser.data.users,
               });
+              toast.success("Mở khóa thành công", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+              });
             } catch (error) {
               console.log(error);
             }
@@ -80,68 +87,95 @@ function ItemUserAdmin(props) {
     };
     fetchRequestLockedUser();
   };
-  // console.log(props.data);
+  const [isOpenFormDelete, seIsOpenFormDelete] = useState(false);
+  const handleShowFormDeleteWishList = () => {
+    seIsOpenFormDelete(true);
+  };
+  const falseFromLogOut = () => {
+    seIsOpenFormDelete(false);
+  };
   return (
-    <div
-      className={`${style.item_product} d-flex justify-content-between align-items-center`}
-    >
+    <>
       <div
-        className={`${
-          props.data.active === false ? style.locked_backdrop : ""
-        }`}
-      ></div>
-      {props.data.active === false && (
-        <div className={style.cover_notify}>
-          <div className={style.notify_locked}>Đã khóa</div>
-        </div>
-      )}
-      {props.data.active === false && (
-        <div className={style.button_unlock} onClick={handleUnLockedAccount}>
-          Mở khóa
-        </div>
-      )}
-      <p className={`${style.image_item_product}`}>
-        <img src={props.data.avatar}></img>
-      </p>
-      <span
-        className={`${style.name_item}  d-flex justify-content-center flex-column`}
+        className={`${style.item_product} d-flex justify-content-between align-items-center`}
       >
-        {props.data.userName}
-      </span>
-      <span className={`${style.phone} d-flex justify-content-center`}>
-        {props.data.phone}
-      </span>
-      <span className={`${style.status} d-flex justify-content-center`}>
-        {props.data.active === false ? "Không hoạt động" : "Hoạt động"}
-      </span>
-      <div className={`${style.create_date} d-flex justify-content-center`}>
-        <span>
-          {day} - {month} - {year}
+        <div
+          className={`${
+            props.data.active === false ? style.locked_backdrop : ""
+          }`}
+        ></div>
+        {props.data.active === false && (
+          <div className={style.cover_notify}>
+            <div className={style.notify_locked}>Đã khóa</div>
+          </div>
+        )}
+        {props.data.active === false && (
+          <div className={style.button_unlock} onClick={handleUnLockedAccount}>
+            Mở khóa
+          </div>
+        )}
+        <p className={`${style.image_item_product}`}>
+          <img src={props.data.avatar}></img>
+        </p>
+        <span
+          className={`${style.name_item}  d-flex justify-content-center flex-column`}
+        >
+          {props.data.userName}
+        </span>
+        <span className={`${style.phone} d-flex justify-content-center`}>
+          {props.data.phone}
+        </span>
+
+        <div className={`${style.create_date} d-flex justify-content-center`}>
+          <span>
+            {day}-{month}-{year}
+          </span>
+        </div>
+        <span className={`${style.close} d-flex justify-content-center`}>
+          <div className={style.delete}>
+            <nav>
+              <ul>
+                <li
+                  className={`${style.ItemDelete} ${
+                    activeDropdown ? style.active : ""
+                  } `}
+                  onClick={handleActiveDropdown}
+                >
+                  <i className="fas fa-ellipsis-h"></i>
+                  <ul
+                    className={`${style.dropdown} `}
+                    // onClick={handleLockedAccount}
+                  >
+                    <li onClick={handleShowFormDeleteWishList}>
+                      Khóa tài khoản
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
         </span>
       </div>
-      <span className={`${style.close} d-flex justify-content-center`}>
-        <div className={style.delete}>
-          <nav>
-            <ul>
-              <li
-                className={`${style.ItemDelete} ${
-                  activeDropdown ? style.active : ""
-                } `}
-                onClick={handleActiveDropdown}
-              >
-                <i className="fas fa-ellipsis-h"></i>
-                <ul
-                  className={`${style.dropdown} `}
-                  onClick={handleLockedAccount}
-                >
-                  <li>Khóa tài khoản</li>
-                </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </span>
-    </div>
+      <FormDelete
+        isOpenFormDelete={isOpenFormDelete}
+        onFormFalse={falseFromLogOut}
+        methodDeleteApi={userAdminApi.lockedUser}
+        dataDeleteApi={props.data._id}
+        data2DeleteApi=""
+        methodGetApi={userAdminApi.getAllUserToLocked}
+        dataGetApi={{
+          _page: state.filterPaginationAllUser._page,
+          _limit: state.filterPaginationAllUser._limit,
+        }}
+        action={ACTIOS.dataAllUser}
+      >
+        Bạn có muốn khóa
+        <b>
+          <i> tài khoản </i>
+        </b>
+        này khỏi danh sách yêu thích
+      </FormDelete>
+    </>
   );
 }
 

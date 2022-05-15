@@ -52,6 +52,19 @@ function MyOrderDetail(props) {
       year: date.getFullYear(),
     });
   }, [dataOrder]);
+  const [tempTotalMoney, setTempTotalMoney] = useState();
+
+  const handleReceiveTemTotal = (data) => {
+    // setTempTotalMoney(data);
+  };
+  useEffect(() => {
+    var rs = dataOrder.products.reduce((acc, val) => {
+      return acc + val.priceAfter * val.quantity;
+    }, 0);
+    setTempTotalMoney(rs);
+  }, [dataOrder]);
+  console.log(tempTotalMoney);
+
   return (
     <div>
       {/* <div className={`${style.background_slider} `}>
@@ -121,13 +134,45 @@ function MyOrderDetail(props) {
               {arrProductOrderDetail?.map((data, idx) => {
                 return (
                   <div key={idx}>
-                    <ItemProductOrderDetail data={data} dataOrder={dataOrder}/>
+                    <ItemProductOrderDetail
+                      data={data}
+                      dataOrder={dataOrder}
+                      onReceiveTempTotal={handleReceiveTemTotal}
+                    />
                   </div>
                 );
               })}
             </div>
             <div className={style.totalMoney}>
-              <span className={style.title_total}>Tổng cộng</span>
+              <span className={style.title_total}>Tạm tính</span>
+              <span className={style.total}>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(tempTotalMoney)}
+              </span>
+            </div>
+            <div className={style.totalMoney}>
+              <span className={style.title_total}>Phí vận chuyển</span>
+              <span className={style.total}>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(dataOrder?.priceShip)}
+              </span>
+            </div>
+            <div className={style.totalMoney}>
+              <span className={style.title_total}>Giảm giá</span>
+              <span className={style.total}>
+                -{" "}
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(dataOrder?.discountProduct + dataOrder?.discountShip)}
+              </span>
+            </div>{" "}
+            <div className={style.totalMoney}>
+              <span className={style.title_total}>Thành tiền</span>
               <span className={style.total}>
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",

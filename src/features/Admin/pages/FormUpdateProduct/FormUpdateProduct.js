@@ -235,7 +235,8 @@ function FormUpdateProduct(props) {
               </Typography>
               <div className={style.image_product_group}>
                 <span className={style.select}>
-                  Chọn tệp
+                  <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
+                  Chọn ảnh
                   <input type="file" onChange={handleAddImageFront} multiple />
                 </span>
                 <div className={style.image_product}>
@@ -249,7 +250,8 @@ function FormUpdateProduct(props) {
               </Typography>
               <div className={style.image_product_group}>
                 <span className={style.select}>
-                  Chọn tệp
+                  <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
+                  Chọn ảnh
                   <input
                     type="file"
                     onChange={handleAddImageBack}

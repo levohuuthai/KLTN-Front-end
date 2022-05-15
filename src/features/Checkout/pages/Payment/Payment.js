@@ -146,8 +146,8 @@ function Payment(props) {
     const fetchUseCouponShip = async () => {
       try {
         const requestUseCoupon = await couponApi.useCoupon(
-          loggedInUser._id,
-          dataCouponShip._id
+          loggedInUser?._id,
+          dataCouponShip?._id
         );
       } catch (error) {
         console.log(error);
@@ -158,9 +158,10 @@ function Payment(props) {
     const fetchUseCouponProduct = async () => {
       try {
         const requestUseCoupon = await couponApi.useCoupon(
-          loggedInUser._id,
-          dataCouponProduct._id
+          loggedInUser?._id,
+          dataCouponProduct?._id
         );
+        console.log(requestUseCoupon);
       } catch (error) {
         console.log(error);
       }
@@ -190,6 +191,7 @@ function Payment(props) {
             dataCouponProduct?.discount === undefined
               ? 0
               : dataCouponProduct?.discount,
+          priceShip: priceShipByProvince,
         });
         localStorage.removeItem("dataCoupon");
         localStorage.removeItem("dataCouponShip");

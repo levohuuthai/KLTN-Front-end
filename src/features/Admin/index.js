@@ -10,7 +10,10 @@ import ListProductAdmin from "./pages/ListProductAdmin/ListProductAdmin";
 import ListProductDetailAdmin from "./pages/ListProductDetailAdmin/ListProductDetailAdmin";
 import ListTypeProductAdmin from "./pages/ListTypeProductAdmin/ListTypeProductAdmin";
 import ListUserAdmin from "./pages/ListUserAdmin/ListUserAdmin";
+import ListMess from "./pages/ListMess/ListMess";
+
 import UpdateProductAdmin from "./pages/UpdateProductAdmin/UpdateProductAdmin";
+import Statistic from "./pages/Statistic/Statistic";
 
 function Admin(props) {
   return (
@@ -26,7 +29,9 @@ function Admin(props) {
         <Route path="/listypeproduct" element={<ListTypeProductAdmin />} />{" "}
         <Route path="/listorder" element={<ListOrderAdmin />} />{" "}
         <Route path="/listorderDetail" element={<ListOrderDetailAdmin />} />{" "}
-        <Route path="/listcoupon" element={<ListCoupon />} />
+        <Route path="/listcoupon" element={<ListCoupon />} />{" "}
+        <Route path="/listmess" element={<ListMess />} />{" "}
+        <Route path="/statistic" element={<Statistic />} />
       </Routes>
       {/* <AsideAdmin /> */}
     </div>

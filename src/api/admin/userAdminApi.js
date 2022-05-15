@@ -18,6 +18,22 @@ const userAdminApi = {
       },
     };
   },
+  async getAllUserToLocked(data) {
+    const _page = data._page;
+    const _limit = data._limit;
+    const getAllUser = await axiosClient.get("/users", {
+      params: { _page, _limit },
+    });
+    const count = await axiosClient.get("/users");
+    return {
+      data: getAllUser.data,
+      pagination: {
+        page: _page,
+        limit: _limit,
+        total: count.data.users.length,
+      },
+    };
+  },
   async getUserByPhone(phone) {
     const url = "/users/GetUserByPhone";
     return axiosClient.post(url, { phone: phone });

@@ -177,9 +177,8 @@
         margin-right: 20px;
         .frameAdress {
           background: #fff;
-          padding: 10px;
           border-radius: 5px;
-          padding: 10px 20px;
+          padding: 5px 20px;
           background: #fff;
           border-radius: 10px;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -192,14 +191,14 @@
           background: #fff;
           border-radius: 10px;
           box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-          height: 95px;
+          height: 85px;
           border-radius: 5px;
         }
       }
     }
 
     .list_product_order_frame {
-      padding: 10px 20px;
+      padding: 5px 20px;
       background: #fff;
       border-radius: 10px;
       box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -232,12 +231,12 @@
         background: #fff;
         width: 100%;
         margin-top: 0px;
-        height: 270px;
+        height: 255px;
         overflow-y: auto;
         .item_product_order {
           border-bottom: 1px solid rgb(224, 224, 224);
           border-top: 1px solid rgb(224, 224, 224);
-          padding: 20px 0px;
+          padding: 15px 0px;
           .image_item_order {
             display: flex;
             width: 230px;
@@ -338,16 +337,22 @@
         justify-content: flex-end;
         margin-top: 10px;
         margin-right: 80px;
+        position: relative;
         .total {
-          margin-left: 120px;
+          margin-left: 100px;
           color: rgb(255, 59, 39);
           font-size: 18px;
           font-weight: 500;
+          text-align: right;
         }
         .title_total {
           color: rgb(120, 120, 120);
           font-size: 16px;
           font-weight: 500;
+          width: 100%;
+          text-align: left;
+          position: absolute;
+          right: 100px;
         }
       }
     }

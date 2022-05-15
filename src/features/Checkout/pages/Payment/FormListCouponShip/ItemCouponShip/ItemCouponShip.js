@@ -31,14 +31,18 @@ function ItemCoupon(props) {
   }, [, localStorage.getItem("dataCouponShip")]);
   const { dispatch, state } = useContext(GlobalContext);
   const [notCondition, setNotCondition] = useState(false);
-  useEffect(() => {
-    var rs = state.dataCart.reduce((acc, val) => {
+  useEffect(async () => {
+    var rs = await state.dataCart.reduce((acc, val) => {
       return acc + val.product.priceAfter * val.product.quantity;
     }, 0);
+
     if (rs < props.data?.priceToDiscount) {
-      setNotCondition(true);
+      // console.log("haha");
+      await setNotCondition(true);
     }
   }, [state.dataCart]);
+  console.log(notCondition);
+
   return (
     <div
       className={`${style.item_coupon} ${
