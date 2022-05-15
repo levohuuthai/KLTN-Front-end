@@ -174,6 +174,21 @@ const reducer = (state, action) => {
         ...state,
         dataAllCoupon: action.payload,
       };
+    case ACTIOS.arrayMess:
+      return {
+        ...state,
+        arrayMess: action.payload,
+      };
+    case ACTIOS.arrayChat:
+      return {
+        ...state,
+        arrayChat: action.payload,
+      };
+    case ACTIOS.dataBoxChat:
+      return {
+        ...state,
+        dataBoxChat: action.payload,
+      };
     // case ACTIOS.dataProductSearch:
     //   return {
     //     ...state,

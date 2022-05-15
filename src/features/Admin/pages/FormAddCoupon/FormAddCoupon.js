@@ -16,6 +16,9 @@ import axios from "axios";
 import couponAdminApi from "api/admin/couponAdminApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -58,7 +61,7 @@ function FormAddCoupon(props) {
   });
   const [type, setType] = useState({ value: "", errorType: undefined });
   const [count, setCount] = useState({ value: "", errorCount: undefined });
-  const [endDate, setEndDate] = useState({ value: "" });
+  const [endDate, setEndDate] = useState({ value: new Date() });
 
   const handleType = (e) => {
     if (e.target.value === "") {
@@ -210,6 +213,23 @@ function FormAddCoupon(props) {
           });
           if (requestAddCoupon.status === 200) {
             props.onFormFalse(false);
+            toast.success("Thêm mã giảm giá thành công", {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              autoClose: 2000,
+            });
+            const fetchRequestGetAllCoupon = async () => {
+              try {
+                const requestGetAllCoupon =
+                  await couponAdminApi.getAllCouponAdmin();
+                dispatch({
+                  type: ACTIOS.dataAllCoupon,
+                  payload: requestGetAllCoupon.data,
+                });
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            fetchRequestGetAllCoupon();
           }
         } catch (error) {
           console.log(error);
@@ -225,11 +245,12 @@ function FormAddCoupon(props) {
   var month = pad2(date.getMonth() + 1); //months (0-11)
   var day = pad2(date.getDate()); //day (1-31)
   var year = date.getFullYear();
+  var hour = date.getHours();
+  var minute = date.getMinutes();
 
-  var formattedDate = day + "-" + month + "-" + year;
-
-  const handleEndDate = (value, e) => {
-    setEndDate({ value: value });
+  const handleEndDate = (time) => {
+    console.log(time);
+    setEndDate({ value: time });
   };
 
   return (
@@ -354,14 +375,10 @@ function FormAddCoupon(props) {
               Ngày hết hạn <span style={{ type: "red" }}>*</span>
             </Typography>
             <DatePicker
-              value={formattedDate}
-              //   selected={new Date()}
+              showTimeSelect
+              selected={endDate.value}
               onChange={handleEndDate}
-              dateFormat="dd/MM/yyyy"
-              placeholderText="dd/mm/yyyy"
-              //   onFocus={InputHandler}
-              minDate={new Date()}
-              id="birthday"
+              dateFormat="dd/MM/yyyy HH:mm:ss"
             ></DatePicker>
           </div>
           <div className="d-flex justify-content-center">

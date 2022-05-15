@@ -75,6 +75,7 @@ const FormListCoupon = (props) => {
         const requestGetAllCouponOfUser = await couponApi.getCouponOfUser(
           loggedInUser._id
         );
+        console.log(requestGetAllCouponOfUser);
         setArrAllCouponProduct(
           requestGetAllCouponOfUser.data.listCouponProduct
         );

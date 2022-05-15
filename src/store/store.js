@@ -37,8 +37,11 @@ export const DataProvider = ({ children }) => {
     dataAllTypeProduct: [],
     dataAllOrder: [],
     filterPaginationAllOrder: { _page: 1, _limit: 2 },
-    dataAllOrderDetail: [],
+    dataAllOrderDetail: [], //chua dung
     dataAllCoupon: [],
+    arrayMess: [],
+    arrayChat: [],
+    dataBoxChat: {},
   };
 
   const [state, dispatch] = useReducer(reducers, initalState);

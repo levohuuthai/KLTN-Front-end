@@ -95,11 +95,7 @@ function CartSkeletonPage({ length }) {
                 height={15}
                 className={classes.totalProduct}
               />
-              {/* <div className={`${classes.box2} `}>
-                <Skeleton width="2700%" height={15} />
-                <Skeleton width="2700%" height={15} />
-                <Skeleton width="2700%" height={15} />
-              </div>{" "} */}
+           
               <Skeleton
                 variant="circle"
                 width={15}

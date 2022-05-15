@@ -32,7 +32,7 @@ function Coupon(props) {
       <div className={`nextElProductCoupon ${style.nextElCoupon}`}></div>
       <Swiper
         className="position-relative"
-        style={{ margin: "0px 120px", padding: "10px 0px" }}
+        style={{ margin: "0px 70px", padding: "10px 0px" }}
         modules={[Autoplay, Navigation]}
         slidesPerView={3}
         spaceBetween={70}

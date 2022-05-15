@@ -32,31 +32,44 @@
       }
     }
     .searchListorder {
-      padding: 10px 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
       margin-bottom: 20px;
-      .searchPhoneorder {
-        margin-right: 30px;
-        .phoneorder {
-          border: 1px solid rgb(167, 167, 167);
-          width: 100%;
-          border-radius: 4px;
-          padding: 10px;
+      width: 100%;
+      .search_input {
+        padding: 10px 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        width: 50%;
+        margin-right: 20px;
+        .searchPhoneorder {
+          margin-right: 30px;
+          .phoneorder {
+            border: 1px solid rgb(167, 167, 167);
+            width: 100%;
+            border-radius: 4px;
+            padding: 10px;
+          }
+        }
+        .searchIdOrder {
+          margin-right: 30px;
+          .idOrder {
+            border: 1px solid rgb(167, 167, 167);
+            width: 100%;
+            border-radius: 4px;
+            padding: 10px;
+          }
         }
       }
-      .searchIdOrder {
-        margin-right: 30px;
-        .idOrder {
-          border: 1px solid rgb(167, 167, 167);
-          width: 100%;
-          border-radius: 4px;
-          padding: 10px;
+      .search_filter {
+        padding: 10px 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        width: 50%;
+
+        .filterOrder {
+          margin-right: 30px;
         }
-      }
-      .filterOrder {
-        margin-right: 30px;
       }
     }
     .listorder {
@@ -201,7 +214,7 @@
         }
         i {
           font-size: 16px;
-          padding: 5px 8px;
+          padding: 0px 8px;
           border-radius: 4px;
           opacity: 1;
           &:hover {
@@ -212,8 +225,8 @@
           position: absolute;
           bottom: 0%;
           left: 40%;
-          width: 170px;
-          height: 90px;
+          width: 190px;
+          height: 50px;
           box-shadow: rgba(17, 17, 26, 0.2) 0px 4px 16px,
             rgba(17, 17, 26, 0.05) 0px 8px 32px;
           display: flex;

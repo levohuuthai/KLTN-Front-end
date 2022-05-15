@@ -225,8 +225,6 @@ function FormUpdateProduct(props) {
         console.log("Khong Gui dc", aa);
       });
   };
-  console.log(props.dataProductDetail);
-  console.log(props.dataProduct);
   return (
     <div className={style.modalView}>
       <div className={`${style.backdropViewInformation} ${isOpenForm}`}></div>

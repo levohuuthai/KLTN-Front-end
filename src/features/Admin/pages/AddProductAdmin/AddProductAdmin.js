@@ -728,8 +728,15 @@ function AddProductAdmin(props) {
                     Hình ảnh trước <span style={{ color: "red" }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select}>
-                      Chọn tệp
+                    <span
+                      className={`${style.select}`}
+                      style={{ fontSize: "14px" }}
+                    >
+                      <i
+                        class="fas fa-camera"
+                        style={{ marginRight: "0px" }}
+                      ></i>{" "}
+                      Chọn ảnh
                       <input
                         type="file"
                         onChange={handleAddImageFront}
@@ -750,8 +757,12 @@ function AddProductAdmin(props) {
                     Hình ảnh sau <span style={{ color: "red" }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select}>
-                      Chọn tệp
+                    <span className={style.select} style={{ fontSize: "14px" }}>
+                      <i
+                        class="fas fa-camera"
+                        style={{ marginRight: "0px" }}
+                      ></i>{" "}
+                      Chọn ảnh
                       <input
                         type="file"
                         onChange={handleAddImageBack}
@@ -773,8 +784,12 @@ function AddProductAdmin(props) {
                     Hình ảnh chi tiết <span style={{ color: "red" }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select}>
-                      Chọn tệp
+                    <span className={style.select} style={{ fontSize: "14px" }}>
+                      <i
+                        class="fas fa-camera"
+                        style={{ marginRight: "0px" }}
+                      ></i>{" "}
+                      Chọn ảnh
                       <input
                         type="file"
                         onChange={handleAddImageDetail}

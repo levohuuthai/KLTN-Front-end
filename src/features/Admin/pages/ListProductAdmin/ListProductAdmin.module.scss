@@ -64,33 +64,37 @@
         font-size: 17px;
         .title_image_item {
           width: 15%;
+          text-align: center;
+          padding-right: 30px;
         }
         .title_name_item {
           width: 25%;
         }
         .title_brand {
-          width: 18%;
+          width: 10%;
         }
         .title_collar {
           width: 10%;
         }
         .title_fabricMaterial {
-          width: 20%;
+          width: 15%;
         }
         .title_origin {
-          width: 11%;
+          width: 15%;
         }
 
         .title_close {
-          width: 7%;
+          width: 10%;
+
+          padding-right: 40px;
         }
       }
       .list_item_product {
         padding: 0rem 1rem;
         background: #fff;
         width: 100%;
-        overflow-y: scroll;
-        height: 450px;
+        overflow-y: auto;
+        height: 430px;
         .item_product {
           padding: 10px 0;
           border-bottom: 1px solid rgb(212, 212, 212);
@@ -139,9 +143,22 @@
 
           .button_resell {
             position: absolute;
-            background: black;
+            background-image: linear-gradient(
+              to right,
+              #0ba360,
+              #3cba92,
+              #30dd8a,
+              #2bb673
+            );
+            border: none;
+            background-size: 300% 100%;
+            border-radius: 50px;
+            moz-transition: all 0.4s ease-in-out;
+            -o-transition: all 0.4s ease-in-out;
+            -webkit-transition: all 0.4s ease-in-out;
+            transition: all 0.4s ease-in-out;
             top: 50%;
-            left: 140px;
+            right: 10px;
             transform: translateY(-50%);
             width: 100px;
             height: 30px;
@@ -154,64 +171,54 @@
             cursor: pointer;
             transition: all 0.3s;
             &:hover {
-              background: #ba933e;
+              background-position: 100% 0;
+              moz-transition: all 0.4s ease-in-out;
+              -o-transition: all 0.4s ease-in-out;
+              -webkit-transition: all 0.4s ease-in-out;
+              transition: all 0.4s ease-in-out;
             }
           }
           p {
             margin-bottom: 0px;
           }
           .image_item_product {
-            width: 20%;
+            width: 15%;
             height: 90px;
-            padding-left: 20px;
-            // text-align: center;
-            // margin-left: -10px;
+            padding-right: 20px;
+            text-align: center;
             img {
               width: 60%;
               height: 100%;
             }
           }
           .name_item {
-            width: 32%;
+            width: 25%;
             text-align: center;
             font-weight: 500;
             color: #ba933e;
           }
           .brand {
-            width: 22%;
+            width: 10%;
+            padding-left: 15px;
           }
 
           .collar {
-            width: 15%;
+            width: 10%;
+            padding-left: 20px;
           }
           .fabricMaterial {
-            width: 25%;
+            width: 15%;
+
+            padding-left: 20px;
           }
           .origin {
-            width: 18%;
-            .quantity {
-              //   border: 1px solid black;
-              padding: 5px 10px;
-              display: flex;
-              background: #f5f5fa;
-
-              input {
-                width: 40px;
-                font-size: 18px;
-                // font-weight: 700;
-                text-align: center;
-              }
-              span {
-                // padding: 0.5rem;
-                font-size: 18px;
-                font-weight: 700;
-                cursor: pointer;
-              }
-            }
+            width: 15%;
+            padding-left: 30px;
           }
           .close {
-            width: 3%;
+            width: 10%;
             cursor: pointer;
+            padding-left: 15px;
             position: relative;
             // z-index: 111;
           }
@@ -259,13 +266,13 @@
           position: absolute;
           bottom: 0%;
           left: 40%;
-          width: 130px;
-          height: 130px;
+          width: 160px;
+          height: 150px;
           box-shadow: rgba(17, 17, 26, 0.2) 0px 4px 16px,
             rgba(17, 17, 26, 0.05) 0px 8px 32px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          justify-content: center;
           background: white;
           transform: translateX(-100%) translateY(100%);
           z-index: 9999;

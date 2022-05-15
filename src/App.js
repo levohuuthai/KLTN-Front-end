@@ -1,6 +1,6 @@
 import "./App.css";
 import { Routes, Route, Redirect, useLocation } from "react-router-dom";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import Home from "features/Home";
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";

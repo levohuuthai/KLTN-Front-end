@@ -12,7 +12,7 @@ import { ACTIOS } from "store/actions";
 import Loading from "components/Loading";
 import { Pagination } from "@material-ui/lab";
 import productAdminApi from "api/admin/productAdminApi";
-import { makeStyles } from "@material-ui/styles";
+import { Button, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   ul: {
@@ -23,6 +23,38 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiPaginationItem-page.Mui-selected": {
       background: "#ba933e",
       color: "#fff",
+    },
+  },
+  search: {
+    background: "black",
+    width: "100px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "30px",
+    marginLeft: "20px",
+    // fontSize: "15px",
+    fontWeight: "500",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
+    },
+  },
+  searchAll: {
+    background: "black",
+    width: "200px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "25px",
+    marginLeft: "640px",
+    fontSize: "15px",
+    fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
     },
   },
 }));
@@ -78,28 +110,71 @@ function ListProductAdmin(props) {
   };
 
   const [title, setTitle] = useState("");
+  const [loadingSearch, setLoadingSearch] = useState(false);
+
   const handleSearchTitle = (e) => {
     setTitle(e.target.value);
+    // const fetchRequestGetProductByTitle = async () => {
+    //   try {
+    //     const requestGetAllProduct =
+    //       await productAdminApi.getAllProductBySearchTitle(
+    //         e.target.value,
+    //         state.filterPagination._page,
+    //         state.filterPagination._limit
+    //       );
+    //     console.log(requestGetAllProduct);
+    //     dispatch({
+    //       type: ACTIOS.dataAllProduct,
+    //       payload: requestGetAllProduct.data,
+    //     });
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchRequestGetProductByTitle();
+  };
+  const handleSearch = () => {
+    setLoadingSearch(true);
     const fetchRequestGetProductByTitle = async () => {
       try {
         const requestGetAllProduct =
           await productAdminApi.getAllProductBySearchTitle(
-            e.target.value,
+            title,
             state.filterPagination._page,
             state.filterPagination._limit
           );
-        console.log(requestGetAllProduct);
         dispatch({
           type: ACTIOS.dataAllProduct,
           payload: requestGetAllProduct.data,
         });
+        setLoadingSearch(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchRequestGetProductByTitle();
   };
-
+  const [loadingAll, setLoadingAll] = useState(false);
+  const handleLoadingAll = () => {
+    setLoadingAll(true);
+    const fetchRequestGetAllProduct = async () => {
+      try {
+        const requestGetAllProduct = await productAdminApi.getAllProduct(
+          state.filterPagination._page,
+          state.filterPagination._limit
+        );
+        setPagination(requestGetAllProduct.pagination);
+        dispatch({
+          type: ACTIOS.dataAllProduct,
+          payload: requestGetAllProduct.data,
+        });
+        setLoadingAll(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllProduct();
+  };
   return (
     <div className="d-flex wrap">
       <AsideAdmin />
@@ -108,6 +183,7 @@ function ListProductAdmin(props) {
           <div className={style.title_add_listproduct}>
             <span className={style.title_listproduct}>Danh sách sản phẩm</span>
             <span className={style.add_product} onClick={handleLinkAddProduct}>
+              <i class="fas fa-plus-circle" style={{ marginRight: "10px" }}></i>
               Tạo mới
             </span>
           </div>
@@ -122,10 +198,54 @@ function ListProductAdmin(props) {
                 value={title}
               ></input>
             </div>
+            <div>
+              <Button
+                type="submit"
+                className={classes.search}
+                onClick={handleSearch}
+              >
+                {loadingSearch ? (
+                  <div
+                    class="spinner-border"
+                    role="status"
+                    style={{ width: "22px", height: "22px" }}
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    <i class="fas fa-search" style={{ marginRight: "5px" }}></i>
+                    Tìm
+                  </>
+                )}
+              </Button>
+            </div>
+            <div>
+              <Button
+                type="submit"
+                className={classes.searchAll}
+                onClick={handleLoadingAll}
+              >
+                {loadingAll ? (
+                  <div
+                    class="spinner-border"
+                    role="status"
+                    style={{ width: "22px", height: "22px" }}
+                  >
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  <>
+                    <i class="fas fa-gift" style={{ marginRight: "10px" }}></i>
+                    Hiển thị toàn bộ
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
           <div className={style.listproduct}>
             <div className={style.title_item_product}>
-              <span className={style.title_image_item}>Tất cả(1 sản phẩm)</span>
+              <span className={style.title_image_item}>Hình ảnh</span>
               <span
                 className={`${style.title_name_item}  d-flex justify-content-center`}
               >

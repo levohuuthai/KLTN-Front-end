@@ -6,7 +6,7 @@ import orderAdminApi from "api/admin/orderAdminApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import { Pagination } from "@material-ui/lab";
-import { makeStyles } from "@material-ui/styles";
+import { Button, makeStyles } from "@material-ui/core";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 
@@ -17,11 +17,27 @@ const useStyles = makeStyles((theme) => ({
       color: "#fff",
     },
   },
+  search: {
+    background: "black",
+    width: "100px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "30px",
+    marginLeft: "0px",
+    fontSize: "15px",
+    fontWeight: "500",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
+    },
+  },
 }));
 function ListOrderAdmin(props) {
   const classes = useStyles();
   const [phone, setPhone] = useState("");
   const [idOrder, setIdOrder] = useState("");
+  const [loadingSearch, setLoadingSearch] = useState(false);
   const { dispatch, state } = useContext(GlobalContext);
   const [pagination, setPagination] = useState({
     limit: 2,
@@ -52,76 +68,9 @@ function ListOrderAdmin(props) {
 
   const handleSearchIdOrder = (e) => {
     setIdOrder(e.target.value);
-    const fetchRequestGetOrderById = async () => {
-      try {
-        const requestGetOrderById = await orderAdminApi.getOrderById(
-          e.target.value
-        );
-        console.log(requestGetOrderById);
-        // if (requestGetUserByName.data.users.length !== 0) {
-        //   dispatch({
-        //     type: ACTIOS.dataAllUser,
-        //     payload: requestGetUserByName.data.users,
-        //   });
-        // } else {
-        //   const fetchRequestGetAllOrder = async () => {
-        //     try {
-        //       const requestGetAllOrder = await orderAdminApi.getAllOrder(
-        //         state.filterPaginationAllOrder._page,
-        //         state.filterPaginationAllOrder._limit
-        //       );
-        //       setPagination(requestGetAllOrder.pagination);
-        //       dispatch({
-        //         type: ACTIOS.dataAllOrder,
-        //         payload: requestGetAllOrder.data,
-        //       });
-        //     } catch (error) {
-        //       console.log(error);
-        //     }
-        //   };
-        //   fetchRequestGetAllOrder();
-        // }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchRequestGetOrderById();
   };
   const handleSearchPhone = (e) => {
     setPhone(e.target.value);
-    const fetchRequestGetOrderByPhone = async () => {
-      try {
-        const requestGetOrderByPhone = await orderAdminApi.getOrderByPhone(
-          e.target.value
-        );
-        // console.log(requestGetOrderByPhone.status === 200);
-        if (requestGetOrderByPhone.status === 200) {
-          dispatch({
-            type: ACTIOS.dataAllOrder,
-            payload: requestGetOrderByPhone.data,
-          });
-        }
-      } catch (error) {
-        console.log(error);
-        const fetchRequestGetAllOrder = async () => {
-          try {
-            const requestGetAllOrder = await orderAdminApi.getAllOrder(
-              state.filterPaginationAllOrder._page,
-              state.filterPaginationAllOrder._limit
-            );
-            setPagination(requestGetAllOrder.pagination);
-            dispatch({
-              type: ACTIOS.dataAllOrder,
-              payload: requestGetAllOrder.data,
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        fetchRequestGetAllOrder();
-      }
-    };
-    fetchRequestGetOrderByPhone();
   };
   const handlePageChange = (e, page) => {
     dispatch({
@@ -130,6 +79,7 @@ function ListOrderAdmin(props) {
     });
   };
   const [dayFilter, setDayFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
 
   const handleFilter = (e) => {
     setDayFilter(e.target.value);
@@ -153,7 +103,55 @@ function ListOrderAdmin(props) {
     };
     fetchRequestGetAllOrder();
   };
+  const handleFilterStatus = (e) => {
+    setStatusFilter(e.target.value);
+  };
+  const handleSearch = () => {
+    setLoadingSearch(true);
 
+    const fetchRequestGetOrderById = async () => {
+      try {
+        const requestGetOrderById = await orderAdminApi.getOrderById(idOrder);
+        console.log(requestGetOrderById);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetOrderById();
+    const fetchRequestGetOrderByPhone = async () => {
+      try {
+        const requestGetOrderByPhone = await orderAdminApi.getOrderByPhone(
+          phone
+        );
+        // console.log(requestGetOrderByPhone.status === 200);
+        if (requestGetOrderByPhone.status === 200) {
+          dispatch({
+            type: ACTIOS.dataAllOrder,
+            payload: requestGetOrderByPhone.data,
+          });
+          setLoadingSearch(false);
+        }
+      } catch (error) {
+        // const fetchRequestGetAllOrder = async () => {
+        //   try {
+        //     const requestGetAllOrder = await orderAdminApi.getAllOrder(
+        //       state.filterPaginationAllOrder._page,
+        //       state.filterPaginationAllOrder._limit
+        //     );
+        //     setPagination(requestGetAllOrder.pagination);
+        //     dispatch({
+        //       type: ACTIOS.dataAllOrder,
+        //       payload: requestGetAllOrder.data,
+        //     });
+        //   } catch (error) {
+        //     console.log(error);
+        //   }
+        // };
+        // fetchRequestGetAllOrder();
+      }
+    };
+    fetchRequestGetOrderByPhone();
+  };
   return (
     <div className="d-flex wrap">
       <AsideAdmin />
@@ -165,62 +163,125 @@ function ListOrderAdmin(props) {
             </span>
           </div>
           <div className={`${style.searchListorder} d-flex `}>
-            <div className={`${style.searchIdOrder} d-flex flex-column`}>
-              <h6> Lọc theo mã đơn hàng</h6>
-              <input
-                type="text"
-                className={style.idOrder}
-                placeholder="Nhập mã đơn hàng"
-                onChange={handleSearchIdOrder}
-                value={idOrder}
-              ></input>
+            <div className={`${style.search_input} d-flex`}>
+              <div className={`${style.searchIdOrder} d-flex flex-column`}>
+                <h6> Lọc theo mã đơn hàng</h6>
+                <input
+                  type="text"
+                  className={style.idOrder}
+                  placeholder="Nhập mã đơn hàng"
+                  onChange={handleSearchIdOrder}
+                  value={idOrder}
+                ></input>
+              </div>
+              <div className={`${style.searchPhoneorder} d-flex flex-column`}>
+                <h6> Lọc theo số điện thoại</h6>
+                <input
+                  type="text"
+                  className={style.phoneorder}
+                  placeholder="Nhập số điện thoại"
+                  onChange={handleSearchPhone}
+                  value={phone}
+                ></input>
+              </div>
+              <div>
+                <Button
+                  type="submit"
+                  className={classes.search}
+                  onClick={handleSearch}
+                >
+                  {loadingSearch ? (
+                    <div
+                      class="spinner-border"
+                      role="status"
+                      style={{ width: "22px", height: "22px" }}
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <i
+                        class="fas fa-search"
+                        style={{ marginRight: "5px" }}
+                      ></i>
+                      Tìm
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
-            <div className={`${style.searchPhoneorder} d-flex flex-column`}>
-              <h6> Lọc theo số điện thoại</h6>
-              <input
-                type="text"
-                className={style.phoneorder}
-                placeholder="Nhập số điện thoại"
-                onChange={handleSearchPhone}
-                value={phone}
-              ></input>
-            </div>
-            <div className={`${style.filterOrder} d-flex flex-column`}>
-              <h6> Sắp xếp theo</h6>
-              <FormControl
-                variant="outlined"
-                name="size"
-                style={{
-                  width: "150%",
-                  paddingTop: "-20px",
-                }}
+            <div className={`${style.search_filter} d-flex`}>
+              <div
+                className={`${style.filterOrder} d-flex flex-column`}
+                style={{ width: "40%" }}
               >
-                <InputLabel
-                  id="demo-simple-select-autowidth-label"
-                  style={{
-                    marginTop: "-5px",
-                  }}
-                >
-                  Chọn sắp xếp
-                </InputLabel>
-                <Select
-                  name="size"
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  value={dayFilter}
-                  // error={!!size.errorSize}
-                  onChange={handleFilter}
-                  label="Chọn sắp xếp"
-                  style={{
-                    height: "82%",
-                  }}
-                >
-                  <MenuItem value="AZ">Ngày: Mới nhất </MenuItem>
-                  <MenuItem value="ZA">Ngày: Cũ nhất</MenuItem>
-                  <MenuItem value="AZ">Tổng tiền: Tăng dần</MenuItem>
-                  <MenuItem value="ZA">Tổng tiền: Giảm dần</MenuItem>
-                </Select>
-              </FormControl>
+                <h6> Sắp xếp theo </h6>
+                <div>
+                  <FormControl
+                    variant="outlined"
+                    name="arange"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-autowidth-label">
+                      Chọn sắp xếp
+                    </InputLabel>
+                    <Select
+                      name="size"
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      value={dayFilter}
+                      onChange={handleFilter}
+                      label="Chọn sắp xếp"
+                    >
+                      <MenuItem value="ngaymoinhat">Ngày: Mới nhất </MenuItem>
+                      <MenuItem value="ngaycunhat">Ngày: Cũ nhất</MenuItem>
+                      <MenuItem value="giatangdan">
+                        Tổng tiền: Tăng dần
+                      </MenuItem>
+                      <MenuItem value="giagiamdan">
+                        Tổng tiền: Giảm dần
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </div>
+              <div
+                className={`${style.filterOrder} d-flex flex-column`}
+                style={{ width: "60%" }}
+              >
+                <h6> Lọc theo trạng thái đơn hàng</h6>{" "}
+                <div style={{ width: "100%" }}>
+                  <FormControl
+                    variant="outlined"
+                    name="arange"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-autowidth-label">
+                      Lọc theo trạng thái
+                    </InputLabel>
+                    <Select
+                      name="size"
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      value={statusFilter}
+                      onChange={handleFilterStatus}
+                      label="Lọc theo trạng thái"
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <MenuItem value="dangxuly">Đang xử lý </MenuItem>
+                      <MenuItem value="danggiaohang">Đang giao hàng</MenuItem>
+                      <MenuItem value="dagiao">Đã giao</MenuItem>
+                      <MenuItem value="dahuy">Đã hủy</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </div>
             </div>
           </div>
           <div className={style.listorder}>

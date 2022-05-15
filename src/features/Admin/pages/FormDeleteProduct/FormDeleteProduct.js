@@ -62,6 +62,10 @@ const FormDeleteProduct = (props) => {
             }
           };
           fetchRequestGetAllProduct();
+          toast.success("Ngưng bán thành công", {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            autoClose: 2000,
+          });
         }
       } catch (error) {
         console.log(error);

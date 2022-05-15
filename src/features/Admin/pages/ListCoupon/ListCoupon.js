@@ -7,10 +7,29 @@ import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import ItemCoupon from "./ItemCoupon/ItemCoupon";
 import FormAddCoupon from "../FormAddCoupon/FormAddCoupon";
-
+import { Button, makeStyles } from "@material-ui/core";
+const useStyles = makeStyles((theme) => ({
+  search: {
+    background: "black",
+    width: "200px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "25px",
+    marginLeft: "520px",
+    fontSize: "15px",
+    fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
+    },
+  },
+}));
 function ListCoupon(props) {
+  const classes = useStyles();
   const { dispatch, state } = useContext(GlobalContext);
-
   useEffect(() => {
     const fetchRequestGetAllCoupon = async () => {
       try {
@@ -27,11 +46,29 @@ function ListCoupon(props) {
   }, []);
   console.log(state.dataAllCoupon);
   const [isForm, setIsForm] = useState(false);
+  const [loadingAll, setLoadingAll] = useState(false);
+
   const handleShowFormAdd = () => {
     setIsForm(true);
   };
   const formfalseHandler = (falseFromForm) => {
     setIsForm(falseFromForm);
+  };
+  const handleLoadingAll = () => {
+    setLoadingAll(true);
+    const fetchRequestGetAllCoupon = async () => {
+      try {
+        const requestGetAllCoupon = await couponAdminApi.getAllCouponAdmin();
+        dispatch({
+          type: ACTIOS.dataAllCoupon,
+          payload: requestGetAllCoupon.data,
+        });
+        setLoadingAll(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllCoupon();
   };
   return (
     <>
@@ -43,57 +80,105 @@ function ListCoupon(props) {
               <span className={style.title_listCoupon}>
                 Danh sách mã giảm giá (5 giảm giá)
               </span>
-              <span className={style.add_Coupon} onClick={handleShowFormAdd}>
+              <span
+                className={`${style.add_Coupon} d-flex align-items-center`}
+                onClick={handleShowFormAdd}
+              >
+                <i
+                  class="fas fa-plus-circle"
+                  style={{ marginRight: "10px" }}
+                ></i>{" "}
                 Tạo mã giảm giá
               </span>
             </div>
             <div className={`${style.searchlistCoupon} d-flex `}>
-              <div className={`${style.searchIdCoupon} d-flex flex-column`}>
-                <h6> Lọc theo mã giảm giá</h6>
-                <input
-                  type="text"
-                  className={style.idCoupon}
-                  placeholder="Nhập mã giảm giá"
-                  // onChange={handleSearchIdCoupon}
-                  // value={idCoupon}
-                ></input>
+              <div
+                className={`${style.filterOrder} d-flex flex-column`}
+                style={{ width: "25%", marginRight: "25px" }}
+              >
+                <h6>Lọc theo loại </h6>
+                <div>
+                  <FormControl
+                    variant="outlined"
+                    name="arange"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-autowidth-label">
+                      Chọn loại
+                    </InputLabel>
+                    <Select
+                      name="size"
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      // value={dayFilter}
+                      // onChange={handleFilter}
+                      label="Chọn loại"
+                    >
+                      <MenuItem value="ngaymoinhat">Phí Giao Hàng </MenuItem>
+                      <MenuItem value="ngaycunhat">Phí Đơn Hàng</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
               </div>
-              <div className={`${style.filterCoupon} d-flex flex-column`}>
-                <h6> Sắp xếp theo</h6>
-                <FormControl
-                  variant="outlined"
-                  name="size"
-                  style={{
-                    width: "150%",
-                    paddingTop: "-20px",
-                  }}
+              <div
+                className={`${style.filterOrder} d-flex flex-column`}
+                style={{ width: "30%" }}
+              >
+                <h6> Lọc theo trạng thái</h6>{" "}
+                <div style={{ width: "100%" }}>
+                  <FormControl
+                    variant="outlined"
+                    name="arange"
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-autowidth-label">
+                      Chọn trạng thái
+                    </InputLabel>
+                    <Select
+                      name="size"
+                      labelId="demo-simple-select-autowidth-label"
+                      id="demo-simple-select-autowidth"
+                      // value={statusFilter}
+                      // onChange={handleFilterStatus}
+                      label=" Chọn trạng thái"
+                      style={{
+                        width: "100%",
+                      }}
+                    >
+                      <MenuItem value="dangxuly">Đã hết hạn</MenuItem>
+                      <MenuItem value="danggiaohang">Chưa hết hạn</MenuItem>
+                    </Select>
+                  </FormControl>
+                </div>
+              </div>
+              <div>
+                <Button
+                  type="submit"
+                  className={classes.search}
+                  onClick={handleLoadingAll}
                 >
-                  <InputLabel
-                    id="demo-simple-select-autowidth-label"
-                    style={{
-                      marginTop: "-5px",
-                    }}
-                  >
-                    Chọn sắp xếp
-                  </InputLabel>
-                  <Select
-                    name="size"
-                    labelId="demo-simple-select-autowidth-label"
-                    id="demo-simple-select-autowidth"
-                    //   value={dayFilter}
-                    // error={!!size.errorSize}
-                    //   onChange={handleFilter}
-                    label="Chọn sắp xếp"
-                    style={{
-                      height: "82%",
-                    }}
-                  >
-                    <MenuItem value="AZ">Ngày: Mới nhất </MenuItem>
-                    <MenuItem value="ZA">Ngày: Cũ nhất</MenuItem>
-                    <MenuItem value="AZ">Tổng tiền: Tăng dần</MenuItem>
-                    <MenuItem value="ZA">Tổng tiền: Giảm dần</MenuItem>
-                  </Select>
-                </FormControl>
+                  {loadingAll ? (
+                    <div
+                      class="spinner-border"
+                      role="status"
+                      style={{ width: "22px", height: "22px" }}
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <i
+                        class="fas fa-gift"
+                        style={{ marginRight: "10px" }}
+                      ></i>
+                      Hiển thị toàn bộ
+                    </>
+                  )}
+                </Button>
               </div>
             </div>
             <div className={style.listCoupon}>

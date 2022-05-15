@@ -64,7 +64,7 @@ function ListProductDetailAdmin(props) {
           </div>
           <div className={style.listproduct}>
             <div className={style.title_item_product}>
-              <span className={style.title_image_item}>Tất cả(1 sản phẩm)</span>
+              <span className={style.title_image_item}>Hình ảnh</span>
               <span
                 className={`${style.title_size}  d-flex justify-content-center`}
               >

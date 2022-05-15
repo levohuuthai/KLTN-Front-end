@@ -18,11 +18,43 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     background: "black",
-    width: "180px",
+    width: "200px",
     height: "40px",
     color: "#fff",
     transition: "all 0.6s",
     marginTop: "20px",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
+    },
+  },
+  search: {
+    background: "black",
+    width: "100px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "25px",
+    marginLeft: "20px",
+    fontSize: "15px",
+    fontWeight: "500",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
+    },
+  },
+  searchAll: {
+    background: "black",
+    width: "200px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "25px",
+    marginLeft: "250px",
+    fontSize: "15px",
+    fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
     "&:hover": {
       background: "#ba933e",
       transition: "all 0.6s",
@@ -87,20 +119,6 @@ function ListTypeProductAdmin(props) {
   };
   const handleSearchNameTypeProduct = (e) => {
     setSearchName(e.target.value);
-    const fetchRequestGetNameTypeProduct = async () => {
-      try {
-        const requestGetNameTypeProduct =
-          await typeProductAdminApi.getNameTypeProduct(e.target.value);
-        console.log(requestGetNameTypeProduct);
-        // dispatch({
-        //   type: ACTIOS.dataAllTypeProduct,
-        //   payload: requestGetNameTypeProduct.data,
-        // });
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchRequestGetNameTypeProduct();
   };
   const handleAddTypeProduct = (e) => {
     e.preventDefault();
@@ -151,7 +169,57 @@ function ListTypeProductAdmin(props) {
       });
     }
   };
-  console.log(imageTypeProduct.img);
+  const handleSearch = () => {
+    if (searchName !== "") {
+      const fetchRequestGetNameTypeProduct = async () => {
+        try {
+          const requestGetNameTypeProduct =
+            await typeProductAdminApi.getNameTypeProduct(searchName);
+          console.log(requestGetNameTypeProduct);
+
+          dispatch({
+            type: ACTIOS.dataAllTypeProduct,
+            payload: requestGetNameTypeProduct.data,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchRequestGetNameTypeProduct();
+    } else {
+      const fetchRequestGetAllTypeProdcut = async () => {
+        try {
+          const requestGetAllTypeProduct =
+            await typeProductAdminApi.getAllTypeProduct();
+          dispatch({
+            type: ACTIOS.dataAllTypeProduct,
+            payload: requestGetAllTypeProduct.data,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchRequestGetAllTypeProdcut();
+    }
+  };
+  const [loadingAll, setLoadingAll] = useState(false);
+  const handleLoadingAll = () => {
+    setLoadingAll(true);
+    const fetchRequestGetAllTypeProdcut = async () => {
+      try {
+        const requestGetAllTypeProduct =
+          await typeProductAdminApi.getAllTypeProduct();
+        dispatch({
+          type: ACTIOS.dataAllTypeProduct,
+          payload: requestGetAllTypeProduct.data,
+        });
+        setLoadingAll(false);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllTypeProdcut();
+  };
   return (
     <div className="d-flex wrap">
       <AsideAdmin />
@@ -159,19 +227,56 @@ function ListTypeProductAdmin(props) {
         <div className={style.listtypeproduct_admin_left}>
           <div className={style.listtypeproduct_admin_frame1}>
             <h4>Tìm kiếm loại sản phẩm</h4>
-            <div className={style.frame1}>
-              <Typography className={classes.title}>
-                Tên loại sản phẩm <span style={{ color: "red" }}>*</span>
-              </Typography>
-              <TextField
-                name="brand"
-                label="Nhập tên loại sản phẩm"
-                margin="normal"
-                variant="outlined"
-                fullWidth
-                value={searchName}
-                onChange={handleSearchNameTypeProduct}
-              ></TextField>
+            <div className={`${style.frame1} d-flex align-items-center`}>
+              <div style={{ width: "200%" }}>
+                <Typography className={classes.title}>
+                  Tên loại sản phẩm <span style={{ color: "red" }}>*</span>
+                </Typography>
+                <TextField
+                  name="brand"
+                  label="Nhập tên loại sản phẩm"
+                  margin="normal"
+                  variant="outlined"
+                  fullWidth
+                  value={searchName}
+                  onChange={handleSearchNameTypeProduct}
+                ></TextField>
+              </div>
+              <div>
+                <Button
+                  type="submit"
+                  className={classes.search}
+                  onClick={handleSearch}
+                >
+                  <i class="fas fa-search" style={{ marginRight: "10px" }}></i>
+                  Tìm
+                </Button>
+              </div>{" "}
+              <div>
+                <Button
+                  type="submit"
+                  className={classes.searchAll}
+                  onClick={handleLoadingAll}
+                >
+                  {loadingAll ? (
+                    <div
+                      class="spinner-border"
+                      role="status"
+                      style={{ width: "22px", height: "22px" }}
+                    >
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    <>
+                      <i
+                        class="fas fa-gift"
+                        style={{ marginRight: "10px" }}
+                      ></i>
+                      Hiển thị toàn bộ
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -237,6 +342,7 @@ function ListTypeProductAdmin(props) {
                 </Typography>
                 <div className={style.image_product_group}>
                   <span className={style.select}>
+                    <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
                     Chọn ảnh
                     <input
                       type="file"
@@ -258,6 +364,10 @@ function ListTypeProductAdmin(props) {
                   className={classes.submit}
                   onClick={handleAddTypeProduct}
                 >
+                  <i
+                    class="fas fa-plus-circle"
+                    style={{ marginRight: "10px" }}
+                  ></i>
                   Thêm loại sản phẩm
                 </Button>
               </div>
