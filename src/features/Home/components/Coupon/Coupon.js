@@ -50,7 +50,6 @@ function Coupon(props) {
         }}
       >
         {arrCoupon?.map((data, idx) => {
-          console.log(data);
           return (
             <SwiperSlide key={idx}>
               <ItemCoupon data={data} />

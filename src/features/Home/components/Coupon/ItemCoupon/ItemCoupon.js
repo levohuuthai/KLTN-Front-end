@@ -49,7 +49,6 @@ function ItemCoupon(props) {
     };
     fetchRequestAddCoupon();
   };
-  console.log(props.data?.type);
   return (
     <div className={style.item_coupon}>
       <div className={style.left}>

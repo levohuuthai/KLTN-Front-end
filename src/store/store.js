@@ -29,9 +29,9 @@ export const DataProvider = ({ children }) => {
     },
     dataFilterStyle: [],
     dataFilter: [],
-    filterPaginationByProduct: { _page: 1, _limit: 2 },
+    page_limit_ByProduct: { _page: 1, _limit: 10 },
     paginationByFilterProduct: {
-      limit: 2,
+      limit: 10,
       total: 10,
       page: 1,
     },

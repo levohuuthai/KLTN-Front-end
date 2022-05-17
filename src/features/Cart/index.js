@@ -1,24 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import style from "./Cart.module.scss";
 import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
-import InputField from "components/Form-control/InputField";
 import { Button } from "@material-ui/core";
-import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/styles";
 import Header from "components/Header/Header";
 import Footer from "components/Footer/Footer";
 import { GlobalContext } from "../../store/store";
-
-import { ACTIOS } from "../../store/actions";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ItemCart from "./ItemCart/ItemCart";
 import CartSkeletonPage from "./CartSkeletonPage";
 import FormListCoupon from "./FormListCoupon/FormListCoupon";
-import couponApi from "api/couponApi";
-import { useSelector } from "react-redux";
 
-CartFeature.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   submit: {
     background: "black",
@@ -33,12 +25,22 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   purchase: {
+    background: "#cfcfcf",
+    width: "100%",
+    height: "50px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "20px",
+    cursor: "not-allowed !important",
+  },
+  purchase_active: {
     background: "black",
     width: "100%",
     height: "50px",
     color: "#fff",
     transition: "all 0.6s",
     marginTop: "20px",
+    cursor: "pointer",
     "&:hover": {
       background: "#ba933e",
       transition: "all 0.6s",
@@ -50,28 +52,17 @@ function CartFeature(props) {
     window.scrollTo(0, 0);
   }, []);
   const classes = useStyles();
-  const form = useForm({
-    defaultValues: {
-      coupon: "",
-    },
-    //  resolver: yupResolver(schema),
-  });
-  const handleSubmit = (values) => {
-    const { onSubmit } = props;
-    if (onSubmit) {
-      onSubmit(values);
-    }
-    form.reset();
-  };
-  const { dispatch, state } = useContext(GlobalContext);
+
+  const { state } = useContext(GlobalContext);
   const [tempTotalMoney, setTempTotalMoney] = useState();
   const [totalMoney, setTotalMoney] = useState();
-  const loggedInUser = useSelector((state) => state.user.current);
 
   let navigate = useNavigate();
 
-  const handlePurchase = () => {
-    navigate("/checkout/address");
+  const handlePurchase = (e) => {
+    if (state.dataCart.length > 0) {
+      navigate("/checkout/address");
+    }
   };
   const [isOpenFormListCoupon, seIsOpenFormListCoupon] = useState(false);
 
@@ -91,7 +82,7 @@ function CartFeature(props) {
   });
   const [dataCoupon, setDataCoupon] = useState();
   useEffect(() => {
-    setDataCoupon(JSON.parse(localStorage.getItem("dataCoupon")));
+    setDataCoupon(JSON.parse(localStorage.getItem("dataCoupon"))); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [, localStorage.getItem("dataCoupon")]);
   useEffect(() => {
     var date = new Date(dataCoupon?.endDate);
@@ -113,21 +104,7 @@ function CartFeature(props) {
       rs - (dataCoupon?.discount === undefined ? 0 : dataCoupon?.discount)
     );
   }, [state.dataCart, dataCoupon]);
-  // const handleUseCoupon = (e) => {
-  //   e.preventDefault();
-  //   const fetchUseCoupon = async () => {
-  //     try {
-  //       const requestUseCoupon = await couponApi.useCoupon(
-  //         loggedInUser._id,
-  //         dataCoupon._id
-  //       );
-  //       console.log(requestUseCoupon);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchUseCoupon();
-  // };
+
   console.log(dataCoupon);
   return (
     <>
@@ -320,13 +297,23 @@ function CartFeature(props) {
                 </p>
               </div>
             </div>
-            <Button
-              type="submit"
-              className={classes.purchase}
-              onClick={handlePurchase}
-            >
-              Mua hàng
-            </Button>
+            {state.dataCart.length > 0 ? (
+              <Button
+                type="submit"
+                className={classes.purchase_active}
+                onClick={handlePurchase}
+              >
+                Mua hàng
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className={classes.purchase}
+                onClick={handlePurchase}
+              >
+                Mua hàng
+              </Button>
+            )}
           </div>
         </div>
       </div>

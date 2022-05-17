@@ -2,10 +2,6 @@ import AsideAdmin from "features/Admin/components/AsideAdmin/AsideAdmin";
 import React, { useContext, useEffect, useState } from "react";
 import style from "./ListProductAdmin.module.scss";
 import { useNavigate } from "react-router-dom";
-import productApi from "api/productApi";
-import ItemProductAdmin from "./ItemProductAdmin/ItemProductAdmin";
-import { TextField } from "@material-ui/core";
-import FormUpdateProduct from "../FormUpdateProduct/FormUpdateProduct";
 import ListItemProductAdmin from "./ListItemProductAdmin/ListItemProductAdmin";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
@@ -60,8 +56,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 function ListProductAdmin(props) {
   const classes = useStyles();
-
-  const [dataProduct, setDataProduct] = useState([]);
   const { dispatch, state } = useContext(GlobalContext);
 
   let navigate = useNavigate();
@@ -99,7 +93,7 @@ function ListProductAdmin(props) {
         console.log(error);
       }
     };
-    fetchRequestGetAllProduct();
+    fetchRequestGetAllProduct(); 
   }, [state.filterPagination._page, state.filterPagination._limit]);
   const handlePageChange = (e, page) => {
     // setFilters({ _limit: 2, _page: page });
@@ -181,7 +175,9 @@ function ListProductAdmin(props) {
       <div className={style.listproduct_admin}>
         <div className={style.listproduct_admin_frame}>
           <div className={style.title_add_listproduct}>
-            <span className={style.title_listproduct}>Danh sách sản phẩm</span>
+            <span className={style.title_listproduct}>
+              Danh sách sản phẩm ({pagination.total} sản phẩm)
+            </span>
             <span className={style.add_product} onClick={handleLinkAddProduct}>
               <i class="fas fa-plus-circle" style={{ marginRight: "10px" }}></i>
               Tạo mới

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import style from "./FiltersByPrice.module.scss";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
@@ -6,17 +6,8 @@ import { ACTIOS } from "store/actions";
 function FiltersByPrice1(props) {
   const { dispatch, state } = useContext(GlobalContext);
 
-  const price = [
-    { priceMin: 199999 },
-    { priceMin: 200000, priceMax: 500000 },
-    { priceMin: 500000, priceMax: 1000000 },
-    { priceMin: 1000001 },
-  ];
 
-  const [activeToggleColor, setActiveToggleColor] = useState({
-    activeObject: null,
-    objects: price,
-  });
+
   const [lowPrice, setLowPrice] = useState();
   const [highPrice, setHighPrice] = useState();
 
@@ -34,10 +25,7 @@ function FiltersByPrice1(props) {
     });
     console.log(state);
   };
-  // const [priceUnder200, setPriceUnder200] = useState({
-  //   value: 199999,
-  //   active: false,
-  // });
+
   const handleSelectUnder200 = () => {
     dispatch({
       type: ACTIOS.dataFilterPriceUnder200,

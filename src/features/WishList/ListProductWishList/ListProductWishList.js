@@ -1,14 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import style from "../WishList.module.scss";
 import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import productApi from "api/productApi";
-import { useSelector } from "react-redux";
 import ItemProductWishList from "../ItemProductWishList/ItemProductWishList";
 function ListProductWishList(props) {
-  const { dispatch, state } = useContext(GlobalContext);
-  const [dataProduct, setDataProduct] = useState();
-  const loggedInUser = useSelector((state) => state.user.current);
+  const { state } = useContext(GlobalContext);
+
   return (
     <>
       {state.dataWishList?.map((data, idx) => {

@@ -34,11 +34,12 @@
 
     .item_img_quick {
       width: 100%;
-      height: 100%;
+      height: 600px;
       //overflow: hidden;
       img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
     }
 

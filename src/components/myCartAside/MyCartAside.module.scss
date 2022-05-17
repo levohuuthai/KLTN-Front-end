@@ -170,17 +170,22 @@
         .checkout {
           // margin: 10px 26px;
           padding: 15px 0px;
-          background: #1a1a1a;
           text-align: center;
           display: block;
+          background: #cfcfcf;
           color: #fff;
           font-weight: 700;
           font-size: 14px;
           border-radius: 4px;
           transition: all 0.3s;
-
-          &:hover {
-            background: #ba933e;
+          cursor: not-allowed;
+          &.active {
+            background: #1a1a1a;
+            color: #fff;
+            cursor: pointer;
+            &:hover {
+              background: #ba933e;
+            }
           }
         }
       }

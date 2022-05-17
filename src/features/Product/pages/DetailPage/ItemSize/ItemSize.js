@@ -42,11 +42,11 @@ function Item(props) {
         console.log(error);
       }
     };
-    fetchArraySize();
+    fetchArraySize(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    props.receiveDataSizeOriginal(arraySize?.[0]);
+    props.receiveDataSizeOriginal(arraySize?.[0]); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arraySize?.[0]]);
   return (
     <>

@@ -1,69 +1,68 @@
-import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
-import AsideAdmin from 'features/Admin/components/AsideAdmin/AsideAdmin';
-import React, { useContext, useEffect, useState } from 'react';
-import style from './ListTypeProductAdmin.module.scss';
-import aothun2_front from 'assets/images/product_promotion/ao2_front.png';
-import typeProductAdminApi from 'api/admin/typeProductAdminApi';
-import { GlobalContext } from 'store/store';
-import { ACTIOS } from 'store/actions';
-import ItemTypeProductAdmin from './ItemTypeProductAdmin/ItemTypeProductAdmin';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
+import AsideAdmin from "features/Admin/components/AsideAdmin/AsideAdmin";
+import React, { useContext, useEffect, useState } from "react";
+import style from "./ListTypeProductAdmin.module.scss";
+import typeProductAdminApi from "api/admin/typeProductAdminApi";
+import { GlobalContext } from "store/store";
+import { ACTIOS } from "store/actions";
+import ItemTypeProductAdmin from "./ItemTypeProductAdmin/ItemTypeProductAdmin";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 const useStyles = makeStyles((theme) => ({
   title: {
-    color: '#444',
-    marginBottom: '-10px',
+    color: "#444",
+    marginBottom: "-10px",
   },
   submit: {
-    background: 'black',
-    width: '200px',
-    height: '40px',
-    color: '#fff',
-    transition: 'all 0.6s',
-    marginTop: '20px',
-    '&:hover': {
-      background: '#ba933e',
-      transition: 'all 0.6s',
+    background: "black",
+    width: "200px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "20px",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
     },
   },
   search: {
-    background: 'black',
-    width: '100px',
-    height: '40px',
-    color: '#fff',
-    transition: 'all 0.6s',
-    marginTop: '25px',
-    marginLeft: '20px',
-    fontSize: '15px',
-    fontWeight: '500',
-    '&:hover': {
-      background: '#ba933e',
-      transition: 'all 0.6s',
+    background: "black",
+    width: "100px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "25px",
+    marginLeft: "20px",
+    fontSize: "15px",
+    fontWeight: "500",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
     },
   },
   searchAll: {
-    background: 'black',
-    width: '200px',
-    height: '40px',
-    color: '#fff',
-    transition: 'all 0.6s',
-    marginTop: '25px',
-    marginLeft: '250px',
-    fontSize: '15px',
-    fontWeight: '500',
-    display: 'flex',
-    alignItems: 'center',
-    '&:hover': {
-      background: '#ba933e',
-      transition: 'all 0.6s',
+    background: "black",
+    width: "200px",
+    height: "40px",
+    color: "#fff",
+    transition: "all 0.6s",
+    marginTop: "25px",
+    marginLeft: "250px",
+    fontSize: "15px",
+    fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
+    "&:hover": {
+      background: "#ba933e",
+      transition: "all 0.6s",
     },
   },
 }));
 function ListTypeProductAdmin(props) {
   const { dispatch, state } = useContext(GlobalContext);
-  const [imageTypeProduct, setImageTypeProduct] = useState({ img: '' });
+  const [imageTypeProduct, setImageTypeProduct] = useState({ img: "" });
 
   const classes = useStyles();
   useEffect(() => {
@@ -79,15 +78,15 @@ function ListTypeProductAdmin(props) {
         console.log(error);
       }
     };
-    fetchRequestGetAllTypeProdcut();
+    fetchRequestGetAllTypeProdcut(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleAddImageTypeProduct = (e) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append('uploadFile', fileSelected);
+    fd.append("uploadFile", fileSelected);
     axios
-      .post('//localhost:5000/products/addFile', fd)
+      .post("//localhost:5000/products/addFile", fd)
       .then((res) => {
         console.log(res);
         setImageTypeProduct((pre) => {
@@ -95,20 +94,20 @@ function ListTypeProductAdmin(props) {
         });
       })
       .catch((aa) => {
-        console.log('Khong Gui dc', aa);
+        console.log("Khong Gui dc", aa);
       });
   };
   const [nameTypeProduct, setNameTypeProduct] = useState({
-    value: '',
+    value: "",
     errorNameTypeProduct: undefined,
   });
-  const [searchName, setSearchName] = useState('');
+  const [searchName, setSearchName] = useState("");
 
   const handleNameTypeProduct = (e) => {
-    if (e.target.value === '') {
+    if (e.target.value === "") {
       setNameTypeProduct({
         value: e.target.value,
-        errorNameTypeProduct: 'Vui lòng nhập tên loại sản phẩm',
+        errorNameTypeProduct: "Vui lòng nhập tên loại sản phẩm",
       });
     } else {
       setNameTypeProduct({
@@ -122,13 +121,13 @@ function ListTypeProductAdmin(props) {
   };
   const handleAddTypeProduct = (e) => {
     e.preventDefault();
-    if (nameTypeProduct.value === '') {
+    if (nameTypeProduct.value === "") {
       setNameTypeProduct({
         ...nameTypeProduct,
-        errorNameTypeProduct: 'Vui lòng nhập tên sản phẩm',
+        errorNameTypeProduct: "Vui lòng nhập tên sản phẩm",
       });
     }
-    if (nameTypeProduct.value !== '' && imageTypeProduct.img !== '') {
+    if (nameTypeProduct.value !== "" && imageTypeProduct.img !== "") {
       const fetchRequestAddTypeProduct = async () => {
         try {
           const requestAddTypeProduct =
@@ -147,7 +146,7 @@ function ListTypeProductAdmin(props) {
                   type: ACTIOS.dataAllTypeProduct,
                   payload: requestGetAllTypeProduct.data,
                 });
-                toast.success('Thêm loại sản phẩm thành công', {
+                toast.success("Thêm loại sản phẩm thành công", {
                   position: toast.POSITION.BOTTOM_RIGHT,
                   autoClose: 2000,
                 });
@@ -163,14 +162,14 @@ function ListTypeProductAdmin(props) {
       };
       fetchRequestAddTypeProduct();
     } else {
-      toast.error('Cần nhập tên sản phẩm và chọn ảnh', {
+      toast.error("Cần nhập tên sản phẩm và chọn ảnh", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
       });
     }
   };
   const handleSearch = () => {
-    if (searchName !== '') {
+    if (searchName !== "") {
       const fetchRequestGetNameTypeProduct = async () => {
         try {
           const requestGetNameTypeProduct =
@@ -221,22 +220,22 @@ function ListTypeProductAdmin(props) {
     fetchRequestGetAllTypeProdcut();
   };
   return (
-    <div className='d-flex wrap'>
+    <div className="d-flex wrap">
       <AsideAdmin />
       <div className={style.listtypeproduct_admin}>
         <div className={style.listtypeproduct_admin_left}>
           <div className={style.listtypeproduct_admin_frame1}>
             <h4>Tìm kiếm loại sản phẩm</h4>
             <div className={`${style.frame1} d-flex align-items-center`}>
-              <div style={{ width: '200%' }}>
+              <div style={{ width: "200%" }}>
                 <Typography className={classes.title}>
-                  Tên loại sản phẩm <span style={{ color: 'red' }}>*</span>
+                  Tên loại sản phẩm <span style={{ color: "red" }}>*</span>
                 </Typography>
                 <TextField
-                  name='brand'
-                  label='Nhập tên loại sản phẩm'
-                  margin='normal'
-                  variant='outlined'
+                  name="brand"
+                  label="Nhập tên loại sản phẩm"
+                  margin="normal"
+                  variant="outlined"
                   fullWidth
                   value={searchName}
                   onChange={handleSearchNameTypeProduct}
@@ -244,33 +243,33 @@ function ListTypeProductAdmin(props) {
               </div>
               <div>
                 <Button
-                  type='submit'
+                  type="submit"
                   className={classes.search}
                   onClick={handleSearch}
                 >
-                  <i class='fas fa-search' style={{ marginRight: '10px' }}></i>
+                  <i class="fas fa-search" style={{ marginRight: "10px" }}></i>
                   Tìm
                 </Button>
-              </div>{' '}
+              </div>{" "}
               <div>
                 <Button
-                  type='submit'
+                  type="submit"
                   className={classes.searchAll}
                   onClick={handleLoadingAll}
                 >
                   {loadingAll ? (
                     <div
-                      class='spinner-border'
-                      role='status'
-                      style={{ width: '22px', height: '22px' }}
+                      class="spinner-border"
+                      role="status"
+                      style={{ width: "22px", height: "22px" }}
                     >
-                      <span class='sr-only'>Loading...</span>
+                      <span class="sr-only">Loading...</span>
                     </div>
                   ) : (
                     <>
                       <i
-                        class='fas fa-gift'
-                        style={{ marginRight: '10px' }}
+                        class="fas fa-gift"
+                        style={{ marginRight: "10px" }}
                       ></i>
                       Hiển thị toàn bộ
                     </>
@@ -293,7 +292,7 @@ function ListTypeProductAdmin(props) {
                 <span
                   className={`${style.title_close} d-flex justify-content-center`}
                 >
-                  <i className='fas fa-ellipsis-h'></i>
+                  <i className="fas fa-ellipsis-h"></i>
                 </span>
               </div>
               <div className={`${style.list_item_typeproduct}`}>
@@ -313,18 +312,18 @@ function ListTypeProductAdmin(props) {
             <h4>Thêm loại sản phẩm</h4>
             <div
               className={`${style.frame2} ${
-                imageTypeProduct.img !== '' ? style.active_image : ''
+                imageTypeProduct.img !== "" ? style.active_image : ""
               }`}
             >
               <div className={style.nameTypeproduct}>
                 <Typography className={classes.title}>
-                  Tên loại sản phẩm <span style={{ color: 'red' }}>*</span>
+                  Tên loại sản phẩm <span style={{ color: "red" }}>*</span>
                 </Typography>
                 <TextField
-                  name='brand'
-                  label='Nhập tên loại sản phẩm'
-                  margin='normal'
-                  variant='outlined'
+                  name="brand"
+                  label="Nhập tên loại sản phẩm"
+                  margin="normal"
+                  variant="outlined"
                   fullWidth
                   value={nameTypeProduct.value}
                   onChange={handleNameTypeProduct}
@@ -332,41 +331,41 @@ function ListTypeProductAdmin(props) {
                   helperText={
                     nameTypeProduct.errorNameTypeProduct !== undefined
                       ? nameTypeProduct.errorNameTypeProduct
-                      : ''
+                      : ""
                   }
                 ></TextField>
               </div>
               <div className={style.image}>
                 <Typography className={classes.title}>
-                  Hình ảnh <span style={{ color: 'red' }}>*</span>
+                  Hình ảnh <span style={{ color: "red" }}>*</span>
                 </Typography>
                 <div className={style.image_product_group}>
                   <span className={style.select}>
-                    <i class='fas fa-camera' style={{ marginRight: '5px' }}></i>{' '}
+                    <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
                     Chọn ảnh
                     <input
-                      type='file'
+                      type="file"
                       onChange={handleAddImageTypeProduct}
                       multiple
                       // onFocus={InputHandler}
                     />
                   </span>
-                  {imageTypeProduct.img !== '' && (
+                  {imageTypeProduct.img !== "" && (
                     <div className={style.image_product}>
-                      <img src={imageTypeProduct.img} alt='image_product' />
+                      <img src={imageTypeProduct.img} alt="image_product" />
                     </div>
                   )}
                 </div>
               </div>
-              <div className='d-flex justify-content-center'>
+              <div className="d-flex justify-content-center">
                 <Button
-                  type='submit'
+                  type="submit"
                   className={classes.submit}
                   onClick={handleAddTypeProduct}
                 >
                   <i
-                    class='fas fa-plus-circle'
-                    style={{ marginRight: '10px' }}
+                    class="fas fa-plus-circle"
+                    style={{ marginRight: "10px" }}
                   ></i>
                   Thêm loại sản phẩm
                 </Button>

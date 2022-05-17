@@ -3,7 +3,6 @@ import FiltersByBrand from "../Filters/FilterByBrand/FiltersByBrand";
 import FiltersBySize from "../Filters/FiltersBySize/FiltersBySize";
 import FiltersByColor from "../Filters/FilterByColor/FiltersByColor";
 import FiltersByStar from "../Filters/FilterByStar/FiltersByStar";
-import FiltersByPrice from "../Filters/FilterByPrice/FiltersByPrice";
 import productApi from "api/productApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
@@ -16,6 +15,7 @@ function ProductFilter(props) {
       type: ACTIOS.loading,
       payload: true,
     });
+    console.log("haa");
     if (
       state.dataFilterBrand.length +
         state.dataFilterSize.length +
@@ -31,6 +31,8 @@ function ProductFilter(props) {
         (!state.dataFilterStar.active2 ? 0 : 1) !==
       0
     ) {
+      console.log("loc");
+
       const fetchRequestGetAllProductByBrand = async () => {
         try {
           const requestGetAllProductByBrand =
@@ -59,7 +61,7 @@ function ProductFilter(props) {
         }
       };
       fetchRequestGetAllProductByBrand();
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     state.dataFilterBrand,
     state.dataFilterSize,
@@ -69,6 +71,8 @@ function ProductFilter(props) {
     state.dataFilterPrice200To500,
     state.dataFilterStyle,
     state.dataFilterStar,
+    // state.filterPaginationByProduct._page,
+    // state.filterPaginationByProduct._limit,
   ]);
 
   return (

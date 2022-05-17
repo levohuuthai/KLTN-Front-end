@@ -101,10 +101,9 @@ function Slider(props) {
               <p className={style.item1_p}>Săn mã giảm giá đến 50%</p>
               <h3>MÃ FREESHIP ĐẶC BIỆT</h3>
               <h4>LƯU MÃ ĐỂ SỬ DỤNG</h4>
-              {arrCoupon?.slice(0, 1)?.map((data) => {
-                console.log(data);
+              {arrCoupon?.slice(0, 1)?.map((data, idx) => {
                 return (
-                  <div className={style.item_coupon}>
+                  <div className={style.item_coupon} key={idx}>
                     <div className={style.left}>
                       <div
                         className={`${style.lottery_box} ${
@@ -180,9 +179,9 @@ function Slider(props) {
               </p>
               <h3>VOUCHER TOÀN SÀN</h3>
               <h4>LƯU MÃ ĐỂ SỬ DỤNG</h4>
-              {arrCoupon?.slice(0, 1)?.map((data) => {
+              {arrCoupon?.slice(0, 1)?.map((data, idx) => {
                 return (
-                  <div className={style.item_coupon}>
+                  <div className={style.item_coupon} key={idx}>
                     <div className={style.left}>
                       <div
                         className={`${style.lottery_box} ${

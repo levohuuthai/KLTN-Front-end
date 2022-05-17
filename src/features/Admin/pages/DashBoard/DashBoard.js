@@ -5,33 +5,55 @@ import { Bar } from "react-chartjs-2";
 import { Line } from "react-chartjs-2";
 
 import { Chart as ChartJS } from "chart.js/auto";
-import { Chart } from "react-chartjs-2";
 import statisticAdminApi from "api/admin/statisticAdminApi";
 import orderAdminApi from "api/admin/orderAdminApi";
 
 import ItemNewOrder from "./ItemNewOrder/ItemNewOrder";
+import userAdminApi from "api/admin/userAdminApi";
+import { Link } from "react-router-dom";
 
 function DashBoard(props) {
+  const [arrListNewOrder, setArrListNewOrder] = useState([]);
+  const [arrListNewUser, setArrListNewUser] = useState([]);
+  const [dailyIncome, setDailyIncome] = useState();
+  const [monthIncome, setMonthIncome] = useState();
+  const [dailyCountProduct, setDailyCountProduct] = useState();
+  const [monthCountProduct, setMonthCountProduct] = useState();
+  const [arrTotalMoneyThisYear, setArrTotalMoneyThisYear] = useState([]);
+  const [arrTotalMoneyLastYear, setArrTotalMoneyLastYear] = useState([]);
+  const [arrTotalProductThisYear, setArrTotalProductThisYear] = useState([]);
+
+  // const [percentTotalMoneyLastMonth, setPercentTotalMoneyLastMonth] =
+  //   useState();
   const data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
+    labels: [
+      "Tháng 1",
+      "Tháng 2",
+      "Tháng 3",
+      "Tháng 4",
+      "Tháng 5",
+      "Tháng 6",
+      "Tháng 7",
+      "Tháng 8",
+      "Tháng 9",
+      "Tháng 10",
+      "Tháng 11",
+      "Tháng 12",
+    ],
     datasets: [
       {
-        label: "My First dataset",
+        label: "Số lượng sản phẩm",
         backgroundColor: "rgba(255,99,132,0.2)",
         borderColor: "rgba(255,99,132,1)",
         borderWidth: 1,
         hoverBackgroundColor: "rgba(255,99,132,0.4)",
         hoverBorderColor: "rgba(255,99,132,1)",
-        data: [65, 59, 80, 81, 56, 55, 40],
+        data: arrTotalProductThisYear?.map((data) => {
+          return data.sl;
+        }),
       },
     ],
   };
-  const [arrListNewOrder, setArrListNewOrder] = useState([]);
-  const [dailyIncome, setDailyIncome] = useState();
-  const [monthIncome, setMonthIncome] = useState();
-  const [dailyCountProduct, setDailyCountProduct] = useState();
-  const [monthCountProduct, setMonthCountProduct] = useState();
-
   useEffect(() => {
     const fetchRequestGetNewOrder = async () => {
       try {
@@ -42,6 +64,17 @@ function DashBoard(props) {
       }
     };
     fetchRequestGetNewOrder();
+  }, []);
+  useEffect(() => {
+    const fetchRequestGetNewUser = async () => {
+      try {
+        const requestGetNewUser = await userAdminApi.getNewUser();
+        setArrListNewUser(requestGetNewUser.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetNewUser();
   }, []);
   useEffect(() => {
     //Số tiền bán đc trong ngày
@@ -86,14 +119,59 @@ function DashBoard(props) {
       }
     };
     fetchRequestGetCountMonthProduct();
+    //Phần trăm tổn tiền so với tháng trc
+    // const fetchRequestGetGetMonthlyIncomeVoiThangTruoc = async () => {
+    //   try {
+    //     const requestGetGetMonthlyIncomeVoiThangTruoc =
+    //       await statisticAdminApi.getMonthlyIncomeVoiThangTruoc();
+    //     // console.log(requestGetGetMonthlyIncomeVoiThangTruoc);
+    //     // setPercentTotalMoneyLastMonth(requestGetGetMonthlyIncomeVoiThangTruoc);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchRequestGetGetMonthlyIncomeVoiThangTruoc();
+
+    //Biểu đồ tổng tiền năm nay vs năm trước
+    const fetchRequestthongKeTheoThangTongTienSoVoiNamTruoc = async () => {
+      try {
+        const requestthongKeTheoThangTongTienSoVoiNamTruoc =
+          await statisticAdminApi.thongKeTheoThangTongTienSoVoiNamTruoc();
+        setArrTotalMoneyThisYear(
+          requestthongKeTheoThangTongTienSoVoiNamTruoc.data.namnay
+        );
+        setArrTotalMoneyLastYear(
+          requestthongKeTheoThangTongTienSoVoiNamTruoc.data.namtruoc
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestthongKeTheoThangTongTienSoVoiNamTruoc();
+
+    //Biểu đồ số lượng sản phẩm năm nay
+    const fetchRequestthongKeTheoThangTongTienSLSanPham = async () => {
+      try {
+        const requestthongKeTheoThangTongTienSLSanPham =
+          await statisticAdminApi.thongKeTheoThangTongTienSLSanPham();
+        console.log(requestthongKeTheoThangTongTienSLSanPham);
+        setArrTotalProductThisYear(
+          requestthongKeTheoThangTongTienSLSanPham.data.array
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestthongKeTheoThangTongTienSLSanPham();
   }, []);
+
   return (
     <div className="d-flex wrap">
       <AsideAdmin />
       <div className={style.dashboard}>
         <div className={style.dashboard_frame}>
-          <div className={style.title_search}>
-            <span>DashBoard</span>
+          <div className={`${style.title_search} d-flex`}>
+            <h4>DashBoard</h4>
             <div className={style.search}>
               <span>
                 <i className="bi bi-search"></i>
@@ -110,12 +188,6 @@ function DashBoard(props) {
                     style: "currency",
                     currency: "VND",
                   }).format(dailyIncome)}
-                </span>
-                <span>
-                  <span style={{ color: "green", fontWeight: "700" }}>
-                    +3,48%
-                  </span>
-                  Từ tháng trước
                 </span>
               </div>
               <div className={style.right_block_statistic}>
@@ -148,12 +220,6 @@ function DashBoard(props) {
                 <span className={style.price_today}>
                   {dailyCountProduct} sản phẩm
                 </span>
-                <span>
-                  <span style={{ color: "green", fontWeight: "700" }}>
-                    +3,48%
-                  </span>{" "}
-                  Từ tháng trước
-                </span>
               </div>
               <div className={style.right_block_statistic}>
                 <i class="fas fa-tshirt"></i>
@@ -164,12 +230,6 @@ function DashBoard(props) {
                 <span>Tổng số lượng bán trong tháng</span>
                 <span className={style.price_today}>
                   {monthCountProduct} sản phẩm
-                </span>
-                <span>
-                  <span style={{ color: "green", fontWeight: "700" }}>
-                    +3,48%
-                  </span>{" "}
-                  Từ tháng trước
                 </span>
               </div>
               <div className={style.right_block_statistic}>
@@ -182,53 +242,50 @@ function DashBoard(props) {
               <Line
                 data={{
                   labels: [
-                    1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050,
+                    "Tháng 1",
+                    "Tháng 2",
+                    "Tháng 3",
+                    "Tháng 4",
+                    "Tháng 5",
+                    "Tháng 6",
+                    "Tháng 7",
+                    "Tháng 8",
+                    "Tháng 9",
+                    "Tháng 10",
+                    "Tháng 11",
+                    "Tháng 12",
                   ],
                   datasets: [
                     {
-                      data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
-                      label: "Africa",
+                      data: arrTotalMoneyThisYear?.map((data) => {
+                        return data.tien;
+                      }),
+
+                      label: "Năm 2022",
+                      borderColor: "#ba933e",
+                      fill: false,
+                    },
+                    {
+                      data: arrTotalMoneyLastYear?.map((data) => {
+                        return data.tien;
+                      }),
+                      label: "Năm 2021",
                       borderColor: "#3e95cd",
-                      fill: false,
-                    },
-                    {
-                      data: [
-                        282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267,
-                      ],
-                      label: "Asia",
-                      borderColor: "#8e5ea2",
-                      fill: false,
-                    },
-                    {
-                      data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
-                      label: "Europe",
-                      borderColor: "#3cba9f",
-                      fill: false,
-                    },
-                    {
-                      data: [40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
-                      label: "Latin America",
-                      borderColor: "#e8c3b9",
-                      fill: false,
-                    },
-                    {
-                      data: [6, 3, 2, 2, 7, 26, 82, 172, 312, 433],
-                      label: "North America",
-                      borderColor: "#c45850",
                       fill: false,
                     },
                   ],
                 }}
-                width={100}
-                height={50}
+                width={250}
+                height={70}
                 options={{
-                  title: {
-                    display: true,
-                    text: "World population per region (in millions)",
-                  },
-                  legend: {
-                    display: true,
-                    position: "bottom",
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: "Biểu đồ doanh thu theo từng tháng",
+                      padding: {
+                        top: 10,
+                      },
+                    },
                   },
                 }}
               />
@@ -240,6 +297,16 @@ function DashBoard(props) {
                 height={50}
                 options={{
                   maintainAspectRatio: false,
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: "Biểu đồ số lượng sản phẩm bán được theo từng tháng",
+                      padding: {
+                        top: 10,
+                        // bottom: 30,
+                      },
+                    },
+                  },
                 }}
               />
             </div>
@@ -250,14 +317,14 @@ function DashBoard(props) {
                 className={`${style.title_transaction} d-flex justify-content-between`}
               >
                 <span>Các giao dịch mới nhất</span>
-                <p>Xem tất cả</p>
+                <Link to="/admin/listorder">Xem tất cả</Link>
               </div>
               <table>
                 <thead>
                   <tr>
-                    <th>Khách hàng</th>
-                    <th>Tổng số sản phẩm</th>
-                    <th>Giá</th>
+                    <th>Số điện thoại</th>
+                    <th>Số sản phẩm</th>
+                    <th>Tổng tiền</th>
                     <th>Ngày</th>
                   </tr>
                 </thead>
@@ -277,7 +344,7 @@ function DashBoard(props) {
                 className={`${style.title_customer} d-flex justify-content-between`}
               >
                 <span>Khách hàng mới</span>
-                <p>Xem tất cả</p>
+                <Link to="/admin/listuser">Xem tất cả</Link>
               </div>
               <table>
                 <thead>
@@ -289,38 +356,18 @@ function DashBoard(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>
-                      <i class="far fa-user"></i>
-                    </td>
-                    <td>012589526586</td>
-                    <td>Lê Võ Hửu Thái</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class="far fa-user"></i>
-                    </td>
-                    <td>012589526586</td>
-                    <td>Lê Võ Hửu Thái</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class="far fa-user"></i>
-                    </td>
-                    <td>012589526586</td>
-                    <td>Lê Võ Hửu Thái</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <i class="far fa-user"></i>
-                    </td>
-                    <td>012589526586</td>
-                    <td>Lê Võ Hửu Thái</td>
-                    <td></td>
-                  </tr>
+                  {arrListNewUser?.slice(0, 4).map((data, idx) => {
+                    return (
+                      <tr>
+                        <td>
+                          <i class="far fa-user"></i>
+                        </td>
+                        <td>{data?._id}</td>
+                        <td>{data?.userName}</td>
+                        <td></td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>

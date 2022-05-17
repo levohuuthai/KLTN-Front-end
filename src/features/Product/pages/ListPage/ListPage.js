@@ -28,7 +28,7 @@ function ListPage(props) {
   const [dataArrayBrand, setDataArrayBrand] = useState([]);
   const [dataArraySize, setDataArrayySize] = useState([]);
   const [dataArrayColor, setDataArrayColor] = useState([]);
-  const [dataTypeProduct, setDataTypeProduct] = useState("");
+  // const [dataTypeProduct, setDataTypeProduct] = useState("");
 
   const location = useLocation();
   const nameTypeProduct = location.state?.nameTypeProduct;
@@ -86,15 +86,16 @@ function ListPage(props) {
   };
 
   const handleReceiveDataType = (dataType) => {
-    setDataTypeProduct(dataType);
+    // setDataTypeProduct(dataType);
   };
 
   const handlePageChange = (e, page) => {
     dispatch({
-      type: ACTIOS.filterPagination,
-      payload: { _limit: 2, _page: page },
+      type: ACTIOS.page_limit_ByProduct,
+      payload: { _limit: 10, _page: page },
     });
   };
+  // console.log(state.filterPagination);
   useEffect(() => {
     if (
       state.dataFilterBrand.length +
@@ -111,13 +112,15 @@ function ListPage(props) {
         (!state.dataFilterStar.active2 ? 0 : 1) ===
       0
     ) {
+      console.log("ko loc");
+
       const fetchRequestGetAllProductByCategory = async () => {
         try {
           const requestGetAllProductByCategory =
             await productApi.getAllProductByCategory(
-              state.filterPaginationByProduct._page,
-              state.filterPaginationByProduct._limit,
-              nameTypeProduct
+              nameTypeProduct,
+              state.page_limit_ByProduct._page,
+              state.page_limit_ByProduct._limit
             );
           console.log(requestGetAllProductByCategory);
           await dispatch({
@@ -137,7 +140,7 @@ function ListPage(props) {
         }
       };
       fetchRequestGetAllProductByCategory();
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     state.dataFilterBrand,
     state.dataFilterSize,
@@ -147,6 +150,7 @@ function ListPage(props) {
     state.dataFilterPrice200To500,
     state.dataFilterStyle,
     state.dataFilterStar,
+    state.page_limit_ByProduct,
   ]);
   const handleCancelPriceUnder200 = () => {
     dispatch({
@@ -527,8 +531,16 @@ function ListPage(props) {
               </div>
             </div>
           </div>
-          {state.loading ? <ProductSkeletonList /> : <ProductList />}{" "}
-          <div className="d-flex justify-content-center">
+          {state.loading ? (
+            <ProductSkeletonList length={6 || state.dataProductFilter.length} />
+          ) : (
+            <ProductList />
+          )}{" "}
+          {/* <ProductSkeletonList /> */}
+          <div
+            className="d-flex justify-content-center"
+            style={{ marginTop: "50px" }}
+          >
             <Pagination
               classes={{ ul: classes.ul }}
               count={Math.ceil(

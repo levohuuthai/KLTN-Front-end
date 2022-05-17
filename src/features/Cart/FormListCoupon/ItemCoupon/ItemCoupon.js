@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "../FormListCoupon.module.scss";
 import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
 
 function ItemCoupon(props) {
   const [endDay, setEndDay] = useState({
@@ -28,7 +27,7 @@ function ItemCoupon(props) {
   const [dataCouponLocal, setDataCouponLocal] = useState();
 
   useEffect(() => {
-    setDataCouponLocal(JSON.parse(localStorage.getItem("dataCoupon")));
+    setDataCouponLocal(JSON.parse(localStorage.getItem("dataCoupon"))); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [, localStorage.getItem("dataCoupon")]);
   //ĐÃ XÀI RỒI > CHƯA THỎA> ÁP DỤNG
   const { dispatch, state } = useContext(GlobalContext);

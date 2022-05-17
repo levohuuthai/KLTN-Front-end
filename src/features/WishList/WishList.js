@@ -13,7 +13,7 @@ function WishList(props) {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const { dispatch, state } = useContext(GlobalContext);
+  const { dispatch } = useContext(GlobalContext);
   const loggedInUser = useSelector((state) => state.user.current);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function WishList(props) {
         console.log(error);
       }
     };
-    fetchGetProductWishList();
+    fetchGetProductWishList(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
@@ -64,19 +64,19 @@ function WishList(props) {
         <div className={style.share_on}>
           <h2>Chia sẻ:</h2>
           <div className={style.share_social}>
-            <a href="" className={style.face}>
+            <a href="/" className={style.face}>
               <i className="fab fa-facebook"></i>
             </a>
-            <a href="" className={style.twitter}>
+            <a href="/" className={style.twitter}>
               <i className="fab fa-twitter"></i>
             </a>
-            <a href="" className={style.pin}>
+            <a href="/" className={style.pin}>
               <i className="fab fa-pinterest"></i>
             </a>
-            <a href="" className={style.em}>
+            <a href="/" className={style.em}>
               <i className="far fa-envelope"></i>
             </a>
-            <a href="" className={style.vi}>
+            <a href="/" className={style.vi}>
               <i className="fab fa-viber"></i>
             </a>
           </div>

@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import style from "./ProductList.module.scss";
 import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import ao2_back from "assets/images/product_promotion/ao2_back.png";
 import { Link, useLocation } from "react-router-dom";
-import { GlobalContext } from "store/store";
 import productApi from "api/productApi";
 function ProductList(props) {
-  // const { state } = useContext(GlobalContext);
   const [arrProductSearch, setArrProductSearch] = useState([]);
   const location = useLocation();
   const dataTitle = location.state?.dataTitle;

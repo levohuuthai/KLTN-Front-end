@@ -30,10 +30,10 @@ function ItemColor(props) {
         console.log(error);
       }
     };
-    fetchArrayColor();
+    fetchArrayColor(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    props.receiveDataColorOriginal(arrayColor?.[0]);
+    props.receiveDataColorOriginal(arrayColor?.[0]); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [arrayColor?.[0]]);
   useEffect(() => {
     setArrayColor(props.arrayColor);

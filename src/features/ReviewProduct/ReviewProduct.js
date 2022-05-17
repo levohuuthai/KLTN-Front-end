@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
 import style from "./ReviewProduct.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import reviewApi from "api/reviewApi";
 import ItemReviewProduct from "./ItemReviewProduct/ItemReviewProduct";
 import TotalStar from "components/TotalStar/TotalStar";
@@ -22,7 +21,7 @@ function ReviewProduct(props) {
   const [filter2Star, setFilter2Star] = useState({ value: 2, active: false });
   const [filter1Star, setFilter1Star] = useState({ value: 1, active: false });
 
-  const { dispatch, state } = useContext(GlobalContext);
+  const { dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchRequestGetListReview = async () => {
@@ -35,7 +34,7 @@ function ReviewProduct(props) {
         console.log(error);
       }
     };
-    fetchRequestGetListReview();
+    fetchRequestGetListReview(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     const fetchRequestGetListReview5Star = async () => {
@@ -92,7 +91,7 @@ function ReviewProduct(props) {
         console.log(error);
       }
     };
-    fetchRequestGetListReview1Star();
+    fetchRequestGetListReview1Star(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -112,7 +111,7 @@ function ReviewProduct(props) {
     dispatch({
       type: ACTIOS.totalStar,
       payload: totalStar,
-    });
+    }); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [totalStar]);
   const handleFilter5star = () => {
     setFilter5Star((prev) => ({
@@ -136,7 +135,7 @@ function ReviewProduct(props) {
       value: 1,
       active: false,
     });
-    if (filter5Star.active == false) {
+    if (filter5Star.active === false) {
       const fetchRequestGetListReviewFilter5Star = async () => {
         try {
           const requestGetListReview5Star =
@@ -186,7 +185,7 @@ function ReviewProduct(props) {
       value: 1,
       active: false,
     });
-    if (filter4Star.active == false) {
+    if (filter4Star.active === false) {
       const fetchRequestGetListReviewFilter4Star = async () => {
         try {
           const requestGetListReview4Star =
@@ -236,7 +235,7 @@ function ReviewProduct(props) {
       value: 1,
       active: false,
     });
-    if (filter3Star.active == false) {
+    if (filter3Star.active === false) {
       const fetchRequestGetListReviewFilter3Star = async () => {
         try {
           const requestGetListReview3Star =
@@ -286,7 +285,7 @@ function ReviewProduct(props) {
       value: 1,
       active: false,
     });
-    if (filter2Star.active == false) {
+    if (filter2Star.active === false) {
       const fetchRequestGetListReviewFilter2Star = async () => {
         try {
           const requestGetListReview2Star =
@@ -336,7 +335,7 @@ function ReviewProduct(props) {
       value: 2,
       active: false,
     });
-    if (filter1Star.active == false) {
+    if (filter1Star.active === false) {
       const fetchRequestGetListReviewFilter1Star = async () => {
         try {
           const requestGetListReview1Star =

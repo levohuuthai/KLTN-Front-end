@@ -12,11 +12,12 @@ ProductSkeletonList.defaultProps = {
 };
 const useStyles = makeStyles((theme) => ({
   box1: {
-    marginTop: "-120px",
+    marginTop: "-30px",
   },
-  price: { marginTop: "-60px" },
+  price: { marginTop: "-70px" },
   box2: {
-    marginRight: "90px",
+    marginRight: "60px",
+    marginTop: "-90px",
   },
 }));
 function ProductSkeletonList({ length }) {

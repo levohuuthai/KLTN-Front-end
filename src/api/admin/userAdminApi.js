@@ -83,6 +83,10 @@ const userAdminApi = {
     const url = "/users/" + id;
     return axiosClient.get(url);
   },
+  getNewUser() {
+    const url = "/users/getUserMoiNhat";
+    return axiosClient.get(url);
+  },
 };
 
 export default userAdminApi;

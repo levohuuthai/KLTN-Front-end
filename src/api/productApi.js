@@ -52,9 +52,9 @@ const productApi = {
       },
     };
   },
-  async getAllProductByCategory(_page, _limit, category) {
+  async getAllProductByCategory(category, _page, _limit) {
     const productList = await axiosClient.get("/products", {
-      params: { _page, _limit, category },
+      params: { category, _page, _limit },
     });
     const count = await axiosClient.get("/products");
     return {
@@ -132,8 +132,8 @@ const productApi = {
     });
   },
   async getAllProductByFilter(
-    _page,
-    _limit,
+    // _page,
+    // _limit,
     brandData,
     sizeData,
     colorData,
@@ -144,42 +144,14 @@ const productApi = {
     priceMax,
     fromStar
   ) {
-    let brand = brandData?.join(",");
-    let size = sizeData?.join(",");
-    let color = colorData?.join(",");
-    let category = categoryData?.join(",");
-    const productList = await axiosClient.get("/products", {
-      params: {
-        _page,
-        _limit,
-        brand,
-        size,
-        color,
-        category,
-        priceLT,
-        priceGT,
-        priceMin,
-        priceMax,
-        fromStar,
-      },
-    });
-    const count = await axiosClient.get("/products");
-    return {
-      data: productList.data,
-      pagination: {
-        page: _page,
-        limit: _limit,
-        total: count.data.length,
-      },
-    };
-
     // let brand = brandData?.join(",");
     // let size = sizeData?.join(",");
     // let color = colorData?.join(",");
     // let category = categoryData?.join(",");
-    // const url = "/products";
-    // return axiosClient.get(url, {
+    // const productList = await axiosClient.get("/products", {
     //   params: {
+    //     _page,
+    //     _limit,
     //     brand,
     //     size,
     //     color,
@@ -191,6 +163,34 @@ const productApi = {
     //     fromStar,
     //   },
     // });
+    // const count = await axiosClient.get("/products");
+    // return {
+    //   data: productList.data,
+    //   pagination: {
+    //     page: _page,
+    //     limit: _limit,
+    //     total: count.data.length,
+    //   },
+    // };
+
+    let brand = brandData?.join(",");
+    let size = sizeData?.join(",");
+    let color = colorData?.join(",");
+    let category = categoryData?.join(",");
+    const url = "/products";
+    return axiosClient.get(url, {
+      params: {
+        brand,
+        size,
+        color,
+        category,
+        priceLT,
+        priceGT,
+        priceMin,
+        priceMax,
+        fromStar,
+      },
+    });
   },
   getAllSize(category) {
     const url = "/products/allSize";

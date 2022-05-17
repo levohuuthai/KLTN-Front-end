@@ -1,12 +1,9 @@
-import React, { useState, useContext } from "react";
-import PropTypes from "prop-types";
+import React, {  useContext } from "react";
 import style from "./FiltersByColor.module.scss";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
-FiltersByColor.propTypes = {};
 
 function FiltersByColor(props) {
-  const [datacheckbox, setDataCheckbox] = useState([]);
   const { dispatch, state } = useContext(GlobalContext);
 
   const handleChangeDataProduct = (data, idx) => async (e) => {

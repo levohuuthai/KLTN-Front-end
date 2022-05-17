@@ -1,10 +1,7 @@
-import PropTypes from "prop-types";
 import style from "./FiltersByStar.module.scss";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import React, { useContext } from "react";
-
-FiltersByStar.propTypes = {};
 
 function FiltersByStar(props) {
   const { dispatch, state } = useContext(GlobalContext);

@@ -11,7 +11,7 @@ export const ACTIOS = {
   dataFilterPrice200To500: "dataFilterPrice200To500",
   dataFilterStar: "dataFilterStar",
   dataFilter: "dataFilter",
-  filterPaginationByProduct: "filterPaginationByProduct",
+  page_limit_ByProduct: "page_limit_ByProduct",
   paginationByFilterProduct: "paginationByFilterProduct",
   dataProductFilter: "dataProductFilter",
   dataAddress: "dataAddress",

@@ -16,6 +16,10 @@ const statisticAdminApi = {
     const url = "/orders/GetCountMonthlyIncome";
     return axiosClient.get(url);
   },
+  getMonthlyIncomeVoiThangTruoc() {
+    const url = "/orders/GetMonthlyIncomeVoiThangTruoc";
+    return axiosClient.get(url);
+  },
   getAllOrderThongKe(quy) {
     const url = "/orders/getAllOrderThongKe";
     return axiosClient.get(url, {
@@ -23,13 +27,18 @@ const statisticAdminApi = {
     });
   },
   getAllOrderThongKeByDate(from, to) {
-    console.log(from);
-    console.log(to);
-
     const url = "/orders/getAllOrderThongKe";
     return axiosClient.get(url, {
       params: { from, to },
     });
+  },
+  thongKeTheoThangTongTienSoVoiNamTruoc(from, to) {
+    const url = "/orders/thongKeTheoThangTongTienSoVoiNamTruoc";
+    return axiosClient.get(url);
+  },
+  thongKeTheoThangTongTienSLSanPham(from, to) {
+    const url = "/orders/thongKeTheoThangTongTienSLSanPham";
+    return axiosClient.get(url);
   },
 };
 

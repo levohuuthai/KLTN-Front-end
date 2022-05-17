@@ -1,6 +1,5 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import AsideAdmin from "./components/AsideAdmin/AsideAdmin";
 import AddProductAdmin from "./pages/AddProductAdmin/AddProductAdmin";
 import DashBoard from "./pages/DashBoard/DashBoard";
 import ListCoupon from "./pages/ListCoupon/ListCoupon";

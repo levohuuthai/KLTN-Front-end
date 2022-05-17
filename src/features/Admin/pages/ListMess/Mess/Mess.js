@@ -1,27 +1,19 @@
 import style from "../ListMess.module.scss";
 import { useContext, useState } from "react";
 import React, { Fragment, useEffect } from "react";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import messageAdminAPI from "api/admin/messageAdminAPI";
 import userAdminApi from "api/admin/userAdminApi";
-
-// import messageAPI from "../../api/messageAPI";
-// import moment from "moment";
-// import Moment from "react-moment";
 import { format, register } from "timeago.js";
-// import "moment/locale/vi";
 import config from "config/config";
 
 const Mess = (props) => {
-  const [user, setUser] = useState(null);
   const [userLastMess, setUserLastMess] = useState(null);
 
-  const [messages, setMessages] = useState([]);
   const [lastMess, setLastMess] = useState("");
   const [nameSender, setNameSender] = useState("");
-  const { dispatch, state } = useContext(GlobalContext);
+  const { dispatch } = useContext(GlobalContext);
 
   // register your locale with timeago
   register("my-locale", config);
@@ -58,7 +50,7 @@ const Mess = (props) => {
         console.log(error);
       }
     };
-    fetchMessage();
+    fetchMessage(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.onSendRoomToBoxChat]);
   const time = format(lastMess?.createdAt, "my-locale");
   //Lay nguoi gui tin nhan cuoi cung

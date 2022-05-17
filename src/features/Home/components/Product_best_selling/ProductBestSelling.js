@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -9,22 +9,17 @@ import Quickview from "components/Quickview/Quickview";
 import productApi from "api/productApi";
 
 import { useNavigate } from "react-router-dom";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
+
 import ListProductBestSeller from "./ListProductBestSeller/ListProductBestSeller";
 function ProductBestSelling(props) {
   const [dataProduct, setDataProduct] = useState();
-  const [dataProductDetailId, setDataProductDetailId] = useState();
   let navigate = useNavigate();
-  const { dispatch, state } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchRequestGetAllProdcut = async () => {
       try {
         const requestGetAllProduct = await productApi.getAllProductBestSeller();
-        console.log(requestGetAllProduct);
         setDataProduct(requestGetAllProduct.data);
-        setDataProductDetailId(requestGetAllProduct.data);
       } catch (error) {
         console.log(error);
       }

@@ -18,7 +18,7 @@ function ItemReviewProduct(props) {
         console.log(error);
       }
     };
-    fetchRequestGetUserById();
+    fetchRequestGetUserById(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     var date = new Date(user?.createdAt);
@@ -39,7 +39,7 @@ function ItemReviewProduct(props) {
       <div className={style.item_reviewProduct_left}>
         <div className={`${style.avatar_name_group} d-flex align-items-center`}>
           <div className={style.avatar}>
-            <img src={user?.avatar}></img>
+            <img src={user?.avatar} alt="img_avatar"></img>
           </div>
           <div className={`${style.name} d-flex flex-column`}>
             <span style={{ fontSize: "17px" }}>
@@ -146,7 +146,7 @@ function ItemReviewProduct(props) {
         </div>
         <div className={style.review}>{props.data.comment}</div>{" "}
         <div className={style.image_review}>
-          <img src={props.data.image}></img>
+          <img src={props.data.image} alt="img_review"></img>
         </div>
         <div className={style.time_review}>
           <span>

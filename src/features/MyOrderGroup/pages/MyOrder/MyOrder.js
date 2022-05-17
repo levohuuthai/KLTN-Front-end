@@ -1,12 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
 import style from "./MyOrder.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
-import ao2_back from "assets/images/product_promotion/ao2_back.png";
 import orderApi from "api/orderApi";
 import { useSelector } from "react-redux";
-import productApi from "api/productApi";
 import ItemProductOrder from "./ItemProductOrder/ItemProductOrder";
 import MyOrderAside from "features/MyOrderGroup/components/MyOrderAside/MyOrderAside";
 import { useNavigate } from "react-router-dom";
@@ -52,7 +47,7 @@ function MyOrder(props) {
         console.log(error);
       }
     };
-    fetchGetOrder();
+    fetchGetOrder(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
   const handleAllOrder = () => {
     setStatus("");

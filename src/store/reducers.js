@@ -68,10 +68,10 @@ const reducer = (state, action) => {
         ...state,
         dataFilter: action.payload,
       };
-    case ACTIOS.filterPaginationByProduct:
+    case ACTIOS.page_limit_ByProduct:
       return {
         ...state,
-        filterPaginationByProduct: action.payload,
+        page_limit_ByProduct: action.payload,
       };
     case ACTIOS.paginationByFilterProduct:
       return {

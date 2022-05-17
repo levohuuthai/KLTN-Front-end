@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -10,53 +10,14 @@ import productApi from "api/productApi";
 
 import ListProduct from "./ListProduct/ListProduct";
 import { useNavigate } from "react-router-dom";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
 function ProductPromotion(props) {
-  // const dataProduct = [
-  //   {
-  //     productID: 1,
-  //     name: "Áo thun trơn1",
-  //   },
-  //   {
-  //     productID: 2,
-  //     name: "Áo thun in hình2",
-  //   },
-
-  //   {
-  //     productID: 3,
-  //     name: "Áo thun trơn3",
-  //   },
-  //   {
-  //     productID: 4,
-  //     name: "Áo thun in hình4",
-  //   },
-
-  //   {
-  //     productID: 5,
-  //     name: "Áo thun trơn5",
-  //   },
-  //   {
-  //     productID: 6,
-  //     name: "Áo thun in hình6",
-  //   },
-  //   {
-  //     productID: 7,
-  //     name: "Áo thun in hình7",
-  //   },
-  // ];
   const [dataProduct, setDataProduct] = useState();
-  const [dataProductDetailId, setDataProductDetailId] = useState();
   let navigate = useNavigate();
-  const { dispatch, state } = useContext(GlobalContext);
-
   useEffect(() => {
     const fetchRequestGetAllProdcut = async () => {
       try {
         const requestGetAllProduct = await productApi.getAllProductDiscount();
-        console.log(requestGetAllProduct);
         setDataProduct(requestGetAllProduct.data);
-        setDataProductDetailId(requestGetAllProduct.data);
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +26,6 @@ function ProductPromotion(props) {
   }, []);
   const handleAllProductPromotion = () => {
     navigate("/discount");
-
     // const fetchRequestGetAllProductDiscount = async () => {
     //   try {
     //     const requestGetAllProductDiscount =

@@ -154,14 +154,69 @@ const Quickview = (props) => {
               <h4 className={style.title_quickview}>
                 {state.dataQuickView?.title}
               </h4>
-              <div className={`${style.rating} d-flex`}>
-                <TotalStar productId={state.dataQuickView._id} />
-                <span style={{ marginLeft: "15px" }}>
-                  ({totalComment} nhận xét)
-                </span>
-              </div>
+              {totalComment === 0 ? (
+                <div className={`${style.rating} d-flex`}>
+                  <span>Chưa có đánh giá</span>
+                </div>
+              ) : (
+                <div className={`${style.rating} d-flex`}>
+                  <TotalStar productId={state.dataQuickView._id} />
+                  <span style={{ marginLeft: "15px" }}>
+                    ({totalComment} nhận xét)
+                  </span>
+                </div>
+              )}
               <p className={style.price}>
-                <span className={`${style.price_notoff}`}>
+                {state.dataQuickView.priceBase !==
+                  state.dataQuickView.priceMin &&
+                state.dataQuickView.priceBase !==
+                  state.dataQuickView.priceMax &&
+                state.dataQuickView.priceMin !==
+                  state.dataQuickView.priceMax ? (
+                  <span>
+                    <span className={`${style.price_notoff}`}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(state.dataQuickView.priceBase)}
+                    </span>
+                    <span className={style.price_off}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(state.dataQuickView.priceMin) +
+                        ` - ` +
+                        new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(state.dataQuickView.priceMax)}
+                    </span>
+                  </span>
+                ) : state.dataQuickView.priceMin ===
+                  state.dataQuickView.priceMax ? (
+                  <span>
+                    <span className={`${style.price_notoff}`}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(state.dataQuickView.priceBase)}
+                    </span>
+                    <span className={style.price_off}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(state.dataQuickView.priceMin)}
+                    </span>
+                  </span>
+                ) : (
+                  <span className={style.price_off}>
+                    {new Intl.NumberFormat("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    }).format(state.dataQuickView.priceBase)}
+                  </span>
+                )}
+                {/* <span className={`${style.price_notoff}`}>
                   {new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
@@ -177,7 +232,7 @@ const Quickview = (props) => {
                       style: "currency",
                       currency: "VND",
                     }).format(state.dataQuickView.priceMax)}
-                </span>
+                </span> */}
               </p>
               <p className={`${style.brand}`}>
                 <span style={{ fontSize: " 14px" }}>Thương hiệu:</span>{" "}

@@ -76,7 +76,7 @@
       display: flex;
       height: 300px;
       .chart_curve {
-        width: 70%;
+        width: 68%;
         background: #fff;
         margin-right: 10px;
         border-radius: 10px;
@@ -86,7 +86,7 @@
       }
       .chart_column {
         background: #fff;
-        width: 30%;
+        width: 32%;
         border-radius: 10px;
       }
     }
@@ -98,7 +98,6 @@
         width: 70%;
         background: #fff;
         box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-
         margin-right: 10px;
         border-radius: 10px;
         padding: 10px 10px;
@@ -108,7 +107,7 @@
             color: black;
             font-weight: 700;
           }
-          p {
+          a {
             background: #1a1a1a;
             color: #fff;
             font-weight: 700;
@@ -124,9 +123,9 @@
         }
         table {
           width: 100%;
-          border-collapse: collapse;
           thead {
             tr {
+              text-align: center;
               th {
                 border-bottom: 1px solid #e5e5e5;
               }
@@ -134,8 +133,12 @@
           }
           tbody {
             tr {
+              text-align: center;
               td {
                 border-bottom: 1px solid #e5e5e5;
+                &.countProduct {
+                  // padding-right: 50px;
+                }
               }
             }
           }
@@ -154,7 +157,7 @@
             color: black;
             font-weight: 700;
           }
-          p {
+          a {
             background: #1a1a1a;
             color: #fff;
             font-weight: 700;

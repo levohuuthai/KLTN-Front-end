@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./MyOrderDetail.module.scss";
 import MyOrderAside from "features/MyOrderGroup/components/MyOrderAside/MyOrderAside";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import addressAPI from "api/addressAPI";
 import { useLocation } from "react-router-dom";
 import ItemProductOrderDetail from "./ItemProductOrderDetail/ItemProductOrderDetail";
@@ -40,7 +39,7 @@ function MyOrderDetail(props) {
         console.log(error);
       }
     };
-    fetchGetAddress();
+    fetchGetAddress(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     var date = new Date(dataOrder?.createdAt);

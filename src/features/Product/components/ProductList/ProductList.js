@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import style from "./ProductList.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
-import ao2_back from "assets/images/product_promotion/ao2_back.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import productApi from "api/productApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
@@ -15,8 +13,6 @@ function ProductList(props) {
     e.preventDefault();
   };
 
-  const location = useLocation();
-  const nameTypeProduct = location.state?.nameTypeProduct;
   //Mặc định khi load 3 loại
 
   // useEffect(() => {
@@ -150,7 +146,8 @@ function ProductList(props) {
               </h2>
               <p className={`${style.price_trend_product} `}>
                 {data.priceBase !== data.priceMin &&
-                data.priceBase !== data.priceMax ? (
+                data.priceBase !== data.priceMax &&
+                data.priceMin !== data.priceMax ? (
                   <span>
                     <span className={`${style.price_notoff}`}>
                       {new Intl.NumberFormat("vi-VN", {
@@ -168,6 +165,21 @@ function ProductList(props) {
                           style: "currency",
                           currency: "VND",
                         }).format(data.priceMax)}
+                    </span>
+                  </span>
+                ) : data.priceMin === data.priceMax ? (
+                  <span>
+                    <span className={`${style.price_notoff}`}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceBase)}
+                    </span>
+                    <span className={style.price_off}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceMin)}
                     </span>
                   </span>
                 ) : (

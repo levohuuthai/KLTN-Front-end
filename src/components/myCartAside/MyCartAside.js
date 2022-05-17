@@ -1,22 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import style from "./MyCartAside.module.scss";
 import { GlobalContext } from "../../store/store";
 import { ACTIOS } from "../../store/actions";
 import cartApi from "api/cartApi";
 import { useSelector } from "react-redux";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CartSkeletonList from "./CartSkeletonList";
 import LoadingCart from "./LoadingCart";
-
-MyCartAside.propTypes = {};
 
 function MyCartAside(props) {
   const { dispatch, state } = useContext(GlobalContext);
   const { activeCart } = state;
   const loggedInUser = useSelector((state) => state.user.current);
-  const [dataArrayCart, setDataArrayCart] = useState([]);
   const [totalMoney, setTotalMoney] = useState();
 
   const closeMyCart = (e) => {
@@ -46,9 +41,13 @@ function MyCartAside(props) {
     }
   };
   const handleLinkPayment = (e) => {
-    e.preventDefault();
-    dispatch({ type: ACTIOS.ActiveShowCart, payload: false });
-    navigate("/checkout/address");
+    if (state.dataCart.length > 0) {
+      e.preventDefault();
+      dispatch({ type: ACTIOS.ActiveShowCart, payload: false });
+      navigate("/checkout/address");
+    } else {
+      e.preventDefault();
+    }
   };
   return (
     <>
@@ -86,7 +85,7 @@ function MyCartAside(props) {
                             type: ACTIOS.loadingDeleteCart,
                             payload: true,
                           });
-                          if (requestDeleteProductCart.status == 200) {
+                          if (requestDeleteProductCart.status === 200) {
                             const fetchGetProductCartByUserId = async () => {
                               try {
                                 const requestGetProductCartByUserId =
@@ -119,12 +118,12 @@ function MyCartAside(props) {
                         key={idx}
                       >
                         <div className={style.img_product_cart}>
-                          <a href="">
+                          <a href="#/">
                             <img src={data.product.image} alt="ao thun 2" />
                           </a>
                         </div>
                         <div className={style.name_product_cart}>
-                          <a href="">{data.product.title}</a>
+                          <a href="#/">{data.product.title}</a>
                           <span>
                             {data.product.quantity} x{" "}
                             {new Intl.NumberFormat("vi-VN", {
@@ -173,7 +172,9 @@ function MyCartAside(props) {
                 <div>
                   <a
                     href="/"
-                    className={style.checkout}
+                    className={`${style.checkout} ${
+                      state.dataCart.length > 0 ? style.active : ""
+                    }`}
                     onClick={handleLinkPayment}
                   >
                     Thanh toán

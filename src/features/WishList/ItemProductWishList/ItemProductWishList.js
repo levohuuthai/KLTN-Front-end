@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import style from "../WishList.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import productApi from "api/productApi";
 import useCallAPI from "customHooks/useCallAPI";
 import FormDelete from "components/FormDelete/FormDelete";
 import wishlishApi from "api/wishlishApi";
-import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import { useSelector } from "react-redux";
 
@@ -14,7 +11,6 @@ ItemProductWishList.propTypes = {};
 
 function ItemProductWishList(props) {
   const [dataProduct, setDataProduct] = useState();
-  const { dispatch, state } = useContext(GlobalContext);
   const loggedInUser = useSelector((state) => state.user.current);
 
   // console.log(props?.idData);
@@ -32,9 +28,9 @@ function ItemProductWishList(props) {
         console.log(error);
       }
     };
-    fetchGetProductId();
+    fetchGetProductId(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const { response, loading, error } = useCallAPI({
+  const { response } = useCallAPI({
     url: productApi.getIdProduct,
     body: props.idData,
   });
@@ -61,7 +57,7 @@ function ItemProductWishList(props) {
         <i className="far fa-times-circle"></i>
       </td>
       <td className={style.img_product_wishlist}>
-        <img src={dataProduct?.image_front} alt="image" />
+        <img src={dataProduct?.image_front} alt="img_front" />
       </td>
       <td className={style.name_product_wishlist}>{dataProduct?.title}</td>
       <td className={style.unitprice_product_wishlist}>
@@ -77,7 +73,7 @@ function ItemProductWishList(props) {
       </td>
       <td className={style.brand}>{dataProduct?.brand}</td>
       <td className={style.detail_product}>
-        <a href="#">Xem chi tiết</a>
+        <a href="/">Xem chi tiết</a>
       </td>
       <FormDelete
         isOpenFormDelete={isOpenFormDelete}
