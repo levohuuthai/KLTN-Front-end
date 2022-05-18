@@ -176,7 +176,7 @@ const FormReviewProduct = (props) => {
     const fd = new FormData();
     fd.append("uploadFile", fileSelected);
     axios
-      .post("//localhost:5000/products/addFile", fd)
+      .post("//localhost:3333/products/addFile", fd)
       .then((res) => {
         console.log(res);
         setImageReview((pre) => {
@@ -200,6 +200,7 @@ const FormReviewProduct = (props) => {
           image: imageReview.img,
           ProductDetailId: props.dataProductDetail.productDetailId,
         });
+        console.log(requestAddReview);
         if (requestAddReview.status === 200) {
           props.onFormFalse(false);
           props.onActiveNotifyReview(true);

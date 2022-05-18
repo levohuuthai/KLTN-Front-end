@@ -103,7 +103,7 @@ function Header(props) {
     fetchGetProductWishList(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleLinkMyOrder = () => {
-    navigate("/myorder");
+    navigate("/customer/myorder/");
   };
   return (
     <>

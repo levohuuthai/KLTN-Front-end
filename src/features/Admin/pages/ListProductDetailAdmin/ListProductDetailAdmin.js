@@ -11,9 +11,9 @@ import { ACTIOS } from "store/actions";
 function ListProductDetailAdmin(props) {
   // const [arrayProductDetail, setArrayProductDetail] = useState([]);
   const { dispatch, state } = useContext(GlobalContext);
-
+  let navigate = useNavigate();
   const handleLinkAddProduct = () => {
-    props.onReiceveLinkAddProduct("/admin/addproduct");
+    navigate("/admin/listproduct");
   };
   const location = useLocation();
   const dataProduct = location.state?.dataProduct;
@@ -49,7 +49,7 @@ function ListProductDetailAdmin(props) {
               </b>
             </span>
             <span className={style.add_product} onClick={handleLinkAddProduct}>
-              Tạo mới
+              Quay lại
             </span>
           </div>
           <div className={`${style.searchListProduct} d-flex `}>

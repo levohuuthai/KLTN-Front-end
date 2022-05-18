@@ -211,13 +211,13 @@ function ListProductBestSeller(props) {
           </SwiperSlide>
         );
       })}
-      <div
-        className={`${style.notify_add_wishlist} ${
+      {/* <div
+        className={`${style.notify_add_wishlist_bestselling} ${
           activeWishList ? style.active : ""
         }`}
       >
         <p>Sản phẩm được thêm vào yêu thích</p>
-      </div>
+      </div> */}
     </Swiper>
   );
 }

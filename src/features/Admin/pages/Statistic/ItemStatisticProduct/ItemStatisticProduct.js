@@ -7,7 +7,7 @@ function ItemStatisticProduct(props) {
       <span
         className={`${style.top} d-flex justify-content-center  align-items-center`}
       >
-        1
+        {props.idx + 1}
       </span>{" "}
       <span className={style.image}>
         <img src={props.data?.image_front} alt="img" />

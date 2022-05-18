@@ -76,6 +76,16 @@ const productAdminApi = {
     console.log(url);
     return axiosClient.delete(url);
   },
+  getImageByColorAndProductId(color, productId) {
+    const url = "/products/findImageByColorAndProductId";
+    console.log(color, productId);
+    return axiosClient.get(url, {
+      params: {
+        color,
+        productId,
+      },
+    });
+  },
 };
 
 export default productAdminApi;

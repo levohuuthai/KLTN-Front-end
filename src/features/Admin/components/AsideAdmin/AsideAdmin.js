@@ -7,6 +7,7 @@ import ListProductAdmin from "features/Admin/pages/ListProductAdmin/ListProductA
 import AddProductAdmin from "features/Admin/pages/AddProductAdmin/AddProductAdmin";
 import ListUserAdmin from "features/Admin/pages/ListUserAdmin/ListUserAdmin";
 import { useSelector } from "react-redux";
+import FormLogout from "components/FormLogout/FormLogout";
 
 function AsideAdmin(props) {
   // let navigate = useNavigate();
@@ -82,48 +83,63 @@ function AsideAdmin(props) {
   // console.log(link);
   const location = useLocation();
   const loggedInUser = useSelector((state) => state.user.current);
-
+  const [isOpenFormLogOut, seIsOpenFormLogOut] = useState(false);
+  const handleLogout = () => {
+    seIsOpenFormLogOut(true);
+  };
+  const falseFromLogOut = () => {
+    seIsOpenFormLogOut(false);
+  };
   return (
-    <div className={style.aside_admin}>
-      <div className={style.frame_aside}>
-        <div className={style.logo_rubix}>
-          <img src={logoRubic} alt="logo rubix" />
-          <div className={style.line_logo}></div>
-        </div>
-        <div className={`${style.info_account} d-flex `}>
-          <div className={style.avatar}>
-            <img src={loggedInUser?.avatar} alt="avatar" />
+    <>
+      <div className={style.aside_admin}>
+        <div className={style.frame_aside}>
+          <div className={style.logo_rubix}>
+            <img src={logoRubic} alt="logo rubix" />
+            <div className={style.line_logo}></div>
           </div>
-          <div className={style.name_account}>
-            <span>Tài khoản của</span>{" "}
-            <span style={{ color: "black", fontSize: "18px" }}>
-              {loggedInUser?.userName}
-            </span>
+          <div className={`${style.info_account} d-flex `}>
+            <div className={style.avatar}>
+              <img src={loggedInUser?.avatar} alt="avatar" />
+            </div>
+            <div className={style.name_account}>
+              <span>Tài khoản của</span>{" "}
+              <span style={{ color: "black", fontSize: "18px" }}>
+                {loggedInUser?.userName}
+              </span>
+            </div>
+          </div>
+          <p className={style.logout} onClick={handleLogout}>
+            Đăng xuất
+          </p>
+          <div className={style.content_aside}>
+            {data.map((data, index) => {
+              return (
+                <div key={index}>
+                  <h6>{data.title}</h6>
+                  {data.name != undefined && (
+                    <p
+                      className={
+                        data.link === location.pathname ? style.active : ""
+                      }
+                    >
+                      <Link to={data.link}>
+                        <i className={data.icon}></i>
+                        {data.name}
+                      </Link>
+                    </p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-        <div className={style.content_aside}>
-          {data.map((data, index) => {
-            return (
-              <div key={index}>
-                <h6>{data.title}</h6>
-                {data.name != undefined && (
-                  <p
-                    className={
-                      data.link === location.pathname ? style.active : ""
-                    }
-                  >
-                    <Link to={data.link}>
-                      <i className={data.icon}></i>
-                      {data.name}
-                    </Link>
-                  </p>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
+      </div>{" "}
+      <FormLogout
+        isOpenFormLogOut={isOpenFormLogOut}
+        onFormFalse={falseFromLogOut}
+      ></FormLogout>
+    </>
   );
 }
 

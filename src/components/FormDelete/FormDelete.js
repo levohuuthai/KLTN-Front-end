@@ -36,6 +36,12 @@ const FormDelete = (props) => {
 
   const handleDelete = (event) => {
     event.preventDefault();
+    if (action === "dataCart") {
+      dispatch({
+        type: ACTIOS.loadingPageCart,
+        payload: true,
+      });
+    }
     const fetchRequestDelete = async () => {
       try {
         const requestDelete = await methodDeleteApi(
@@ -60,6 +66,17 @@ const FormDelete = (props) => {
                 dispatch({
                   type: action,
                   payload: requestGet.data?.products,
+                });
+              } else if (action === "dataCart") {
+                dispatch({
+                  type: action,
+                  payload: requestGet.data,
+                });
+              }
+              if (action === "dataCart") {
+                dispatch({
+                  type: ACTIOS.loadingPageCart,
+                  payload: false,
                 });
               }
             } catch (error) {

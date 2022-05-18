@@ -5,6 +5,7 @@ import ao2_back from "assets/images/product_promotion/ao2_back.png";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "store/store";
 import productApi from "api/productApi";
+import TotalStar from "components/TotalStar/TotalStar";
 function ProductList(props) {
   const { state } = useContext(GlobalContext);
   const [arrProductDiscount, setArrProductDiscount] = useState([]);
@@ -31,15 +32,25 @@ function ProductList(props) {
   console.log(arrProductDiscount);
   return (
     <div>
-      <div className="row ">
+      <div
+        className="row "
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         {arrProductDiscount?.map((data, idx) => {
           // console.log(data);
           return (
-            <div className={`${style.item_product} col-3`} key={idx}>
+            <div className={`${style.item_product} col-4`} key={idx}>
               <div className={`${style.img_trend_product}`}>
                 <Link to={`/products/detail`} state={{ dataProduct: data }}>
-                  <img src={aothun2_front} alt="" />
-                  <img src={ao2_back} className={style.img_hover} alt="" />
+                  <img src={data.image_front} alt="img front" />
+                  <img
+                    src={data.image_back}
+                    className={style.img_hover}
+                    alt="img back"
+                  />
                 </Link>
                 <a
                   href="/"
@@ -80,31 +91,73 @@ function ProductList(props) {
                   </a>
                 </div>
                 {/* salse */}
-                <div className={style.sale}>
-                  <span>Sale!</span>
-                </div>
+                {data.priceBase !== data.priceMin &&
+                  data.priceBase !== data.priceMax && (
+                    <div className={style.sale}>
+                      <span>Sale!</span>
+                    </div>
+                  )}
               </div>
-              <h2 className={`${style.title_trend_product} `}>
-                <a href="/">{data.title}</a>
+              <h2
+                className={`${style.title_trend_product} d-flex justify-content-between`}
+              >
+                <Link to={`/products/detail`} state={{ dataProduct: data }}>
+                  {data.title}
+                </Link>
+                <div
+                  style={{
+                    fontSize: "15px",
+                  }}
+                >
+                  <TotalStar productId={data._id} />
+                </div>
               </h2>
               <p className={`${style.price_trend_product} `}>
-                <span className={`${style.price_notoff}`}>
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(data.priceBase)}
-                </span>
-                <span className={style.price_off}>
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(data.priceMin) +
-                    ` - ` +
-                    new Intl.NumberFormat("vi-VN", {
+                {data.priceBase !== data.priceMin &&
+                data.priceBase !== data.priceMax &&
+                data.priceMin !== data.priceMax ? (
+                  <span>
+                    <span className={`${style.price_notoff}`}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceBase)}
+                    </span>
+                    <span className={style.price_off}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceMin) +
+                        ` - ` +
+                        new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(data.priceMax)}
+                    </span>
+                  </span>
+                ) : data.priceMin === data.priceMax ? (
+                  <span>
+                    <span className={`${style.price_notoff}`}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceBase)}
+                    </span>
+                    <span className={style.price_off}>
+                      {new Intl.NumberFormat("vi-VN", {
+                        style: "currency",
+                        currency: "VND",
+                      }).format(data.priceMin)}
+                    </span>
+                  </span>
+                ) : (
+                  <span className={style.price_off}>
+                    {new Intl.NumberFormat("vi-VN", {
                       style: "currency",
                       currency: "VND",
-                    }).format(data.priceMax)}
-                </span>
+                    }).format(data.priceBase)}
+                  </span>
+                )}
               </p>
             </div>
           );

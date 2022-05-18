@@ -11,6 +11,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import addressAPI from "api/addressAPI";
@@ -48,14 +49,16 @@ function Address(props) {
     window.scrollTo(0, 0);
   }, []);
   const loggedInUser = useSelector((state) => state.user.current);
-
   const [arrcity, setArrCity] = useState([]);
   const [city, setCity] = useState([]);
   const [arrDistrict, setArrDistrict] = useState([]);
   const [district, setDistrict] = useState("");
   const [arrWard, setArrWard] = useState([]);
   const [ward, setWard] = useState("");
-  // const [idAddress, setIdAddress] = useState("");
+  const [apartmentNumber, setApartmentNumber] = useState({
+    value: "",
+    errorAppartment: undefined,
+  });
 
   const classes = useStyles();
   const [showFormAddress, setFormShowAddress] = useState(false);
@@ -63,7 +66,6 @@ function Address(props) {
   const [isOpenFormDeleteAddress, seIsOpenFormLDeleteAddress] = useState(false);
   const [idAddress, setIdAddress] = useState("");
   const [loadingAddress, setLoadingAddress] = useState(false);
-
   const { dispatch, state } = useContext(GlobalContext);
 
   const form = useForm({
@@ -72,13 +74,10 @@ function Address(props) {
       city: "",
       password: "",
     },
-    //  resolver: yupResolver(schema),
   });
   const handleSubmit = (values) => {
-    console.log(values);
-    console.log(city);
     if (
-      values.street !== "" &&
+      apartmentNumber.value !== "" &&
       city.length > 0 &&
       district.length > 0 &&
       ward.length > 0
@@ -88,7 +87,7 @@ function Address(props) {
         const fetchAddaddress = async () => {
           try {
             const requestAddaddress = await addressAPI.addAddress({
-              apartmentNumber: values.street,
+              apartmentNumber: apartmentNumber.value,
               ward: ward,
               district: district,
               city: city,
@@ -125,7 +124,7 @@ function Address(props) {
             const requestUpdateAddress = await addressAPI.updatesAddress(
               idAddress,
               {
-                apartmentNumber: values.street,
+                apartmentNumber: apartmentNumber.value,
                 ward: ward,
                 district: district,
                 city: city,
@@ -138,6 +137,7 @@ function Address(props) {
                 try {
                   const requestGetListAddressUser =
                     await addressAPI.getListAddressUser(loggedInUser._id);
+                  console.log(requestGetListAddressUser);
                   dispatch({
                     type: ACTIOS.dataAddress,
                     payload: requestGetListAddressUser.data,
@@ -182,6 +182,14 @@ function Address(props) {
     }
   };
   const showAddressNew = () => {
+    setCity("");
+    setDistrict("");
+    setWard("");
+    setApartmentNumber({
+      value: "",
+      errorAppartment: "",
+    });
+
     setFormShowAddress(true);
     setFormUpdateAddress(false);
   };
@@ -197,6 +205,19 @@ function Address(props) {
   };
   const handleSelectWard = (event) => {
     setWard(event.target.value);
+  };
+  const handleAppartmentNumber = (e) => {
+    if (e.target.value === "") {
+      setApartmentNumber({
+        value: e.target.value,
+        errorAppartment: "Vui lòng nhập số nhà",
+      });
+    } else {
+      setApartmentNumber({
+        value: e.target.value,
+        errorAppartment: undefined,
+      });
+    }
   };
   useEffect(() => {
     const fetchGetListAddressUser = async () => {
@@ -243,7 +264,8 @@ function Address(props) {
     };
     fetchGetListAddressUser();
   };
-  // console.log(state.dataAddress);
+  console.log(arrcity.length + " thanh p;ho");
+  console.log(arrDistrict.length + "quan huyen");
   return (
     <>
       <div className={`${style.checkout_adress} wrap`}>
@@ -287,10 +309,12 @@ function Address(props) {
                           data._id
                         );
                         setCity(requestGetAddress.data.city);
-
                         setDistrict(requestGetAddress.data.district);
-
                         setWard(requestGetAddress.data.ward);
+                        setApartmentNumber({
+                          value: requestGetAddress.data.apartmentNumber,
+                          errorAppartment: "",
+                        });
                       } catch (error) {
                         console.log(error);
                       }
@@ -321,12 +345,12 @@ function Address(props) {
                         >
                           Sửa
                         </div>
-                        <div
+                        {/* <div
                           className={style.btn_update}
                           onClick={handleDeleteAddress}
                         >
                           Xóa
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   );
@@ -430,10 +454,10 @@ function Address(props) {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {arrDistrict?.map((data, idx) => {
+                  {/* mảng quận huyện > 0 thì sẽ chọn lại, -0 thì sẽ hiện update */}
+                  {/* {arrDistrict?.map((data, idx) => {
                     const handleDistrictCode = async () => {
                       //Khi chon thanh pho loc phuong
-
                       await axios
                         .get(`https://provinces.open-api.vn/api/w/`)
                         .then((res) => {
@@ -454,10 +478,35 @@ function Address(props) {
                         {data.name}
                       </MenuItem>
                     );
-                  })}
-                  {/* <MenuItem value={10}>Quận 9</MenuItem>
-                <MenuItem value={21}>Cà Mau</MenuItem>
-                <MenuItem value={22}>Sài Gòn</MenuItem> */}
+                  })} */}
+                  {arrDistrict.length > 0 &&
+                    arrDistrict?.map((data, idx) => {
+                      const handleDistrictCode = async () => {
+                        //Khi chon thanh pho loc phuong
+                        await axios
+                          .get(`https://provinces.open-api.vn/api/w/`)
+                          .then((res) => {
+                            setArrWard(
+                              res.data.filter((codeWard) => {
+                                return data.code === codeWard.district_code;
+                              })
+                            );
+                          })
+                          .catch((error) => console.log(error));
+                      };
+                      return (
+                        <MenuItem
+                          key={idx}
+                          value={data.name}
+                          onClick={handleDistrictCode}
+                        >
+                          {data.name}
+                        </MenuItem>
+                      );
+                    })}
+                  {arrDistrict.length === 0 && (
+                    <MenuItem value={district}>{district}</MenuItem>
+                  )}
                 </Select>
               </FormControl>
             </div>
@@ -484,13 +533,17 @@ function Address(props) {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {arrWard?.map((data, idx) => {
-                    return (
-                      <MenuItem key={idx} value={data.name}>
-                        {data.name}
-                      </MenuItem>
-                    );
-                  })}
+                  {arrWard.length > 0 &&
+                    arrWard?.map((data, idx) => {
+                      return (
+                        <MenuItem key={idx} value={data.name}>
+                          {data.name}
+                        </MenuItem>
+                      );
+                    })}
+                  {arrWard.length === 0 && (
+                    <MenuItem value={ward}>{ward}</MenuItem>
+                  )}
                 </Select>
               </FormControl>
             </div>
@@ -498,10 +551,26 @@ function Address(props) {
               className={`${style.Name} d-flex  justify-content-between align-items-center`}
             >
               <label className={style.title_lable}>Địa chỉ</label>
-              <InputField
+              {/* <InputField
                 name="street"
                 label="Ví dụ: 52, Đường Trần Hưng Đạo"
                 form={form}
+              /> */}
+              <TextField
+                name="apartmentnumber"
+                label="Ví dụ: 52, Đường Trần Hưng Đạo"
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                style={{ background: "#fff" }}
+                value={apartmentNumber.value}
+                onChange={handleAppartmentNumber}
+                error={!!apartmentNumber.errorAppartment}
+                helperText={
+                  apartmentNumber.errorAppartment !== undefined
+                    ? apartmentNumber.errorAppartment
+                    : ""
+                }
               />
             </div>
             <div className={style.group_btn_address_new}>

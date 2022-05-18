@@ -173,7 +173,7 @@ function ListProduct(props) {
                     className={`${style.title_trend_product} d-flex justify-content-between`}
                   >
                     <Link to={`/products/detail`} state={{ dataProduct: data }}>
-                      {data.title} sssss sss sss
+                      {data.title}
                     </Link>
                     <div
                       style={{
@@ -236,7 +236,7 @@ function ListProduct(props) {
           );
         })}
         <div
-          className={`${style.notify_add_wishlist} ${
+          className={`${style.notify_add_wishlist_promotion} ${
             activeWishList ? style.active : ""
           }`}
         >

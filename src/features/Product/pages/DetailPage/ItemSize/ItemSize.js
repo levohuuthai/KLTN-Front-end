@@ -18,19 +18,6 @@ function Item(props) {
       };
     });
   }, [arraySize]);
-  // const arraySize = props.arrayProductDetail.map((data) => data.size);
-  // let arraySizeUnique = [];
-  // const [arraySizeUniqueState, setArraySizeUniqueState] = useState([]);
-
-  // for (var i = 0; i < arraySize.length; i++) {
-  //   if (arraySizeUnique.indexOf(arraySize[i]) === -1) {
-  //     arraySizeUnique.push(arraySize[i]);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   setArraySizeUniqueState(arraySizeUnique);
-  // }, []);
   useEffect(() => {
     const fetchArraySize = async () => {
       try {
@@ -44,10 +31,6 @@ function Item(props) {
     };
     fetchArraySize(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    props.receiveDataSizeOriginal(arraySize?.[0]); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [arraySize?.[0]]);
   return (
     <>
       {arraySize?.map((data, index) => {
@@ -70,7 +53,7 @@ function Item(props) {
         };
         const inActiveColor = (e) => {
           toggleActive(index);
-          props.receiveDataSize(data);
+          props.receiveDataSize(data);  //truyền size lên
           const fetchPriceColorBySize = async () => {
             try {
               const requestPriceColorBySize =
@@ -79,7 +62,7 @@ function Item(props) {
                   data
                 );
               console.log(requestPriceColorBySize);
-              props.receiveDataColorPrice(requestPriceColorBySize.data);
+              props.receiveDataColorPrice(requestPriceColorBySize.data);  //truyền color + image lên
             } catch (error) {
               console.log(error);
             }

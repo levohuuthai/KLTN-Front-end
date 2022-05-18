@@ -163,7 +163,8 @@ function MyOrderDetail(props) {
             <div className={style.totalMoney}>
               <span className={style.title_total}>Giảm giá</span>
               <span className={style.total}>
-                -{" "}
+                {dataOrder?.discountProduct + dataOrder?.discountShip !== 0 &&
+                  "- "}
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",

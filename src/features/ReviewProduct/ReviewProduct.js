@@ -14,7 +14,7 @@ function ReviewProduct(props) {
   const [count2star, setCount2Star] = useState();
   const [count1star, setCount1Star] = useState();
   const [totalComment, setTotalComment] = useState();
-  const [totalStar, setTotalStar] = useState("");
+  const [totalStar, setTotalStar] = useState(0);
   const [filter5Star, setFilter5Star] = useState({ value: 5, active: false });
   const [filter4Star, setFilter4Star] = useState({ value: 4, active: false });
   const [filter3Star, setFilter3Star] = useState({ value: 3, active: false });
@@ -106,7 +106,14 @@ function ReviewProduct(props) {
         count5star * 5) /
         (count1star + count2star + count3star + count4star + count5star)
     );
-  }, [count1star, count2star, count3star, count4star, count5star]);
+  }, [
+    count1star,
+    count2star,
+    count3star,
+    count4star,
+    count5star,
+    totalComment,
+  ]);
   useEffect(() => {
     dispatch({
       type: ACTIOS.totalStar,
@@ -371,7 +378,9 @@ function ReviewProduct(props) {
             <h5> Đánh Giá - Nhận Xét Từ Khách Hàng</h5>
             <div className={style.total_count_star_group}>
               <div className={`${style.total_star} d-flex align-items-center`}>
-                <h2 style={{ marginRight: "20px" }}>{totalStar}</h2>
+                <h2 style={{ marginRight: "20px" }}>
+                  {Number.isNaN(totalStar) ? 0 : totalStar}
+                </h2>
                 <div className={style.total_star_comment}>
                   <TotalStar productId={props.dataProduct._id} />
                   <span>{totalComment} nhận xét</span>

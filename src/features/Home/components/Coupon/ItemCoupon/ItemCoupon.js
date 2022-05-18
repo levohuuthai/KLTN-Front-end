@@ -38,6 +38,7 @@ function ItemCoupon(props) {
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 2000,
           });
+          props.onActiveCount("active")
         }
       } catch (error) {
         console.log(error);
@@ -51,6 +52,14 @@ function ItemCoupon(props) {
   };
   return (
     <div className={style.item_coupon}>
+      <div
+        className={`${props.data?.count === 0 ? style.activeBackdrop : ""}`}
+      ></div>{" "}
+      {props.data?.count === 0 ? (
+        <div className={style.notifySelected}>HẾT MÃ</div>
+      ) : (
+        ""
+      )}
       <div className={style.left}>
         <div
           className={`${style.lottery_box} ${
@@ -112,7 +121,7 @@ function ItemCoupon(props) {
               : endDayCoupon.month}
           </b>
         </div>
-        <div className={style.date}>Số lượng có hạn</div>
+        <div className={style.date}>Số lượng: {props.data?.count}</div>
       </div>
     </div>
   );

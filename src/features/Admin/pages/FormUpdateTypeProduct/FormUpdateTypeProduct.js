@@ -52,7 +52,7 @@ function FormUpdateTypeProduct(props) {
     const fd = new FormData();
     fd.append("uploadFile", fileSelected);
     axios
-      .post("//localhost:5000/products/addFile", fd)
+      .post("//localhost:3333/products/addFile", fd)
       .then((res) => {
         console.log(res);
         setImageTypeProduct((pre) => {

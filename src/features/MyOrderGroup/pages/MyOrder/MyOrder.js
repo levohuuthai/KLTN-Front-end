@@ -178,7 +178,7 @@ function MyOrder(props) {
             [...state.dataArrOrderClient]?.reverse().map((dataOrder, idx) => {
               console.log(dataOrder);
               const handleDetailOrder = () => {
-                navigate("/myorder/detail", {
+                navigate("/customer/myorder/detail", {
                   state: {
                     data: dataOrder,
                   },

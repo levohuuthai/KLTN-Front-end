@@ -34,8 +34,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Statistic(props) {
   const classes = useStyles();
-  const [fromDay, setFromDay] = useState();
-  const [toDay, setToDay] = useState();
+  const [fromDay, setFromDay] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0))
+  );
+  const [toDay, setToDay] = useState(
+    new Date(new Date().setHours(23, 59, 59, 0))
+  );
   const [quater, setQuater] = useState();
   const [arrayProduct, setArrayProduct] = useState([]);
   const [arrayOrder, setArrayOrder] = useState([]);
@@ -43,19 +47,28 @@ function Statistic(props) {
   const [totalCountOrder, setTotalCountOrder] = useState();
   const [totalCountCustomer, setTotalCountCustomer] = useState();
   const [totalMoney, setTotalMoney] = useState();
-  const [titleDay, setTitleDay] = useState();
+  const [titleTopProduct, setTitleTopProduct] = useState("Top sản phẩm đã bán");
+  const [titleTopOrder, setTitleTopOrder] = useState(
+    "Top hóa đơn có doanh thu cao nhất"
+  );
   const [loadingDate, setLoadingDate] = useState(false);
   const [loadingDateArray, setLoadingArray] = useState(false);
 
   const handleChangeFromDate = (date) => {
-    setFromDay(date?._d);
+    let day = new Date(date._d.setHours(0, 0, 0, 0));
+    setFromDay(day);
   };
   const handleChangeToDate = (date) => {
-    setToDay(date?._d);
+    let day = new Date(date._d.setHours(23, 59, 59, 0));
+    setToDay(day);
   };
   const handleChangeQuater = (e) => {
     setQuater(e.target.value);
     setLoadingArray(true);
+    setTitleTopProduct("Top sản phẩm đã bán trong quý " + e.target.value);
+    setTitleTopOrder(
+      "Top hóa đơn có doanh thu cao nhất trong quý " + e.target.value
+    );
     const fetchRequestGetAllOrderThongKe = async () => {
       try {
         const requestGetAllOrderThongKe =
@@ -75,17 +88,36 @@ function Statistic(props) {
     };
     fetchRequestGetAllOrderThongKe();
   };
-  useEffect(() => {
-    setTitleDay(fromDay + " đến ngày " + toDay);
-    setQuater(undefined);
-  }, [fromDay, toDay]);
-  useEffect(() => {
-    setTitleDay(quater);
-    setFromDay(undefined);
-    setToDay(undefined);
-  }, [quater]);
+  // useEffect(() => {
+  //   setTitleDay(fromDay + " đến ngày " + toDay);
+  //   // setQuater(undefined);
+  // }, [fromDay, toDay]);
+  // useEffect(() => {
+  //   setTitleDay(quater);
+  //   // setFromDay(undefined);
+  //   // setToDay(undefined);
+  // }, [quater]);
   const handleFilterDateStatistic = () => {
     setLoadingDate(true);
+    if (fromDay.getDate() === toDay.getDate()) {
+      setTitleTopProduct("Top sản phẩm đã bán trong ngày " + toDay.getDate());
+      setTitleTopOrder(
+        "Top hóa đơn có doanh thu cao nhất trong ngày " + toDay.getDate()
+      );
+    } else {
+      setTitleTopProduct(
+        "Top sản phẩm đã bán từ ngày " +
+          fromDay.getDate() +
+          " đến ngày " +
+          toDay.getDate()
+      );
+      setTitleTopOrder(
+        "Top hóa đơn có doanh thu cao nhất từ ngày " +
+          fromDay.getDate() +
+          " đến ngày " +
+          toDay.getDate()
+      );
+    }
     const fetchRequestGetAllOrderThongKe = async () => {
       try {
         const requestGetAllOrderThongKe =
@@ -106,7 +138,9 @@ function Statistic(props) {
     };
     fetchRequestGetAllOrderThongKe();
   };
-  console.log(totalMoney);
+  console.log(fromDay);
+  console.log(toDay);
+
   return (
     <>
       <div className="d-flex wrap">
@@ -265,7 +299,7 @@ function Statistic(props) {
             </div>
             <div className={style.list_table}>
               <div className={style.list_product_left}>
-                <h5>Top sản phẩm đã bán trong quý {quater}</h5>{" "}
+                <h5>{titleTopProduct}</h5>{" "}
                 <div className={style.list_product_frame}>
                   <div
                     className={`${style.title_item_product} d-flex justify-content-between`}
@@ -303,7 +337,7 @@ function Statistic(props) {
                 </div>
               </div>
               <div className={style.list_order_right}>
-                <h5> Top hóa đơn có doanh thu cao nhất trong quý {quater}</h5>
+                <h5> {titleTopOrder} </h5>
                 <div className={style.list_order_frame}>
                   <div className={`${style.title_item_order} d-flex`}>
                     <span

@@ -1,11 +1,14 @@
 .right {
   // width: 83%;
   // border-left: 1px solid rgb(236, 236, 236);
-  padding: 20px;
+  padding: 20px 100px;
   // p {
   //   font-size: 17px;
   //   font-weight: 900;
   // }
+  // background: red;
+  display: flex;
+  flex-direction: column;
   .filter_box {
     margin-bottom: 30px;
     .sort {

@@ -21,6 +21,31 @@
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     background: #fff;
+    position: relative;
+    .activeBackdrop {
+      background: rgb(241, 241, 241);
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5;
+      z-index: 5;
+    }
+    .notifySelected {
+      border: 2px solid rgb(139, 139, 139);
+      border-radius: 5px;
+      position: absolute;
+      bottom: 27px;
+      left: 5%;
+      // width: 100%;
+      // height: 100%;
+      opacity: 1;
+      z-index: 8;
+      transform: rotate(-5deg);
+      padding: 3px 6px;
+      background: #fff;
+      font-size: 15px;
+    }
     .left {
       position: relative;
       display: flex;

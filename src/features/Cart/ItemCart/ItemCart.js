@@ -5,6 +5,7 @@ import style from "../Cart.module.scss";
 import { GlobalContext } from "../../../store/store";
 import { ACTIOS } from "../../../store/actions";
 import aothuninhinh from "assets/images/type/aothuninhinh.jpg";
+import FormDelete from "components/FormDelete/FormDelete";
 
 function ItemCart(props) {
   //   const [data, setData] = useState(props.data);
@@ -197,64 +198,94 @@ function ItemCart(props) {
       fetchAddToCart();
     }, 3000);
   };
+
+  const [isOpenFormDelete, seIsOpenFormDelete] = useState(false);
+  const handleShowFormDeleteItemCart = () => {
+    seIsOpenFormDelete(true);
+  };
+  const falseFromLogOut = () => {
+    seIsOpenFormDelete(false);
+  };
   return (
-    <div
-      className={`${style.item_cart} d-flex justify-content-between align-items-center`}
-      //   key={idx}
-    >
-      <div className={`${style.checkbox} d-flex align-items-center`}>
-        <input type="checkbox" id="item" />
-        <label htmlFor="item"></label>
-      </div>
-      <p className={`${style.image_item_cart}`}>
-        <img src={props.data?.product.image}></img>
-      </p>
-      <span
-        className={`${style.name_item}  d-flex justify-content-center flex-column`}
+    <>
+      <div
+        className={`${style.item_cart} d-flex justify-content-between align-items-center`}
+        //   key={idx}
       >
-        {props.data.product.title}
-        <span>
-          Size: <b>{props.data.product.size}</b>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <div className={`${style.checkbox} d-flex align-items-center`}>
+          <input type="checkbox" id="item" />
+          <label htmlFor="item"></label>
+        </div>
+        <p className={`${style.image_item_cart}`}>
+          <img src={props.data?.product.image}></img>
+        </p>
+        <span
+          className={`${style.name_item}  d-flex justify-content-center flex-column`}
+        >
+          {props.data.product.title}
           <span>
-            Màu: <b>{props.data.product.color}</b>
+            Size: <b>{props.data.product.size}</b>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>
+              Màu: <b>{props.data.product.color}</b>
+            </span>
           </span>
         </span>
-      </span>
-      <span className={`${style.price1} d-flex justify-content-center`}>
-        {new Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(props.data.product.priceAfter)}
-      </span>
-      <div className={`${style.group_quantity} d-flex justify-content-center`}>
-        <div className={style.quantity}>
-          <span onClick={handleMinus}>-</span>
-          <input
-            type="text"
-            value={
-              enterQuantity.quantity == null
-                ? props.data.product.quantity
-                : enterQuantity.quantity
-            }
-            onChange={handleChangeQuantity}
-          />
-          <span onClick={handlePlus}>+</span>
+        <span className={`${style.price1} d-flex justify-content-center`}>
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(props.data.product.priceAfter)}
+        </span>
+        <div
+          className={`${style.group_quantity} d-flex justify-content-center`}
+        >
+          <div className={style.quantity}>
+            <span onClick={handleMinus}>-</span>
+            <input
+              type="text"
+              value={
+                enterQuantity.quantity == null
+                  ? props.data.product.quantity
+                  : enterQuantity.quantity
+              }
+              onChange={handleChangeQuantity}
+            />
+            <span onClick={handlePlus}>+</span>
+          </div>
         </div>
+        <span className={`${style.price2} d-flex justify-content-center`}>
+          {new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }).format(
+            props.data.product.priceAfter * props.data.product.quantity
+          )}
+        </span>
+        <span
+          className={`${style.close} d-flex justify-content-center`}
+          onClick={handleShowFormDeleteItemCart}
+        >
+          <i className="far fa-times-circle"></i>
+        </span>
       </div>
-      <span className={`${style.price2} d-flex justify-content-center`}>
-        {new Intl.NumberFormat("vi-VN", {
-          style: "currency",
-          currency: "VND",
-        }).format(props.data.product.priceAfter * props.data.product.quantity)}
-      </span>
-      <span
-        className={`${style.close} d-flex justify-content-center`}
-        onClick={closeMyProductCart}
+      <FormDelete
+        isOpenFormDelete={isOpenFormDelete}
+        onFormFalse={falseFromLogOut}
+        methodDeleteApi={cartApi.deleteProductToCart}
+        dataDeleteApi={props.data._id}
+        // data2DeleteApi={props.idData}
+        methodGetApi={cartApi.getProductCartByUserId}
+        dataGetApi={loggedInUser._id}
+        action={ACTIOS.dataCart}
       >
-        <i className="far fa-times-circle"></i>
-      </span>
-    </div>
+        Bạn có muốn xóa
+        <b>
+          <i> {props.data.product.title} </i>
+        </b>
+        khỏi giỏ hàng
+      </FormDelete>
+    </>
   );
 }
 

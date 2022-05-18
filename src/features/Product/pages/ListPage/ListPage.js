@@ -95,7 +95,8 @@ function ListPage(props) {
       payload: { _limit: 10, _page: page },
     });
   };
-  // console.log(state.filterPagination);
+  console.log(state);
+
   useEffect(() => {
     if (
       state.dataFilterBrand.length +
@@ -112,8 +113,6 @@ function ListPage(props) {
         (!state.dataFilterStar.active2 ? 0 : 1) ===
       0
     ) {
-      console.log("ko loc");
-
       const fetchRequestGetAllProductByCategory = async () => {
         try {
           const requestGetAllProductByCategory =
@@ -122,7 +121,6 @@ function ListPage(props) {
               state.page_limit_ByProduct._page,
               state.page_limit_ByProduct._limit
             );
-          console.log(requestGetAllProductByCategory);
           await dispatch({
             type: ACTIOS.dataProductFilter,
             payload: requestGetAllProductByCategory.data,
@@ -155,13 +153,13 @@ function ListPage(props) {
   const handleCancelPriceUnder200 = () => {
     dispatch({
       type: ACTIOS.dataFilterPriceUnder200,
-      payload: { value: 199999, active: false },
+      payload: { value: undefined, active: false },
     });
   };
   const handleCancelPriceOver1000 = () => {
     dispatch({
       type: ACTIOS.dataFilterPriceOver1000,
-      payload: { value: 1000001, active: false },
+      payload: { value: undefined, active: false },
     });
   };
   const handleCancelPrice500To1000 = () => {
@@ -179,7 +177,7 @@ function ListPage(props) {
     dispatch({
       type: ACTIOS.dataFilterStar,
       payload: {
-        value: 5,
+        value: undefined,
         active: false,
         active4: false,
         active3: false,
@@ -191,7 +189,7 @@ function ListPage(props) {
     dispatch({
       type: ACTIOS.dataFilterStar,
       payload: {
-        value: 4,
+        value: undefined,
         active: false,
         active4: false,
         active3: false,
@@ -203,7 +201,7 @@ function ListPage(props) {
     dispatch({
       type: ACTIOS.dataFilterStar,
       payload: {
-        value: 3,
+        value: undefined,
         active: false,
         active4: false,
         active3: false,
@@ -215,7 +213,7 @@ function ListPage(props) {
     dispatch({
       type: ACTIOS.dataFilterStar,
       payload: {
-        value: 2,
+        value: undefined,
         active: false,
         active4: false,
         active3: false,

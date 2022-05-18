@@ -78,6 +78,8 @@ function AddProductAdmin(props) {
   });
   const [dataTypeProduct, setDataTypeProduct] = useState();
   // const [idTypeProduct, setIdTypeProduct] = useState();
+  const [idProduct, setIdProduct] = useState();
+
   const [nameProduct, setNameProduct] = useState("");
   const [activeDropdown, setActiveDropdown] = useState("");
   const [arrayTitleProduct, setArrayTitleProduct] = useState([]);
@@ -100,12 +102,13 @@ function AddProductAdmin(props) {
     value: "",
     errorQuantity: undefined,
   });
-  const [disable, setDisable] = useState(false);
   const [describe, setDescribe] = useState();
   const [category, setCategory] = useState();
   const [imageFront, setImageFront] = useState({ img: "" });
   const [imageBack, setImageBack] = useState({ img: "" });
   const [imageDetail, setImageDetail] = useState({ img: "" });
+  const [disable, setDisable] = useState(false);
+  const [disableColor, setDisableColor] = useState(false);
 
   const handleFocusNameProduct = (e) => {
     setActiveDropdown("a");
@@ -121,6 +124,7 @@ function AddProductAdmin(props) {
         try {
           const requestGetGetProductByTitle =
             await productAdminApi.getProductByTitle(e.target.value);
+          console.log(requestGetGetProductByTitle);
           setArrayTitleProduct(requestGetGetProductByTitle.data);
           // console.log(requestGetGetProductByTitle.data);
         } catch (error) {
@@ -223,6 +227,28 @@ function AddProductAdmin(props) {
         value: e.target.value,
         errorColor: undefined,
       });
+      if (disable) {
+        const fetchRequestgetImageByColorAndProductId = async () => {
+          try {
+            const requestGetImageByColorAndProductId =
+              await productAdminApi.getImageByColorAndProductId(
+                e.target.value,
+                idProduct
+              );
+            if (requestGetImageByColorAndProductId.data !== null) {
+              setImageDetail({ img: requestGetImageByColorAndProductId.data });
+              setDisableColor(true);
+            } else {
+              setImageDetail({ img: "" });
+              setDisableColor(false);
+            }
+            // console.log(requestGetgetImageByColorAndProductId.data);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchRequestgetImageByColorAndProductId();
+      }
     }
   };
   const handlePrice = (e) => {
@@ -256,7 +282,6 @@ function AddProductAdmin(props) {
 
     // setPrice(e.target.value);
   };
-  console.log(price);
   const handleQuantity = (e) => {
     if (e.target.value === "") {
       setQuantity({
@@ -331,10 +356,9 @@ function AddProductAdmin(props) {
         console.log("Khong Gui dc", aa);
       });
   };
-  //brand origin collar fabricMaterial size price quantity percentSaleOff describe
   const handleAddProduct = (e) => {
     e.preventDefault();
-    console.log("haha");
+
     if (brand.value === "") {
       setBrand({ ...brand, errorBrand: "Vui lòng nhập thương hiệu" });
     }
@@ -368,60 +392,81 @@ function AddProductAdmin(props) {
         errorPercentSaleOff: "Vui lòng nhập phần trăm giảm giá",
       });
     }
-    const fetchRequestGetAddProduct1 = async () => {
-      try {
-        const requestGetAddProduct1 = await productAdminApi.addProduct({
-          title: nameProduct,
-          desc: describe,
-          brand: brand.value,
-          image_front: imageFront.img,
-          image_back: imageBack.img,
-          category: category,
-          origin: "Viet Nam",
-          collar: collar.value,
-          fabricMaterial: fabricMaterial.value,
-        });
-        console.log(requestGetAddProduct1);
-        if (requestGetAddProduct1.status === 200) {
-          const fetchRequestGetAddProduct2 = async () => {
-            try {
-              const requestGetAddProduct2 = await productAdminApi.addProduct2(
-                requestGetAddProduct1.data._id,
-                {
-                  size: size.value,
-                  price: {
-                    original:
-                      typeof price == "string"
-                        ? price.value
-                        : price.value.join(""),
-                    discount: percentSaleOff.value / 100,
-                    currency: "VNĐ",
-                  },
-                  color_image: {
-                    color: color.value,
-                    image: imageDetail.img || "",
-                  },
-                  countInStock: quantity.value,
+    if (
+      imageFront.img === "" ||
+      imageBack.img === "" ||
+      imageDetail.img === ""
+    ) {
+      toast.error("Cần chọn dầy đủ hình ảnh", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+    if (
+      brand.value !== "" &&
+      origin.value !== "" &&
+      collar.value !== "" &&
+      fabricMaterial.value !== "" &&
+      size.value !== "" &&
+      imageDetail.img !== "" &&
+      imageBack.img !== "" &&
+      imageFront.img !== ""
+    ) {
+      const fetchRequestGetAddProduct1 = async () => {
+        try {
+          const requestGetAddProduct1 = await productAdminApi.addProduct({
+            title: nameProduct,
+            desc: describe,
+            brand: brand.value,
+            image_front: imageFront.img,
+            image_back: imageBack.img,
+            category: category,
+            origin: "Viet Nam",
+            collar: collar.value,
+            fabricMaterial: fabricMaterial.value,
+          });
+          console.log(requestGetAddProduct1);
+          if (requestGetAddProduct1.status === 200) {
+            const fetchRequestGetAddProduct2 = async () => {
+              try {
+                const requestGetAddProduct2 = await productAdminApi.addProduct2(
+                  requestGetAddProduct1.data._id,
+                  {
+                    size: size.value,
+                    price: {
+                      original:
+                        typeof price == "string"
+                          ? price.value
+                          : price.value.join(""),
+                      discount: percentSaleOff.value / 100,
+                      currency: "VNĐ",
+                    },
+                    color_image: {
+                      color: color.value,
+                      image: imageDetail.img || "",
+                    },
+                    countInStock: quantity.value,
+                  }
+                );
+                console.log(requestGetAddProduct2);
+                if (requestGetAddProduct2.status === 200) {
+                  toast.success("Thêm sản phẩm thành công", {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 2000,
+                  });
                 }
-              );
-              console.log(requestGetAddProduct2);
-              if (requestGetAddProduct2.status === 200) {
-                toast.success("Thêm sản phẩm thành công", {
-                  position: toast.POSITION.BOTTOM_RIGHT,
-                  autoClose: 2000,
-                });
+              } catch (error) {
+                console.log(error);
               }
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          fetchRequestGetAddProduct2();
+            };
+            fetchRequestGetAddProduct2();
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchRequestGetAddProduct1();
+      };
+      fetchRequestGetAddProduct1();
+    }
   };
   const [height_long, setHeight] = useState(false);
   useEffect(() => {
@@ -431,6 +476,10 @@ function AddProductAdmin(props) {
       setHeight(false);
     }
   }, [arrayTitleProduct]);
+  console.log(imageFront);
+  console.log(imageBack);
+  console.log(imageDetail);
+  console.log(disable);
 
   return (
     <div className="d-flex wrap">
@@ -445,11 +494,6 @@ function AddProductAdmin(props) {
                   <Typography className={classes.title}>
                     Tên sản phẩm <span style={{ color: "red" }}>*</span>
                   </Typography>
-                  {/* <InputField
-                    name="nameProduct"
-                    label="Nhập tên sản phẩm"
-                    form={form}
-                  /> */}
                   <input
                     type="text"
                     value={nameProduct}
@@ -478,6 +522,7 @@ function AddProductAdmin(props) {
                           );
                           const handleClickItemTitle = () => {
                             console.log(data);
+                            setIdProduct(data._id);
                             setNameProduct(data.title);
                             setDescribe(data.desc);
                             setBrand({ ...brand, value: data.brand });
@@ -490,7 +535,6 @@ function AddProductAdmin(props) {
                             setCategory(data.category);
                             setImageFront({ img: data.image_front });
                             setImageBack({ img: data.image_back });
-
                             setDisable(true);
                             setActiveDropdown("");
                           };
@@ -557,6 +601,7 @@ function AddProductAdmin(props) {
                           ? origin.errorOrigin
                           : ""
                       }
+                      disabled={disable}
                     />
                   </div>
                   <div>
@@ -721,23 +766,23 @@ function AddProductAdmin(props) {
                     Hình ảnh trước <span style={{ color: "red" }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span
-                      className={`${style.select}`}
-                      style={{ fontSize: "14px" }}
-                    >
-                      <i
-                        class="fas fa-camera"
-                        style={{ marginRight: "0px" }}
-                      ></i>{" "}
-                      Chọn ảnh
-                      <input
-                        type="file"
-                        onChange={handleAddImageFront}
-                        multiple
-                        // onFocus={InputHandler}
-                      />
-                    </span>
-
+                    {!disable && (
+                      <span
+                        className={`${style.select}`}
+                        style={{ fontSize: "14px" }}
+                      >
+                        <i
+                          class="fas fa-camera"
+                          style={{ marginRight: "0px" }}
+                        ></i>
+                        Chọn ảnh
+                        <input
+                          type="file"
+                          onChange={handleAddImageFront}
+                          multiple
+                        />
+                      </span>
+                    )}
                     <div className={style.image_product}>
                       {imageFront.img !== "" && (
                         <img src={imageFront.img} alt="image_product" />
@@ -750,19 +795,24 @@ function AddProductAdmin(props) {
                     Hình ảnh sau <span style={{ color: "red" }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select} style={{ fontSize: "14px" }}>
-                      <i
-                        class="fas fa-camera"
-                        style={{ marginRight: "0px" }}
-                      ></i>{" "}
-                      Chọn ảnh
-                      <input
-                        type="file"
-                        onChange={handleAddImageBack}
-                        multiple
-                        // onFocus={InputHandler}
-                      />
-                    </span>
+                    {!disable && (
+                      <span
+                        className={style.select}
+                        style={{ fontSize: "14px" }}
+                      >
+                        <i
+                          class="fas fa-camera"
+                          style={{ marginRight: "0px" }}
+                        ></i>{" "}
+                        Chọn ảnh
+                        <input
+                          type="file"
+                          onChange={handleAddImageBack}
+                          multiple
+                          // onFocus={InputHandler}
+                        />
+                      </span>
+                    )}
 
                     <div className={style.image_product}>
                       {imageBack.img !== "" && (
@@ -777,19 +827,24 @@ function AddProductAdmin(props) {
                     Hình ảnh chi tiết <span style={{ color: "red" }}>*</span>
                   </Typography>
                   <div className={style.image_product_group}>
-                    <span className={style.select} style={{ fontSize: "14px" }}>
-                      <i
-                        class="fas fa-camera"
-                        style={{ marginRight: "0px" }}
-                      ></i>{" "}
-                      Chọn ảnh
-                      <input
-                        type="file"
-                        onChange={handleAddImageDetail}
-                        multiple
-                        // onFocus={InputHandler}
-                      />
-                    </span>
+                    {!disableColor && (
+                      <span
+                        className={style.select}
+                        style={{ fontSize: "14px" }}
+                      >
+                        <i
+                          class="fas fa-camera"
+                          style={{ marginRight: "0px" }}
+                        ></i>{" "}
+                        Chọn ảnh
+                        <input
+                          type="file"
+                          onChange={handleAddImageDetail}
+                          multiple
+                          // onFocus={InputHandler}
+                        />
+                      </span>
+                    )}
 
                     <div className={style.image_product}>
                       {imageDetail.img !== "" && (

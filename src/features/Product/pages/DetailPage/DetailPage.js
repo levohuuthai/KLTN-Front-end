@@ -15,9 +15,13 @@ import "react-toastify/dist/ReactToastify.css";
 import ReviewProduct from "features/ReviewProduct/ReviewProduct";
 import TotalStar from "components/TotalStar/TotalStar";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCube } from "swiper";
+
 import { Navigation, Thumbs } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/effect-cube";
+import reviewApi from "api/reviewApi";
 toast.configure();
 
 DetailPage.propTypes = {};
@@ -54,6 +58,7 @@ function DetailPage(props) {
   };
   const location = useLocation();
   const dataProduct = location.state?.dataProduct;
+  console.log(dataProduct);
   useEffect(() => {
     setPrice(dataProduct.priceMin);
     setPriceMax(dataProduct.priceMax); // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -161,20 +166,16 @@ function DetailPage(props) {
 
   const handleColorPriceBySize = (data) => {
     setArrayColor(data.colors);
-    // setPrice(data.priceMin);
-    // setPriceMax(data.priceMax);
+    setArrImageUnique(data.colors);
+    setPrice(data.priceMin);
+    setPriceMax(data.priceMax);
   };
   const handleDataSize = (data) => {
     setSize(data);
-  };
-  const handleDataSizeOriginal = (data) => {
-    // setSize(data);
+    setColor(""); //Khi click size thì chọn lại màu
   };
   const handleDataColor = (data) => {
     setColor(data);
-  };
-  const handleDataColorOriginal = (data) => {
-    // setColor(data);
   };
 
   const handlePlus = (e) => {
@@ -205,19 +206,70 @@ function DetailPage(props) {
   const [arrImageUnique, setArrImageUnique] = useState();
 
   //Khong trung
-  useEffect(() => {
-    let arrImage = [];
-    arrImage = arrayProductDetail?.map((data, idx) => {
-      return data.image;
-    });
-    let arrImageUnique = [];
-    arrImageUnique = arrImage.filter(function (item) {
-      return arrImageUnique.includes(item) ? "" : arrImageUnique.push(item);
-    });
-    setArrImageUnique(arrImageUnique);
-  }, [arrayProductDetail]);
-  const [activeThumb, setActiveThumb] = useState("");
+  // useEffect(() => {
+  //   let arrImage = [];
+  //   arrImage = arrayProductDetail?.map((data, idx) => {
+  //     return data.image;
+  //   });
+  //   let arrImageUnique = [];
+  //   arrImageUnique = arrImage.filter(function (item) {
+  //     return arrImageUnique.includes(item) ? "" : arrImageUnique.push(item);
+  //   });
+  //   setArrImageUnique(arrImageUnique);
+  // }, [arrayProductDetail]);
+
   const [slideView, setSliderView] = useState(arrayProductDetail.length);
+
+  const [listReview, setListReview] = useState([]);
+  useEffect(() => {
+    const fetchRequestGetListReview = async () => {
+      try {
+        const requestGetListReview = await reviewApi.getListReview(
+          props.dataProduct._id
+        );
+        setListReview(requestGetListReview?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetListReview(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //Get màu và ảnh
+  useEffect(() => {
+    const fetchArrayColor = async () => {
+      try {
+        const requestArrayColor = await productApi.getColorByProductId(
+          dataProduct._id
+        );
+        console.log(requestArrayColor);
+        setArrayColor(requestArrayColor.data.colors);
+        setArrImageUnique(requestArrayColor.data.colors);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchArrayColor(); // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  console.log(arrayColor);
+  const [activeThumb, setActiveThumb] = useState("");
+  const [activeThumbColor, setActiveThumbColor] = useState("");
+  const [activeColor, setActiveColor] = useState(false);
+  const [activeImageVertical, setActiveImageVertical] = useState(true);
+
+  const handleClickImageVertical = () => {
+    setActiveImageVertical(true);
+    setActiveColor(false);
+  };
+  const handleReceiveTrue = (data) => {
+    setActiveColor(data);
+    setActiveImageVertical(false);
+  };
+  // console.log(activeColor + "activeColor");
+  // console.log(activeImageVertical + "activeImageVertical");
+  // console.log(setActiveThumb + "activeThumb");
+  // console.log(setActiveThumbColor + "activeThumbColor");
+
   return (
     <div className={`${style.detail} wrap`}>
       <div className={style.frontpage}>
@@ -241,15 +293,15 @@ function DetailPage(props) {
               }}
               direction="vertical"
               spaceBetween={0}
-              slidesPerView={slideView}
+              slidesPerView={arrImageUnique?.length}
               loop={false}
             >
               {arrImageUnique?.map((data, idx) => {
                 // setSliderView(idx + 1);
                 return (
-                  <SwiperSlide>
+                  <SwiperSlide onClick={handleClickImageVertical}>
                     <div className={`${style.item_img_select}`}>
-                      <img src={data} alt="sss" />
+                      <img src={data?.image} alt="sss" />
                     </div>
                   </SwiperSlide>
                 );
@@ -281,13 +333,74 @@ function DetailPage(props) {
               );
             })} */}
           </div>
+          <div
+            className={style.img_display}
+            style={{
+              display: activeColor ? "block" : "none",
+            }}
+          >
+            <div className={`prevElDetailDisplay ${style.prevEl}`}></div>
+            <div className={`nextElDetailDisplay ${style.nextEl}`}></div>
 
-          <div className={style.img_display}>
+            <Swiper
+              effect={"cube"}
+              grabCursor={true}
+              cubeEffect={{
+                shadow: true,
+                slideShadows: true,
+                shadowOffset: 20,
+                shadowScale: 0.94,
+              }}
+              className="position-relative"
+              modules={[EffectCube, Navigation, Thumbs]}
+              thumbs={{ swiper: activeThumbColor }}
+              slidesPerView={1}
+              pagination={{
+                clickable: true,
+              }}
+              loop={false}
+              navigation={{
+                prevEl: ".prevElDetailDisplay",
+                nextEl: ".nextElDetailDisplay",
+              }}
+            >
+              {arrImageUnique?.map((data, idx) => {
+                return (
+                  <SwiperSlide>
+                    <div className={`${style.img_showcase}`}>
+                      <img
+                        src={data.image}
+                        alt="ao main"
+                        // ref={refImgParralax}
+                        // onMouseMove={MoveImg}
+                        // onMouseOut={OutImg}
+                      />
+                    </div>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </div>
+          {/* Nếu là click ảnh dọc */}
+          <div
+            className={style.img_display}
+            style={{
+              display: activeImageVertical ? "block" : "none",
+            }}
+          >
             <div className={`prevElDetailDisplay ${style.prevEl}`}></div>
             <div className={`nextElDetailDisplay ${style.nextEl}`}></div>
             <Swiper
+              effect={"cube"}
+              grabCursor={true}
+              cubeEffect={{
+                shadow: true,
+                slideShadows: true,
+                shadowOffset: 20,
+                shadowScale: 0.94,
+              }}
               className="position-relative"
-              modules={[Navigation, Thumbs]}
+              modules={[EffectCube, Navigation, Thumbs]}
               thumbs={{ swiper: activeThumb }}
               slidesPerView={1}
               pagination={{
@@ -303,11 +416,11 @@ function DetailPage(props) {
                 return (
                   <SwiperSlide>
                     <div
-                      className={`${style.img_showcase}`}
+                      className={`${style.img_showcase} SSS`}
                       ref={refImgShowCase}
                     >
                       <img
-                        src={data}
+                        src={data.image}
                         alt="ao main"
                         // ref={refImgParralax}
                         // onMouseMove={MoveImg}
@@ -318,28 +431,6 @@ function DetailPage(props) {
                 );
               })}
             </Swiper>
-            {/* <div className={style.img_showcase} ref={refImgShowCase}>
-              <img
-                src={dataProduct.image_front}
-                alt="s"
-                ref={refImgParralax}
-                onMouseMove={MoveImg}
-                onMouseOut={OutImg}
-              />
-              <img src={dataProduct.image_back} alt="s" />{" "}
-              {arrImageUnique?.map((data, idx) => {
-                return (
-                  <img
-                    src={data.image}
-                    alt="s"
-                    key={idx}
-                    ref={refImgParralax}
-                    onMouseMove={MoveImg}
-                    onMouseOut={OutImg}
-                  />
-                );
-              })}
-            </div> */}
           </div>
         </div>
         <div className={style.content_detailproduct}>
@@ -347,7 +438,8 @@ function DetailPage(props) {
           <div className={style.rating_purchase}>
             <TotalStar productId={dataProduct._id} />
             <p className={style.purchase}>
-              | Đã bán {dataProduct.soldQuantity}
+              {listReview.length === 0 && "Chưa có đánh giá"} | Đã bán{" "}
+              {dataProduct.soldQuantity}
             </p>
           </div>
           <div className={`${style.price}  d-flex `}>
@@ -356,7 +448,7 @@ function DetailPage(props) {
                 style: "currency",
                 currency: "VND",
               }).format(price)}
-              {size === "" || color === ""
+              {size === "" || (color === "" && priceMax !== undefined)
                 ? `${" -"} ${new Intl.NumberFormat("vi-VN", {
                     style: "currency",
                     currency: "VND",
@@ -371,11 +463,9 @@ function DetailPage(props) {
             </div>
             <div className={style.btn_size}>
               <ItemSize
-                // arrayProductDetail={arrayProductDetail}
                 dataProduct={dataProduct}
                 receiveDataColorPrice={handleColorPriceBySize}
                 receiveDataSize={handleDataSize}
-                receiveDataSizeOriginal={handleDataSizeOriginal}
               />
             </div>
           </div>
@@ -386,11 +476,12 @@ function DetailPage(props) {
             </div>
             <div className={style.btn_color}>
               <ItemColor
-                // arrayProductDetail={arrayProductDetail}
                 dataProduct={dataProduct}
                 receiveDataColor={handleDataColor}
-                receiveDataColorOriginal={handleDataColorOriginal}
                 arrayColor={arrayColor}
+                slideView={slideView}
+                setActiveThumbColor={setActiveThumbColor}
+                onfromTrueData={handleReceiveTrue}
               />
             </div>
           </div>

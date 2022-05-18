@@ -34,6 +34,7 @@ function ItemReviewProduct(props) {
       year: date.getFullYear(),
     });
   }, [props.data]);
+  console.log(props.data.image);
   return (
     <div className={`${style.item_reviewProduct} d-flex`}>
       <div className={style.item_reviewProduct_left}>
@@ -144,10 +145,13 @@ function ItemReviewProduct(props) {
             </b>
           </span>
         </div>
-        <div className={style.review}>{props.data.comment}</div>{" "}
-        <div className={style.image_review}>
-          <img src={props.data.image} alt="img_review"></img>
-        </div>
+        <div className={style.review}>{props.data.comment}</div>
+        {props.data.image !== "" && (
+          <div className={style.image_review}>
+            <img src={props.data.image} alt="img_review"></img>
+          </div>
+        )}
+
         <div className={style.time_review}>
           <span>
             Đánh giá vào ngày {dayReview.day} - {dayReview.month} -{" "}

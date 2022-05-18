@@ -139,3 +139,8 @@ legend {
   filter: grayscale(0%); */
   /* opacity: 0.5 !important; */
 }
+
+.DetailPage_btn_color__RWdl6 .swiper-slide {
+  width: initial !important;
+  text-align: initial !important;
+}

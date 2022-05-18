@@ -15,7 +15,6 @@ function ProductFilter(props) {
       type: ACTIOS.loading,
       payload: true,
     });
-    console.log("haa");
     if (
       state.dataFilterBrand.length +
         state.dataFilterSize.length +
@@ -31,8 +30,6 @@ function ProductFilter(props) {
         (!state.dataFilterStar.active2 ? 0 : 1) !==
       0
     ) {
-      console.log("loc");
-
       const fetchRequestGetAllProductByBrand = async () => {
         try {
           const requestGetAllProductByBrand =

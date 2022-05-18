@@ -196,7 +196,7 @@ function Payment(props) {
         localStorage.removeItem("dataCoupon");
         localStorage.removeItem("dataCouponShip");
         if (requestAddOrder.status === 200) {
-          navigate("/myorder");
+          navigate("/customer/myorder/");
         }
       } catch (error) {
         console.log(error);

@@ -22,6 +22,18 @@ function Coupon(props) {
     };
     fetchRequestGetAllCoupon();
   }, []);
+  const handleActiveCount = (data) => {
+    const fetchRequestGetAllCoupon = async () => {
+      try {
+        const requestGetAllCoupon = await couponApi.getAllCoupon();
+        setArrCoupon(requestGetAllCoupon.data);
+        // setDataTypeProduct(requestGetAllCoupon.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetAllCoupon();
+  };
 
   return (
     <div className={`${style.coupon} wrap section`}>
@@ -52,7 +64,7 @@ function Coupon(props) {
         {arrCoupon?.map((data, idx) => {
           return (
             <SwiperSlide key={idx}>
-              <ItemCoupon data={data} />
+              <ItemCoupon data={data} onActiveCount={handleActiveCount} />
               {/* <div className={style.item_coupon}>
                 <div className={style.left}>
                   <div className={`${style.price} d-flex flex-column`}>

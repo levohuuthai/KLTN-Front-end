@@ -155,16 +155,24 @@
         justify-content: flex-end;
         margin-top: 10px;
         margin-right: 80px;
+        position: relative;
         .total {
-          margin-left: 120px;
+          margin-left: 100px;
           color: rgb(255, 59, 39);
           font-size: 18px;
           font-weight: 500;
+          text-align: right;
         }
         .title_total {
           color: rgb(120, 120, 120);
           font-size: 16px;
           font-weight: 500;
+          // width: 100%;
+          text-align: left;
+          position: absolute;
+          right: 200px;
+          // left: 500px;
+          // transform: translateX(300px);
         }
       }
     }

@@ -86,7 +86,7 @@
               display: flex;
               align-items: center;
               width: 100%;
-
+              justify-content: flex-end;
               .select {
                 padding: 2px 5px;
                 border-radius: 5px;
@@ -94,7 +94,7 @@
                 border: 1px solid #ba933e;
                 border-radius: 5px;
                 color: #ba933e;
-                margin-right: 50px;
+                //
                 cursor: pointer;
                 position: relative;
                 input[type="file"] {
@@ -115,6 +115,7 @@
               .image_product {
                 width: 100px;
                 height: 100px;
+                margin-left: 50px;
                 img {
                   width: 100%;
                   height: 100%;

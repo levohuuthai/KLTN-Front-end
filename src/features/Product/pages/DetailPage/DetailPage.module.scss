@@ -221,7 +221,6 @@
     .color {
       padding-top: 0px;
       padding-bottom: 40px;
-
       .title_color {
         display: flex;
         align-items: center;
@@ -232,6 +231,8 @@
         }
       }
       .btn_color {
+        // display: flex;
+        // justify-content: flex-start;
         span {
           display: inline-block;
           cursor: pointer;
@@ -421,3 +422,10 @@
   background: #ba933e !important;
   color: #fff;
 }
+
+// .DetailPage_btn_color__RWdl6 {
+//   .swiper-slide {
+//     width: initial !important;
+//     text-align: initial !important;
+//   }
+// }
