@@ -1,58 +1,61 @@
-import { Button, makeStyles, TextField, Typography } from "@material-ui/core";
-import React, { useContext, useEffect, useState } from "react";
-import style from "./FormUpdateTypeProduct.module.scss";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import typeProductAdminApi from "api/admin/typeProductAdminApi";
-import axios from "axios";
+import { Button, makeStyles, TextField, Typography } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import style from './FormUpdateTypeProduct.module.scss';
+import { GlobalContext } from 'store/store';
+import { ACTIOS } from 'store/actions';
+import typeProductAdminApi from 'api/admin/typeProductAdminApi';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    color: "#444",
-    marginBottom: "-10px",
+    color: '#444',
+    marginBottom: '-10px',
   },
   submit: {
-    background: "black",
-    width: "140px",
-    height: "40px",
-    color: "#fff",
-    transition: "all 0.6s",
-    marginTop: "20px",
-    "&:hover": {
-      background: "#ba933e",
-      transition: "all 0.6s",
+    background: 'black',
+    width: '140px',
+    height: '40px',
+    color: '#fff',
+    transition: 'all 0.6s',
+    marginTop: '20px',
+    '&:hover': {
+      background: '#ba933e',
+      transition: 'all 0.6s',
     },
   },
 }));
 function FormUpdateTypeProduct(props) {
   const classes = useStyles();
-  const [isOpenForm, setIsOpenForm] = useState("");
+  const [isOpenForm, setIsOpenForm] = useState('');
   const { dispatch } = useContext(GlobalContext);
 
   useEffect(() => {
     if (props.isForm) {
       setIsOpenForm(style.active);
     } else {
-      setIsOpenForm("");
+      setIsOpenForm('');
     }
   }, [props.isForm]);
   const cancelHandler = () => {
-    setIsOpenForm("");
+    setIsOpenForm('');
     props.onFormFalse(false);
   };
 
   const [nameTypeProduct, setNameTypeProduct] = useState({
-    value: "",
+    value: '',
     errorNameTypeProduct: undefined,
   });
-  const [imageTypeProduct, setImageTypeProduct] = useState({ img: "" });
+  const [imageTypeProduct, setImageTypeProduct] = useState({ img: '' });
   const handleAddImageTypeProduct = (e) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post(
+        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
+        fd
+      )
       .then((res) => {
         console.log(res);
         setImageTypeProduct((pre) => {
@@ -60,14 +63,14 @@ function FormUpdateTypeProduct(props) {
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   const handleNameTypeProduct = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value === '') {
       setNameTypeProduct({
         value: e.target.value,
-        errorNameTypeProduct: "Vui lòng nhập tên loại sản phẩm",
+        errorNameTypeProduct: 'Vui lòng nhập tên loại sản phẩm',
       });
     } else {
       setNameTypeProduct({
@@ -128,19 +131,19 @@ function FormUpdateTypeProduct(props) {
         <div className={style.header}>
           <p>Cập nhật thông tin sản phẩm</p>
           <div onClick={cancelHandler}>
-            <i className="fas fa-times"></i>
+            <i className='fas fa-times'></i>
           </div>
         </div>
         <div className={style.formUpdateTypeProduct}>
           <div className={style.nameTypeproduct}>
             <Typography className={classes.title}>
-              Tên loại sản phẩm <span style={{ color: "red" }}>*</span>
+              Tên loại sản phẩm <span style={{ color: 'red' }}>*</span>
             </Typography>
             <TextField
-              name="brand"
-              label="Nhập tên loại sản phẩm"
-              margin="normal"
-              variant="outlined"
+              name='brand'
+              label='Nhập tên loại sản phẩm'
+              margin='normal'
+              variant='outlined'
               fullWidth
               value={nameTypeProduct.value}
               onChange={handleNameTypeProduct}
@@ -148,33 +151,33 @@ function FormUpdateTypeProduct(props) {
               helperText={
                 nameTypeProduct.errorNameTypeProduct !== undefined
                   ? nameTypeProduct.errorNameTypeProduct
-                  : ""
+                  : ''
               }
             ></TextField>
           </div>
           <div className={style.image}>
             <Typography className={classes.title}>
-              Hình ảnh <span style={{ color: "red" }}>*</span>
+              Hình ảnh <span style={{ color: 'red' }}>*</span>
             </Typography>
             <div className={style.image_product_group}>
               <span className={style.select}>
-                <i class="fas fa-camera" style={{ marginRight: "5px" }}></i>{" "}
+                <i class='fas fa-camera' style={{ marginRight: '5px' }}></i>{' '}
                 Chọn ảnh
                 <input
-                  type="file"
+                  type='file'
                   onChange={handleAddImageTypeProduct}
                   multiple
                   // onFocus={InputHandler}
                 />
               </span>
               <div className={style.image_product}>
-                <img src={imageTypeProduct.img} alt="image_product" />
+                <img src={imageTypeProduct.img} alt='image_product' />
               </div>
             </div>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className='d-flex justify-content-center'>
             <Button
-              type="submit"
+              type='submit'
               className={classes.submit}
               onClick={handleUpdateTypeProduct}
             >

@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import style from "./BoxChatClient.module.scss";
-import { Scrollbars } from "react-custom-scrollbars";
-import Picker from "emoji-picker-react";
-import aothuninhinh from "assets/images/type/aothuninhinh.jpg";
-import ChatClient from "./ChatClient/ChatClient";
-import { useSelector } from "react-redux";
-import roomApi from "api/roomApi";
-import messageApi from "api/messageApi";
-import messageAdminAPI from "api/admin/messageAdminAPI";
-import axios from "axios";
-import io from "socket.io-client";
+import React, { useEffect, useRef, useState } from 'react';
+import style from './BoxChatClient.module.scss';
+import { Scrollbars } from 'react-custom-scrollbars';
+import Picker from 'emoji-picker-react';
+import aothuninhinh from 'assets/images/type/aothuninhinh.jpg';
+import ChatClient from './ChatClient/ChatClient';
+import { useSelector } from 'react-redux';
+import roomApi from 'api/roomApi';
+import messageApi from 'api/messageApi';
+import messageAdminAPI from 'api/admin/messageAdminAPI';
+import axios from 'axios';
+import io from 'socket.io-client';
 
 function BoxChatClient(props) {
   const [showEmoji, setShowEmoji] = useState(false);
-  const [enteredChat, setEnteredChat] = useState("");
+  const [enteredChat, setEnteredChat] = useState('');
   const loggedInUser = useSelector((state) => state.user.current);
 
   const idLogin = loggedInUser?._id;
@@ -21,10 +21,10 @@ function BoxChatClient(props) {
   const [arrayChat, setArrayChat] = useState([]);
   // //socket
   const socket = useRef();
-  const ENDPOINT = "localhost:5000";
+  const ENDPOINT = 'ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com';
   useEffect(() => {
     socket.current = io(ENDPOINT, {
-      transports: ["websocket", "polling", "flashsocket"],
+      transports: ['websocket', 'polling', 'flashsocket'],
     });
   }, []);
 
@@ -57,7 +57,7 @@ function BoxChatClient(props) {
     if (event.charCode === 13) {
       const newMessage = {
         sender: idLogin,
-        type: "text",
+        type: 'text',
         text: event.target.value,
         active: true,
         RoomId: roomUser[0]?._id,
@@ -66,7 +66,7 @@ function BoxChatClient(props) {
         try {
           const res = await messageAdminAPI.AddMessage(newMessage);
           if (res.status === 200) {
-            setEnteredChat("");
+            setEnteredChat('');
             const fetchGetMessage = async () => {
               try {
                 const res = await messageApi.getMessage(roomUser[0]?._id);
@@ -95,24 +95,27 @@ function BoxChatClient(props) {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post(
+        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
+        fd
+      )
       .then((res) => {
-        const uploadFile = res.data.split(".");
+        const uploadFile = res.data.split('.');
         const filesTypes = uploadFile[uploadFile.length - 1];
         let newMessage;
         if (
-          filesTypes === "png" ||
-          filesTypes === "jpg" ||
-          filesTypes === "gif" ||
-          filesTypes === "jpeg"
+          filesTypes === 'png' ||
+          filesTypes === 'jpg' ||
+          filesTypes === 'gif' ||
+          filesTypes === 'jpeg'
         ) {
           newMessage = {
             sender: idLogin,
             text: res.data,
             RoomId: roomUser[0]?._id,
-            type: "img",
+            type: 'img',
           };
         }
         const fetchAddMessage = async () => {
@@ -129,16 +132,16 @@ function BoxChatClient(props) {
         fetchAddMessage();
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   const scrollRef = useRef();
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [, enteredChat, arrayChat]);
   const [arrivalMessage, setArrivalMessage] = useState(null);
   useEffect(() => {
-    socket.current.on("send-message", (data) => {
+    socket.current.on('send-message', (data) => {
       if (roomUser[0]?._id === data.RoomId) {
         setArrivalMessage({
           sender: data.sender,
@@ -164,7 +167,7 @@ function BoxChatClient(props) {
       <div className={style.boxChat_top}>
         <div className={style.topName}>
           <div className={style.avatar}>
-            <img src={aothuninhinh} alt="avatar" />
+            <img src={aothuninhinh} alt='avatar' />
           </div>
           <div className={style.name}>
             <h2>RUBIX</h2>
@@ -173,13 +176,13 @@ function BoxChatClient(props) {
       </div>
       <div className={style.boxChat_center}>
         <Scrollbars
-          className={style["list-mess"]}
-          id="style-2"
+          className={style['list-mess']}
+          id='style-2'
           renderTrackHorizontal={(props) => (
             <div
               {...props}
-              style={{ display: "none" }}
-              className="track-horizontal"
+              style={{ display: 'none' }}
+              className='track-horizontal'
             />
           )}
         >
@@ -188,7 +191,7 @@ function BoxChatClient(props) {
               <div
                 ref={scrollRef}
                 className={`${style.listChat} ${
-                  data.sender === idLogin ? style.message_own : ""
+                  data.sender === idLogin ? style.message_own : ''
                 }`}
                 key={index}
               >
@@ -210,21 +213,21 @@ function BoxChatClient(props) {
       </div>
       <div className={style.boxChat_bottom}>
         <div className={style.toolbar}>
-          <i className="bi bi-image">
-            <input type="file" onChange={fileUploadHandler} multiple />
+          <i className='bi bi-image'>
+            <input type='file' onChange={fileUploadHandler} multiple />
           </i>
           {/* <i className="fab fa-waze" onClick={gifHandler}></i> */}
         </div>
-        <div className={style["input-chat"]}>
+        <div className={style['input-chat']}>
           <input
-            type="text"
+            type='text'
             placeholder={`Nhập tin nhắn tới RUBIX`}
             onChange={chatHandler}
             value={enteredChat}
             onKeyPress={chatHandler}
           />
           {/* <i className="far fa-paper-plane" onClick={SendMessageHandler}></i> */}
-          <i className="far fa-laugh-beam" onClick={showEmojiHandler}></i>
+          <i className='far fa-laugh-beam' onClick={showEmojiHandler}></i>
         </div>
       </div>
     </div>

@@ -1,21 +1,21 @@
-import React, { Fragment } from "react";
-import classes from "./formInformation.module.scss";
-import FormChangePass from "./FormChangePass";
-import { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
+import React, { Fragment } from 'react';
+import classes from './formInformation.module.scss';
+import FormChangePass from './FormChangePass';
+import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 // import userAPI from "../../../api/userAPI";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import authAPI from "api/authAPI";
-import MomentUtils from "@date-io/moment";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import authAPI from 'api/authAPI';
+import MomentUtils from '@date-io/moment';
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
-import "moment/locale/vi";
+} from '@material-ui/pickers';
+import 'moment/locale/vi';
 
 toast.configure();
 const FormInformation = (props) => {
@@ -29,7 +29,7 @@ const FormInformation = (props) => {
 
   const [isFormChangePass, setIsFormChangePass] = useState(false);
   const [isFocusInput, setIsFocusInput] = useState(false);
-  const [isOpenForm, setIsOpenForm] = useState("");
+  const [isOpenForm, setIsOpenForm] = useState('');
   const [enteredName, setIsEnterName] = useState({ username: username });
   const [birthdayUser, setBirthdayUser] = useState({ birthday: birthday });
   const [genderUser, setGenderUser] = useState({ genderUser: gender });
@@ -57,13 +57,13 @@ const FormInformation = (props) => {
       setIsOpenForm(classes.active);
       setIsChangeName(false);
     } else {
-      setIsOpenForm("");
+      setIsOpenForm('');
     }
   }, [props.isForm]);
 
   //Truyền lên cho Home
   const cancelHandler = () => {
-    setIsOpenForm("");
+    setIsOpenForm('');
     props.onFormFalse(false);
   };
   //Nhận từ FormChangePass
@@ -77,7 +77,7 @@ const FormInformation = (props) => {
   };
 
   const genderHandler = (event) => {
-    setGenderUser({ genderUser: event.target.value === "true" ? true : false });
+    setGenderUser({ genderUser: event.target.value === 'true' ? true : false });
   };
   const formSubmitHandler = (event) => {
     event.preventDefault();
@@ -97,9 +97,9 @@ const FormInformation = (props) => {
         });
         console.log(verify);
         if (verify.status === 200) {
-          console.log("Success");
+          console.log('Success');
           props.onFormFalse(false);
-          toast.success("Cập nhập thành công", {
+          toast.success('Cập nhập thành công', {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
           });
@@ -107,7 +107,7 @@ const FormInformation = (props) => {
         }
       } catch (error) {
         console.log(error);
-        toast.error("Cập nhập không thành công!", {
+        toast.error('Cập nhập không thành công!', {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: false,
         });
@@ -120,16 +120,19 @@ const FormInformation = (props) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post(
+        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
+        fd
+      )
       .then((res) => {
         setSelectedAvatar((pre) => {
           return { ...pre, new: res.data };
         });
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
 
@@ -144,7 +147,7 @@ const FormInformation = (props) => {
             <p>Cập nhật thông tin</p>
 
             <div onClick={cancelHandler}>
-              <i className="fas fa-times"></i>
+              <i className='fas fa-times'></i>
             </div>
           </div>
           <div className={classes.information}>
@@ -152,11 +155,11 @@ const FormInformation = (props) => {
               <div className={classes.left}>
                 <div className={classes.avatar}>
                   <div className={classes.image}>
-                    <img src={selectedAvatar.new} alt="" />
+                    <img src={selectedAvatar.new} alt='' />
 
-                    <i className="fas fa-camera">
+                    <i className='fas fa-camera'>
                       <input
-                        type="file"
+                        type='file'
                         onChange={ChangeIMGAvatarHandler}
                         multiple
                         onFocus={InputHandler}
@@ -165,59 +168,59 @@ const FormInformation = (props) => {
                   </div>
                   <input
                     className={`${classes.username} ${
-                      isChangeName ? classes.activeChangeName : ""
+                      isChangeName ? classes.activeChangeName : ''
                     }`}
-                    type="text"
+                    type='text'
                     value={enteredName.username}
                     onChange={nameInputChangeHandler}
-                    id="username"
-                    name="username"
-                    readOnly={!isChangeName && "readOnly"}
+                    id='username'
+                    name='username'
+                    readOnly={!isChangeName && 'readOnly'}
                     onFocus={InputHandler}
                   />
 
-                  <label onClick={changeNameHandler} htmlFor="username">
-                    <i className="fas fa-pencil-alt"></i>
+                  <label onClick={changeNameHandler} htmlFor='username'>
+                    <i className='fas fa-pencil-alt'></i>
                   </label>
                 </div>
               </div>
               <div className={classes.right}>
                 <div className={classes.phone}>
                   <label>
-                    <i className="fas fa-phone-alt"></i>Số điện thoại
+                    <i className='fas fa-phone-alt'></i>Số điện thoại
                   </label>
-                  <input type="text" value={phone} readOnly />
+                  <input type='text' value={phone} readOnly />
                 </div>
                 <div className={classes.gender}>
                   <label>
-                    <i className="fas fa-venus-mars"></i>Giới tính
+                    <i className='fas fa-venus-mars'></i>Giới tính
                   </label>
                   <div className={classes.type}>
                     <input
                       onChange={genderHandler}
-                      type="radio"
+                      type='radio'
                       value={true}
                       onFocus={InputHandler}
-                      name="gender"
+                      name='gender'
                       checked={genderUser.genderUser === true}
-                      id="Nam"
+                      id='Nam'
                     />
-                    <label htmlFor="Nam">Nam</label>
+                    <label htmlFor='Nam'>Nam</label>
                     <input
                       onChange={genderHandler}
-                      type="radio"
+                      type='radio'
                       value={false}
                       onFocus={InputHandler}
-                      name="gender"
+                      name='gender'
                       checked={genderUser.genderUser === false}
-                      id="Nu"
+                      id='Nu'
                     />
-                    <label htmlFor="Nu">Nữ</label>
+                    <label htmlFor='Nu'>Nữ</label>
                   </div>
                 </div>
                 <div className={classes.birthday}>
-                  <label htmlFor="birthday">
-                    <i className="fas fa-birthday-cake"></i>Ngày sinh
+                  <label htmlFor='birthday'>
+                    <i className='fas fa-birthday-cake'></i>Ngày sinh
                   </label>
                   {/* <DatePicker
                     value={formattedDate}
@@ -229,11 +232,11 @@ const FormInformation = (props) => {
                     maxDate={new Date()}
                     id="birthday"
                   ></DatePicker> */}
-                  <MuiPickersUtilsProvider locale="vi" utils={MomentUtils}>
+                  <MuiPickersUtilsProvider locale='vi' utils={MomentUtils}>
                     <KeyboardDatePicker
                       keyboard
-                      placeholder="DD/MM/YYYY"
-                      format={"DD/MM/YYYY"}
+                      placeholder='DD/MM/YYYY'
+                      format={'DD/MM/YYYY'}
                       value={birthdayUser.birthday}
                       onChange={handleChangeBirthDate}
                       animateYearScrolling={false}
@@ -245,17 +248,17 @@ const FormInformation = (props) => {
                 <div className={classes.button}>
                   <button
                     className={`${classes.updateInfor} ${
-                      isFocusInput ? classes.active : ""
+                      isFocusInput ? classes.active : ''
                     }`}
-                    disabled={!isFocusInput ? true : ""}
+                    disabled={!isFocusInput ? true : ''}
                   >
-                    <i className="fas fa-pencil-alt"></i>Cập nhật thông tin
+                    <i className='fas fa-pencil-alt'></i>Cập nhật thông tin
                   </button>
                   <button
                     className={classes.changePass}
                     onClick={changePassHandler}
                   >
-                    <i className="fas fa-user-edit"></i>Đổi mật khẩu
+                    <i className='fas fa-user-edit'></i>Đổi mật khẩu
                   </button>
                 </div>
               </div>

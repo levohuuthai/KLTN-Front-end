@@ -1,30 +1,30 @@
-import React, { Fragment, useContext, useEffect } from "react";
-import classes from "./BoxChat.module.scss";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useRef } from "react";
-import Picker from "emoji-picker-react";
-import { Scrollbars } from "react-custom-scrollbars";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import messageAdminAPI from "api/admin/messageAdminAPI";
-import Chat from "./Chat/Chat";
-import axios from "axios";
-import io from "socket.io-client";
-import logoRubic from "assets/images/logoRubic.png";
+import React, { Fragment, useContext, useEffect } from 'react';
+import classes from './BoxChat.module.scss';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useRef } from 'react';
+import Picker from 'emoji-picker-react';
+import { Scrollbars } from 'react-custom-scrollbars';
+import { GlobalContext } from 'store/store';
+import { ACTIOS } from 'store/actions';
+import messageAdminAPI from 'api/admin/messageAdminAPI';
+import Chat from './Chat/Chat';
+import axios from 'axios';
+import io from 'socket.io-client';
+import logoRubic from 'assets/images/logoRubic.png';
 
 const BoxChat = (props) => {
-  const [enteredChat, setEnteredChat] = useState("");
+  const [enteredChat, setEnteredChat] = useState('');
   const [showEmoji, setShowEmoji] = useState(false);
   const loggedInUser = useSelector((state) => state.user.current);
   const idLogin = loggedInUser?._id;
   const { dispatch, state } = useContext(GlobalContext);
   //socket
   const socket = useRef();
-  const ENDPOINT = "localhost:5000";
+  const ENDPOINT = 'ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com';
   useEffect(() => {
     socket.current = io(ENDPOINT, {
-      transports: ["websocket", "polling", "flashsocket"],
+      transports: ['websocket', 'polling', 'flashsocket'],
     });
   }, []);
 
@@ -34,7 +34,7 @@ const BoxChat = (props) => {
     if (event.charCode === 13) {
       const newMessage = {
         sender: idLogin,
-        type: "text",
+        type: 'text',
         text: event.target.value,
         active: true,
         RoomId: state.dataBoxChat.room?._id,
@@ -48,7 +48,7 @@ const BoxChat = (props) => {
             type: ACTIOS.arrayChat,
             payload: [...state.arrayChat, res.data],
           });
-          setEnteredChat("");
+          setEnteredChat('');
           // setShowEmoji(false);
         } catch (error) {
           console.log(error);
@@ -61,7 +61,7 @@ const BoxChat = (props) => {
     e.preventDefault();
     const newMessage = {
       sender: idLogin,
-      type: "text",
+      type: 'text',
       text: enteredChat,
       active: true,
       RoomId: state.dataBoxChat.room?._id,
@@ -74,7 +74,7 @@ const BoxChat = (props) => {
           type: ACTIOS.arrayChat,
           payload: [...state.arrayChat, res.data],
         });
-        setEnteredChat("");
+        setEnteredChat('');
         // setShowEmoji(false);
       } catch (error) {
         console.log(error);
@@ -103,7 +103,7 @@ const BoxChat = (props) => {
 
   const [arrivalMessage, setArrivalMessage] = useState(null);
   useEffect(() => {
-    socket.current.on("send-message", (data) => {
+    socket.current.on('send-message', (data) => {
       if (state.dataBoxChat?.room?._id === data.RoomId) {
         setArrivalMessage({
           sender: data.sender,
@@ -127,7 +127,7 @@ const BoxChat = (props) => {
 
   const scrollRef = useRef();
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [enteredChat, state.arrayChat]);
 
   const onEmojiClick = (event, emojiObject) => {
@@ -142,26 +142,29 @@ const BoxChat = (props) => {
     e.preventDefault();
     const fileSelected = e.target.files[0];
     const fd = new FormData();
-    fd.append("uploadFile", fileSelected);
+    fd.append('uploadFile', fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post(
+        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
+        fd
+      )
       .then((res) => {
         console.log(res.data);
         // if();
-        const uploadFile = res.data.split(".");
+        const uploadFile = res.data.split('.');
         const filesTypes = uploadFile[uploadFile.length - 1];
         let newMessage;
         if (
-          filesTypes === "png" ||
-          filesTypes === "jpg" ||
-          filesTypes === "gif" ||
-          filesTypes === "jpeg"
+          filesTypes === 'png' ||
+          filesTypes === 'jpg' ||
+          filesTypes === 'gif' ||
+          filesTypes === 'jpeg'
         ) {
           newMessage = {
             sender: idLogin,
             text: res.data,
             RoomId: state.dataBoxChat.room?._id,
-            type: "img",
+            type: 'img',
           };
         }
         const fetchAddMessage = async () => {
@@ -179,48 +182,48 @@ const BoxChat = (props) => {
         fetchAddMessage();
       })
       .catch((aa) => {
-        console.log("Khong Gui dc", aa);
+        console.log('Khong Gui dc', aa);
       });
   };
   // console.log(state.dataBoxChat);
   // console.log(JSON.stringify(state.dataBoxChat) === "{}" ? "rong" : "haha");
   return (
     <Fragment>
-      {JSON.stringify(state.dataBoxChat) === "{}" ? (
+      {JSON.stringify(state.dataBoxChat) === '{}' ? (
         <div className={`${classes.second} `}>
           <div
-            className="d-flex justify-content-center"
-            style={{ width: "100%", height: "100%" }}
+            className='d-flex justify-content-center'
+            style={{ width: '100%', height: '100%' }}
           >
             <span className={classes.img_rubix}>
-              <span className={classes.chatvoi}>CHAT VỚI </span>{" "}
-              <img src={logoRubic} alt="" />
+              <span className={classes.chatvoi}>CHAT VỚI </span>{' '}
+              <img src={logoRubic} alt='' />
             </span>
           </div>
         </div>
       ) : (
         <div className={classes.second}>
           <div className={`${classes.secondLeft} `}>
-            <div className={classes["top-right"]}>
+            <div className={classes['top-right']}>
               <div className={classes.topName}>
                 <div className={classes.avatar}>
-                  <img src={state.dataBoxChat.room?.avatar} alt="" />
+                  <img src={state.dataBoxChat.room?.avatar} alt='' />
                 </div>
                 <div className={classes.name}>
                   <h2>{state.dataBoxChat.room?.name}</h2>
                 </div>
               </div>
             </div>
-            <div className={`${classes["center-right"]}`}>
+            <div className={`${classes['center-right']}`}>
               <Scrollbars
                 // style={{ height: "610px" }}
-                className={classes["list-mess"]}
-                id="style-2"
+                className={classes['list-mess']}
+                id='style-2'
                 renderTrackHorizontal={(props) => (
                   <div
                     {...props}
-                    style={{ display: "none" }}
-                    className="track-horizontal"
+                    style={{ display: 'none' }}
+                    className='track-horizontal'
                   />
                 )}
               >
@@ -229,7 +232,7 @@ const BoxChat = (props) => {
                     <div
                       ref={scrollRef}
                       className={`${classes.listChat} ${
-                        data.sender === idLogin ? classes.message_own : ""
+                        data.sender === idLogin ? classes.message_own : ''
                       }`}
                       key={index}
                     >
@@ -249,16 +252,16 @@ const BoxChat = (props) => {
                 {showEmoji && <Picker onEmojiClick={onEmojiClick} />}
               </div>
             </div>
-            <div className={classes["botom-right"]}>
+            <div className={classes['botom-right']}>
               <div className={classes.toolbar}>
-                <i className="bi bi-image">
-                  <input type="file" onChange={fileUploadHandler} multiple />
+                <i className='bi bi-image'>
+                  <input type='file' onChange={fileUploadHandler} multiple />
                 </i>
                 {/* <i className="fab fa-waze" onClick={gifHandler}></i> */}
               </div>
-              <div className={classes["input-chat"]}>
+              <div className={classes['input-chat']}>
                 <input
-                  type="text"
+                  type='text'
                   placeholder={
                     `Nhập tin nhắn tới ` + state.dataBoxChat.room?.name
                   }
@@ -267,10 +270,10 @@ const BoxChat = (props) => {
                   onKeyPress={chatHandler}
                 />
                 <i
-                  className="far fa-paper-plane"
+                  className='far fa-paper-plane'
                   onClick={SendMessageHandler}
                 ></i>
-                <i className="far fa-laugh-beam" onClick={showEmojiHandler}></i>
+                <i className='far fa-laugh-beam' onClick={showEmojiHandler}></i>
               </div>
             </div>
           </div>
