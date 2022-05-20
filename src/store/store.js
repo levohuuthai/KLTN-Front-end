@@ -48,19 +48,21 @@ export const DataProvider = ({ children }) => {
     loadingOrderClient: false,
     //admin
     dataAllProduct: [],
-    filterPagination: { _page: 1, _limit: 2 },
-    filterPaginationAllUser: { _page: 1, _limit: 2 },
+    filterPagination: { _page: 1, _limit: 10 },
+    filterPaginationAllUser: { _page: 1, _limit: 10 },
     loadingAllProduct: false,
     dataAllProductDetail: [],
     dataAllUser: [],
     dataAllTypeProduct: [],
     dataAllOrder: [],
-    filterPaginationAllOrder: { _page: 1, _limit: 2 },
+    filterPaginationAllOrder: { _page: 1, _limit: 10 },
     dataAllOrderDetail: [], //chua dung
     dataAllCoupon: [],
     arrayMess: [],
     arrayChat: [],
     dataBoxChat: {},
+    //component
+    activeNotify: false,
   };
 
   const [state, dispatch] = useReducer(reducers, initalState);

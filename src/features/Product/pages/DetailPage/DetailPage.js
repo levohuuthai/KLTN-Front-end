@@ -225,8 +225,9 @@ function DetailPage(props) {
     const fetchRequestGetListReview = async () => {
       try {
         const requestGetListReview = await reviewApi.getListReview(
-          props.dataProduct._id
+          dataProduct._id
         );
+        console.log(requestGetListReview);
         setListReview(requestGetListReview?.data);
       } catch (error) {
         console.log(error);
@@ -269,7 +270,8 @@ function DetailPage(props) {
   // console.log(activeImageVertical + "activeImageVertical");
   // console.log(setActiveThumb + "activeThumb");
   // console.log(setActiveThumbColor + "activeThumbColor");
-
+  // console.log(listReview.length);
+  console.log(dataProduct);
   return (
     <div className={`${style.detail} wrap`}>
       <div className={style.frontpage}>
@@ -444,6 +446,12 @@ function DetailPage(props) {
           </div>
           <div className={`${style.price}  d-flex `}>
             <h4>
+              <span className={`${style.price_notoff}`}>
+                {new Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(dataProduct?.priceBase)}
+              </span>
               {new Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",

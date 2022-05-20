@@ -116,7 +116,7 @@ function ListCoupon(props) {
           <div className={style.listCoupon_admin_frame}>
             <div className={style.title_add_listCoupon}>
               <span className={style.title_listCoupon}>
-                Danh sách mã giảm giá (5 giảm giá)
+                Danh sách mã giảm giá ({state.dataAllCoupon.length} giảm giá)
               </span>
               <span
                 className={`${style.add_Coupon} d-flex align-items-center`}

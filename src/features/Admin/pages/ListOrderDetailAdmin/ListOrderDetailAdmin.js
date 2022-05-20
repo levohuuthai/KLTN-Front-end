@@ -116,6 +116,12 @@ function ListOrderDetailAdmin(props) {
   const handleReceiveDataOrderFromCancelOrder = (data) => {
     setDataOrder(data);
   };
+  const [priceShipByProvince, setPriceShipByProvince] = useState();
+  useEffect(() => {
+    setPriceShipByProvince(
+      address?.city === "Thành phố Hồ Chí Minh" ? 20000 : 30000
+    );
+  }, [address]);
   return (
     <>
       <div className="d-flex wrap">
@@ -346,7 +352,9 @@ function ListOrderDetailAdmin(props) {
                           style: "currency",
                           currency: "VND",
                         }).format(
-                          dataOrder?.discountProduct + dataOrder?.discountShip
+                          dataOrder?.discountProduct + dataOrder?.discountShip > priceShipByProvince
+                          ? priceShipByProvince
+                          : dataOrder?.discountShip
                         )}
                       </span>
                     </div>

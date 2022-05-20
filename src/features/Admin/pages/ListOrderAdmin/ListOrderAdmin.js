@@ -40,7 +40,7 @@ function ListOrderAdmin(props) {
   const [loadingSearch, setLoadingSearch] = useState(false);
   const { dispatch, state } = useContext(GlobalContext);
   const [pagination, setPagination] = useState({
-    limit: 2,
+    limit: 10,
     total: 10,
     page: 1,
   });
@@ -75,7 +75,7 @@ function ListOrderAdmin(props) {
   const handlePageChange = (e, page) => {
     dispatch({
       type: ACTIOS.filterPaginationAllOrder,
-      payload: { _limit: 2, _page: page },
+      payload: { _limit: 10, _page: page },
     });
   };
   const [dayFilter, setDayFilter] = useState("");
@@ -175,7 +175,7 @@ function ListOrderAdmin(props) {
         <div className={style.listorder_admin_frame}>
           <div className={style.title_add_listorder}>
             <span className={style.title_listorder}>
-              Danh sách hóa đơn (5 hóa đơn)
+              Danh sách hóa đơn ({pagination.total} hóa đơn)
             </span>
           </div>
           <div className={`${style.searchListorder} d-flex `}>

@@ -141,11 +141,18 @@
           .category {
             width: 20%;
             font-weight: 500;
+            // font-size: 14px;
             .ship {
-              color: #0093e9;
+              color: #fff;
+              background: #0093e9;
+              padding: 3px 10px;
+              border-radius: 30px;
             }
             .order {
-              color: #ba933e;
+              color: #fff;
+              background: #ba933e;
+              padding: 3px 10px;
+              border-radius: 30px;
             }
           }
           .endDay {

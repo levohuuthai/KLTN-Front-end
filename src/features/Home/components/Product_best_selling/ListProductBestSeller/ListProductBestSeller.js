@@ -116,13 +116,18 @@ function ListProductBestSeller(props) {
               <div className={`${style.item_trend_product}`}>
                 <div className={`${style.img_trend_product}`}>
                   <Link to={`/products/detail`} state={{ dataProduct: data }}>
-                    <img src={aothun2_front} alt="" />
-                    <img src={ao2_back} className={style.img_hover} alt="" />
+                    <img src={data.image_front} alt="" />
+                    <img
+                      src={data.image_back}
+                      className={style.img_hover}
+                      alt=""
+                    />
                   </Link>
                   <Link
                     to={`/products/detail`}
                     state={{ dataProduct: data }}
                     className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
+                    // onClick={showMyCart}
                   >
                     <i className="fas fa-info"></i>Xem chi tiết
                   </Link>
@@ -177,7 +182,8 @@ function ListProductBestSeller(props) {
                 </h2>
                 <p className={`${style.price_trend_product} `}>
                   {data.priceBase !== data.priceMin &&
-                  data.priceBase !== data.priceMax ? (
+                  data.priceBase !== data.priceMax &&
+                  data.priceMin !== data.priceMax ? (
                     <span>
                       <span className={`${style.price_notoff}`}>
                         {new Intl.NumberFormat("vi-VN", {
@@ -197,6 +203,21 @@ function ListProductBestSeller(props) {
                           }).format(data.priceMax)}
                       </span>
                     </span>
+                  ) : data.priceMin === data.priceMax ? (
+                    <span>
+                      <span className={`${style.price_notoff}`}>
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(data.priceBase)}
+                      </span>
+                      <span className={style.price_off}>
+                        {new Intl.NumberFormat("vi-VN", {
+                          style: "currency",
+                          currency: "VND",
+                        }).format(data.priceMin)}
+                      </span>
+                    </span>
                   ) : (
                     <span className={style.price_off}>
                       {new Intl.NumberFormat("vi-VN", {
@@ -211,13 +232,13 @@ function ListProductBestSeller(props) {
           </SwiperSlide>
         );
       })}
-      {/* <div
+      <div
         className={`${style.notify_add_wishlist_bestselling} ${
           activeWishList ? style.active : ""
         }`}
       >
         <p>Sản phẩm được thêm vào yêu thích</p>
-      </div> */}
+      </div>
     </Swiper>
   );
 }

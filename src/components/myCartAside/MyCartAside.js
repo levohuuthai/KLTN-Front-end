@@ -73,10 +73,9 @@ function MyCartAside(props) {
               <div className={style.list_cart_product} id="scroll-2">
                 {state.loadingDeleteCart ? (
                   <CartSkeletonList length={state.dataCart.length} />
-                ) : (
+                ) : state.dataCart.length > 0 ? (
                   state.dataCart?.map((data, idx) => {
                     const closeMyProductCart = () => {
-                      console.log(data._id);
                       const fetchDeleteProductCart = async () => {
                         try {
                           const requestDeleteProductCart =
@@ -144,6 +143,8 @@ function MyCartAside(props) {
                       </div>
                     );
                   })
+                ) : (
+                  "Chưa có hàng trong giỏ"
                 )}
               </div>
               <div className={style.minicart_bot}>

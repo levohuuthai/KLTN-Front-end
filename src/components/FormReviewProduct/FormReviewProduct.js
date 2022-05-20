@@ -202,12 +202,22 @@ const FormReviewProduct = (props) => {
         });
         console.log(requestAddReview);
         if (requestAddReview.status === 200) {
-          props.onFormFalse(false);
-          props.onActiveNotifyReview(true);
+          if (
+            requestAddReview.data.message ===
+            " Bạn đã đánh giá cho sản phẩm này rồi"
+          ) {
+            toast.error("Bạn đã đánh giá sản phẩm này rồi", {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              autoClose: 2000,
+            });
+          } else {
+            props.onFormFalse(false);
+            props.onActiveNotifyReview(true);
+          }
         }
       } catch (error) {
         console.log(error);
-        toast.error("Bạn đã đánh giá sản phẩm này rồi", {
+        toast.error("Bạn cần nhập đánh giá", {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2000,
         });
@@ -231,9 +241,11 @@ const FormReviewProduct = (props) => {
               <span className={classes.size_order}>
                 Size: <b style={{ fontSize: "15px" }}> {props.size}</b>
               </span>
-              <span className={classes.color_order}>
-                Màu: <b style={{ fontSize: "15px" }}> {props.color}</b>
-              </span>
+              <div>
+                <span className={classes.color_order}>
+                  Màu: <b style={{ fontSize: "15px" }}> {props.color}</b>
+                </span>{" "}
+              </div>
               <div>
                 <p className={classes.brand_order}>
                   Thương hiệu:{" "}

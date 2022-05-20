@@ -1,14 +1,23 @@
 import ProductList from "features/Search/components/ProductList/ProductList";
 import React from "react";
 import style from "./SearchPage.module.scss";
+import { useLocation } from "react-router-dom";
 
 function SearchPage(props) {
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const location = useLocation();
+  const dataTitle = location.state?.dataTitle;
+
   return (
     <div className={style.right}>
-      <h6 style={{ fontSize: "22px", textAlign: "center" }}>Tìm kiếm</h6>
+      <h6 style={{ fontSize: "22px", textAlign: "center" }}>
+        Tìm kiếm{" "}
+        <b style={{ color: "#ba933e" }}>
+          <i>{dataTitle}</i>
+        </b>
+      </h6>
       <div className={style.filter_box}>
         <div className={style.sort}>
           <span className={style.title_sort}>

@@ -1,5 +1,7 @@
 .right {
-  padding: 20px;
+  padding: 20px 100px;
+  display: flex;
+  flex-direction: column;
   .filter_box {
     margin-bottom: 30px;
     .sort {

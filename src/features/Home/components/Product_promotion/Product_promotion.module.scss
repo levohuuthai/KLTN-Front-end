@@ -32,6 +32,7 @@
     width: 100%;
     margin: 0px;
     position: relative;
+    z-index: 9;
     .item_trend_product {
       width: 320px;
       .img_trend_product {
@@ -44,12 +45,10 @@
             top: 82%;
             opacity: 1;
           }
-
           .item_buttons {
             opacity: 1;
             right: 20px;
           }
-
           img {
             &.img_hover {
               opacity: 1;
@@ -111,25 +110,30 @@
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
             border-radius: 4px;
             transition: all 0.3s;
-
             &.btn-compare-product {
               transform: rotate(-90deg);
             }
-
             i {
               font-size: 20px;
               color: #1a1a1a;
             }
-
             &:hover {
               background: #ba933e;
-
               i {
                 color: #fff;
               }
             }
           }
           .wishlist {
+            display: block;
+            &.activeButton {
+              background: #ba933e;
+              color: #fff;
+              i {
+                font-size: 20px;
+                color: #fff;
+              }
+            }
             &:hover {
               ~ .detail_wishlist {
                 opacity: 1;
@@ -167,7 +171,6 @@
             &::after {
               content: "";
               position: absolute;
-
               border-width: 8px;
               border-style: solid;
               border-left-color: #fff;

@@ -39,6 +39,9 @@ export const ACTIOS = {
   arrayMess: "arrayMess",
   arrayChat: "arrayChat",
   dataBoxChat: "dataBoxChat",
+
+  //component
+  activeNotify: "activeNotify",
   // dataProductSearch: "dataProductSearch",
   // dataProductDiscount: "dataProductDiscount",
 };

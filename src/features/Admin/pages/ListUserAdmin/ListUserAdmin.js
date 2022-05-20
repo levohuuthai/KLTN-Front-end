@@ -87,7 +87,7 @@ function ListUserAdmin(props) {
   const handlePageChange = (e, page) => {
     dispatch({
       type: ACTIOS.filterPaginationAllUser,
-      payload: { _limit: 2, _page: page },
+      payload: { _limit: 10, _page: page },
     });
   };
   const [phone, setPhone] = useState("");

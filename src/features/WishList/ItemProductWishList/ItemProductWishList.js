@@ -6,6 +6,7 @@ import FormDelete from "components/FormDelete/FormDelete";
 import wishlishApi from "api/wishlishApi";
 import { ACTIOS } from "store/actions";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 ItemProductWishList.propTypes = {};
 
@@ -73,7 +74,9 @@ function ItemProductWishList(props) {
       </td>
       <td className={style.brand}>{dataProduct?.brand}</td>
       <td className={style.detail_product}>
-        <a href="/">Xem chi tiết</a>
+        <Link to={`/products/detail`} state={{ dataProduct: dataProduct }}>
+          Xem chi tiết
+        </Link>
       </td>
       <FormDelete
         isOpenFormDelete={isOpenFormDelete}

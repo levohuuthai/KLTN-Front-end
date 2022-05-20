@@ -19,6 +19,7 @@ function MyOrderDetail(props) {
     hour: "",
     minute: "",
   });
+  const [priceShipByProvince, setPriceShipByProvince] = useState();
 
   const location = useLocation();
   const dataOrder = location.state?.data;
@@ -62,8 +63,9 @@ function MyOrderDetail(props) {
     }, 0);
     setTempTotalMoney(rs);
   }, [dataOrder]);
-  console.log(tempTotalMoney);
-
+  useEffect(() => {
+    setPriceShipByProvince(city === "Thành phố Hồ Chí Minh" ? 20000 : 30000);
+  }, [city]);
   return (
     <div>
       {/* <div className={`${style.background_slider} `}>
@@ -168,7 +170,12 @@ function MyOrderDetail(props) {
                 {new Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(dataOrder?.discountProduct + dataOrder?.discountShip)}
+                }).format(
+                  dataOrder?.discountProduct + dataOrder?.discountShip >
+                    priceShipByProvince
+                    ? priceShipByProvince
+                    : dataOrder?.discountShip
+                )}
               </span>
             </div>{" "}
             <div className={style.totalMoney}>

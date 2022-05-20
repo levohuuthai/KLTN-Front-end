@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import Loading from "components/Loading";
+import FormCancelOrderClient from "./FormCancelOrderClient/FormCancelOrderClient";
+import ItemOrder from "./ItemOrder/ItemOrder";
 
 MyOrder.propTypes = {};
 
@@ -84,6 +86,13 @@ function MyOrder(props) {
     };
     fetchGetOrderById();
   };
+  // const [isOpenFormCancelOrder, seIsOpenFormCancelOrder] = useState(false);
+  // const handleShowFormCancelOrder = () => {
+  //   seIsOpenFormCancelOrder(true);
+  // };
+  // const falseFromCancelOrder = () => {
+  //   seIsOpenFormCancelOrder(false);
+  // };
   return (
     <div>
       {/* <div className={`${style.background_slider} `}>
@@ -185,53 +194,50 @@ function MyOrder(props) {
                 });
               };
               const handleCancelOrder = () => {
-                // dispatch({
-                //   type: ACTIOS.loadingOrderClient,
-                //   payload: true,
-                // });
-                const fetchCancelOrder = async () => {
-                  try {
-                    const requestCancelOrder = await orderApi.updateStatusOrder(
-                      dataOrder._id,
-                      { status: "Đã Hủy" }
-                    );
-                    console.log(requestCancelOrder);
-                    if (requestCancelOrder.status === 200) {
-                      dispatch({
-                        type: ACTIOS.loadingOrderClient,
-                        payload: true,
-                      });
-                      const fetchGetOrder = async () => {
-                        try {
-                          const requestGetOrder = await orderApi.getOrder(
-                            loggedInUser._id,
-                            status
-                          );
-                          dispatch({
-                            type: ACTIOS.dataArrOrderClient,
-                            payload: requestGetOrder.data,
-                          });
-                          setTimeout(() => {
-                            dispatch({
-                              type: ACTIOS.loadingOrderClient,
-                              payload: false,
-                            });
-                          }, 300);
-                        } catch (error) {
-                          console.log(error);
-                        }
-                      };
-                      fetchGetOrder();
-                    }
-                  } catch (error) {
-                    console.log(error);
-                  }
-                };
-                fetchCancelOrder();
+                // const fetchCancelOrder = async () => {
+                //   try {
+                //     const requestCancelOrder = await orderApi.updateStatusOrder(
+                //       dataOrder._id,
+                //       { status: "Đã Hủy" }
+                //     );
+                //     console.log(requestCancelOrder);
+                //     if (requestCancelOrder.status === 200) {
+                //       dispatch({
+                //         type: ACTIOS.loadingOrderClient,
+                //         payload: true,
+                //       });
+                //       const fetchGetOrder = async () => {
+                //         try {
+                //           const requestGetOrder = await orderApi.getOrder(
+                //             loggedInUser._id,
+                //             status
+                //           );
+                //           dispatch({
+                //             type: ACTIOS.dataArrOrderClient,
+                //             payload: requestGetOrder.data,
+                //           });
+                //           setTimeout(() => {
+                //             dispatch({
+                //               type: ACTIOS.loadingOrderClient,
+                //               payload: false,
+                //             });
+                //           }, 300);
+                //         } catch (error) {
+                //           console.log(error);
+                //         }
+                //       };
+                //       fetchGetOrder();
+                //     }
+                //   } catch (error) {
+                //     console.log(error);
+                //   }
+                // };
+                // fetchCancelOrder();
               };
               return (
                 <div className={style.value_tab_order} key={idx}>
-                  <h6 style={{ color: "rgb(128, 128, 137)" }}>
+                  <ItemOrder dataOrder={dataOrder} />
+                  {/* <h6 style={{ color: "rgb(128, 128, 137)" }}>
                     <i
                       className="fas fa-truck-moving"
                       style={{ marginRight: "10px" }}
@@ -279,7 +285,7 @@ function MyOrder(props) {
                       {dataOrder.status === "Đang Xử Lý" && (
                         <span
                           className={style.cancel_order}
-                          onClick={handleCancelOrder}
+                          onClick={handleShowFormCancelOrder}
                         >
                           Hủy đơn hàng
                         </span>
@@ -292,6 +298,14 @@ function MyOrder(props) {
                       </span>
                     </div>
                   </div>
+                  <FormCancelOrderClient
+                    isOpenFormCancelOrder={isOpenFormCancelOrder}
+                    onFormFalse={falseFromCancelOrder}
+                    idOrder={dataOrder._id}
+                    // onReceiveDataOrder={handleReceiveDataOrderFromCancelOrder}
+                  >
+                    Bạn có chắc chắn <b>Hủy</b> đơn hàng này không?
+                  </FormCancelOrderClient> */}
                 </div>
               );
             })

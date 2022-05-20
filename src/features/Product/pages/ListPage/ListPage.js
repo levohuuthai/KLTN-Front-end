@@ -34,7 +34,7 @@ function ListPage(props) {
   const nameTypeProduct = location.state?.nameTypeProduct;
   const dataArrayTypeProduct = location.state?.dataArrayTypeProduct;
   const { dispatch, state } = useContext(GlobalContext);
-
+  console.log(nameTypeProduct);
   useEffect(() => {
     const fetchRequestGetAllSizeByCategory = async () => {
       try {
@@ -95,7 +95,6 @@ function ListPage(props) {
       payload: { _limit: 10, _page: page },
     });
   };
-  console.log(state);
 
   useEffect(() => {
     if (
@@ -233,6 +232,8 @@ function ListPage(props) {
             Trang chủ /
             {state.dataFilterStyle.length > 0
               ? state.dataFilterStyle.join(" và ")
+              : nameTypeProduct === ""
+              ? " Tất cả"
               : nameTypeProduct}
           </p>
         </div>
@@ -463,6 +464,8 @@ function ListPage(props) {
           <h6 style={{ fontSize: "22px" }}>
             {state.dataFilterStyle.length > 0
               ? state.dataFilterStyle.join(" và ")
+              : nameTypeProduct === ""
+              ? " Tất cả sản phẩm"
               : nameTypeProduct}
           </h6>
           <div className={style.filter_box}>

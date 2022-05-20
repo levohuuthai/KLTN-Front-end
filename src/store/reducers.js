@@ -204,6 +204,13 @@ const reducer = (state, action) => {
         ...state,
         dataBoxChat: action.payload,
       };
+    //component
+    case ACTIOS.activeNotify:
+      return {
+        ...state,
+        activeNotify: action.payload,
+      };
+
     // case ACTIOS.dataProductSearch:
     //   return {
     //     ...state,

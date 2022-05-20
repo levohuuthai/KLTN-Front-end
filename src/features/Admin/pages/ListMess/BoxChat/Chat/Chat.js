@@ -23,7 +23,7 @@ const Chat = (props) => {
         const requestGetUserById = await userAdminApi.getUserById(
           props.data?.sender
         );
-        console.log(requestGetUserById);
+        // console.log(requestGetUserById);
         setUser(requestGetUserById.data.users);
       } catch (error) {
         console.log(error);

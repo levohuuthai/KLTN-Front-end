@@ -8,13 +8,18 @@ import Chat from "components/Chat/Chat";
 import MyCartAside from "components/myCartAside/MyCartAside";
 import { GlobalContext } from "../../store/store";
 import { ACTIOS } from "../../store/actions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Search from "components/Search/Search";
 import FormLogout from "components/FormLogout/FormLogout";
 import FormInformation from "features/Form-Information/FormInformation";
 import cartApi from "api/cartApi";
 import wishlishApi from "api/wishlishApi";
 // import io from "socket.io-client";
+import axios from "axios";
+import { signin } from "../../features/Auth/components/LoginFacebookSlice/LoginFacebookSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import authAPI from "api/authAPI";
+import Cookies from "js-cookie";
 
 Header.propTypes = {};
 
@@ -27,10 +32,17 @@ function Header(props) {
   //     transports: ["websocket", "polling", "flashsocket"],
   //   });
   // }, []);
+
+  // const [loggedInUser, setLoggedInUser] = useState(
+  //   useSelector((state) => state.user.current)
+  // );
+
+  const loggedInUser = useSelector((state) => state.user.current);
   const [showHeader, setShowHeader] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [isAudio, setAudio] = useState(false);
   const [isForm, setIsForm] = useState(false);
+  const [avatar, setAvatar] = useState(loggedInUser?.avatar);
   const { dispatch, state } = useContext(GlobalContext);
   let navigate = useNavigate();
 
@@ -54,7 +66,6 @@ function Header(props) {
   const handleCancelSearch = (falseformSearch) => {
     setShowSearch(falseformSearch);
   };
-  const loggedInUser = useSelector((state) => state.user.current);
   const [isOpenFormLogOut, seIsOpenFormLogOut] = useState(false);
   const handleLogout = () => {
     seIsOpenFormLogOut(true);
@@ -105,6 +116,114 @@ function Header(props) {
   const handleLinkMyOrder = () => {
     navigate("/customer/myorder/");
   };
+  const handleReceiveAvatar = (data) => {
+    setAvatar(data);
+  };
+  const handleAllProduct = (e) => {
+    e.preventDefault();
+    navigate("/products", {
+      state: {
+        nameTypeProduct: "",
+      },
+    });
+  };
+  const handleAoThunSoc = (e) => {
+    e.preventDefault();
+    navigate("/products", {
+      state: {
+        nameTypeProduct: "Áo thun sọc",
+      },
+    });
+  };
+  const handleAoThunInHinh = (e) => {
+    e.preventDefault();
+    navigate("/products", {
+      state: {
+        nameTypeProduct: "Áo thun in hình",
+      },
+    });
+  };
+  const handleAoThunTron = (e) => {
+    e.preventDefault();
+    navigate("/products", {
+      state: {
+        nameTypeProduct: "Áo thun trơn",
+      },
+    });
+  };
+
+  const [code, setCode] = useState("");
+  const client_id = "1027070578219640";
+  const redirect_uri = "https://9948-103-238-73-135.ap.ngrok.io/";
+  const client_secret = "99051d8b5672f199edcd7117fe941ee6";
+  const dispatchLoginFacebook = useDispatch();
+
+  useEffect(() => {
+    // let params = new URL(document.location).searchParams;
+    // console.log(params.get("code"));
+    // setCode(params.get("code"));
+    if (new URL(document.location).searchParams.get("code") !== null) {
+      axios
+        .get(
+          `https://graph.facebook.com/v13.0/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${new URL(
+            document.location
+          ).searchParams.get(`code`)}`
+        )
+        .then(async (res) => {
+          const action = signin({
+            access_token: res.data.access_token,
+          });
+          const resultAction = await dispatchLoginFacebook(action);
+          const user = unwrapResult(resultAction);
+          window.location = "https://9948-103-238-73-135.ap.ngrok.io/";
+        })
+        .catch((aa) => {
+          console.log("Khong Gui dc", aa);
+        });
+    }
+  }, [new URL(document.location).searchParams.get("code")]);
+
+  // useEffect(() => {
+  //   const fetchLoginGoogle = async () => {
+  //     try {
+  //       const requestLoginGoogle = await authAPI.login_google();
+  //       console.log(requestLoginGoogle);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+  //   fetchLoginGoogle();
+  // }, []);
+
+  useEffect(() => {
+    const getUser = () => {
+      fetch("http://localhost:5000/auth/login/success", {
+        method: "GET",
+        credentials: "include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      })
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          console.log(resObject);
+          localStorage.setItem("user", JSON.stringify(resObject.user));
+          Cookies.set("token", resObject.accessToken);
+          Cookies.set("refreshToken", resObject.refreshToken);
+          window.location = "https://9948-103-238-73-135.ap.ngrok.io/";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser();
+  }, []);
+
   return (
     <>
       <div className="wrap">
@@ -113,11 +232,6 @@ function Header(props) {
             <div className={`${style.top_bar_left}  `}>
               <a href="tel:0327364753">
                 <i className="bi bi-telephone-outbound"></i>
-                {/* <span>
-              <FiPhoneIncoming
-                style={{ fontSize: "16px", color: "#444444" }}
-              />
-            </span> */}
                 0327364753
               </a>
 
@@ -135,19 +249,19 @@ function Header(props) {
               <div
                 className={`${style.social} d-flex justify-content-between align-items-end`}
               >
-                <a href="\">
+                <a href="#/">
                   <i className="fab fa-facebook-f"></i>
                 </a>
-                <a href="\">
+                <a href="#/">
                   <i className="fab fa-twitter"></i>
                 </a>
-                <a href="\">
+                <a href="#/">
                   <i className="fab fa-youtube-square"></i>
                 </a>
-                <a href="\">
+                <a href="#/">
                   <i className="fab fa-pinterest"></i>
                 </a>
-                <a href="\">
+                <a href="#/">
                   <i className="fas fa-envelope"></i>
                 </a>
               </div>
@@ -162,8 +276,8 @@ function Header(props) {
               <i className="bi bi-list"></i>
             </div>
             <div className={`${style.logo}`}>
-              <a href="../html/Project.html">
-                <img src={logoRubic} alt="" />
+              <a href="\">
+                <img src={logoRubic} alt="logo" />
               </a>
             </div>
             {/* Menu */}
@@ -194,25 +308,24 @@ function Header(props) {
                       </a>
                     </li>
                     <li>
-                      <a href="\">Tất cả</a>
+                      <a href="\" onClick={handleAllProduct}>
+                        Tất cả
+                      </a>
                     </li>
                     <li>
-                      <a href="\">Áo thun trơn</a>
+                      <a href="\" onClick={handleAoThunTron}>
+                        Áo thun trơn
+                      </a>
                     </li>
                     <li>
-                      <a href="\">Áo thun sọc</a>
+                      <a href="\" onClick={handleAoThunSoc}>
+                        Áo thun sọc
+                      </a>
                     </li>
                     <li>
-                      <a href="\">Áo thun in hình</a>
-                    </li>
-                    <li>
-                      <a href="\">Áo thun nam</a>
-                    </li>
-                    <li>
-                      <a href="\">Áo thun nữ</a>
-                    </li>
-                    <li>
-                      <a href="\">Unisex</a>
+                      <a href="\" onClick={handleAoThunInHinh}>
+                        Áo thun in hình
+                      </a>
                     </li>
                   </ul>
                   <ul className={`${style.productlayout}`}>
@@ -309,7 +422,7 @@ function Header(props) {
               <div className={`${style.account}  `}>
                 {loggedInUser !== null ? (
                   <span className={style.avatar_header}>
-                    <img src={loggedInUser?.avatar} alt="avatar" />
+                    <img src={avatar} alt="avatar" />
                   </span>
                 ) : (
                   <i className="far fa-user"></i>
@@ -409,7 +522,11 @@ function Header(props) {
         isOpenFormLogOut={isOpenFormLogOut}
         onFormFalse={falseFromLogOut}
       ></FormLogout>
-      <FormInformation isForm={isForm} onFormFalse={formfalseHandler} />
+      <FormInformation
+        isForm={isForm}
+        onFormFalse={formfalseHandler}
+        onSendAvatarToHome={handleReceiveAvatar}
+      />
     </>
   );
 }

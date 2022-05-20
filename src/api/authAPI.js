@@ -1,14 +1,6 @@
 import axiosClient from "./axiosClient";
 
 const authAPI = {
-  loginGoogle() {
-    const url = "/auth/google";
-    return axiosClient.get(url);
-  },
-  loginFacebook() {
-    const url = "/auth/facebook";
-    return axiosClient.post(url);
-  },
   checkPhone(phoneNumber) {
     const url = "/auth/checkPhone";
     return axiosClient.post(url, phoneNumber);
@@ -43,14 +35,22 @@ const authAPI = {
     const url = "/users/" + id;
     return axiosClient.get(url);
   },
-  // ChangePassword(data) {
-  //   const url = "/auth/ChangePassword";
-  //   return axiosClient.post(url, {
-  //     password: data.password,
-  //     reEnterPassword: data.reEnterPassword,
-  //     newPassword: data.newPassword,
-  //   });
-  // },
+  ChangePassword(data) {
+    const url = "/auth/ChangePassword";
+    return axiosClient.post(url, {
+      password: data.password,
+      reEnterPassword: data.reEnterPassword,
+      newPassword: data.newPassword,
+    });
+  },
+  login_facebook(data) {
+    const url = "/auth/facebook";
+    return axiosClient.post(url, data);
+  },
+  login_google() {
+    const url = "/auth/login/success";
+    return axiosClient.get(url);
+  },
 };
 
 export default authAPI;

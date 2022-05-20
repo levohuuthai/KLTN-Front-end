@@ -31,15 +31,14 @@
 
 .myorder {
   display: flex;
-  padding: 1rem;
+  padding: 2rem 1rem;
   background: #f5f5fa;
 
   .myaddress_right {
     width: 80%;
+
     .checkout_adress {
-      //   padding: 2rem 6rem;
       background: rgb(245, 245, 250);
-      height: 100vh;
       .list_address_current {
         .address_current {
           background: #fff;
@@ -155,7 +154,8 @@
         padding: 0.001rem 1rem;
         transition: all 0.6s;
         width: 80%;
-        margin: 0 auto;
+        // margin: 0 auto;
+        // margin: 50px 0px;
         &.active_address_new {
           height: 380px;
           transition: all 0.6s;

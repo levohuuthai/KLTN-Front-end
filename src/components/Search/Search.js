@@ -143,18 +143,23 @@ const Search = (props) => {
                         key={idx}
                         onClick={handleClickItemTitle}
                       >
-                        {parts.map((part, i) => {
-                          return (
-                            <span
-                              key={i}
-                              className={`${
-                                i % 2 === 1 ? style.hightlight : ""
-                              }`}
-                            >
-                              {part}
-                            </span>
-                          );
-                        })}
+                        <div>
+                          {parts.map((part, i) => {
+                            return (
+                              <span
+                                key={i}
+                                className={`${
+                                  i % 2 === 1 ? style.hightlight : ""
+                                }`}
+                              >
+                                {part}
+                              </span>
+                            );
+                          })}
+                        </div>
+                        <span className={style.image_namedropdown}>
+                          <img src={data.image_front} alt="img title"></img>
+                        </span>
                       </div>
                     );
                   })}

@@ -17,7 +17,6 @@ function BoxChatClient(props) {
   const loggedInUser = useSelector((state) => state.user.current);
 
   const idLogin = loggedInUser?._id;
-  console.log(idLogin);
   const [roomUser, setRoomUser] = useState([]);
   const [arrayChat, setArrayChat] = useState([]);
   // //socket
@@ -63,11 +62,9 @@ function BoxChatClient(props) {
         active: true,
         RoomId: roomUser[0]?._id,
       };
-      console.log(newMessage);
       const fetchAddMessage = async () => {
         try {
           const res = await messageAdminAPI.AddMessage(newMessage);
-          console.log(res.data);
           if (res.status === 200) {
             setEnteredChat("");
             const fetchGetMessage = async () => {
@@ -139,15 +136,29 @@ function BoxChatClient(props) {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [, enteredChat, arrayChat]);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
   useEffect(() => {
-    // socket.current.on("send-message", (data) => {
-    //   if (roomUser[0]?._id === data.RoomId) {
-    //     setArrayChat((pre) => {
-    //       return [...pre, data];
-    //     });
-    //   }
-    // });
-  }, [arrayChat]);
+    socket.current.on("send-message", (data) => {
+      if (roomUser[0]?._id === data.RoomId) {
+        setArrivalMessage({
+          sender: data.sender,
+          type: data.type,
+          text: data.text,
+          active: data.active,
+          createdAt: Date.now(),
+        });
+      }
+    });
+  }, [roomUser]);
+
+  useEffect(() => {
+    arrivalMessage &&
+      setArrayChat((pre) => {
+        return [...pre, arrivalMessage];
+      });
+    // }
+  }, [arrivalMessage]);
+
   return (
     <div className={style.frame_boxchat}>
       <div className={style.boxChat_top}>

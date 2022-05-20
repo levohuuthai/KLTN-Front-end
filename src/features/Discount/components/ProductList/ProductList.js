@@ -3,25 +3,25 @@ import style from "./ProductList.module.scss";
 import aothun2_front from "assets/images/product_promotion/ao2_front.png";
 import ao2_back from "assets/images/product_promotion/ao2_back.png";
 import { Link } from "react-router-dom";
-import { GlobalContext } from "store/store";
 import productApi from "api/productApi";
 import TotalStar from "components/TotalStar/TotalStar";
-function ProductList(props) {
-  const { state } = useContext(GlobalContext);
-  const [arrProductDiscount, setArrProductDiscount] = useState([]);
+import { ACTIOS } from "store/actions";
+import { GlobalContext } from "store/store";
+import Quickview from "components/Quickview/Quickview";
+import { useSelector } from "react-redux";
+import wishlishApi from "api/wishlishApi";
 
-  const showMyCart = (e) => {
-    e.preventDefault();
-  };
-  const showQuickView = (e) => {
-    e.preventDefault();
-  };
+function ProductList(props) {
+  const { dispatch, state } = useContext(GlobalContext);
+  const [arrProductDiscount, setArrProductDiscount] = useState([]);
+  const [activeWishList, setActiveWishList] = useState(false);
+  const loggedInUser = useSelector((state) => state.user.current);
+
   useEffect(() => {
     const fetchRequestGetAllProductDiscount = async () => {
       try {
         const requestGetAllProductDiscount =
           await productApi.getAllProductDiscount();
-        console.log(requestGetAllProductDiscount);
         setArrProductDiscount(requestGetAllProductDiscount.data);
       } catch (error) {
         console.log(error);
@@ -29,7 +29,7 @@ function ProductList(props) {
     };
     fetchRequestGetAllProductDiscount();
   }, []);
-  console.log(arrProductDiscount);
+  // console.log(state);
   return (
     <div>
       <div
@@ -40,7 +40,66 @@ function ProductList(props) {
         }}
       >
         {arrProductDiscount?.map((data, idx) => {
-          // console.log(data);
+          const showQuickView = (e) => {
+            e.preventDefault();
+            dispatch({ type: ACTIOS.loadingQuickView, payload: true });
+            const fetchRequestGetIdProdcut = async () => {
+              try {
+                const requestGetIdProduct = await productApi.getIdProduct(
+                  data._id
+                );
+                console.log(requestGetIdProduct);
+                dispatch({
+                  type: ACTIOS.dataQuickView,
+                  payload: requestGetIdProduct.data,
+                });
+                dispatch({ type: ACTIOS.activeQuickView, payload: true });
+                setTimeout(() => {
+                  dispatch({ type: ACTIOS.loadingQuickView, payload: false });
+                }, 500);
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            fetchRequestGetIdProdcut();
+          };
+          const addWWishlist = async (e) => {
+            e.preventDefault();
+            await setActiveWishList(true);
+
+            await setTimeout(() => {
+              setActiveWishList(false);
+            }, 2000);
+            const fetchAddProductWishList = async () => {
+              try {
+                const requestAddProductWishList =
+                  await wishlishApi.AddProductWishList({
+                    userId: loggedInUser._id,
+                    products: [data._id],
+                  });
+                if (requestAddProductWishList.status === 200) {
+                  const fetchGetProductWishList = async () => {
+                    try {
+                      const requestGetProductWishList =
+                        await wishlishApi.getWishListUser(loggedInUser._id);
+                      if (requestGetProductWishList.status === 200) {
+                        dispatch({
+                          type: ACTIOS.dataWishList,
+                          payload: requestGetProductWishList.data.products,
+                        });
+                      }
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  };
+                  fetchGetProductWishList();
+                }
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            fetchAddProductWishList();
+          };
           return (
             <div className={`${style.item_product} col-4`} key={idx}>
               <div className={`${style.img_trend_product}`}>
@@ -52,15 +111,20 @@ function ProductList(props) {
                     alt="img back"
                   />
                 </Link>
-                <a
-                  href="/"
+                <Link
+                  to={`/products/detail`}
+                  state={{ dataProduct: data }}
                   className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-                  onClick={showMyCart}
+                  // onClick={showMyCart}
                 >
-                  <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
-                </a>
+                  <i className="fas fa-info"></i>Xem chi tiết
+                </Link>
                 <div className={`${style.item_buttons} f-column `}>
-                  <a href="/" className={`${style.wishlist} `}>
+                  <a
+                    href="/"
+                    className={`${style.wishlist} `}
+                    onClick={addWWishlist}
+                  >
                     <i className="bi bi-suit-heart"></i>
                   </a>
 
@@ -80,15 +144,6 @@ function ProductList(props) {
                     <i className="bi bi-eye"></i>
                   </a>
                   <p className={`${style.detail_quickview} `}>Xem nhanh</p>
-                </div>
-
-                <div className={`${style.item_buttons_res} `}>
-                  <a href="/" className={`${style.btn_wishlist_respon} `}>
-                    <i className="bi bi-suit-heart"></i>
-                  </a>
-                  <a href="/" className={`${style.btn_addtocart_respon} `}>
-                    <i className="bi bi-handbag"></i>
-                  </a>
                 </div>
                 {/* salse */}
                 {data.priceBase !== data.priceMin &&
@@ -162,7 +217,15 @@ function ProductList(props) {
             </div>
           );
         })}
+      </div>{" "}
+      <div
+        className={`${style.notify_add_wishlist_promotion} ${
+          activeWishList ? style.active : ""
+        }`}
+      >
+        <p>Sản phẩm được thêm vào yêu thích</p>
       </div>
+      <Quickview />
     </div>
   );
 }

@@ -94,7 +94,7 @@ function ItemProductAdmin(props) {
           className={`${
             props.data.active === false ? style.stop_selling_backdrop : ""
           }`}
-        ></div>{" "}
+        ></div>
         {props.data.active === false && (
           <div className={style.cover_notify}>
             <div className={style.notify_stop_selling}>Ngừng bán</div>

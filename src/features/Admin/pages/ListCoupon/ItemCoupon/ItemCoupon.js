@@ -108,7 +108,11 @@ function ItemCoupon(props) {
           {endDay.minute.toString().length === 1
             ? "0" + endDay.minute
             : endDay.minute}{" "}
-          {endDay.day}-{endDay.month}-{endDay.year}
+          {endDay.day.toString().length === 1 ? "0" + endDay.day : endDay.day}-
+          {endDay.month.toString().length === 1
+            ? "0" + endDay.month
+            : endDay.month}
+          -{endDay.year}
         </span>
         <span className={`${style.close} d-flex justify-content-center`}>
           <div className={style.delete}>

@@ -280,7 +280,7 @@ function ListTypeProductAdmin(props) {
           </div>
 
           <div className={style.listtypeproduct_admin_frame3}>
-            <h4>Danh sách loại sản phẩm(5)</h4>
+            <h4>Danh sách loại sản phẩm({state.dataAllTypeProduct.length})</h4>
             <div className={style.listtypeproduct}>
               <div className={style.title_item_typeproduct}>
                 <span className={style.title_image_item}>Hình ảnh</span>

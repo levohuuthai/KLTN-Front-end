@@ -185,6 +185,12 @@
 
     .price {
       padding: 10px 0px;
+      .price_notoff {
+        margin-right: 15px;
+        color: #999;
+        text-decoration: line-through;
+      }
+      color: #ba933e;
     }
     .size {
       padding-top: 10px;

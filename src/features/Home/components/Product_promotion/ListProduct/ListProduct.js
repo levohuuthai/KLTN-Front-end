@@ -1,26 +1,28 @@
 import React, { useContext, useState } from "react";
 import style from "../Product_promotion.module.scss";
-import aothun2_front from "assets/images/product_promotion/ao2_front.png";
-import ao2_back from "assets/images/product_promotion/ao2_back.png";
 import { Link, useNavigate } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { GlobalContext } from "../../../../../store/store";
-import { ACTIOS } from "../../../../../store/actions";
+import { GlobalContext } from "store/store";
+import { ACTIOS } from "store/actions";
 import productApi from "api/productApi";
 import { Autoplay, Navigation } from "swiper";
 import wishlishApi from "api/wishlishApi";
 import { useSelector } from "react-redux";
 import TotalStar from "components/TotalStar/TotalStar";
+import ItemProduct from "./ItemProduct";
 
 function ListProduct(props) {
-  const { dispatch } = useContext(GlobalContext);
+  const { dispatch, state } = useContext(GlobalContext);
   const loggedInUser = useSelector((state) => state.user.current);
 
   const [activeWishList, setActiveWishList] = useState(false);
-  let navigate = useNavigate();
 
+  let navigate = useNavigate();
+  const handleReceiveActiveWishlist = (data) => {
+    setActiveWishList(data);
+  };
   return (
     <>
       <div className={`prevElProductpromotion ${style.prevEl}`}></div>
@@ -115,7 +117,12 @@ function ListProduct(props) {
           };
           return (
             <SwiperSlide key={i}>
-              <div className="d-flex justify-content-center">
+              <ItemProduct
+                data={data}
+                onReceiveActiveWishlist={handleReceiveActiveWishlist}
+                i={i}
+              />
+              {/* <div className="d-flex justify-content-center">
                 <div className={`${style.item_trend_product}`}>
                   <div className={`${style.img_trend_product}`}>
                     <Link to={`/products/detail`} state={{ dataProduct: data }}>
@@ -130,15 +137,29 @@ function ListProduct(props) {
                       to={`/products/detail`}
                       state={{ dataProduct: data }}
                       className={`${style.btn_addtocart} d-flex align-items-center justify-content-center`}
-                      // onClick={showMyCart}
                     >
                       <i className="fas fa-info"></i>Xem chi tiết
                     </Link>
                     <div className={`${style.item_buttons} f-column `}>
                       <a
                         href="/"
-                        className={`${style.wishlist} `}
+                        className={`${style.wishlist} ${state.dataWishList?.map(
+                          (itemWishList, idx) => {
+                            return itemWishList === props.dataProduct[i]._id
+                              ? style.activeButton
+                              : "";
+                          }
+                        )}`}
                         onClick={addWWishlist}
+                        // style={{
+                        //   background: state.dataWishList?.map(
+                        //     (itemWishList, idx) => {
+                        //       return itemWishList === props.dataProduct[i]._id
+                        //         ? style.activeButton
+                        //         : "";
+                        //     }
+                        //   ),
+                        // }}
                       >
                         <i className="bi bi-suit-heart"></i>
                       </a>
@@ -160,8 +181,6 @@ function ListProduct(props) {
                       </a>
                       <p className={`${style.detail_quickview} `}>Xem nhanh</p>
                     </div>
-
-                    {/* salse */}
                     {data.priceBase !== data.priceMin &&
                       data.priceBase !== data.priceMax && (
                         <div className={style.sale}>
@@ -185,7 +204,6 @@ function ListProduct(props) {
                   </h2>
                   <p className={`${style.price_trend_product} `}>
                     {data.priceBase !== data.priceMin &&
-                    data.priceBase !== data.priceMax &&
                     data.priceMin !== data.priceMax ? (
                       <span>
                         <span className={`${style.price_notoff}`}>
@@ -231,7 +249,7 @@ function ListProduct(props) {
                     )}
                   </p>
                 </div>
-              </div>
+              </div> */}
             </SwiperSlide>
           );
         })}
@@ -240,7 +258,7 @@ function ListProduct(props) {
             activeWishList ? style.active : ""
           }`}
         >
-          <p>Sản phẩm được thêm vào yêu thích</p>
+          <p> Sản phẩm được thêm vào yêu thích</p>
         </div>
       </Swiper>
     </>

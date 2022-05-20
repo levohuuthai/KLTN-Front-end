@@ -134,6 +134,14 @@ function AddProductAdmin(props) {
       fetchRequestGetProductByTitle();
     } else {
       setBrand({ ...brand, value: "" });
+      setOrigin({ ...origin, value: "" });
+      setCollar({ ...collar, value: "" });
+      setFabricMaterial({ ...fabricMaterial, value: "" });
+      setImageFront({ ...imageFront, img: "" });
+      setImageBack({ ...imageBack, img: "" });
+      setImageDetail({ ...imageDetail, img: "" });
+      setDescribe("");
+
       // setOrigin("");
       // setCategory("");
 
@@ -314,7 +322,7 @@ function AddProductAdmin(props) {
     const fd = new FormData();
     fd.append("uploadFile", fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post("//localhost:5000/products/addFile", fd)
       .then((res) => {
         setImageFront((pre) => {
           return { ...pre, img: res.data };
@@ -330,7 +338,7 @@ function AddProductAdmin(props) {
     const fd = new FormData();
     fd.append("uploadFile", fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post("//localhost:5000/products/addFile", fd)
       .then((res) => {
         setImageBack((pre) => {
           return { ...pre, img: res.data };
@@ -346,7 +354,7 @@ function AddProductAdmin(props) {
     const fd = new FormData();
     fd.append("uploadFile", fileSelected);
     axios
-      .post("//localhost:3333/products/addFile", fd)
+      .post("//localhost:5000/products/addFile", fd)
       .then((res) => {
         setImageDetail((pre) => {
           return { ...pre, img: res.data };
@@ -454,6 +462,19 @@ function AddProductAdmin(props) {
                     position: toast.POSITION.BOTTOM_RIGHT,
                     autoClose: 2000,
                   });
+                  setNameProduct("");
+                  setBrand({ ...brand, value: "" });
+                  setOrigin({ ...origin, value: "" });
+                  setCollar({ ...collar, value: "" });
+                  setFabricMaterial({ ...fabricMaterial, value: "" });
+                  setImageFront({ ...imageFront, img: "" });
+                  setImageBack({ ...imageBack, img: "" });
+                  setImageDetail({ ...imageDetail, img: "" });
+                  setPrice({ ...price, value: "" });
+                  setDescribe("");
+                  setColor({ ...color, value: "" });
+                  setSize({ ...size, value: "" });
+                  setDisable(false);
                 }
               } catch (error) {
                 console.log(error);
@@ -517,6 +538,7 @@ function AddProductAdmin(props) {
                           {nameProduct} - Tìm kiếm trên hệ thống
                         </div>
                         {arrayTitleProduct?.map((data, idx) => {
+                          console.log(data);
                           const parts = data.title.split(
                             new RegExp(`(${nameProduct})`, "gi")
                           );
@@ -535,7 +557,11 @@ function AddProductAdmin(props) {
                             setCategory(data.category);
                             setImageFront({ img: data.image_front });
                             setImageBack({ img: data.image_back });
+                            setColor({ ...color, value: "" });
+                            setSize({ ...size, value: "" });
+                            setImageDetail({ ...imageDetail, img: "" });
                             setDisable(true);
+                            setDisableColor(false);
                             setActiveDropdown("");
                           };
                           return (
@@ -544,18 +570,26 @@ function AddProductAdmin(props) {
                               key={idx}
                               onClick={handleClickItemTitle}
                             >
-                              {parts.map((part, i) => {
-                                return (
-                                  <span
-                                    key={i}
-                                    className={`${
-                                      i % 2 === 1 ? style.hightlight : ""
-                                    }`}
-                                  >
-                                    {part}
-                                  </span>
-                                );
-                              })}
+                              <div>
+                                {parts.map((part, i) => {
+                                  return (
+                                    <span
+                                      key={i}
+                                      className={`${
+                                        i % 2 === 1 ? style.hightlight : ""
+                                      }`}
+                                    >
+                                      {part}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                              <span className={style.image_namedropdown}>
+                                <img
+                                  src={data.image_front}
+                                  alt="img title"
+                                ></img>
+                              </span>
                             </div>
                           );
                         })}

@@ -16,6 +16,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TextField,
 } from "@material-ui/core";
 import FormDeleteAddress from "features/Checkout/components/FormDeleteAddress/FormDeleteAddress";
 import { useNavigate } from "react-router-dom";
@@ -59,6 +60,10 @@ function MyAddress(props) {
   const [district, setDistrict] = useState("");
   const [arrWard, setArrWard] = useState([]);
   const [ward, setWard] = useState("");
+  const [apartmentNumber, setApartmentNumber] = useState({
+    value: "",
+    errorAppartment: undefined,
+  });
   const classes = useStyles();
   const [showFormAddress, setFormShowAddress] = useState(false);
   const [showFormUpdateAddress, setFormUpdateAddress] = useState(false);
@@ -76,7 +81,7 @@ function MyAddress(props) {
   });
   const handleSubmit = (values) => {
     if (
-      values.street !== "" &&
+      apartmentNumber.value !== "" &&
       city.length > 0 &&
       district.length > 0 &&
       ward.length > 0
@@ -86,7 +91,7 @@ function MyAddress(props) {
         const fetchAddaddress = async () => {
           try {
             const requestAddaddress = await addressAPI.addAddress({
-              apartmentNumber: values.street,
+              apartmentNumber: apartmentNumber.value,
               ward: ward,
               district: district,
               city: city,
@@ -109,6 +114,10 @@ function MyAddress(props) {
                 }
               };
               fetchGetListAddressUser();
+              toast.success("Thêm địa chỉ thành công", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 2000,
+              });
             }
           } catch (error) {
             console.log(error);
@@ -123,7 +132,7 @@ function MyAddress(props) {
             const requestUpdateAddress = await addressAPI.updatesAddress(
               idAddress,
               {
-                apartmentNumber: values.street,
+                apartmentNumber: apartmentNumber.value,
                 ward: ward,
                 district: district,
                 city: city,
@@ -136,12 +145,17 @@ function MyAddress(props) {
                 try {
                   const requestGetListAddressUser =
                     await addressAPI.getListAddressUser(loggedInUser._id);
+                  console.log(requestGetListAddressUser);
                   dispatch({
                     type: ACTIOS.dataAddress,
                     payload: requestGetListAddressUser.data,
                   });
                   setLoadingAddress(false);
                   window.scrollTo(0, 0);
+                  toast.success("Cập nhật địa chỉ thành công", {
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 2000,
+                  });
                 } catch (error) {
                   console.log(error);
                 }
@@ -241,6 +255,19 @@ function MyAddress(props) {
     };
     fetchGetListAddressUser();
   };
+  const handleAppartmentNumber = (e) => {
+    if (e.target.value === "") {
+      setApartmentNumber({
+        value: e.target.value,
+        errorAppartment: "Vui lòng nhập số nhà",
+      });
+    } else {
+      setApartmentNumber({
+        value: e.target.value,
+        errorAppartment: undefined,
+      });
+    }
+  };
   return (
     <div>
       <div className={style.myorder}>
@@ -268,10 +295,12 @@ function MyAddress(props) {
                             const requestGetAddress =
                               await addressAPI.getAddress(data._id);
                             setCity(requestGetAddress.data.city);
-
                             setDistrict(requestGetAddress.data.district);
-
                             setWard(requestGetAddress.data.ward);
+                            setApartmentNumber({
+                              value: requestGetAddress.data.apartmentNumber,
+                              errorAppartment: "",
+                            });
                           } catch (error) {
                             console.log(error);
                           }
@@ -299,12 +328,12 @@ function MyAddress(props) {
                             >
                               Sửa
                             </div>
-                            <div
+                            {/* <div
                               className={style.btn_delete}
                               onClick={handleDeleteAddress}
                             >
                               Xóa
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                       );
@@ -416,34 +445,59 @@ function MyAddress(props) {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {arrDistrict?.map((data, idx) => {
-                        const handleDistrictCode = async () => {
-                          //Khi chon thanh pho loc phuong
-
-                          await axios
-                            .get(`https://provinces.open-api.vn/api/w/`)
-                            .then((res) => {
-                              setArrWard(
-                                res.data.filter((codeWard) => {
-                                  return data.code === codeWard.district_code;
-                                })
-                              );
+                      {/* mảng quận huyện > 0 thì sẽ chọn lại, -0 thì sẽ hiện update */}
+                      {/* {arrDistrict?.map((data, idx) => {
+                    const handleDistrictCode = async () => {
+                      //Khi chon thanh pho loc phuong
+                      await axios
+                        .get(`https://provinces.open-api.vn/api/w/`)
+                        .then((res) => {
+                          setArrWard(
+                            res.data.filter((codeWard) => {
+                              return data.code === codeWard.district_code;
                             })
-                            .catch((error) => console.log(error));
-                        };
-                        return (
-                          <MenuItem
-                            key={idx}
-                            value={data.name}
-                            onClick={handleDistrictCode}
-                          >
-                            {data.name}
-                          </MenuItem>
-                        );
-                      })}
-                      {/* <MenuItem value={10}>Quận 9</MenuItem>
-                <MenuItem value={21}>Cà Mau</MenuItem>
-                <MenuItem value={22}>Sài Gòn</MenuItem> */}
+                          );
+                        })
+                        .catch((error) => console.log(error));
+                    };
+                    return (
+                      <MenuItem
+                        key={idx}
+                        value={data.name}
+                        onClick={handleDistrictCode}
+                      >
+                        {data.name}
+                      </MenuItem>
+                    );
+                  })} */}
+                      {arrDistrict.length > 0 &&
+                        arrDistrict?.map((data, idx) => {
+                          const handleDistrictCode = async () => {
+                            //Khi chon thanh pho loc phuong
+                            await axios
+                              .get(`https://provinces.open-api.vn/api/w/`)
+                              .then((res) => {
+                                setArrWard(
+                                  res.data.filter((codeWard) => {
+                                    return data.code === codeWard.district_code;
+                                  })
+                                );
+                              })
+                              .catch((error) => console.log(error));
+                          };
+                          return (
+                            <MenuItem
+                              key={idx}
+                              value={data.name}
+                              onClick={handleDistrictCode}
+                            >
+                              {data.name}
+                            </MenuItem>
+                          );
+                        })}
+                      {arrDistrict.length === 0 && (
+                        <MenuItem value={district}>{district}</MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </div>
@@ -470,13 +524,17 @@ function MyAddress(props) {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {arrWard?.map((data, idx) => {
-                        return (
-                          <MenuItem key={idx} value={data.name}>
-                            {data.name}
-                          </MenuItem>
-                        );
-                      })}
+                      {arrWard.length > 0 &&
+                        arrWard?.map((data, idx) => {
+                          return (
+                            <MenuItem key={idx} value={data.name}>
+                              {data.name}
+                            </MenuItem>
+                          );
+                        })}
+                      {arrWard.length === 0 && (
+                        <MenuItem value={ward}>{ward}</MenuItem>
+                      )}
                     </Select>
                   </FormControl>
                 </div>
@@ -484,10 +542,26 @@ function MyAddress(props) {
                   className={`${style.Name} d-flex  justify-content-between align-items-center`}
                 >
                   <label className={style.title_lable}>Địa chỉ</label>
-                  <InputField
-                    name="street"
+                  {/* <InputField
+                name="street"
+                label="Ví dụ: 52, Đường Trần Hưng Đạo"
+                form={form}
+              /> */}
+                  <TextField
+                    name="apartmentnumber"
                     label="Ví dụ: 52, Đường Trần Hưng Đạo"
-                    form={form}
+                    margin="normal"
+                    variant="outlined"
+                    fullWidth
+                    style={{ background: "#fff" }}
+                    value={apartmentNumber.value}
+                    onChange={handleAppartmentNumber}
+                    error={!!apartmentNumber.errorAppartment}
+                    helperText={
+                      apartmentNumber.errorAppartment !== undefined
+                        ? apartmentNumber.errorAppartment
+                        : ""
+                    }
                   />
                 </div>
                 <div className={style.group_btn_address_new}>
@@ -499,7 +573,7 @@ function MyAddress(props) {
                   </Button>
 
                   <Button type="submit" className={classes.submit}>
-                    {showFormAddress && "Thêm"}
+                    {showFormAddress && "Giao đến địa chỉ này"}
                     {showFormUpdateAddress && "Cập nhật"}
                   </Button>
                 </div>

@@ -65,7 +65,7 @@ function ListProductAdmin(props) {
   };
 
   const [pagination, setPagination] = useState({
-    limit: 2,
+    limit: 10,
     total: 10,
     page: 1,
   });
@@ -93,13 +93,13 @@ function ListProductAdmin(props) {
         console.log(error);
       }
     };
-    fetchRequestGetAllProduct(); 
+    fetchRequestGetAllProduct();
   }, [state.filterPagination._page, state.filterPagination._limit]);
   const handlePageChange = (e, page) => {
     // setFilters({ _limit: 2, _page: page });
     dispatch({
       type: ACTIOS.filterPagination,
-      payload: { _limit: 2, _page: page },
+      payload: { _limit: 10, _page: page },
     });
   };
 

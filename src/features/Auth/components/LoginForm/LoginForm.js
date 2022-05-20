@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import style from "./LoginForm.module.scss";
 import PropTypes from "prop-types";
@@ -11,7 +11,9 @@ import { Button, Typography } from "@material-ui/core";
 import iconGoogle from "assets/images/auth//login/iconGoogle.jpg";
 import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
 import authAPI from "api/authAPI";
-import { GoogleLogin } from "react-google-login";
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 LoginForm.propTypes = { onSubmit: PropTypes.func };
 const useStyles = makeStyles((theme) => ({
@@ -84,9 +86,22 @@ function LoginForm(props) {
   //   };
   //   fetchRequestLoginFacebook();
   // };
-  const responseGoogle = (response) => {
-    console.log(response);
+
+  //handleLoginFacebook
+  const client_id = "1027070578219640";
+  const redirect_uri = "https://9948-103-238-73-135.ap.ngrok.io";
+  const scope = "public_profile,email";
+  const handleLoginFacebook = () => {
+    window.location.href = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}`;
   };
+
+  const [clickGoogle, setClickGoogle] = useState(false);
+  //handleLoginGoogle
+  const handleLoginGoogle = async () => {
+    setClickGoogle(true);
+    window.location.href = await `http://localhost:5000/auth/googleV2`;
+  };
+
   return (
     <div className={`${style.form_login} wrap`}>
       <div className={`${style.background_slider} `}>
@@ -120,17 +135,10 @@ function LoginForm(props) {
           <p className="position-absolute">Hoặc tiếp tục bằng</p>
         </div>
         <div className={style.buttonsns}>
-          <div className={style.facebook}>
+          <div className={style.facebook} onClick={handleLoginFacebook}>
             <i className="fab fa-facebook"></i> Facebook
           </div>
-          <div className={style.google}>
-            <GoogleLogin
-              clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-              buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
-              cookiePolicy={"single_host_origin"}
-            ></GoogleLogin>
+          <div className={style.google} onClick={handleLoginGoogle}>
             <img src={iconGoogle} alt="icon google" /> Google
           </div>
         </div>

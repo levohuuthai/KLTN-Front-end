@@ -93,7 +93,7 @@ const BoxChat = (props) => {
           type: ACTIOS.arrayChat,
           payload: res.data,
         });
-        console.log(res.data);
+        // console.log(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -101,16 +101,30 @@ const BoxChat = (props) => {
     fetchMessage(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.dataBoxChat]);
 
+  const [arrivalMessage, setArrivalMessage] = useState(null);
   useEffect(() => {
     socket.current.on("send-message", (data) => {
       if (state.dataBoxChat?.room?._id === data.RoomId) {
-        dispatch({
-          type: ACTIOS.arrayChat,
-          payload: [...state.arrayChat, data],
+        setArrivalMessage({
+          sender: data.sender,
+          type: data.type,
+          text: data.text,
+          active: data.active,
+          createdAt: Date.now(),
         });
       }
     }); // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.arrayChat]);
+  }, [state.dataBoxChat]);
+
+  useEffect(() => {
+    arrivalMessage &&
+      dispatch({
+        type: ACTIOS.arrayChat,
+        payload: [...state.arrayChat, arrivalMessage],
+      });
+    // }
+  }, [arrivalMessage]);
+
   const scrollRef = useRef();
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -169,7 +183,7 @@ const BoxChat = (props) => {
       });
   };
   // console.log(state.dataBoxChat);
-  console.log(JSON.stringify(state.dataBoxChat) === "{}" ? "rong" : "haha");
+  // console.log(JSON.stringify(state.dataBoxChat) === "{}" ? "rong" : "haha");
   return (
     <Fragment>
       {JSON.stringify(state.dataBoxChat) === "{}" ? (

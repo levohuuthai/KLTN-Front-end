@@ -44,7 +44,7 @@ function ItemProductOrderDetail(props) {
       setActiveNotifyReview(false);
     }, 2000);
   };
-
+  console.log(props.dataOrder);
   return (
     <>
       <div
@@ -81,7 +81,11 @@ function ItemProductOrderDetail(props) {
           {props.data.quantity}
         </span>
         <span className={`${style.discount} d-flex justify-content-center`}>
-          -{" "}
+          {(props.data.priceBefore - props.data.priceAfter) *
+            props.data.quantity >
+          0
+            ? " - "
+            : ""}
           {new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",

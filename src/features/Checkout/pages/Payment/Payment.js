@@ -280,6 +280,8 @@ function Payment(props) {
           : dataCouponProduct?.discount) -
         (dataCouponShip?.discount === undefined
           ? 0
+          : dataCouponShip?.discount > priceShipByProvince
+          ? priceShipByProvince
           : dataCouponShip?.discount) +
         priceShipByProvince
     );
@@ -289,6 +291,10 @@ function Payment(props) {
       dataAddress?.city === "Thành phố Hồ Chí Minh" ? 20000 : 30000
     );
   }, [dataAddress]);
+
+  const handleMethodPayment = (e) => {
+    console.log(e.target.value);
+  };
   return (
     <div>
       <div className={`${style.payment} wrap`}>
@@ -365,7 +371,13 @@ function Payment(props) {
           <div className={style.payment_method}>
             <div className={style.cash_payment}>
               <label className={style.label_payment}>
-                <input type="radio" name="radio" id="method_payment"></input>
+                <input
+                  type="radio"
+                  name="radio"
+                  id="method_payment"
+                  value="Thanh toán bằng tiền mặt"
+                  onChange={handleMethodPayment}
+                ></input>
                 <ImgCashPayment />
                 <span style={{ marginLeft: "20px" }}>
                   Thanh toán bằng tiền mặt
@@ -375,7 +387,13 @@ function Payment(props) {
             </div>
             <div className={style.cash_payment}>
               <label className={style.label_payment}>
-                <input type="radio" name="radio" id="method_payment"></input>
+                <input
+                  type="radio"
+                  name="radio"
+                  id="method_payment"
+                  value="Thanh toán bằng tài khoản ngân hàng"
+                  onChange={handleMethodPayment}
+                ></input>
                 <ImgBankPayment />
                 <span style={{ marginLeft: "20px" }}>
                   Thanh toán bằng tài khoản ngân hàng
@@ -644,6 +662,8 @@ function Payment(props) {
                 }).format(
                   dataCouponShip?.discount === undefined
                     ? 0
+                    : dataCouponShip?.discount > priceShipByProvince
+                    ? priceShipByProvince
                     : dataCouponShip?.discount
                 )}
               </p>

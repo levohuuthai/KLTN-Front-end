@@ -10,6 +10,12 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import authAPI from "api/authAPI";
+import MomentUtils from "@date-io/moment";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import "moment/locale/vi";
 
 toast.configure();
 const FormInformation = (props) => {
@@ -65,25 +71,14 @@ const FormInformation = (props) => {
     setIsFormChangePass(falseFromPass);
   };
 
-  function pad2(n) {
-    return (n < 10 ? "0" : "") + n;
-  }
-  var date = new Date(birthdayUser.birthday);
-
-  var month = pad2(date.getMonth() + 1); //months (0-11)
-  var day = pad2(date.getDate()); //day (1-31)
-  var year = date.getFullYear();
-
-  var formattedDate = day + "-" + month + "-" + year;
-
-  const birthdayHandler = (value, e) => {
-    setBirthdayUser({ birthday: value });
+  const handleChangeBirthDate = (date) => {
+    setBirthdayUser({ birthday: date._d });
+    setIsFocusInput(true);
   };
 
   const genderHandler = (event) => {
     setGenderUser({ genderUser: event.target.value === "true" ? true : false });
   };
-
   const formSubmitHandler = (event) => {
     event.preventDefault();
 
@@ -95,11 +90,12 @@ const FormInformation = (props) => {
           newUser: {
             ...loggedInUser,
             userName: event.target.username.value,
-            // birthday: birthdayUser.birthday,
-            // gender: genderUser.genderUser,
-            // avatar: selectedAvatar.new,
+            birthday: birthdayUser.birthday,
+            gender: genderUser.genderUser,
+            avatar: selectedAvatar.new,
           },
         });
+        console.log(verify);
         if (verify.status === 200) {
           console.log("Success");
           props.onFormFalse(false);
@@ -107,7 +103,7 @@ const FormInformation = (props) => {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
           });
-          // props.onSendAvatarToHome(selectedAvatar.new);
+          props.onSendAvatarToHome(selectedAvatar.new);
         }
       } catch (error) {
         console.log(error);
@@ -122,19 +118,19 @@ const FormInformation = (props) => {
 
   const ChangeIMGAvatarHandler = (e) => {
     e.preventDefault();
-    // const fileSelected = e.target.files[0];
-    // const fd = new FormData();
-    // fd.append("uploadFile", fileSelected);
-    // axios
-    //   .post("//localhost:5000/messages/addFile", fd)
-    //   .then((res) => {
-    //     setSelectedAvatar((pre) => {
-    //       return { ...pre, new: res.data };
-    //     });
-    //   })
-    //   .catch((aa) => {
-    //     console.log("Khong Gui dc", aa);
-    //   });
+    const fileSelected = e.target.files[0];
+    const fd = new FormData();
+    fd.append("uploadFile", fileSelected);
+    axios
+      .post("//localhost:3333/products/addFile", fd)
+      .then((res) => {
+        setSelectedAvatar((pre) => {
+          return { ...pre, new: res.data };
+        });
+      })
+      .catch((aa) => {
+        console.log("Khong Gui dc", aa);
+      });
   };
 
   return (
@@ -223,7 +219,7 @@ const FormInformation = (props) => {
                   <label htmlFor="birthday">
                     <i className="fas fa-birthday-cake"></i>Ngày sinh
                   </label>
-                  <DatePicker
+                  {/* <DatePicker
                     value={formattedDate}
                     selected={selectedDate}
                     onChange={birthdayHandler}
@@ -232,7 +228,19 @@ const FormInformation = (props) => {
                     onFocus={InputHandler}
                     maxDate={new Date()}
                     id="birthday"
-                  ></DatePicker>
+                  ></DatePicker> */}
+                  <MuiPickersUtilsProvider locale="vi" utils={MomentUtils}>
+                    <KeyboardDatePicker
+                      keyboard
+                      placeholder="DD/MM/YYYY"
+                      format={"DD/MM/YYYY"}
+                      value={birthdayUser.birthday}
+                      onChange={handleChangeBirthDate}
+                      animateYearScrolling={false}
+                      autoOk={true}
+                      clearable
+                    />
+                  </MuiPickersUtilsProvider>
                 </div>
                 <div className={classes.button}>
                   <button
