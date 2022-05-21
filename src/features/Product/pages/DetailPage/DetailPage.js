@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import style from "./DetailPage.module.scss";
+import  "./detailpage.scss";
 import { useLocation } from "react-router-dom";
 import productApi from "api/productApi";
 import { GlobalContext } from "store/store";
@@ -16,7 +17,6 @@ import ReviewProduct from "features/ReviewProduct/ReviewProduct";
 import TotalStar from "components/TotalStar/TotalStar";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCube } from "swiper";
-
 import { Navigation, Thumbs } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -482,7 +482,7 @@ function DetailPage(props) {
               <p>Màu sắc: </p>
               <p className={style.value_color}>{color}</p>
             </div>
-            <div className={style.btn_color}>
+            <div  className="btn_color">
               <ItemColor
                 dataProduct={dataProduct}
                 receiveDataColor={handleDataColor}

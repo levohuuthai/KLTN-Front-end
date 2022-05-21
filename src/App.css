@@ -140,7 +140,11 @@ legend {
   /* opacity: 0.5 !important; */
 }
 
-.DetailPage_btn_color__RWdl6 .swiper-slide {
+/* .DetailPage_btn_color__RWdl6 .swiper-slide {
+  width: initial !important;
+  text-align: initial !important;
+} */
+.btn_color .swiper-slide {
   width: initial !important;
   text-align: initial !important;
 }
@@ -148,4 +152,3 @@ legend {
 .formChangePass_form__BUs3W .MuiFormControl-marginNormal {
   width: 100%;
 }
-

@@ -40,20 +40,6 @@ function InputField(props) {
       InputProps={{
         className: classes.root,
       }}
-      // render={({ props }) => {
-      //   return (
-      //     <TextField
-      //       label={label}
-      //       onChange={onChange}
-      //       value={value}
-      //       margin="normal"
-      //       variant="outlined"
-      //       fullWidth
-      //       error={!!hasError}
-      //       helperText={errors[name]?.message}
-      //     />
-      //   );
-      // }}
     />
   );
 }
