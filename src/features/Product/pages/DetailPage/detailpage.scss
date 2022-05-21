@@ -1,0 +1,21 @@
+.btn_color {
+  .swiper-slide {
+    width: initial !important;
+    text-align: initial !important;
+  }
+  span {
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 5px;
+    border: 1px solid rgb(218, 218, 218);
+    padding: 4px 10px;
+    &.active {
+      background: #ba933e;
+      color: #fff;
+    }
+    &:hover {
+      border: 1px solid #ba933e;
+    }
+  }
+}

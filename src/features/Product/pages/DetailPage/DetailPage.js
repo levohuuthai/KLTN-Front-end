@@ -1,27 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useContext, useEffect, useRef, useState } from "react";
-import style from "./DetailPage.module.scss";
-import { useLocation } from "react-router-dom";
-import productApi from "api/productApi";
-import { GlobalContext } from "store/store";
-import { ACTIOS } from "store/actions";
-import ItemColor from "./ItemColor/ItemColor";
-import ItemSize from "./ItemSize/ItemSize";
-import cartApi from "api/cartApi";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import ReviewProduct from "features/ReviewProduct/ReviewProduct";
-import TotalStar from "components/TotalStar/TotalStar";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCube } from "swiper";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import style from './DetailPage.module.scss';
+import './detailpage.scss';
+import { useLocation } from 'react-router-dom';
+import productApi from 'api/productApi';
+import { GlobalContext } from 'store/store';
+import { ACTIOS } from 'store/actions';
+import ItemColor from './ItemColor/ItemColor';
+import ItemSize from './ItemSize/ItemSize';
+import cartApi from 'api/cartApi';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ReviewProduct from 'features/ReviewProduct/ReviewProduct';
+import TotalStar from 'components/TotalStar/TotalStar';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCube } from 'swiper';
 
-import { Navigation, Thumbs } from "swiper";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/effect-cube";
-import reviewApi from "api/reviewApi";
+import { Navigation, Thumbs } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-cube';
+import reviewApi from 'api/reviewApi';
 toast.configure();
 
 DetailPage.propTypes = {};
@@ -40,8 +41,8 @@ function DetailPage(props) {
   const [price, setPrice] = useState(undefined);
   const [priceMax, setPriceMax] = useState(undefined);
 
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
+  const [color, setColor] = useState('');
+  const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [arrayColor, setArrayColor] = useState([]);
 
@@ -81,7 +82,7 @@ function DetailPage(props) {
   }, []);
 
   const showMyCart = (e) => {
-    if (size !== "" && color !== "") {
+    if (size !== '' && color !== '') {
       e.preventDefault();
       if (loggedInUser !== null) {
         const fetchIdProductDetailToCart = async () => {
@@ -153,11 +154,11 @@ function DetailPage(props) {
         };
         fetchIdProductDetailToCart();
       } else {
-        navigate("/auth/login");
+        navigate('/auth/login');
       }
     } else {
       e.preventDefault();
-      toast.error("Cần chọn size và màu", {
+      toast.error('Cần chọn size và màu', {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
       });
@@ -172,7 +173,7 @@ function DetailPage(props) {
   };
   const handleDataSize = (data) => {
     setSize(data);
-    setColor(""); //Khi click size thì chọn lại màu
+    setColor(''); //Khi click size thì chọn lại màu
   };
   const handleDataColor = (data) => {
     setColor(data);
@@ -253,8 +254,8 @@ function DetailPage(props) {
     fetchArrayColor(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   console.log(arrayColor);
-  const [activeThumb, setActiveThumb] = useState("");
-  const [activeThumbColor, setActiveThumbColor] = useState("");
+  const [activeThumb, setActiveThumb] = useState('');
+  const [activeThumbColor, setActiveThumbColor] = useState('');
   const [activeColor, setActiveColor] = useState(false);
   const [activeImageVertical, setActiveImageVertical] = useState(true);
 
@@ -277,8 +278,8 @@ function DetailPage(props) {
       <div className={style.frontpage}>
         <div className={`${style.container} d-flex align-items-center`}>
           <span>
-            <a href="../html/Project.html">Home &nbsp; /</a> &nbsp; Shop &nbsp;
-            /<a href="../html/Project.html"> &nbsp; Fashion &nbsp; /</a> &nbsp;
+            <a href='../html/Project.html'>Home &nbsp; /</a> &nbsp; Shop &nbsp;
+            /<a href='../html/Project.html'> &nbsp; Fashion &nbsp; /</a> &nbsp;
             Backpage
           </span>
         </div>
@@ -288,12 +289,12 @@ function DetailPage(props) {
           <div className={`${style.img_select} `}>
             <Swiper
               onSwiper={setActiveThumb}
-              className="position-relative"
+              className='position-relative'
               modules={[Thumbs]}
               pagination={{
                 clickable: true,
               }}
-              direction="vertical"
+              direction='vertical'
               spaceBetween={0}
               slidesPerView={arrImageUnique?.length}
               loop={false}
@@ -303,7 +304,7 @@ function DetailPage(props) {
                 return (
                   <SwiperSlide onClick={handleClickImageVertical}>
                     <div className={`${style.item_img_select}`}>
-                      <img src={data?.image} alt="sss" />
+                      <img src={data?.image} alt='sss' />
                     </div>
                   </SwiperSlide>
                 );
@@ -338,14 +339,14 @@ function DetailPage(props) {
           <div
             className={style.img_display}
             style={{
-              display: activeColor ? "block" : "none",
+              display: activeColor ? 'block' : 'none',
             }}
           >
             <div className={`prevElDetailDisplay ${style.prevEl}`}></div>
             <div className={`nextElDetailDisplay ${style.nextEl}`}></div>
 
             <Swiper
-              effect={"cube"}
+              effect={'cube'}
               grabCursor={true}
               cubeEffect={{
                 shadow: true,
@@ -353,7 +354,7 @@ function DetailPage(props) {
                 shadowOffset: 20,
                 shadowScale: 0.94,
               }}
-              className="position-relative"
+              className='position-relative'
               modules={[EffectCube, Navigation, Thumbs]}
               thumbs={{ swiper: activeThumbColor }}
               slidesPerView={1}
@@ -362,8 +363,8 @@ function DetailPage(props) {
               }}
               loop={false}
               navigation={{
-                prevEl: ".prevElDetailDisplay",
-                nextEl: ".nextElDetailDisplay",
+                prevEl: '.prevElDetailDisplay',
+                nextEl: '.nextElDetailDisplay',
               }}
             >
               {arrImageUnique?.map((data, idx) => {
@@ -372,7 +373,7 @@ function DetailPage(props) {
                     <div className={`${style.img_showcase}`}>
                       <img
                         src={data.image}
-                        alt="ao main"
+                        alt='ao main'
                         // ref={refImgParralax}
                         // onMouseMove={MoveImg}
                         // onMouseOut={OutImg}
@@ -387,13 +388,13 @@ function DetailPage(props) {
           <div
             className={style.img_display}
             style={{
-              display: activeImageVertical ? "block" : "none",
+              display: activeImageVertical ? 'block' : 'none',
             }}
           >
             <div className={`prevElDetailDisplay ${style.prevEl}`}></div>
             <div className={`nextElDetailDisplay ${style.nextEl}`}></div>
             <Swiper
-              effect={"cube"}
+              effect={'cube'}
               grabCursor={true}
               cubeEffect={{
                 shadow: true,
@@ -401,7 +402,7 @@ function DetailPage(props) {
                 shadowOffset: 20,
                 shadowScale: 0.94,
               }}
-              className="position-relative"
+              className='position-relative'
               modules={[EffectCube, Navigation, Thumbs]}
               thumbs={{ swiper: activeThumb }}
               slidesPerView={1}
@@ -410,8 +411,8 @@ function DetailPage(props) {
               }}
               loop={false}
               navigation={{
-                prevEl: ".prevElDetailDisplay",
-                nextEl: ".nextElDetailDisplay",
+                prevEl: '.prevElDetailDisplay',
+                nextEl: '.nextElDetailDisplay',
               }}
             >
               {arrImageUnique?.map((data, idx) => {
@@ -423,7 +424,7 @@ function DetailPage(props) {
                     >
                       <img
                         src={data.image}
-                        alt="ao main"
+                        alt='ao main'
                         // ref={refImgParralax}
                         // onMouseMove={MoveImg}
                         // onMouseOut={OutImg}
@@ -440,28 +441,28 @@ function DetailPage(props) {
           <div className={style.rating_purchase}>
             <TotalStar productId={dataProduct._id} />
             <p className={style.purchase}>
-              {listReview.length === 0 && "Chưa có đánh giá"} | Đã bán{" "}
+              {listReview.length === 0 && 'Chưa có đánh giá'} | Đã bán{' '}
               {dataProduct.soldQuantity}
             </p>
           </div>
           <div className={`${style.price}  d-flex `}>
             <h4>
               <span className={`${style.price_notoff}`}>
-                {new Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
+                {new Intl.NumberFormat('vi-VN', {
+                  style: 'currency',
+                  currency: 'VND',
                 }).format(dataProduct?.priceBase)}
               </span>
-              {new Intl.NumberFormat("vi-VN", {
-                style: "currency",
-                currency: "VND",
+              {new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
               }).format(price)}
-              {size === "" || (color === "" && priceMax !== undefined)
-                ? `${" -"} ${new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
+              {size === '' || (color === '' && priceMax !== undefined)
+                ? `${' -'} ${new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND',
                   }).format(priceMax)}`
-                : ""}
+                : ''}
             </h4>
           </div>
           <div className={`${style.size}`}>
@@ -482,7 +483,7 @@ function DetailPage(props) {
               <p>Màu sắc: </p>
               <p className={style.value_color}>{color}</p>
             </div>
-            <div className={style.btn_color}>
+            <div className='btn_color'>
               <ItemColor
                 dataProduct={dataProduct}
                 receiveDataColor={handleDataColor}
@@ -497,65 +498,65 @@ function DetailPage(props) {
             <div
               className={`${style.control}  d-flex justify-content-between align-items-center`}
             >
-              <a href="/" className={style.minus} onClick={handleMinus}>
-                <i className="fas fa-minus"></i>
+              <a href='/' className={style.minus} onClick={handleMinus}>
+                <i className='fas fa-minus'></i>
               </a>
-              <span className="qty">{quantity}</span>
-              <a href="/" className={style.plus} onClick={handlePlus}>
-                <i className="fas fa-plus"></i>
+              <span className='qty'>{quantity}</span>
+              <a href='/' className={style.plus} onClick={handlePlus}>
+                <i className='fas fa-plus'></i>
               </a>
             </div>
             <a
-              href="/"
+              href='/'
               className={`${style.btn_addtocart} ${
-                size !== "" && color !== "" ? style.active : ""
+                size !== '' && color !== '' ? style.active : ''
               }  d-flex  align-items-center`}
               onClick={showMyCart}
               title={`${
-                size === "" || color === "" ? "Cần chọn màu và size" : ""
+                size === '' || color === '' ? 'Cần chọn màu và size' : ''
               }`}
             >
-              <i className="bi bi-handbag"></i>Thêm vào giỏ hàng
+              <i className='bi bi-handbag'></i>Thêm vào giỏ hàng
             </a>
             <a
-              href="/"
+              href='/'
               className={`${style.wishlist_item}  d-flex  align-items-center`}
             >
-              <i className="bi bi-suit-heart"></i>
+              <i className='bi bi-suit-heart'></i>
             </a>
             <a
-              href="/"
+              href='/'
               className={`${style.compare_product}  d-flex  align-items-center`}
             >
-              <i className="bi bi-sliders"></i>
+              <i className='bi bi-sliders'></i>
             </a>
           </div>
           <div className={`${style.social_sharing}  d-flex `}>
             <h3>Chia sẻ:</h3>
-            <ul className="d-flex">
+            <ul className='d-flex'>
               <li>
-                <a href="/" className={style.face}>
-                  <i className="fab fa-facebook"></i>
+                <a href='/' className={style.face}>
+                  <i className='fab fa-facebook'></i>
                 </a>
               </li>
               <li>
-                <a href="/" className={style.twitter}>
-                  <i className="fab fa-twitter"></i>
+                <a href='/' className={style.twitter}>
+                  <i className='fab fa-twitter'></i>
                 </a>
               </li>
               <li>
-                <a href="/" className={style.pin}>
-                  <i className="fab fa-pinterest"></i>
+                <a href='/' className={style.pin}>
+                  <i className='fab fa-pinterest'></i>
                 </a>
               </li>
               <li>
-                <a href="/" className={style.em}>
-                  <i className="far fa-envelope"></i>
+                <a href='/' className={style.em}>
+                  <i className='far fa-envelope'></i>
                 </a>
               </li>
               <li>
-                <a href="/" className={style.vi}>
-                  <i className="fab fa-viber"></i>
+                <a href='/' className={style.vi}>
+                  <i className='fab fa-viber'></i>
                 </a>
               </li>
             </ul>
@@ -591,17 +592,17 @@ function DetailPage(props) {
             {dataProduct.desc}
           </p>
           <div
-            className={showBtnSeeMore ? style.btn_backdropseemore : ""}
+            className={showBtnSeeMore ? style.btn_backdropseemore : ''}
           ></div>
           {dataProduct.desc.length >= 450 && (
             <div
               className={`${style.btnSeemore} ${
-                showBtnSeeMore ? "" : style.NOTactive_seemore
+                showBtnSeeMore ? '' : style.NOTactive_seemore
               }`}
               onClick={handlerBtnSeeMore}
             >
               <span>
-                {showBtnSeeMore ? "Xem thêm nội dung" : "Thu gọn nội dung"}{" "}
+                {showBtnSeeMore ? 'Xem thêm nội dung' : 'Thu gọn nội dung'}{' '}
               </span>
             </div>
           )}

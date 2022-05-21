@@ -231,7 +231,7 @@ const FormInformation = (props) => {
                   ></DatePicker> */}
                   <MuiPickersUtilsProvider locale='vi' utils={MomentUtils}>
                     <KeyboardDatePicker
-                      keyboard
+                      // keyboard
                       placeholder='DD/MM/YYYY'
                       format={'DD/MM/YYYY'}
                       value={birthdayUser.birthday}
