@@ -511,7 +511,7 @@ function Header(props) {
           </div>
         </div>
         <BackToTop />
-        <Chat />
+        {loggedInUser !== null && <Chat />}
       </div>
       <MyCartAside active_cart={activeCart} />
       <Search showSearch={showSearch} onReceiveFalse={handleCancelSearch} />
