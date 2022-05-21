@@ -45,18 +45,22 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginForm(props) {
   const classes = useStyles();
-  // const schema = yup.object().shape({
-  //   title: yup
-  //     .string()
-  //     .required("please enter title")
-  //     .min(5, "Title is too short"),
-  // });
+  const schema = yup.object().shape({
+    SDT: yup
+      .string()
+      .required('Vui lòng nhập số điện thoại')
+      .min(10, 'Số điện thoại ít nhất 10 kí tự'),
+    password: yup
+      .string()
+      .required('Vui lòng nhập mật khẩu')
+      .min(6, 'Mật khẩu ít nhất 6 kí tự'),
+  });
   const form = useForm({
     defaultValues: {
       SDT: '',
       password: '',
     },
-    //  resolver: yupResolver(schema),
+    resolver: yupResolver(schema),
   });
   const handleSubmit = async (values) => {
     const { onSubmit } = props;
@@ -89,7 +93,7 @@ function LoginForm(props) {
 
   //handleLoginFacebook
   const client_id = '1027070578219640';
-  const redirect_uri = 'https://hientranfrontend22.tk/';
+  const redirect_uri = 'https://9948-103-238-73-135.ap.ngrok.io';
   const scope = 'public_profile,email';
   const handleLoginFacebook = () => {
     window.location.href = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}`;
@@ -99,7 +103,7 @@ function LoginForm(props) {
   //handleLoginGoogle
   const handleLoginGoogle = async () => {
     setClickGoogle(true);
-    window.location.href = await `https://hientranbackend22.tk/auth/googleV2`;
+    window.location.href = await `http://localhost:5000/auth/googleV2`;
   };
 
   return (

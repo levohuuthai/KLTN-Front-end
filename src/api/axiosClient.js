@@ -40,19 +40,25 @@ axiosClient.interceptors.response.use(
     const { config, status, data } = error.response;
     console.log(error.response);
     if (config.url === '/auth/checkPhone' && status === 403) {
-      const error = data.error;
+      const error = data.err;
       const message = error.message;
       console.log(error);
       return Promise.reject(message);
     }
     if (config.url === '/auth/verifyOtpSignUp' && status === 400) {
-      const error = data.error;
+      const error = data.err;
       const message = error.message;
       return Promise.reject(message);
     }
     if (config.url === '/auth/signin' && status === 403) {
-      const error = data.error;
+      const error = data.err;
       const message = error.message;
+      return Promise.reject(message);
+    }
+    if (config.url === '/auth/signin' && status === 400) {
+      console.log(data.details[0].message);
+      // const error = data.err;
+      const message = data.details[0].message;
       return Promise.reject(message);
     }
     if (config.url === '/orders' && status === 400) {
@@ -64,7 +70,7 @@ axiosClient.interceptors.response.use(
       return Promise.reject(error);
     }
     if (status === 401) {
-      if (data.error.message === 'jwt expired') {
+      if (data.err.message === 'jwt expired') {
         console.log('trường hợp Token hết hạn');
 
         const { accessToken, refToken } = await axiosClient.refreshToken();
