@@ -89,7 +89,7 @@ function LoginForm(props) {
 
   //handleLoginFacebook
   const client_id = '1027070578219640';
-  const redirect_uri = 'https://hientranbackend22.tk/';
+  const redirect_uri = 'https://hientranfrontend22.tk/';
   const scope = 'public_profile,email';
   const handleLoginFacebook = () => {
     window.location.href = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}`;

@@ -154,7 +154,7 @@ function Header(props) {
 
   const [code, setCode] = useState('');
   const client_id = '1027070578219640';
-  const redirect_uri = 'https://hientranbackend22.tk/';
+  const redirect_uri = 'https://hientranfrontend22.tk/';
   const client_secret = '99051d8b5672f199edcd7117fe941ee6';
   const dispatchLoginFacebook = useDispatch();
 
@@ -175,7 +175,7 @@ function Header(props) {
           });
           const resultAction = await dispatchLoginFacebook(action);
           const user = unwrapResult(resultAction);
-          window.location = 'https://hientranbackend22.tk/';
+          window.location = 'https://hientranfrontend22.tk/';
         })
         .catch((aa) => {
           console.log('Khong Gui dc', aa);

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import style from './BoxChatClient.module.scss';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Picker from 'emoji-picker-react';
-import aothuninhinh from 'assets/images/type/aothuninhinh.jpg';
+import favi from 'assets/images/favi.png';
 import ChatClient from './ChatClient/ChatClient';
 import { useSelector } from 'react-redux';
 import roomApi from 'api/roomApi';
@@ -164,7 +164,7 @@ function BoxChatClient(props) {
       <div className={style.boxChat_top}>
         <div className={style.topName}>
           <div className={style.avatar}>
-            <img src={aothuninhinh} alt='avatar' />
+            <img src={favi} alt='avatar' />
           </div>
           <div className={style.name}>
             <h2>RUBIX</h2>
