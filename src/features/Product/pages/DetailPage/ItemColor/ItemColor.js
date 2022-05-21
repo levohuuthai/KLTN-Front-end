@@ -1,10 +1,10 @@
-import productApi from "api/productApi";
-import React, { useEffect, useState } from "react";
-import style from "../../DetailPage/DetailPage.module.scss";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Thumbs } from "swiper";
-import "swiper/css";
-import "swiper/css/pagination";
+import productApi from 'api/productApi';
+import React, { useEffect, useState } from 'react';
+import '../detailpage.scss';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Thumbs } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 function ItemColor(props) {
   const [arrayColor, setArrayColor] = useState([]);
@@ -49,7 +49,7 @@ function ItemColor(props) {
               activeToggleColor?.objects[index] ===
               activeToggleColor?.activeObject
             ) {
-              return style.active;
+              return 'active';
             }
           };
           const inActiveColor = (e) => {
@@ -61,9 +61,9 @@ function ItemColor(props) {
           return (
             <SwiperSlide
               style={{
-                width: "0px",
-                display: "inline-block",
-                textAlign: "center",
+                width: '0px',
+                display: 'inline-block',
+                textAlign: 'center',
               }}
             >
               <span
