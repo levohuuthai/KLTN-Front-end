@@ -99,11 +99,9 @@ function LoginForm(props) {
     window.location.href = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}`;
   };
 
-  const [clickGoogle, setClickGoogle] = useState(false);
   //handleLoginGoogle
   const handleLoginGoogle = async () => {
-    setClickGoogle(true);
-    window.location.href = await `https://hientranbackend22.tk/auth/googleV2`;
+    window.location.href = `https://hientranbackend22.tk/auth/googleV2`;
   };
 
   return (
