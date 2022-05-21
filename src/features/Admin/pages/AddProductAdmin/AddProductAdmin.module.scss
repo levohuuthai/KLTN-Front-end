@@ -1,0 +1,232 @@
+.addproduct_admin {
+  width: 82%;
+  background: #f7fafc;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .addproduct_admin_frame {
+    background: #f7fafc;
+    width: 95%;
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    .form {
+      display: flex;
+      //   align-items: flex-start;
+      .form_left {
+        width: 68%;
+        margin-right: 30px;
+        .form_left1 {
+          background: #fff;
+          border-radius: 10px;
+          padding: 10px 20px;
+          margin-bottom: 10px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+          .nameProductGroup {
+            position: relative;
+            .nameProduct {
+              border: 1px solid rgb(167, 167, 167);
+              margin-top: 15px;
+              margin-bottom: 10px;
+              width: 100%;
+              border-radius: 4px;
+              padding: 10px;
+            }
+            .dropdownNameProduct {
+              background: #fff;
+              border: 1px solid rgb(167, 167, 167);
+              box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+                rgba(0, 0, 0, 0.23) 0px 6px 6px;
+              // border-radius: 4px;
+              border-bottom-right-radius: 6px;
+              border-bottom-left-radius: 6px;
+
+              position: absolute;
+              top: 85%;
+              left: 0;
+              width: 100%;
+              z-index: 9;
+              // height: 200px;
+              // overflow-y: auto;
+              &.height_long {
+                height: 200px;
+                overflow-y: auto;
+              }
+              .listItemName {
+                .itemName {
+                  padding: 10px 10px;
+                  display: flex;
+                  justify-content: space-between;
+                  // width: 400px;
+                  // height: 50px;
+                  &:hover {
+                    background: #e2e2e2;
+                  }
+                  .hightlight {
+                    font-weight: bold;
+                    color: red;
+                    // margin: 0px 5px;
+                    // color: #ba933e;
+                  }
+                  .image_namedropdown {
+                    width: 40px;
+                    height: 40px;
+                    margin-top: -10px;
+                    margin-left: 20px;
+                    img {
+                      width: 100%;
+                      height: 100%;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        .form_left2 {
+          display: flex;
+          width: 103%;
+          .image {
+            padding: 10px 10px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            margin-top: 0px;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            width: 100%;
+            .image_product_group {
+              display: flex;
+              align-items: center;
+              width: 100%;
+              justify-content: flex-end;
+              .select {
+                padding: 2px 5px;
+                border-radius: 5px;
+                display: inline-block;
+                border: 1px solid #ba933e;
+                border-radius: 5px;
+                color: #ba933e;
+                //
+                cursor: pointer;
+                position: relative;
+                input[type="file"] {
+                  position: absolute;
+                  top: 0;
+                  right: 0;
+                  height: 100%;
+                  width: 100%;
+                  font-size: 1px;
+                  text-align: right;
+                  filter: alpha(opacity=0);
+                  opacity: 0;
+                  outline: none;
+                  cursor: inherit;
+                  display: block;
+                }
+              }
+              .image_product {
+                width: 100px;
+                height: 100px;
+                margin-left: 50px;
+                img {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
+            }
+          }
+        }
+        .form_left3 {
+          .describe {
+            padding: 10px 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+            textarea {
+              padding-left: 10px;
+              color: black;
+              border: 1px solid black;
+              width: 100%;
+              margin-top: 15px;
+            }
+            .area::placeholder {
+              font-size: 14px;
+              font-style: normal;
+              font-weight: 400;
+              line-height: 20px;
+              letter-spacing: 0.005em;
+              text-align: left;
+              color: #a3a3a3;
+            }
+          }
+        }
+      }
+      .form_right {
+        width: 32%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .form_right1 {
+          background: #fff;
+          border-radius: 10px;
+          padding: 10px 20px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+          .radiobutton {
+            // width: 120px;
+            input {
+              // margin-right: 5px;
+              display: none;
+            }
+            input:checked ~ label:after {
+              opacity: 1;
+            }
+            input:checked ~ label:before {
+              background: #ba933e;
+            }
+            label {
+              position: relative;
+              padding-left: 30px;
+              display: flex;
+              align-items: center;
+              cursor: pointer;
+              font-size: 15px;
+              margin-top: 5px;
+              @media (max-width: 1436px) {
+                // paddi  ng-left: 10px;
+              }
+              &::before {
+                content: "";
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                border: 1.6px solid rgb(109, 109, 109);
+                border-radius: 50%;
+                left: 0;
+                // margin-top: 10px;
+              }
+              &::after {
+                content: "\f00c";
+                width: 20px;
+                height: 20px;
+                position: absolute;
+                // background: red;
+                border-radius: 4px;
+                top: 2px;
+                left: 3px;
+                font-family: "Font Awesome 5 Free";
+                font-weight: 600;
+                opacity: 0;
+                font-size: 14px;
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

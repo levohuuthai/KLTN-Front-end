@@ -1,0 +1,125 @@
+import classes from "../BoxChat.module.scss";
+import { useState } from "react";
+import React, { useEffect } from "react";
+import { Fragment } from "react";
+// import FormViewImage from "./form-video/FormViewImage";
+import moment from "moment";
+import Moment from "react-moment";
+import { useSelector } from "react-redux";
+import userAdminApi from "api/admin/userAdminApi";
+
+const Chat = (props) => {
+  const [user, setUser] = useState(null);
+  const [message, setMessage] = useState([]);
+  const loggedInUser = useSelector((state) => state.user.current);
+  const time = moment(props.data.createdAt);
+
+  useEffect(() => {
+    setMessage(props.data);
+  }, [props.data]);
+  useEffect(() => {
+    const fetchRequestGetUserById = async () => {
+      try {
+        const requestGetUserById = await userAdminApi.getUserById(
+          props.data?.sender
+        );
+        // console.log(requestGetUserById);
+        setUser(requestGetUserById.data.users);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchRequestGetUserById();
+  }, [props.data?.sender]);
+
+  return (
+    <Fragment>
+      <div
+        className={`${classes.container} ${
+          props.own ? classes.message_own : ""
+        }`}
+      >
+        {/* tin nhắn của bản thân */}
+        {props.own && (
+          <Fragment>
+            <div className={`${classes.container_mess} `}>
+              <div className={classes.message}>
+                <div className={classes.messageTop}>
+                  {message?.type === "img" && message?.active ? (
+                    <img
+                      className={classes.messageImage}
+                      alt=""
+                      src={message?.text}
+                      // onClick={viewImageHandler}
+                    />
+                  ) : message?.type === "text" && message?.active ? (
+                    <p className={classes.messageText}>{message?.text}</p>
+                  ) : message?.type === "gif" && message?.active ? (
+                    <img
+                      className={classes.messageImage}
+                      alt=""
+                      src={props.data.text}
+                      // onClick={viewImageHandler}
+                    />
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className={classes.messageBottom}>
+                  <Moment format="HH:mm">{time}</Moment>
+                </div>
+              </div>
+            </div>
+            <div className={classes.avatar}>
+              <img src={loggedInUser.avatar} alt="avatar" />
+            </div>
+          </Fragment>
+        )}
+        {!props.own && (
+          <Fragment>
+            <div className={classes.avatar}>
+              <img src={user?.avatar} alt="avatar" />
+            </div>
+            <div className={`${classes.container_mess} `}>
+              <div className={classes.message}>
+                <div className={classes.messageTop}>
+                  <p className={classes.nameSender}>{user?.userName}</p>
+                  {message?.type === "img" && message?.active ? (
+                    <img
+                      className={classes.messageImage}
+                      alt=""
+                      src={message?.text}
+                      // onClick={viewImageHandler}
+                    />
+                  ) : message?.type === "text" && message?.active ? (
+                    <p className={classes.messageText}>{message?.text}</p>
+                  ) : message?.type === "gif" && message?.active ? (
+                    <img
+                      className={classes.messageImage}
+                      alt=""
+                      src={props.data.text}
+                      // onClick={viewImageHandler}
+                    />
+                  ) : null}
+                </div>
+                <div className={classes.messageBottom}>
+                  <Moment format="HH:mm">{time}</Moment>
+                </div>
+              </div>
+            </div>
+          </Fragment>
+        )}
+      </div>
+
+      {/* <FormViewImage
+        isOpenFormViewImage={isOpenFormViewImage}
+        data={props.data}
+        onFormFalse={falseFromViewImage}
+        messages={props.messages}
+        nameRoom={props.onSendNameRoomToChat}
+      /> */}
+    </Fragment>
+  );
+};
+
+export default Chat;

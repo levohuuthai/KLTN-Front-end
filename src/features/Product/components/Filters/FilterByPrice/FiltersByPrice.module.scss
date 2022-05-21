@@ -1,0 +1,48 @@
+.title {
+  margin-top: 20px;
+  display: inline-block;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.group_price {
+  .price {
+    background: rgb(236, 236, 236);
+    padding: 3px 5px;
+    display: inline-block;
+    border-radius: 14px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    &.active {
+      background: #ba933e;
+      color: #fff;
+      border: 1px solid #ba933e;
+    }
+    // &.notactive {
+    //   background: black;
+    //   color: #fff;
+    //   border: 1px solid #ba933e;
+    // }
+  }
+  .inputprice {
+    input {
+      border: 1px solid black;
+      border-radius: 5px;
+      width: 100px;
+      margin: 5px 0px;
+      padding: 5px 0px;
+      text-align: center;
+    }
+  }
+  button {
+    background: black !important;
+    color: #fff;
+    padding: 6px 20px;
+    border-radius: 5px;
+    margin-top: 5px;
+    &:hover {
+      background: #ba933e !important;
+      transition: all 0.6s;
+    }
+  }
+}

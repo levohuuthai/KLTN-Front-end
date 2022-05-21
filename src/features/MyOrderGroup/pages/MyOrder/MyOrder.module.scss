@@ -1,0 +1,198 @@
+.background_slider {
+  background: #f1f1f1;
+  // width: 100%;
+  height: 300px;
+  position: relative;
+  .imgbackground {
+    position: absolute;
+    left: 55%;
+    img {
+      width: 100%;
+      // height: 100%;
+      height: 300px;
+    }
+  }
+  .title_background {
+    position: absolute;
+    font-family: "Roboto", sans-serif;
+    font-size: 32px;
+    margin: 0 auto;
+    font-weight: 900;
+    left: 10%;
+    top: 50%;
+    transform: translateY(-50%);
+    p {
+      padding-top: 20px;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+}
+
+.myorder {
+  display: flex;
+  padding: 1rem;
+  background: #f5f5fa;
+
+  .myorder_right {
+    width: 80%;
+    .tab_order {
+      // padding: 1rem;
+      background: #fff;
+      cursor: pointer;
+      .allOrder {
+        padding: 10px;
+        font-weight: 500;
+        color: #636363;
+        &.active {
+          border-bottom: 1px solid #ba933e;
+          // padding-bottom: 20px;
+          color: #ba933e;
+        }
+      }
+    }
+    .search_order {
+      padding: 0.8rem;
+      background: #fff;
+      border: 1px solid #d4d4d4;
+      border-radius: 5px;
+      margin-top: 10px;
+      .input_search {
+        width: 88%;
+        input {
+          width: 80%;
+          margin-left: 10px;
+        }
+      }
+      .line {
+        border-right: 2px solid #dfdfdf;
+      }
+      .btn_search {
+        cursor: pointer;
+        color: #ba933e;
+        font-weight: 500;
+      }
+    }
+    .value_tab_order {
+      padding: 0.8rem;
+      background: #fff;
+      border: 1px solid #d4d4d4;
+      border-radius: 5px;
+      margin-top: 10px;
+      .statusItem {
+        font-weight: 700;
+        &.activeShipping {
+          color: #ba933e;
+        }
+        &.activeDelivered {
+          color: rgb(65, 155, 65);
+        }
+        &.activeCancel {
+          color: rgb(247, 44, 57);
+        }
+        &.activeWaitting {
+          color: rgb(11, 116, 229);
+        }
+      }
+      .line_value_tab_order {
+        border-bottom: 1px solid #d4d4d4;
+        margin-top: 15px;
+      }
+      .list_order {
+        .item_order {
+          margin-top: 10px;
+          width: 100%;
+          border-bottom: 1px solid rgb(212, 212, 212);
+          padding-bottom: 10px;
+          .img_name_order {
+            .img_order {
+              width: 100px;
+              height: 100px;
+              position: relative;
+              img {
+                width: 100%;
+                height: 100%;
+              }
+              .quantity {
+                width: 25px;
+                height: 25px;
+                background: #ba933e;
+                border: 1px solid rgb(235, 235, 240);
+                color: #fff;
+                font-size: 14px;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                border-top-left-radius: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+              }
+            }
+            .name_order {
+              margin-left: 15px;
+              .size_order {
+                color: rgb(150, 150, 150);
+                font-size: 14px;
+              }
+              .color_order {
+                margin-left: 20px;
+                color: rgb(150, 150, 150);
+                font-size: 14px;
+              }
+            }
+          }
+          .price_detail_order {
+          }
+        }
+      }
+      .detail_total_order {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        .title_total_order {
+          font-size: 18px;
+          margin-top: 8px;
+          color: black;
+          font-weight: 300;
+          .total_order {
+            font-weight: 500;
+            color: #ba933e;
+          }
+        }
+        .cancel_order {
+          padding: 5px 10px;
+          margin-bottom: 0px;
+          background: rgb(247, 44, 57);
+          color: #fff;
+          transition: all 0.3s;
+          border-radius: 5px;
+          cursor: pointer;
+          display: inline-block;
+          margin-top: 5px;
+          margin-right: 10px;
+          font-weight: 500;
+
+          &:hover {
+            background: rgba(rgb(247, 44, 57), 0.8);
+          }
+        }
+        .detail_order {
+          padding: 5px 10px;
+          margin-bottom: 0px;
+          background: black;
+          color: #fff;
+          transition: all 0.3s;
+          border-radius: 5px;
+          cursor: pointer;
+          display: inline-block;
+          margin-top: 5px;
+          font-weight: 500;
+          &:hover {
+            background: #ba933e;
+          }
+        }
+      }
+    }
+  }
+}

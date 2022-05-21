@@ -1,0 +1,36 @@
+.myorder_left {
+  width: 20%;
+  padding: 0px 40px;
+  color: rgb(100, 100, 100);
+  .info_account {
+    display: flex;
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-right: 10px;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    .name_account {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  .list_category {
+    padding-top: 15px;
+    .item_category {
+      padding-top: 0.4rem;
+      padding-bottom: 0.4rem;
+      padding-left: 18px;
+      cursor: pointer;
+      color: rgb(100, 100, 100);
+      &:hover {
+        background: rgb(197, 197, 197);
+      }
+    }
+  }
+}

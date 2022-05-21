@@ -1,0 +1,95 @@
+import React from "react";
+import classes from "./FormLogOut.module.scss";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Cookies from "js-cookie";
+import authAPI from "api/authAPI";
+toast.configure();
+const FormLogout = (props) => {
+  const [isOpenForm, setIsOpenForm] = useState("");
+
+  let navigate = useNavigate();
+
+  const cancelHandler = (e) => {
+    e.preventDefault();
+    setIsOpenForm("");
+    props.onFormFalse(false);
+  };
+
+  useEffect(() => {
+    if (props.isOpenFormLogOut) {
+      setIsOpenForm(classes.active);
+    } else {
+      setIsOpenForm("");
+    }
+  }, [props.isOpenFormLogOut]);
+
+  //nhận lệnh mở form Logout từ Admin
+  useEffect(() => {
+    if (props.openFormLogOutFromAdmin) {
+      setIsOpenForm(classes.active);
+    } else {
+      setIsOpenForm("");
+    }
+  }, [props.openFormLogOutFromAdmin]);
+
+  const LogOutHandler = (event) => {
+    event.preventDefault();
+    const fetchLogOut = async () => {
+      try {
+        const logOut = await authAPI.logout({
+          refreshToken: Cookies.get("refreshToken"),
+        });
+
+        if (logOut.status === 200) {
+          Cookies.remove("refreshToken");
+          Cookies.remove("token");
+          localStorage.removeItem("user");
+          props.onFormFalse(false);
+          toast.success("Đăng xuất thành công", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+          window.location.href = "/";
+        }
+      } catch (error) {
+        console.log(error);
+        console.log("fail");
+      }
+    };
+    fetchLogOut();
+  };
+
+  return (
+    <div className={classes.modalFormLogOut}>
+      <div className={` ${classes.backdrop} ${isOpenForm}`}></div>
+      <div className={` ${classes.viewFormLogOut} ${isOpenForm}`}>
+        <div className={classes.header}>
+          <h2>Xác nhận</h2>
+          <div className={classes.cancel} onClick={cancelHandler}>
+            <div className={classes.blur}>
+              <i className="bi bi-x"></i>
+            </div>
+          </div>
+        </div>
+        <div className={classes.body}>
+          <p>Bạn có muốn đăng xuất khỏi hệ thống?</p>
+        </div>
+        <div className={classes.footer}>
+          <div className={classes.button}>
+            <button className={classes.cancel} onClick={cancelHandler}>
+              Không
+            </button>
+            <button className={classes.confirm} onClick={LogOutHandler}>
+              Xác nhận
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default FormLogout;

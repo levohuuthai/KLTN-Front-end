@@ -1,0 +1,99 @@
+.form_login {
+  background: #fff;
+  padding-bottom: 80px;
+  .background_slider {
+    background: #f1f1f1;
+    // width: 100%;
+    height: 300px;
+    position: relative;
+    .imgbackground {
+      position: absolute;
+      left: 55%;
+      img {
+        width: 100%;
+        // height: 100%;
+        height: 300px;
+      }
+    }
+    .title_background {
+      position: absolute;
+      font-family: "Roboto", sans-serif;
+      font-size: 32px;
+      margin: 0 auto;
+      font-weight: 900;
+      left: 10%;
+      top: 50%;
+      transform: translateY(-50%);
+      p {
+        padding-top: 20px;
+        font-size: 16px;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .title {
+    margin: 0 auto;
+    width: 80%;
+    padding: 30px 0px;
+    font-family: "Roboto", sans-serif;
+    font-size: 32px;
+
+    font-weight: 900;
+  }
+  .form {
+    margin: 0 auto;
+    width: 80%;
+    border: 1px solid #d3ced2;
+    padding: 20px 32px;
+    border-radius: 5px;
+    .code_bg {
+      background: #f0f0f0;
+      margin: 0 auto;
+      width: 40%;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .content_code {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        span {
+          padding: 5px 0px;
+        }
+        .sdt {
+          font-size: 32px;
+          color: #ba933e;
+        }
+        // .inputCode {
+        //   background: red;
+        //   width: 100%;
+        //   height: 70%;
+        // }
+        // input {
+        //   background: #fff;
+        //   padding: 20px 100px;
+        //   text-align: center;
+        // }
+        ::placeholder {
+          padding-left: 15px;
+        }
+        .receive_code {
+          text-decoration: underline;
+          color: #ba933e;
+          cursor: pointer;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  .comeback {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+  }
+}

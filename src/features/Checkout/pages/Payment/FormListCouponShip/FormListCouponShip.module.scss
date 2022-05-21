@@ -1,0 +1,321 @@
+.modalFormLogOut {
+  .backdrop {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 300%;
+    height: 300%;
+    background: rgba(#1a1a1a, 0.6);
+    z-index: 99;
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  .viewFormLogOut {
+    position: fixed;
+    top: 5%;
+    left: 35%;
+    transform: translateX(-50%) translateY(-50%);
+    background: #f7f7f7;
+    width: 30%;
+    height: 655px;
+    box-shadow: 4px 2px -5px 5px rgba($color: #1a1a1a, $alpha: 0.5);
+    z-index: 999;
+    border-radius: 4px;
+    border: 1px solid rgba($color: gray, $alpha: 0.2);
+    transform: scaleY(0) scaleX(0);
+    transition: all 0.3s;
+    &.active {
+      transform-origin: center;
+      transform: scaleY(1) scaleX(1) !important;
+    }
+    .header {
+      width: 100%;
+      display: flex;
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba($color: gray, $alpha: 0.2);
+      justify-content: space-between;
+      align-items: flex-start;
+      h2 {
+        font-size: 18px;
+        margin-bottom: 0;
+      }
+      .cancel {
+        position: relative;
+
+        // margin-right: 10px;
+        .blur {
+          position: absolute;
+          transform: translateX(-80%) translateY(-10%);
+          :hover {
+            background: rgba($color: gray, $alpha: 0.2);
+          }
+          i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 30px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+    .body {
+      width: 100%;
+      // height: 70px;
+      padding: 10px 10px;
+      height: 90%;
+      overflow-y: auto;
+      .listCoupon {
+        .item_coupon {
+          display: flex;
+          width: 100%;
+          background: #fff;
+          color: rgb(120, 120, 120);
+          border-radius: 5px;
+          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+            rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+          margin-bottom: 20px;
+          position: relative;
+          &.activeBackground {
+            background: #fff;
+            color: rgb(120, 120, 120);
+          }
+          .activeBackdrop {
+            background: rgb(241, 241, 241);
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 5;
+          }
+          .notifySelected {
+            border: 2px solid rgb(139, 139, 139);
+            border-radius: 5px;
+            position: absolute;
+            bottom: 27px;
+            left: 5%;
+            // width: 100%;
+            // height: 100%;
+            opacity: 1;
+            z-index: 8;
+            transform: rotate(-5deg);
+            padding: 3px 6px;
+            background: #fff;
+            font-size: 15px;
+          }
+          .left {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 12px;
+            .lottery_box {
+              width: 250px;
+              position: relative;
+              background-color: #ba933e;
+              overflow: hidden;
+              height: 120px;
+              text-align: center;
+              &.activeShip {
+                background-color: #0093e9;
+                background-image: linear-gradient(
+                  160deg,
+                  #0093e9 0%,
+                  #80d0c7 100%
+                );
+              }
+              &:before,
+              &:after {
+                content: "";
+                width: 10px;
+                height: 100%;
+                background-image: -webkit-radial-gradient(
+                  circle,
+                  #ffffff 3px,
+                  rgba(255, 255, 255, 0) 3px
+                );
+                background-image: radial-gradient(
+                  circle,
+                  #ffffff 3px,
+                  rgba(255, 255, 255, 0) 3px
+                );
+                background-position: 0 1px;
+                background-size: 6px 9px;
+                background-repeat: repeat-y;
+                position: absolute;
+                top: 0;
+                -webkit-transform: scaleY((6.8/6));
+                transform: scaleY((6.8/6));
+              }
+              &:before {
+                left: -4px;
+              }
+              &:after {
+                right: -8px;
+              }
+            }
+            .price {
+              font-weight: 700;
+              color: #fff;
+              position: absolute;
+              top: 10%;
+              left: 4%;
+              transform: translate(30% -50%);
+              .priceDiscount {
+                display: inline-block;
+                border-radius: 30px;
+                background: #fff;
+                color: #ba933e;
+                font-size: 18px;
+                width: 110%;
+                &.activeColorShip {
+                  color: #0093e9;
+                }
+              }
+              .conditionPriceDiscount {
+                font-size: 14px;
+                font-weight: 500;
+                margin-left: 10px;
+              }
+              .btnSaveCodeCoupon {
+                padding: 2px 10px;
+                background-color: #fad961;
+                background-image: linear-gradient(
+                  90deg,
+                  #fad961 0%,
+                  #f76b1c 100%
+                );
+
+                color: #fff;
+                font-size: 16px;
+                border-radius: 30px;
+                font-weight: 700;
+                margin-right: -20px;
+                margin-top: 10px;
+                cursor: pointer;
+                transition: all 0.3s;
+                display: flex;
+                align-items: center;
+                &:hover {
+                  background-color: #fad961;
+                  background-image: linear-gradient(
+                    90deg,
+                    #fad961 0%,
+                    #f76b1c 100%
+                  );
+                }
+              }
+            }
+          }
+          .right {
+            position: relative;
+            box-sizing: border-box;
+            display: flex;
+            width: 160px;
+            padding: 10px 10px;
+            border-left: 2px dashed #e0e6ef;
+            justify-content: center;
+            color: black;
+            .date {
+              font-size: 15px;
+              font-weight: 500;
+              text-align: center;
+              padding: 10px 0px;
+            }
+          }
+          .right::before,
+          .right::after {
+            position: absolute;
+            display: block;
+            content: "";
+            border-radius: 100%;
+            background: #f7f7f7;
+            width: 22px;
+            height: 22px;
+          }
+          .right::before {
+            top: -11px;
+            left: -12px;
+          }
+          .right::after {
+            bottom: -11px;
+            left: -12px;
+          }
+        }
+
+        /* circle-css */
+      }
+    }
+    .footer {
+      width: 100%;
+      .button {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 20px;
+        .cancel {
+          padding: 10px 15px;
+          background: rgba($color: gray, $alpha: 0.2);
+          border-radius: 5px;
+          color: black;
+          font-weight: bold;
+          cursor: pointer;
+          &:hover {
+            background: rgba($color: gray, $alpha: 0.5);
+          }
+        }
+        .confirm {
+          padding: 10px 15px;
+          background: #ba933e;
+          border-radius: 5px;
+          margin-left: 15px;
+          color: white;
+          font-weight: bold;
+          cursor: pointer;
+          position: relative;
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(white, 0.2);
+            opacity: 0;
+            transition: all 0.4s ease-out;
+          }
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(white, 0.2);
+            opacity: 0;
+            transition: all 0.5s ease-out;
+          }
+          &:hover {
+            &::after {
+              opacity: 1;
+              transform: scaleX(0);
+            }
+            &::before {
+              opacity: 1;
+              transform: scaleY(0);
+            }
+          }
+        }
+      }
+    }
+  }
+}
