@@ -89,7 +89,7 @@ function LoginForm(props) {
 
   //handleLoginFacebook
   const client_id = '1027070578219640';
-  const redirect_uri = 'https://hientranbackend22.tk';
+  const redirect_uri = 'https://hientranbackend22.tk/';
   const scope = 'public_profile,email';
   const handleLoginFacebook = () => {
     window.location.href = `https://www.facebook.com/v13.0/dialog/oauth?client_id=${client_id}&redirect_uri=${redirect_uri}&scope=${scope}`;
@@ -99,8 +99,7 @@ function LoginForm(props) {
   //handleLoginGoogle
   const handleLoginGoogle = async () => {
     setClickGoogle(true);
-    window.location.href =
-      await `http://ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/auth/googleV2`;
+    window.location.href = await `https://hientranbackend22.tk/auth/googleV2`;
   };
 
   return (

@@ -301,7 +301,7 @@ function AddProductAdmin(props) {
     // const fd = new FormData();
     // fd.append("uploadFile", fileSelected);
     // axios
-    //   .post("//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/messages/addFile", fd)
+    //   .post("//hientranbackend22.tk/messages/addFile", fd)
     //   .then((res) => {
     //     setSelectedAvatar((pre) => {
     //       return { ...pre, new: res.data };

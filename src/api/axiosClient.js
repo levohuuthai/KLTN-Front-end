@@ -7,7 +7,7 @@ const header = {
   'Access-Control-Allow-Methods': '*',
 };
 const axiosClient = axios.create({
-  baseURL: 'http://ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/',
+  baseURL: 'https://hientranbackend22.tk/',
   // baseURL: "https://api.ezfrontend.com/",
   headers: header,
 });

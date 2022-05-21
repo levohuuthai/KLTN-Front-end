@@ -21,7 +21,7 @@ const BoxChat = (props) => {
   const { dispatch, state } = useContext(GlobalContext);
   //socket
   const socket = useRef();
-  const ENDPOINT = 'ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com';
+  const ENDPOINT = 'hientranbackend22.tk';
   useEffect(() => {
     socket.current = io(ENDPOINT, {
       transports: ['websocket', 'polling', 'flashsocket'],
@@ -144,10 +144,7 @@ const BoxChat = (props) => {
     const fd = new FormData();
     fd.append('uploadFile', fileSelected);
     axios
-      .post(
-        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
-        fd
-      )
+      .post('//hientranbackend22.tk/products/addFile', fd)
       .then((res) => {
         console.log(res.data);
         // if();

@@ -21,7 +21,7 @@ function BoxChatClient(props) {
   const [arrayChat, setArrayChat] = useState([]);
   // //socket
   const socket = useRef();
-  const ENDPOINT = 'ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com';
+  const ENDPOINT = 'hientranbackend22.tk';
   useEffect(() => {
     socket.current = io(ENDPOINT, {
       transports: ['websocket', 'polling', 'flashsocket'],
@@ -97,10 +97,7 @@ function BoxChatClient(props) {
     const fd = new FormData();
     fd.append('uploadFile', fileSelected);
     axios
-      .post(
-        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
-        fd
-      )
+      .post('//hientranbackend22.tk/products/addFile', fd)
       .then((res) => {
         const uploadFile = res.data.split('.');
         const filesTypes = uploadFile[uploadFile.length - 1];

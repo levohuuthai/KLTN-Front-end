@@ -26,7 +26,7 @@ Header.propTypes = {};
 function Header(props) {
   // //socket
   // const socket = useRef();
-  // const ENDPOINT = "ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com";
+  // const ENDPOINT = "hientranbackend22.tk";
   // useEffect(() => {
   //   socket.current = io(ENDPOINT, {
   //     transports: ["websocket", "polling", "flashsocket"],
@@ -197,18 +197,15 @@ function Header(props) {
 
   useEffect(() => {
     const getUser = () => {
-      fetch(
-        'http://ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/auth/login/success',
-        {
-          method: 'GET',
-          credentials: 'include',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Credentials': true,
-          },
-        }
-      )
+      fetch('https://hientranbackend22.tk/auth/login/success', {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Credentials': true,
+        },
+      })
         .then((response) => {
           if (response.status === 200) return response.json();
           throw new Error('authentication has been failed!');

@@ -86,10 +86,7 @@ function ListTypeProductAdmin(props) {
     const fd = new FormData();
     fd.append('uploadFile', fileSelected);
     axios
-      .post(
-        '//ec2-54-251-0-156.ap-southeast-1.compute.amazonaws.com/products/addFile',
-        fd
-      )
+      .post('//hientranbackend22.tk/products/addFile', fd)
       .then((res) => {
         console.log(res);
         setImageTypeProduct((pre) => {
