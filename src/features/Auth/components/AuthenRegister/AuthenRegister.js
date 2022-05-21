@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import AuthenRegisterForm from "../AuthenRegisterForm/AuthenRegisterForm";
-import authAPI from "api/authAPI";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import AuthenRegisterForm from '../AuthenRegisterForm/AuthenRegisterForm';
+import authAPI from 'api/authAPI';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 toast.configure();
 AuthenRegister.propTypes = {};
 
@@ -29,16 +29,16 @@ function AuthenRegister(props) {
                 password: values.password,
               });
               console.log(requestsignup);
-              if (requestsignup.status == 201) {
-                navigate("/auth/login");
-                toast.success("Đăng ký thành công", {
+              if (requestsignup.status == 200) {
+                navigate('/auth/login');
+                toast.success('Đăng ký thành công', {
                   position: toast.POSITION.BOTTOM_RIGHT,
                   autoClose: 2000,
                 });
               }
             } catch (error) {
               console.log(error);
-              toast.error("Đăng ký không thành công", {
+              toast.error('Đăng ký không thành công', {
                 position: toast.POSITION.BOTTOM_RIGHT,
                 autoClose: 2000,
               });
@@ -47,7 +47,7 @@ function AuthenRegister(props) {
           fetchRequestSignUp();
         }
       } catch (error) {
-        toast.error("Code hết hạn", {
+        toast.error('Code hết hạn', {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 2000,
         });
