@@ -204,9 +204,9 @@ function Header(props) {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Headers': '*',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': '*',
+          'Access-Control-Allow-Headers': 'https://hientranbackend22.tk',
+          'Access-Control-Allow-Origin': 'https://hientranbackend22.tk',
+          'Access-Control-Allow-Methods': 'https://hientranbackend22.tk',
         },
       })
         .then((response) => {
