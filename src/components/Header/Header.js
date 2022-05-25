@@ -154,37 +154,37 @@ function Header(props) {
     });
   };
 
-  const [code, setCode] = useState("");
-  const client_id = "1027070578219640";
-  const redirect_uri = "https://hientranfrontend22.tk/";
-  const client_secret = "99051d8b5672f199edcd7117fe941ee6";
-  const dispatchLoginFacebook = useDispatch();
-  const dispatchLoginGoogle = useDispatch();
+  // const [code, setCode] = useState("");
+  // const client_id = "1027070578219640";
+  // const redirect_uri = "https://hientranfrontend22.tk/";
+  // const client_secret = "99051d8b5672f199edcd7117fe941ee6";
+  // const dispatchLoginFacebook = useDispatch();
+  // const dispatchLoginGoogle = useDispatch();
 
-  useEffect(() => {
-    // let params = new URL(document.location).searchParams;
-    // console.log(params.get("code"));
-    // setCode(params.get("code"));
-    if (new URL(document.location).searchParams.get("code") !== null) {
-      axios
-        .get(
-          `https://graph.facebook.com/v13.0/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${new URL(
-            document.location
-          ).searchParams.get(`code`)}`
-        )
-        .then(async (res) => {
-          const action = signin({
-            access_token: res.data.access_token,
-          });
-          const resultAction = await dispatchLoginFacebook(action);
-          const user = unwrapResult(resultAction);
-          window.location = "https://hientranfrontend22.tk/";
-        })
-        .catch((aa) => {
-          console.log("Khong Gui dc", aa);
-        });
-    }
-  }, [new URL(document.location).searchParams.get("code")]);
+  // useEffect(() => {
+  //   // let params = new URL(document.location).searchParams;
+  //   // console.log(params.get("code"));
+  //   // setCode(params.get("code"));
+  //   if (new URL(document.location).searchParams.get("code") !== null) {
+  //     axios
+  //       .get(
+  //         `https://graph.facebook.com/v13.0/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${new URL(
+  //           document.location
+  //         ).searchParams.get(`code`)}`
+  //       )
+  //       .then(async (res) => {
+  //         const action = signin({
+  //           access_token: res.data.access_token,
+  //         });
+  //         const resultAction = await dispatchLoginFacebook(action);
+  //         const user = unwrapResult(resultAction);
+  //         window.location = "https://hientranfrontend22.tk/";
+  //       })
+  //       .catch((aa) => {
+  //         console.log("Khong Gui dc", aa);
+  //       });
+  //   }
+  // }, [new URL(document.location).searchParams.get("code")]);
 
   // useEffect(async () => {
   //   const action = signinGoogle(

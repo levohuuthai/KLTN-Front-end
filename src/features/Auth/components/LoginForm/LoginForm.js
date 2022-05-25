@@ -14,6 +14,7 @@ import authAPI from "api/authAPI";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { signin } from "../../features/Auth/components/LoginFacebookSlice/LoginFacebookSlice";
 import { signinGoogle } from "features/Auth/components/LoginGoogleSlice/LoginGoogleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -107,7 +108,34 @@ function LoginForm(props) {
   const handleLoginGoogle = async () => {
     window.location.href = `https://hientranbackend22.tk/auth/googleV2`;
   };
+  const [code, setCode] = useState("");
+  const client_id = "1027070578219640";
+  const redirect_uri = "https://hientranfrontend22.tk/";
+  const client_secret = "99051d8b5672f199edcd7117fe941ee6";
+  const dispatchLoginFacebook = useDispatch();
   const dispatchLoginGoogle = useDispatch();
+  useEffect(() => {
+    if (new URL(document.location).searchParams.get("code") !== null) {
+      axios
+        .get(
+          `https://graph.facebook.com/v13.0/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${new URL(
+            document.location
+          ).searchParams.get(`code`)}`
+        )
+        .then(async (res) => {
+          const action = signin({
+            access_token: res.data.access_token,
+          });
+          const resultAction = await dispatchLoginFacebook(action);
+          const user = unwrapResult(resultAction);
+          if (resultAction.payload !== undefined) {
+          window.location = "https://hientranfrontend22.tk/";}
+        })
+        .catch((aa) => {
+          console.log("Khong Gui dc", aa);
+        });
+    }
+  }, [new URL(document.location).searchParams.get("code")]);
 
   useEffect(async () => {
     const action = signinGoogle(
@@ -115,12 +143,10 @@ function LoginForm(props) {
     );
     const resultAction = await dispatchLoginGoogle(action);
     if (resultAction.payload !== undefined) {
-      // navigate("/");
       window.location = "https://hientranfrontend22.tk/";
     }
     // navigate("/");
   }, [new URL(document.location).searchParams.get("code")]);
-  // console.log(new URL(document.location).searchParams.get("code"));
 
   return (
     <div className={`${style.form_login} wrap`}>
