@@ -51,11 +51,11 @@ const authAPI = {
     const url = "/auth/login/success";
     return axiosClient.get(url);
   },
-  add_login_google() {
+  add_login_google(userId) {
     const url = "/auth/login/success";
     return axiosClient.get(url, {
       params: {
-        code,
+        userId,
       },
     });
   },
