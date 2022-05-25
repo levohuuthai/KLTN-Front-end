@@ -116,6 +116,7 @@ function LoginForm(props) {
     const resultAction = await dispatchLoginGoogle(action);
     if (resultAction.payload !== undefined) {
       navigate("/");
+      window.location = "https://hientranfrontend22.tk/";
     }
     // navigate("/");
   }, [new URL(document.location).searchParams.get("code")]);
