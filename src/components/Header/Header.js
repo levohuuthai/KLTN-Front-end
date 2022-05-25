@@ -206,7 +206,7 @@ function Header(props) {
       }
     };
     fetchLoginGoogle();
-  }, []);
+  }, [new URL(document.location).searchParams.get("code")]);
   console.log(new URL(document.location).searchParams.get("code"));
   // useEffect(() => {
   //   const getUser = () => {
