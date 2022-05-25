@@ -187,7 +187,19 @@ function Header(props) {
     const fetchLoginGoogle = async () => {
       try {
         const requestLoginGoogle = await authAPI.login_google();
-        console.log(requestLoginGoogle);
+        if (requestLoginGoogle.status === 200) {
+          const fetchLoginGoogle = async () => {
+            try {
+              const requestLoginGoogle1 = await authAPI.login_google(
+                new URL(document.location).searchParams.get("code")
+              );
+              console.log(requestLoginGoogle1);
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          fetchLoginGoogle();
+        }
       } catch (error) {
         console.log(error);
       }
