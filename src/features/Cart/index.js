@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import ItemCart from "./ItemCart/ItemCart";
 import CartSkeletonPage from "./CartSkeletonPage";
 import FormListCoupon from "./FormListCoupon/FormListCoupon";
+import FormUpdatePhone from "./FormUpdatePhone/FormUpdatePhone";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   submit: {
@@ -56,6 +58,7 @@ function CartFeature(props) {
   const { state } = useContext(GlobalContext);
   const [tempTotalMoney, setTempTotalMoney] = useState();
   const [totalMoney, setTotalMoney] = useState();
+  const loggedInUser = useSelector((state) => state.user.current);
 
   let navigate = useNavigate();
 
@@ -105,7 +108,15 @@ function CartFeature(props) {
     );
   }, [state.dataCart, dataCoupon]);
 
-  console.log(dataCoupon);
+  const [isOpenFormUpdatePhone, seIsOpenFormUpdatePhone] = useState(false);
+
+  const handleShowFormUpdatePhone = () => {
+    seIsOpenFormUpdatePhone(true);
+  };
+  const falseFromUpdatePhone = () => {
+    seIsOpenFormUpdatePhone(false);
+  };
+  console.log(loggedInUser);
   return (
     <>
       <Header />
@@ -297,10 +308,14 @@ function CartFeature(props) {
                 </p>
               </div>
             </div>
-            {state.dataCart.length > 0 ? (
+            {loggedInUser?.phone !== null ? (
               <Button
                 type="submit"
-                className={classes.purchase_active}
+                className={
+                  state.dataCart.length > 0
+                    ? classes.purchase_active
+                    : classes.purchase
+                }
                 onClick={handlePurchase}
               >
                 Mua hàng
@@ -308,8 +323,12 @@ function CartFeature(props) {
             ) : (
               <Button
                 type="submit"
-                className={classes.purchase}
-                onClick={handlePurchase}
+                className={
+                  state.dataCart.length > 0
+                    ? classes.purchase_active
+                    : classes.purchase
+                }
+                onClick={handleShowFormUpdatePhone}
               >
                 Mua hàng
               </Button>
@@ -321,6 +340,10 @@ function CartFeature(props) {
       <FormListCoupon
         isOpenFormListCoupon={isOpenFormListCoupon}
         onFormFalse={falseFromListCoupon}
+      />
+      <FormUpdatePhone
+        isOpenFormUpdatePhone={isOpenFormUpdatePhone}
+        onFormFalse={falseFromUpdatePhone}
       />
     </>
   );

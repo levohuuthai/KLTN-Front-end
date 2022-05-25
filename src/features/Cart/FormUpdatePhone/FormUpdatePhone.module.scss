@@ -1,0 +1,194 @@
+.modalFormLogOut {
+  .backdrop {
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 300%;
+    // height: 300%;
+    background: rgba(#1a1a1a, 0.6);
+    z-index: 99;
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  .viewFormLogOut {
+    position: fixed;
+    top: 20%;
+    left: 30%;
+    transform: translateX(-50%) translateY(-50%);
+    background: #f7f7f7;
+    width: 40%;
+    // height: 100%;
+    // height: 655px;
+    box-shadow: 4px 2px -5px 5px rgba($color: #1a1a1a, $alpha: 0.5);
+    z-index: 999;
+    border-radius: 4px;
+    border: 1px solid rgba($color: gray, $alpha: 0.2);
+    transform: scaleY(0) scaleX(0);
+    transition: all 0.3s;
+    &.active {
+      transform-origin: center;
+      transform: scaleY(1) scaleX(1) !important;
+    }
+    &.activeVerify {
+      top: 5%;
+    }
+    .header {
+      width: 100%;
+      display: flex;
+      padding: 8px 10px;
+      border-bottom: 1px solid rgba($color: gray, $alpha: 0.2);
+      justify-content: space-between;
+      align-items: flex-start;
+      h2 {
+        font-size: 18px;
+        margin-bottom: 0;
+      }
+      .cancel {
+        position: relative;
+
+        // margin-right: 10px;
+        .blur {
+          position: absolute;
+          transform: translateX(-80%) translateY(-10%);
+          :hover {
+            background: rgba($color: gray, $alpha: 0.2);
+          }
+          i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-size: 30px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+    .body {
+      width: 100%;
+      // height: 70px;
+      padding: 10px 10px;
+      .verify {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        // background: url(../../../assets//backgroundy.png) no-repeat;
+        background-size: 100% 100%;
+        width: 100%;
+        // height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        header {
+          text-align: center;
+          img {
+            width: 60%;
+            margin-bottom: 30px;
+          }
+        }
+        form {
+          background: #fff;
+          // height: 400px;
+          width: 400px;
+          box-shadow: 0px 8px 24px rgba(#1a1a1a, 0.1);
+          font-family: Arial, Helvetica, sans-serif;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .container {
+            width: 80%;
+            height: 50%;
+            background: rgba(blue, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            margin-top: 30px;
+            .title-form {
+              text-align: center;
+              p {
+                font-size: 14px;
+              }
+              h2 {
+                margin-top: 6px;
+              }
+            }
+            .inputCode {
+              margin-top: 15px;
+              width: 100%;
+              padding: 15px;
+              background: white;
+              input {
+                margin-left: 10px;
+                width: 100%;
+              }
+              ::placeholder {
+                font-size: 14px;
+              }
+            }
+            .reSendOTP {
+              margin-top: 10px;
+              color: blue;
+              text-decoration: underline;
+              font-size: 14px;
+              cursor: pointer;
+            }
+          }
+
+          .error {
+            color: red;
+            font-size: 14px;
+          }
+          .btn-first {
+            padding: 13px 80px;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            background: rgba(#805740, 1);
+            border-radius: 5px;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            position: relative;
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(white, 0.2);
+              opacity: 0;
+              transition: all 0.5s ease-out;
+            }
+            &::before {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(white, 0.2);
+              opacity: 0;
+              transition: all 0.4s ease-out;
+            }
+            &:hover {
+              &::after {
+                opacity: 1;
+                transform: scaleX(0);
+              }
+              &::before {
+                opacity: 1;
+                transform: scaleY(0);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
