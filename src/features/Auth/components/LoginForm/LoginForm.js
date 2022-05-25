@@ -14,7 +14,7 @@ import authAPI from "api/authAPI";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { signin } from "../../features/Auth/components/LoginFacebookSlice/LoginFacebookSlice";
+import { signin } from "features/Auth/components/LoginFacebookSlice/LoginFacebookSlice";
 import { signinGoogle } from "features/Auth/components/LoginGoogleSlice/LoginGoogleSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
