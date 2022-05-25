@@ -186,21 +186,21 @@ function Header(props) {
   useEffect(() => {
     const fetchLoginGoogle = async () => {
       try {
-        const requestLoginGoogle = await authAPI.login_google();
-        console.log(requestLoginGoogle);
-        if (requestLoginGoogle.status === 200) {
-          const fetchLoginGoogle = async () => {
-            try {
-              const requestLoginGoogle1 = await authAPI.add_login_google(
-                new URL(document.location).searchParams.get("code")
-              );
-              console.log(requestLoginGoogle1);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          fetchLoginGoogle();
-        }
+        // const requestLoginGoogle = await authAPI.login_google();
+        // console.log(requestLoginGoogle);
+        // if (requestLoginGoogle.status === 200) {
+        const fetchLoginGoogle = async () => {
+          try {
+            const requestLoginGoogle = await authAPI.add_login_google(
+              new URL(document.location).searchParams.get("code")
+            );
+            console.log(requestLoginGoogle);
+          } catch (error) {
+            console.log(error);
+          }
+        };
+        fetchLoginGoogle();
+        // }
       } catch (error) {
         console.log(error);
       }
