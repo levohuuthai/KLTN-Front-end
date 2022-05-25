@@ -181,31 +181,53 @@ function Header(props) {
           console.log("Khong Gui dc", aa);
         });
     }
-  }, [new URL(document.location).searchParams.get("code")]);
+  }, [new URL(document.location).searchParams.get('code')]);
 
   useEffect(() => {
     const fetchLoginGoogle = async () => {
       try {
         const requestLoginGoogle = await authAPI.login_google();
-        if (requestLoginGoogle.status === 200) {
-          const fetchLoginGoogle = async () => {
-            try {
-              const requestLoginGoogle1 = await authAPI.login_google(
-                new URL(document.location).searchParams.get("code")
-              );
-              console.log(requestLoginGoogle1);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          fetchLoginGoogle();
-        }
+        console.log(requestLoginGoogle);
       } catch (error) {
         console.log(error);
       }
     };
     fetchLoginGoogle();
   }, []);
+  console.log(new URL(document.location).searchParams.get('code'));
+  // useEffect(() => {
+  //   const getUser = () => {
+  //     fetch('https://hientranbackend22.tk/auth/login/success', {
+  //       method: 'GET',
+  //       credentials: 'include',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json',
+  //         'Access-Control-Allow-Credentials': true,
+  //         'Access-Control-Allow-Headers': 'https://hientranbackend22.tk',
+  //         'Access-Control-Allow-Origin': 'https://hientranbackend22.tk',
+  //         'Access-Control-Allow-Methods': 'https://hientranbackend22.tk',
+  //       },
+  //     })
+  //       .then((response) => {
+  //         if (response.status === 200) return response.json();
+  //         throw new Error('authentication has been failed!');
+  //       })
+  //       .then((resObject) => {
+  //         setUser(resObject.user);
+  //         console.log(resObject);
+  //         localStorage.setItem('user', JSON.stringify(resObject.user));
+  //         Cookies.set('token', resObject.accessToken);
+  //         Cookies.set('refreshToken', resObject.refreshToken);
+  //         Cookies.remove('session');
+  //         Cookies.remove('session.sig');
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  //   getUser();
+  // }, []);
 
   // useEffect(() => {
   //   const getUser = () => {
