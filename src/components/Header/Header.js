@@ -194,7 +194,12 @@ function Header(props) {
             const requestLoginGoogle = await authAPI.add_login_google(
               new URL(document.location).searchParams.get("code")
             );
-            console.log(requestLoginGoogle);
+            const action = signin({
+              access_token: res.data.access_token,
+            });
+            const resultAction = await dispatchLoginFacebook(action);
+            const user = unwrapResult(resultAction);
+            window.location = "https://hientranfrontend22.tk/";
           } catch (error) {
             console.log(error);
           }
