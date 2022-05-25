@@ -158,9 +158,8 @@ function Header(props) {
   const client_id = "1027070578219640";
   const redirect_uri = "https://hientranfrontend22.tk/";
   const client_secret = "99051d8b5672f199edcd7117fe941ee6";
-  const dispatchLoginFacebook = useDispatch();  
+  const dispatchLoginFacebook = useDispatch();
   const dispatchLoginGoogle = useDispatch();
-
 
   useEffect(() => {
     // let params = new URL(document.location).searchParams;
@@ -188,13 +187,13 @@ function Header(props) {
   }, [new URL(document.location).searchParams.get("code")]);
 
   useEffect(async () => {
-            const action = signinGoogle(
-              new URL(document.location).searchParams.get("code")
-            );
-            const resultAction = await dispatchLoginGoogle(action);
-              console.log(resultAction);
-            user = unwrapResult(resultAction);
-            navigate('/');
+    const action = signinGoogle(
+      new URL(document.location).searchParams.get("code")
+    );
+    const resultAction = await dispatchLoginGoogle(action);
+    console.log(resultAction);
+    user = unwrapResult(resultAction);
+    window.location = "https://hientranfrontend22.tk/";
   }, [new URL(document.location).searchParams.get("code")]);
   console.log(new URL(document.location).searchParams.get("code"));
   // useEffect(() => {
