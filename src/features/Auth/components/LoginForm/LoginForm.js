@@ -16,6 +16,7 @@ import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { signinGoogle } from "features/Auth/components/LoginGoogleSlice/LoginGoogleSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 LoginForm.propTypes = { onSubmit: PropTypes.func };
 const useStyles = makeStyles((theme) => ({
@@ -114,7 +115,6 @@ function LoginForm(props) {
     );
     const resultAction = await dispatchLoginGoogle(action);
     console.log(resultAction);
-    user = unwrapResult(resultAction);
     navigate("/");
   }, [new URL(document.location).searchParams.get("code")]);
   // console.log(new URL(document.location).searchParams.get("code"));
