@@ -1,25 +1,25 @@
-import React, { useContext, useEffect, useState } from 'react';
-import style from './Header.module.scss';
-import logoRubic from 'assets/images/logoRubic.png';
-import { Link, useNavigate } from 'react-router-dom';
-import { useScrollPosition } from '@n8tb1t/use-scroll-position';
-import BackToTop from 'components/BackToTop/BackToTop';
-import Chat from 'components/Chat/Chat';
-import MyCartAside from 'components/myCartAside/MyCartAside';
-import { GlobalContext } from '../../store/store';
-import { ACTIOS } from '../../store/actions';
-import { useDispatch, useSelector } from 'react-redux';
-import Search from 'components/Search/Search';
-import FormLogout from 'components/FormLogout/FormLogout';
-import FormInformation from 'features/Form-Information/FormInformation';
-import cartApi from 'api/cartApi';
-import wishlishApi from 'api/wishlishApi';
+import React, { useContext, useEffect, useState } from "react";
+import style from "./Header.module.scss";
+import logoRubic from "assets/images/logoRubic.png";
+import { Link, useNavigate } from "react-router-dom";
+import { useScrollPosition } from "@n8tb1t/use-scroll-position";
+import BackToTop from "components/BackToTop/BackToTop";
+import Chat from "components/Chat/Chat";
+import MyCartAside from "components/myCartAside/MyCartAside";
+import { GlobalContext } from "../../store/store";
+import { ACTIOS } from "../../store/actions";
+import { useDispatch, useSelector } from "react-redux";
+import Search from "components/Search/Search";
+import FormLogout from "components/FormLogout/FormLogout";
+import FormInformation from "features/Form-Information/FormInformation";
+import cartApi from "api/cartApi";
+import wishlishApi from "api/wishlishApi";
 // import io from "socket.io-client";
-import axios from 'axios';
-import { signin } from '../../features/Auth/components/LoginFacebookSlice/LoginFacebookSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import authAPI from 'api/authAPI';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import { signin } from "../../features/Auth/components/LoginFacebookSlice/LoginFacebookSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import authAPI from "api/authAPI";
+import Cookies from "js-cookie";
 
 Header.propTypes = {};
 
@@ -114,55 +114,55 @@ function Header(props) {
     fetchGetProductWishList(); // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleLinkMyOrder = () => {
-    navigate('/customer/myorder/');
+    navigate("/customer/myorder/");
   };
   const handleReceiveAvatar = (data) => {
     setAvatar(data);
   };
   const handleAllProduct = (e) => {
     e.preventDefault();
-    navigate('/products', {
+    navigate("/products", {
       state: {
-        nameTypeProduct: '',
+        nameTypeProduct: "",
       },
     });
   };
   const handleAoThunSoc = (e) => {
     e.preventDefault();
-    navigate('/products', {
+    navigate("/products", {
       state: {
-        nameTypeProduct: 'Áo thun sọc',
+        nameTypeProduct: "Áo thun sọc",
       },
     });
   };
   const handleAoThunInHinh = (e) => {
     e.preventDefault();
-    navigate('/products', {
+    navigate("/products", {
       state: {
-        nameTypeProduct: 'Áo thun in hình',
+        nameTypeProduct: "Áo thun in hình",
       },
     });
   };
   const handleAoThunTron = (e) => {
     e.preventDefault();
-    navigate('/products', {
+    navigate("/products", {
       state: {
-        nameTypeProduct: 'Áo thun trơn',
+        nameTypeProduct: "Áo thun trơn",
       },
     });
   };
 
-  const [code, setCode] = useState('');
-  const client_id = '1027070578219640';
-  const redirect_uri = 'https://hientranfrontend22.tk/';
-  const client_secret = '99051d8b5672f199edcd7117fe941ee6';
+  const [code, setCode] = useState("");
+  const client_id = "1027070578219640";
+  const redirect_uri = "https://hientranfrontend22.tk/";
+  const client_secret = "99051d8b5672f199edcd7117fe941ee6";
   const dispatchLoginFacebook = useDispatch();
 
   useEffect(() => {
     // let params = new URL(document.location).searchParams;
     // console.log(params.get("code"));
     // setCode(params.get("code"));
-    if (new URL(document.location).searchParams.get('code') !== null) {
+    if (new URL(document.location).searchParams.get("code") !== null) {
       axios
         .get(
           `https://graph.facebook.com/v13.0/oauth/access_token?client_id=${client_id}&redirect_uri=${redirect_uri}&client_secret=${client_secret}&code=${new URL(
@@ -175,78 +175,90 @@ function Header(props) {
           });
           const resultAction = await dispatchLoginFacebook(action);
           const user = unwrapResult(resultAction);
-          window.location = 'https://hientranfrontend22.tk/';
+          window.location = "https://hientranfrontend22.tk/";
         })
         .catch((aa) => {
-          console.log('Khong Gui dc', aa);
+          console.log("Khong Gui dc", aa);
         });
     }
-  }, [new URL(document.location).searchParams.get('code')]);
-
-  // useEffect(() => {
-  //   const fetchLoginGoogle = async () => {
-  //     try {
-  //       const requestLoginGoogle = await authAPI.login_google();
-  //       console.log(requestLoginGoogle);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchLoginGoogle();
-  // }, []);
+  }, [new URL(document.location).searchParams.get("code")]);
 
   useEffect(() => {
-    const getUser = () => {
-      fetch('https://hientranbackend22.tk/auth/login/success', {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Headers': 'https://hientranbackend22.tk',
-          'Access-Control-Allow-Origin': 'https://hientranbackend22.tk',
-          'Access-Control-Allow-Methods': 'https://hientranbackend22.tk',
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error('authentication has been failed!');
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-          console.log(resObject);
-          localStorage.setItem('user', JSON.stringify(resObject.user));
-          Cookies.set('token', resObject.accessToken);
-          Cookies.set('refreshToken', resObject.refreshToken);
-          Cookies.remove('session');
-          Cookies.remove('session.sig');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    const fetchLoginGoogle = async () => {
+      try {
+        const requestLoginGoogle = await authAPI.login_google();
+        if (requestLoginGoogle.status === 200) {
+          const fetchLoginGoogle = async () => {
+            try {
+              const requestLoginGoogle1 = await authAPI.login_google(
+                new URL(document.location).searchParams.get("code")
+              );
+              console.log(requestLoginGoogle1);
+            } catch (error) {
+              console.log(error);
+            }
+          };
+          fetchLoginGoogle();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
-    getUser();
+    fetchLoginGoogle();
   }, []);
+
+  // useEffect(() => {
+  //   const getUser = () => {
+  //     fetch('https://hientranbackend22.tk/auth/login/success', {
+  //       method: 'GET',
+  //       credentials: 'include',
+  //       headers: {
+  //         Accept: 'application/json',
+  //         'Content-Type': 'application/json',
+  //         'Access-Control-Allow-Credentials': true,
+  //         'Access-Control-Allow-Headers': 'https://hientranbackend22.tk',
+  //         'Access-Control-Allow-Origin': 'https://hientranbackend22.tk',
+  //         'Access-Control-Allow-Methods': 'https://hientranbackend22.tk',
+  //       },
+  //     })
+  //       .then((response) => {
+  //         if (response.status === 200) return response.json();
+  //         throw new Error('authentication has been failed!');
+  //       })
+  //       .then((resObject) => {
+  //         setUser(resObject.user);
+  //         console.log(resObject);
+  //         localStorage.setItem('user', JSON.stringify(resObject.user));
+  //         Cookies.set('token', resObject.accessToken);
+  //         Cookies.set('refreshToken', resObject.refreshToken);
+  //         Cookies.remove('session');
+  //         Cookies.remove('session.sig');
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  //   getUser();
+  // }, []);
 
   return (
     <>
-      <div className='wrap'>
+      <div className="wrap">
         <div className={style.top_bar}>
           <div className={`${style.container_top}   `}>
             <div className={`${style.top_bar_left}  `}>
-              <a href='tel:0327364753'>
-                <i className='bi bi-telephone-outbound'></i>
+              <a href="tel:0327364753">
+                <i className="bi bi-telephone-outbound"></i>
                 0327364753
               </a>
 
-              <a href='mailto:levohuuthai1@gmail.com'>
-                <i className='far fa-envelope'></i>levohuuthai1@gmail.com
+              <a href="mailto:levohuuthai1@gmail.com">
+                <i className="far fa-envelope"></i>levohuuthai1@gmail.com
               </a>
             </div>
             <div className={`${style.top_bar_center} `}>
               <span>Miễn phí giao hàng hóa đơn trên 200.000 vnđ</span>
-              <span href='/' className={style.shop_now}>
+              <span href="/" className={style.shop_now}>
                 Mua sắm ngay!
               </span>
             </div>
@@ -254,35 +266,35 @@ function Header(props) {
               <div
                 className={`${style.social} d-flex justify-content-between align-items-end`}
               >
-                <a href='#/'>
-                  <i className='fab fa-facebook-f'></i>
+                <a href="#/">
+                  <i className="fab fa-facebook-f"></i>
                 </a>
-                <a href='#/'>
-                  <i className='fab fa-twitter'></i>
+                <a href="#/">
+                  <i className="fab fa-twitter"></i>
                 </a>
-                <a href='#/'>
-                  <i className='fab fa-youtube-square'></i>
+                <a href="#/">
+                  <i className="fab fa-youtube-square"></i>
                 </a>
-                <a href='#/'>
-                  <i className='fab fa-pinterest'></i>
+                <a href="#/">
+                  <i className="fab fa-pinterest"></i>
                 </a>
-                <a href='#/'>
-                  <i className='fas fa-envelope'></i>
+                <a href="#/">
+                  <i className="fas fa-envelope"></i>
                 </a>
               </div>
             </div>
           </div>
         </div>
         <div
-          className={`${style.header} ${showHeader ? style.active_fixed : ''}`}
+          className={`${style.header} ${showHeader ? style.active_fixed : ""}`}
         >
           <div className={`${style.container_top} `}>
             <div className={`${style.menu_bar_reponsive}`}>
-              <i className='bi bi-list'></i>
+              <i className="bi bi-list"></i>
             </div>
             <div className={`${style.logo}`}>
-              <a href='\'>
-                <img src={logoRubic} alt='logo' />
+              <a href="\">
+                <img src={logoRubic} alt="logo" />
               </a>
             </div>
             {/* Menu */}
@@ -292,7 +304,7 @@ function Header(props) {
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
               >
-                <a href='\' className={`${style.h} `}>
+                <a href="\" className={`${style.h} `}>
                   Trang chủ
                 </a>
               </li>
@@ -302,51 +314,51 @@ function Header(props) {
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
               >
-                <a href='\'>
-                  Sản phẩm<i className='bi bi-chevron-down'></i>{' '}
+                <a href="\">
+                  Sản phẩm<i className="bi bi-chevron-down"></i>{" "}
                 </a>
                 <div className={`${style.dropdown_product}  `}>
                   <ul className={`${style.shoplayout}`}>
                     <li>
-                      <a href='\' className={`${style.title_product}`}>
+                      <a href="\" className={`${style.title_product}`}>
                         Danh mục
                       </a>
                     </li>
                     <li>
-                      <a href='\' onClick={handleAllProduct}>
+                      <a href="\" onClick={handleAllProduct}>
                         Tất cả
                       </a>
                     </li>
                     <li>
-                      <a href='\' onClick={handleAoThunTron}>
+                      <a href="\" onClick={handleAoThunTron}>
                         Áo thun trơn
                       </a>
                     </li>
                     <li>
-                      <a href='\' onClick={handleAoThunSoc}>
+                      <a href="\" onClick={handleAoThunSoc}>
                         Áo thun sọc
                       </a>
                     </li>
                     <li>
-                      <a href='\' onClick={handleAoThunInHinh}>
+                      <a href="\" onClick={handleAoThunInHinh}>
                         Áo thun in hình
                       </a>
                     </li>
                   </ul>
                   <ul className={`${style.productlayout}`}>
                     <li>
-                      <a href='\' className={`${style.title_product}`}>
+                      <a href="\" className={`${style.title_product}`}>
                         Xu hướng
                       </a>
                     </li>
                     <li>
-                      <a href='\'>Hàng mới về</a>
+                      <a href="\">Hàng mới về</a>
                     </li>
                     <li>
-                      <a href='\'>Giảm nhiều nhất</a>
+                      <a href="\">Giảm nhiều nhất</a>
                     </li>
                     <li>
-                      <a href='\'>Bán chạy nhất</a>
+                      <a href="\">Bán chạy nhất</a>
                     </li>
                   </ul>
                 </div>
@@ -357,22 +369,22 @@ function Header(props) {
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
               >
-                <a href='\'>
-                  Giới thiệu<i className='bi bi-chevron-down'></i>
+                <a href="\">
+                  Giới thiệu<i className="bi bi-chevron-down"></i>
                 </a>
                 <div className={`${style.dropdown_introduce} `}>
                   <ul>
                     <li>
-                      <a href='\'>Về chúng tôi</a>
+                      <a href="\">Về chúng tôi</a>
                     </li>
                     <li>
-                      <a href='\'>Liên hệ</a>
+                      <a href="\">Liên hệ</a>
                     </li>
                     <li>
-                      <a href='\'>Khách hàng hài lòng 100%</a>
+                      <a href="\">Khách hàng hài lòng 100%</a>
                     </li>
                     <li>
-                      <a href='\'>Tài khoản của tôi</a>
+                      <a href="\">Tài khoản của tôi</a>
                     </li>
                   </ul>
                 </div>
@@ -382,19 +394,19 @@ function Header(props) {
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
               >
-                <a href='\'>
-                  Kiến thức mặc đẹp<i className='bi bi-chevron-down'></i>{' '}
+                <a href="\">
+                  Kiến thức mặc đẹp<i className="bi bi-chevron-down"></i>{" "}
                 </a>
                 <div className={`${style.dropdown_knowDress} `}>
                   <ul>
                     <li>
-                      <a href='\'>Hướng dẫn chọn size</a>
+                      <a href="\">Hướng dẫn chọn size</a>
                     </li>
                     <li>
-                      <a href='\'>Blog</a>
+                      <a href="\">Blog</a>
                     </li>
                     <li>
-                      <a href='\'>Nhóm mặc đẹp sống chất</a>
+                      <a href="\">Nhóm mặc đẹp sống chất</a>
                     </li>
                   </ul>
                 </div>
@@ -404,19 +416,19 @@ function Header(props) {
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
               >
-                <a href='\'>
-                  Dịch vụ khách hàng<i className='bi bi-chevron-down'></i>{' '}
+                <a href="\">
+                  Dịch vụ khách hàng<i className="bi bi-chevron-down"></i>{" "}
                 </a>
                 <div className={`${style.dropdown_serviceCustom} `}>
                   <ul>
                     <li>
-                      <a href='\'>Hỏi đáp - FAQs</a>
+                      <a href="\">Hỏi đáp - FAQs</a>
                     </li>
                     <li>
-                      <a href='\'>Chính sách giao hàng</a>
+                      <a href="\">Chính sách giao hàng</a>
                     </li>
                     <li>
-                      <a href='\'>Chính sách đổi trả</a>
+                      <a href="\">Chính sách đổi trả</a>
                     </li>
                   </ul>
                 </div>
@@ -427,23 +439,23 @@ function Header(props) {
               <div className={`${style.account}  `}>
                 {loggedInUser !== null ? (
                   <span className={style.avatar_header}>
-                    <img src={avatar} alt='avatar' />
+                    <img src={avatar} alt="avatar" />
                   </span>
                 ) : (
-                  <i className='far fa-user'></i>
+                  <i className="far fa-user"></i>
                 )}
 
                 {loggedInUser?.userName === undefined ? (
                   <>
                     <Link
-                      to='/auth/login'
+                      to="/auth/login"
                       onMouseMove={() => setAudio(true)}
                       onMouseLeave={() => setAudio(false)}
                     >
-                      Đăng nhập /{' '}
+                      Đăng nhập /{" "}
                     </Link>
                     <Link
-                      to='/auth/register'
+                      to="/auth/register"
                       onMouseMove={() => setAudio(true)}
                       onMouseLeave={() => setAudio(false)}
                     >
@@ -480,10 +492,10 @@ function Header(props) {
                 className={`${style.wishlist}`}
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
-                title='Yêu thích'
+                title="Yêu thích"
               >
-                <Link to='/wishlist'>
-                  <i className='bi bi-suit-heart'></i>
+                <Link to="/wishlist">
+                  <i className="bi bi-suit-heart"></i>
                   <p className={`${style.qty_wl}`}>
                     {state.dataWishList.length}
                   </p>
@@ -498,16 +510,16 @@ function Header(props) {
                 onMouseMove={() => setAudio(true)}
                 onMouseLeave={() => setAudio(false)}
               >
-                <a href='\'>
-                  <i className='bi bi-handbag'></i>
+                <a href="\">
+                  <i className="bi bi-handbag"></i>
                 </a>
                 <p className={`${style.qty_mc} `}>
-                  <a href='\'>{state.dataCart.length}</a>
+                  <a href="\">{state.dataCart.length}</a>
                 </p>
               </div>
               <div className={`${style.search}`} onClick={handleShowSearch}>
-                <a href='\'>
-                  <i className='bi bi-search'></i>
+                <a href="\">
+                  <i className="bi bi-search"></i>
                 </a>
               </div>
             </div>
@@ -519,7 +531,7 @@ function Header(props) {
       <MyCartAside active_cart={activeCart} />
       <Search showSearch={showSearch} onReceiveFalse={handleCancelSearch} />
       {isAudio && (
-        <audio autoPlay src={process.env.PUBLIC_URL + '/sound1.mp3'}>
+        <audio autoPlay src={process.env.PUBLIC_URL + "/sound1.mp3"}>
           dfvdvdv d
         </audio>
       )}
