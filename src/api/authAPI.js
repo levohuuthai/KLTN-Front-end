@@ -52,6 +52,7 @@ const authAPI = {
     return axiosClient.get(url);
   },
   add_login_google(userId) {
+    console.log(userId);
     const url = "/auth/login/success";
     return axiosClient.get(url, {
       params: {
