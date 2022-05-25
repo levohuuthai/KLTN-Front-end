@@ -16,7 +16,7 @@ import cartApi from "api/cartApi";
 import wishlishApi from "api/wishlishApi";
 // import io from "socket.io-client";
 import axios from "axios";
-import { signin } from "../../features/Auth/components/LoginFacebookSlice/LoginFacebookSlice";
+import { signin } from "../../features/Auth/components/LoginFacebookSlice/LoginGoogleSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import authAPI from "api/authAPI";
 import Cookies from "js-cookie";
@@ -184,33 +184,13 @@ function Header(props) {
   }, [new URL(document.location).searchParams.get("code")]);
 
   useEffect(() => {
-    const fetchLoginGoogle = async () => {
-      try {
-        // const requestLoginGoogle = await authAPI.login_google();
-        // console.log(requestLoginGoogle);
-        // if (requestLoginGoogle.status === 200) {
-        const fetchLoginGoogle = async () => {
-          try {
-            const requestLoginGoogle = await authAPI.add_login_google(
+            const action = signin(
               new URL(document.location).searchParams.get("code")
             );
-            const action = signin({
-              access_token: res.data.access_token,
-            });
-            const resultAction = await dispatchLoginFacebook(action);
-            const user = unwrapResult(resultAction);
-            window.location = "https://hientranfrontend22.tk/";
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        fetchLoginGoogle();
-        // }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchLoginGoogle();
+            const resultAction = await dispatch(action);
+              console.log(resultAction);
+            user = unwrapResult(resultAction);
+            navigate('/');
   }, [new URL(document.location).searchParams.get("code")]);
   console.log(new URL(document.location).searchParams.get("code"));
   // useEffect(() => {
