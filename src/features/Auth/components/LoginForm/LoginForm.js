@@ -115,7 +115,7 @@ function LoginForm(props) {
     );
     const resultAction = await dispatchLoginGoogle(action);
     console.log(resultAction);
-    navigate("/");
+    // navigate("/");
   }, [new URL(document.location).searchParams.get("code")]);
   // console.log(new URL(document.location).searchParams.get("code"));
 
