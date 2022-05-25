@@ -186,16 +186,16 @@ function Header(props) {
     }
   }, [new URL(document.location).searchParams.get("code")]);
 
-  useEffect(async () => {
-    const action = signinGoogle(
-      new URL(document.location).searchParams.get("code")
-    );
-    const resultAction = await dispatchLoginGoogle(action);
-    console.log(resultAction);
-    user = unwrapResult(resultAction);
-    window.location = "https://hientranfrontend22.tk/";
-  }, [new URL(document.location).searchParams.get("code")]);
-  console.log(new URL(document.location).searchParams.get("code"));
+  // useEffect(async () => {
+  //   const action = signinGoogle(
+  //     new URL(document.location).searchParams.get("code")
+  //   );
+  //   const resultAction = await dispatchLoginGoogle(action);
+  //   console.log(resultAction);
+  //   user = unwrapResult(resultAction);
+  //   window.location = "https://hientranfrontend22.tk/";
+  // }, [new URL(document.location).searchParams.get("code")]);
+  // console.log(new URL(document.location).searchParams.get("code"));
   // useEffect(() => {
   //   const getUser = () => {
   //     fetch('https://hientranbackend22.tk/auth/login/success', {
