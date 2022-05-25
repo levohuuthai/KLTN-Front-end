@@ -114,7 +114,9 @@ function LoginForm(props) {
       new URL(document.location).searchParams.get("code")
     );
     const resultAction = await dispatchLoginGoogle(action);
-    console.log(resultAction);
+    if (resultAction.payload !== undefined) {
+      navigate("/");
+    }
     // navigate("/");
   }, [new URL(document.location).searchParams.get("code")]);
   // console.log(new URL(document.location).searchParams.get("code"));
