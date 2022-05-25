@@ -181,12 +181,13 @@ function Header(props) {
           console.log("Khong Gui dc", aa);
         });
     }
-  }, [new URL(document.location).searchParams.get('code')]);
+  }, [new URL(document.location).searchParams.get("code")]);
 
   useEffect(() => {
     const fetchLoginGoogle = async () => {
       try {
         const requestLoginGoogle = await authAPI.login_google();
+        console.log(requestLoginGoogle);
         if (requestLoginGoogle.status === 200) {
           const fetchLoginGoogle = async () => {
             try {
@@ -206,7 +207,7 @@ function Header(props) {
     };
     fetchLoginGoogle();
   }, []);
-  console.log(new URL(document.location).searchParams.get('code'));
+  console.log(new URL(document.location).searchParams.get("code"));
   // useEffect(() => {
   //   const getUser = () => {
   //     fetch('https://hientranbackend22.tk/auth/login/success', {
