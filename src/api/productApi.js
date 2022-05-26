@@ -123,8 +123,8 @@ const productApi = {
       },
     });
   },
-  getAllBrand(category) {
-    console.log(category);
+  getAllBrand(categoryData) {
+    let category = categoryData?.join(",");
     const url = "/products/allBrand";
     return axiosClient.get(url, {
       params: {
