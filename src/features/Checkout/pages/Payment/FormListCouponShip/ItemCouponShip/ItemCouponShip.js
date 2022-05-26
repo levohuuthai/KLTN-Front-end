@@ -31,17 +31,15 @@ function ItemCoupon(props) {
   }, [, localStorage.getItem("dataCouponShip")]);
   const { dispatch, state } = useContext(GlobalContext);
   const [notCondition, setNotCondition] = useState(false);
+  const [priceCart, setPriceCart] = useState();
+
   useEffect(async () => {
     var rs = await state.dataCart.reduce((acc, val) => {
       return acc + val.product.priceAfter * val.product.quantity;
     }, 0);
 
-    if (rs < props.data?.priceToDiscount) {
-      // console.log("haha");
-      await setNotCondition(true);
-    }
+    setPriceCart(rs);
   }, [state.dataCart]);
-  console.log(notCondition);
 
   return (
     <div
@@ -52,7 +50,7 @@ function ItemCoupon(props) {
       {" "}
       <div
         className={`${
-          !props.data?.active
+          priceCart < props.data?.priceToDiscount
             ? style.activeBackdrop
             : notCondition
             ? style.activeBackdrop
@@ -63,7 +61,7 @@ function ItemCoupon(props) {
       ></div>
       {!props.data?.active ? (
         <div className={style.notifySelected}>Đã xài rồi</div>
-      ) : notCondition ? (
+      ) : priceCart < props.data?.priceToDiscount ? (
         <div className={style.notifySelected}>CHƯA THỎA ĐIỀU KIỆN</div>
       ) : dataCouponLocal?._id === props.data?._id ? (
         <div className={style.notifySelected}>ĐÃ ÁP DỤNG</div>
