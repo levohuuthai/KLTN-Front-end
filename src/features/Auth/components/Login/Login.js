@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import LoginForm from '../LoginForm/LoginForm';
-import { signin } from './userSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import PropTypes from "prop-types";
+import LoginForm from "../LoginForm/LoginForm";
+import { signin } from "./userSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 Login.propTypes = {};
 
@@ -24,19 +24,19 @@ function Login(props) {
       const resultAction = await dispatch(action);
       user = unwrapResult(resultAction);
       console.log(user);
-      if (user.role === 'admin') {
-        navigate('/admin/dashboard');
+      if (user.role === "admin") {
+        navigate("/admin/dashboard");
       } else {
-        navigate('/');
+        navigate("/");
       }
     } catch (error) {
       console.log(error);
-      if (user !== undefined) {
-        toast.error(error.message, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 2000,
-        });
-      }
+      // if (user !== undefined) {
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+      // }
     }
   };
   React.useEffect(() => {

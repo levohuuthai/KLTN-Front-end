@@ -25,6 +25,10 @@ const cartApi = {
     const url = "/orders/" + idOrder;
     return axiosClient.put(url, status);
   },
+  checkoutPayment(data) {
+    const url = "/checkout/pay";
+    return axiosClient.post(url, data);
+  },
 };
 
 export default cartApi;

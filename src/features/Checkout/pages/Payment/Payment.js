@@ -132,6 +132,7 @@ function Payment(props) {
   const [dataCouponProduct, setDataCouponProduct] = useState();
   const [dataCouponShip, setDataCouponShip] = useState();
   const [priceShipByProvince, setPriceShipByProvince] = useState();
+  const [paymentMethod, setPaymentMethod] = useState("");
 
   let navigate = useNavigate();
 
@@ -142,35 +143,9 @@ function Payment(props) {
     navigate("/cart");
   };
   const handleCheckout = () => {
-    //useCouponShip
-    const fetchUseCouponShip = async () => {
+    const fetchCheckoutPayment = async () => {
       try {
-        const requestUseCoupon = await couponApi.useCoupon(
-          loggedInUser?._id,
-          dataCouponShip?._id
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUseCouponShip();
-    //useCouponProduct
-    const fetchUseCouponProduct = async () => {
-      try {
-        const requestUseCoupon = await couponApi.useCoupon(
-          loggedInUser?._id,
-          dataCouponProduct?._id
-        );
-        console.log(requestUseCoupon);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchUseCouponProduct();
-    //addOrder
-    const fetchAddOrder = async () => {
-      try {
-        const requestAddOrder = await orderApi.addOrder({
+        const requestCheckoutPayment = await orderApi.checkoutPayment({
           userId: loggedInUser._id,
           products: state.dataCart.map((data) => {
             return {
@@ -192,12 +167,8 @@ function Payment(props) {
               ? 0
               : dataCouponProduct?.discount,
           priceShip: priceShipByProvince,
+          paymentMethod: paymentMethod,
         });
-        localStorage.removeItem("dataCoupon");
-        localStorage.removeItem("dataCouponShip");
-        if (requestAddOrder.status === 200) {
-          navigate("/customer/myorder/");
-        }
       } catch (error) {
         console.log(error);
         toast.error(error, {
@@ -206,7 +177,74 @@ function Payment(props) {
         });
       }
     };
-    fetchAddOrder();
+    fetchCheckoutPayment();
+    //ADDORDER
+    // //useCouponShip
+    // const fetchUseCouponShip = async () => {
+    //   try {
+    //     const requestUseCoupon = await couponApi.useCoupon(
+    //       loggedInUser?._id,
+    //       dataCouponShip?._id
+    //     );
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchUseCouponShip();
+    // //useCouponProduct
+    // const fetchUseCouponProduct = async () => {
+    //   try {
+    //     const requestUseCoupon = await couponApi.useCoupon(
+    //       loggedInUser?._id,
+    //       dataCouponProduct?._id
+    //     );
+    //     console.log(requestUseCoupon);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchUseCouponProduct();
+    // //addOrder
+    // const fetchAddOrder = async () => {
+    //   try {
+    //     const requestAddOrder = await orderApi.addOrder({
+    //       userId: loggedInUser._id,
+    //       products: state.dataCart.map((data) => {
+    //         return {
+    //           productDetailId: data.product.productDetailId,
+    //           quantity: data.product.quantity,
+    //           priceAfter: data.product.priceAfter,
+    //           priceBefore: data.product.priceBefore,
+    //         };
+    //       }),
+    //       amount: totalMoney,
+    //       address: dataAddress._id,
+    //       status: "Đang Xử Lý",
+    //       discountShip:
+    //         dataCouponShip?.discount === undefined
+    //           ? 0
+    //           : dataCouponShip?.discount,
+    //       discountProduct:
+    //         dataCouponProduct?.discount === undefined
+    //           ? 0
+    //           : dataCouponProduct?.discount,
+    //       priceShip: priceShipByProvince,
+    //       paymentMethod: paymentMethod,
+    //     });
+    //     localStorage.removeItem("dataCoupon");
+    //     localStorage.removeItem("dataCouponShip");
+    //     if (requestAddOrder.status === 200) {
+    //       navigate("/customer/myorder/");
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //     toast.error(error, {
+    //       position: toast.POSITION.BOTTOM_LEFT,
+    //       autoClose: 2000,
+    //     });
+    //   }
+    // };
+    // fetchAddOrder();
   };
 
   const showMyCart = (e) => {
@@ -293,7 +331,7 @@ function Payment(props) {
   }, [dataAddress]);
 
   const handleMethodPayment = (e) => {
-    console.log(e.target.value);
+    setPaymentMethod(e.target.value);
   };
   return (
     <div>
