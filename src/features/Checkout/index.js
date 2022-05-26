@@ -16,11 +16,11 @@ function CheckoutFeature(props) {
       <HeaderCheckout />
       <Routes>
         <Route path="/address" element={<Address />} />
-        <Route exact path="/payment/" element={<PrivateRoute />}>
-          <Route exact path="/payment/" element={<PrivateRouteAddress />}>
-            <Route exact path="/payment/" element={<Payment />} />{" "}
-          </Route>
-        </Route>
+        {/* <Route exact path="/payment/" element={<PrivateRoute />}>
+          <Route exact path="/payment/" element={<PrivateRouteAddress />}> */}
+        <Route exact path="/payment/" element={<Payment />} />{" "}
+        {/* </Route>
+        </Route> */}
       </Routes>
       {/* <Footer /> */}
     </div>
