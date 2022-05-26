@@ -31,12 +31,19 @@ function Login(props) {
       }
     } catch (error) {
       console.log(error);
-      // if (user !== undefined) {
-      toast.error(error.message, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-        autoClose: 2000,
+      const action = signin({
+        phone: values.SDT,
+        password: values.password,
       });
-      // }
+
+      const resultAction = await dispatch(action);
+      user = unwrapResult(resultAction);
+      if (user !== undefined) {
+        toast.error(error.message, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2000,
+        });
+      }
     }
   };
   React.useEffect(() => {
