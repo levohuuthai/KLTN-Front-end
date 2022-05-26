@@ -308,7 +308,7 @@ function CartFeature(props) {
                 </p>
               </div>
             </div>
-            {loggedInUser?.phone !== null ? (
+            {JSON.parse(localStorage.getItem('user'))?.phone !== null ? (
               <Button
                 type="submit"
                 className={
