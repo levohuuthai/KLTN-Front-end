@@ -34,7 +34,7 @@ function ListPage(props) {
   const nameTypeProduct = location.state?.nameTypeProduct;
   const dataArrayTypeProduct = location.state?.dataArrayTypeProduct;
   const { dispatch, state } = useContext(GlobalContext);
-  console.log(nameTypeProduct);
+  // console.log(nameTypeProduct);
   useEffect(() => {
     const fetchRequestGetAllSizeByCategory = async () => {
       try {
@@ -69,7 +69,9 @@ function ListPage(props) {
     const fetchRequestGetAllBrandByCategory = async () => {
       try {
         const requestGetAllBrandByCategory = await productApi.getAllBrand(
-          nameTypeProduct
+          state.dataFilterStyle.length === 0
+            ? nameTypeProduct
+            : state.dataFilterStyle
         );
         setDataArrayBrand(requestGetAllBrandByCategory.data.brands);
       } catch (error) {
@@ -78,7 +80,9 @@ function ListPage(props) {
     };
     fetchRequestGetAllBrandByCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state.dataFilterStyle]);
+  console.log(state.dataFilterStyle);
+  console.log(nameTypeProduct);
 
   const handleReciveDataFilter = (data) => {
     // let arrayDataFilter = data.split(",");
@@ -96,59 +100,59 @@ function ListPage(props) {
     });
   };
 
-  useEffect(() => {
-    if (
-      state.dataFilterBrand.length +
-        state.dataFilterSize.length +
-        state.dataFilterColor.length +
-        (!state.dataFilterPriceUnder200.active ? 0 : 1) +
-        (!state.dataFilterPriceOver1000.active ? 0 : 1) +
-        (!state.dataFilterPrice200To500.active ? 0 : 1) +
-        (!state.dataFilterPrice200To500.active500To1000 ? 0 : 1) +
-        state.dataFilterStyle.length +
-        (!state.dataFilterStar.active ? 0 : 1) +
-        (!state.dataFilterStar.active4 ? 0 : 1) +
-        (!state.dataFilterStar.active3 ? 0 : 1) +
-        (!state.dataFilterStar.active2 ? 0 : 1) ===
-      0
-    ) {
-      const fetchRequestGetAllProductByCategory = async () => {
-        try {
-          const requestGetAllProductByCategory =
-            await productApi.getAllProductByCategory(
-              nameTypeProduct,
-              state.page_limit_ByProduct._page,
-              state.page_limit_ByProduct._limit
-            );
-          await dispatch({
-            type: ACTIOS.dataProductFilter,
-            payload: requestGetAllProductByCategory.data,
-          });
-          dispatch({
-            type: ACTIOS.paginationByFilterProduct,
-            payload: requestGetAllProductByCategory.pagination,
-          });
-          dispatch({
-            type: ACTIOS.loading,
-            payload: false,
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchRequestGetAllProductByCategory();
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    state.dataFilterBrand,
-    state.dataFilterSize,
-    state.dataFilterColor,
-    state.dataFilterPriceUnder200,
-    state.dataFilterPriceOver1000,
-    state.dataFilterPrice200To500,
-    state.dataFilterStyle,
-    state.dataFilterStar,
-    state.page_limit_ByProduct,
-  ]);
+  // useEffect(() => {
+  //   if (
+  //     state.dataFilterBrand.length +
+  //       state.dataFilterSize.length +
+  //       state.dataFilterColor.length +
+  //       (!state.dataFilterPriceUnder200.active ? 0 : 1) +
+  //       (!state.dataFilterPriceOver1000.active ? 0 : 1) +
+  //       (!state.dataFilterPrice200To500.active ? 0 : 1) +
+  //       (!state.dataFilterPrice200To500.active500To1000 ? 0 : 1) +
+  //       state.dataFilterStyle.length +
+  //       (!state.dataFilterStar.active ? 0 : 1) +
+  //       (!state.dataFilterStar.active4 ? 0 : 1) +
+  //       (!state.dataFilterStar.active3 ? 0 : 1) +
+  //       (!state.dataFilterStar.active2 ? 0 : 1) ===
+  //     0
+  //   ) {
+  //     const fetchRequestGetAllProductByCategory = async () => {
+  //       try {
+  //         const requestGetAllProductByCategory =
+  //           await productApi.getAllProductByCategory(
+  //             nameTypeProduct,
+  //             state.page_limit_ByProduct._page,
+  //             state.page_limit_ByProduct._limit
+  //           );
+  //         await dispatch({
+  //           type: ACTIOS.dataProductFilter,
+  //           payload: requestGetAllProductByCategory.data,
+  //         });
+  //         dispatch({
+  //           type: ACTIOS.paginationByFilterProduct,
+  //           payload: requestGetAllProductByCategory.pagination,
+  //         });
+  //         dispatch({
+  //           type: ACTIOS.loading,
+  //           payload: false,
+  //         });
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     };
+  //     fetchRequestGetAllProductByCategory();
+  //   } // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [
+  //   state.dataFilterBrand,
+  //   state.dataFilterSize,
+  //   state.dataFilterColor,
+  //   state.dataFilterPriceUnder200,
+  //   state.dataFilterPriceOver1000,
+  //   state.dataFilterPrice200To500,
+  //   state.dataFilterStyle,
+  //   state.dataFilterStar,
+  //   state.page_limit_ByProduct,
+  // ]);
   const handleCancelPriceUnder200 = () => {
     dispatch({
       type: ACTIOS.dataFilterPriceUnder200,

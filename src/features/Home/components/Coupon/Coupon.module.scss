@@ -2,6 +2,11 @@
   width: 100%;
   padding: 1rem 0rem;
   // background: #f7f7f7;
+  // display: flex;
+  // z-index: 100000000;
+  // flex-direction: column;
+  position: relative;
+  z-index: 12;
   .title_coupon {
     text-align: center;
     margin-bottom: 20px;
@@ -22,6 +27,7 @@
     box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
     background: #fff;
     position: relative;
+
     .activeBackdrop {
       background: rgb(241, 241, 241);
       position: absolute;

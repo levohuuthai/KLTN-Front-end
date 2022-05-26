@@ -7,9 +7,13 @@ import productApi from "api/productApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import FiltersByPrice1 from "../Filters/FilterByPrice/FiltersByPrice1";
+import { useLocation } from "react-router-dom";
 
 function ProductFilter(props) {
   const { dispatch, state } = useContext(GlobalContext);
+  const location = useLocation();
+  const nameTypeProduct = location.state?.nameTypeProduct;
+
   useEffect(() => {
     dispatch({
       type: ACTIOS.loading,
@@ -23,12 +27,13 @@ function ProductFilter(props) {
         (!state.dataFilterPriceOver1000.active ? 0 : 1) +
         (!state.dataFilterPrice200To500.active ? 0 : 1) +
         (!state.dataFilterPrice200To500.active500To1000 ? 0 : 1) +
-        state.dataFilterStyle.length +
+        [nameTypeProduct].length ||
+      state.dataFilterStyle.length +
         (!state.dataFilterStar.active ? 0 : 1) +
         (!state.dataFilterStar.active4 ? 0 : 1) +
         (!state.dataFilterStar.active3 ? 0 : 1) +
         (!state.dataFilterStar.active2 ? 0 : 1) !==
-      0
+        0
     ) {
       const fetchRequestGetAllProductByBrand = async () => {
         try {
@@ -37,7 +42,9 @@ function ProductFilter(props) {
               state.dataFilterBrand,
               state.dataFilterSize,
               state.dataFilterColor,
-              state.dataFilterStyle,
+              state.dataFilterStyle.length === 0
+                ? [nameTypeProduct]
+                : state.dataFilterStyle,
               state.dataFilterPriceUnder200.value,
               state.dataFilterPriceOver1000.value,
               state.dataFilterPrice200To500?.priceMin,

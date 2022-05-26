@@ -31,7 +31,10 @@ function Type(props) {
   }, []);
   return (
     <div className="wrap section">
-      <div className="row d-flex justify-content-around">
+      <div
+        className="row d-flex justify-content-around"
+        style={{ zIndex: "1000" }}
+      >
         {dataTypeProduct?.slice(0, 3).map((data, idx) => {
           const handleDataProduct = async (e) => {
             e.preventDefault();

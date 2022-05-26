@@ -124,6 +124,7 @@ const productApi = {
     });
   },
   getAllBrand(category) {
+    console.log(category);
     const url = "/products/allBrand";
     return axiosClient.get(url, {
       params: {
