@@ -13,6 +13,7 @@ import imgbackground4 from "assets/images/auth/login/imgbackground4.jpg";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import authAPI from "api/authAPI";
 toast.configure();
 AuthenRegisterForm.propTypes = { onSubmit: PropTypes.func };
 const useStyles = makeStyles((theme) => ({
@@ -73,6 +74,20 @@ function AuthenRegisterForm(props) {
 
     // form.reset();
   };
+  const SendOTPAgainHandler = () => {
+    const fetchSendOTP = async () => {
+      const sendOTP = await authAPI.sendOTP({
+        phone: props.onFromPhone,
+      });
+      if (sendOTP.status === 201) {
+        toast.success("Đã gửi lại OTP thành công!", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 2000,
+        });
+      }
+    };
+    fetchSendOTP();
+  };
   return (
     <div className={`${style.form_login} wrap`}>
       <div className={`${style.background_slider} `}>
@@ -96,7 +111,9 @@ function AuthenRegisterForm(props) {
             <div className={style.inputCode}>
               <InputField name="code" label="Nhập mã code ở " form={form} />
             </div>
-            <span className={style.receive_code}>Nhận lại mã kích hoạt</span>
+            <span className={style.receive_code} onClick={SendOTPAgainHandler}>
+              Nhận lại mã kích hoạt
+            </span>
           </div>
         </div>
         <div className="d-flex">

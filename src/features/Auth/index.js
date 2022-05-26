@@ -14,7 +14,6 @@ function AuthFeature(props) {
   const handleReceiveSDT = (sdt) => {
     setSDT(sdt);
   };
-
   return (
     <div>
       <Header />

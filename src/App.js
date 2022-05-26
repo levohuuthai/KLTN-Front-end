@@ -20,7 +20,6 @@ import Cookies from "js-cookie";
 function App() {
   const location = useLocation();
   const loggedInUser = useSelector((state) => state.user.current);
-  console.log(loggedInUser);
   return (
     <Fragment>
       <DataProvider>

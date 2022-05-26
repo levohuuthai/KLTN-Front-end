@@ -1,12 +1,15 @@
 import couponApi from "api/couponApi";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import style from "../Coupon.module.scss";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
 function ItemCoupon(props) {
+  let navigate = useNavigate();
+
   const [endDayCoupon, setEndDayCoupon] = useState({
     day: "",
     month: "",
@@ -25,30 +28,33 @@ function ItemCoupon(props) {
     });
   }, [props.data]);
   const loggedInUser = useSelector((state) => state.user.current);
-
   const addSaveCoupon = () => {
-    const fetchRequestAddCoupon = async () => {
-      try {
-        const requestAddCoupon = await couponApi.addCoupon({
-          couponId: props.data?._id,
-          userId: loggedInUser._id,
-        });
-        if (requestAddCoupon.status === 200) {
-          toast.success("Thêm mã giảm giá thành công", {
+    if (loggedInUser !== null) {
+      const fetchRequestAddCoupon = async () => {
+        try {
+          const requestAddCoupon = await couponApi.addCoupon({
+            couponId: props.data?._id,
+            userId: loggedInUser._id,
+          });
+          if (requestAddCoupon.status === 200) {
+            toast.success("Thêm mã giảm giá thành công", {
+              position: toast.POSITION.BOTTOM_RIGHT,
+              autoClose: 2000,
+            });
+            props.onActiveCount("active");
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error("Mã giảm giá này bạn đã lưu rồi", {
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 2000,
           });
-          props.onActiveCount("active")
         }
-      } catch (error) {
-        console.log(error);
-        toast.error("Mã giảm giá này bạn đã lưu rồi", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 2000,
-        });
-      }
-    };
-    fetchRequestAddCoupon();
+      };
+      fetchRequestAddCoupon();
+    } else {
+      navigate("/auth/login");
+    }
   };
   return (
     <div className={style.item_coupon}>
