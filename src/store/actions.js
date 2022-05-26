@@ -23,6 +23,7 @@ export const ACTIOS = {
   totalStar: "totalStar",
   dataArrOrderClient: "dataArrOrderClient",
   loadingOrderClient: "loadingOrderClient",
+  dataAddOrder: "dataAddOrder",
   //admin
   dataFilterStyle: "dataFilterStyle",
   dataAllProduct: "dataAllProduct",

@@ -46,6 +46,7 @@ export const DataProvider = ({ children }) => {
     totalStar: "",
     dataArrOrderClient: [],
     loadingOrderClient: false,
+    dataAddOrder: {},
     //admin
     dataAllProduct: [],
     filterPagination: { _page: 1, _limit: 10 },

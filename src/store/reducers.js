@@ -133,6 +133,11 @@ const reducer = (state, action) => {
         ...state,
         loadingOrderClient: action.payload,
       };
+    case ACTIOS.dataAddOrder:
+      return {
+        ...state,
+        dataAddOrder: action.payload,
+      };
     //admin
     case ACTIOS.dataAllProduct:
       return {
