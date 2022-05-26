@@ -58,7 +58,7 @@ function ItemOrderAdmin(props) {
       }`}
     >
       <span className={`${style.id}  d-flex justify-content-center`}>
-        #{props.data._id.slice(12, 16)}
+        #{props.data._id.slice(19, 23)}
       </span>
       <span className={`${style.nameuser} d-flex justify-content-center`}>
         {user?.phone}
