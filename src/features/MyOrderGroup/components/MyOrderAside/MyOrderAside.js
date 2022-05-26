@@ -14,7 +14,9 @@ function MyOrderAside(props) {
         </div>
         <div className={style.name_account}>
           <span>Tài khoản của</span>{" "}
-          <span style={{ color: "black", fontSize: "18px" }}>Thái Lê</span>
+          <span style={{ color: "black", fontSize: "18px" }}>
+            {loggedInUser?.userName}
+          </span>
         </div>
       </div>
       <div className={`${style.list_category}`}>

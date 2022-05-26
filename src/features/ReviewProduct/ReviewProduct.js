@@ -379,7 +379,7 @@ function ReviewProduct(props) {
             <div className={style.total_count_star_group}>
               <div className={`${style.total_star} d-flex align-items-center`}>
                 <h2 style={{ marginRight: "20px" }}>
-                  {Number.isNaN(totalStar) ? 0 : totalStar}
+                  {Number.isNaN(totalStar) ? 0 : totalStar.toFixed(1)}
                 </h2>
                 <div className={style.total_star_comment}>
                   <TotalStar productId={props.dataProduct._id} />
