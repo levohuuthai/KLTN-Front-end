@@ -143,108 +143,112 @@ function Payment(props) {
     navigate("/cart");
   };
   const handleCheckout = () => {
-    const fetchCheckoutPayment = async () => {
-      try {
-        const requestCheckoutPayment = await orderApi.checkoutPayment({
-          userId: loggedInUser._id,
-          products: state.dataCart.map((data) => {
-            return {
-              productDetailId: data.product.productDetailId,
-              quantity: data.product.quantity,
-              priceAfter: data.product.priceAfter,
-              priceBefore: data.product.priceBefore,
-            };
-          }),
-          amount: totalMoney,
-          address: dataAddress._id,
-          status: "Đang Xử Lý",
-          discountShip:
-            dataCouponShip?.discount === undefined
-              ? 0
-              : dataCouponShip?.discount,
-          discountProduct:
-            dataCouponProduct?.discount === undefined
-              ? 0
-              : dataCouponProduct?.discount,
-          priceShip: priceShipByProvince,
-          paymentMethod: paymentMethod,
-        });
-      } catch (error) {
-        console.log(error);
-        toast.error(error, {
-          position: toast.POSITION.BOTTOM_LEFT,
-          autoClose: 2000,
-        });
-      }
-    };
-    fetchCheckoutPayment();
-    //ADDORDER
-    // //useCouponShip
-    // const fetchUseCouponShip = async () => {
-    //   try {
-    //     const requestUseCoupon = await couponApi.useCoupon(
-    //       loggedInUser?._id,
-    //       dataCouponShip?._id
-    //     );
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchUseCouponShip();
-    // //useCouponProduct
-    // const fetchUseCouponProduct = async () => {
-    //   try {
-    //     const requestUseCoupon = await couponApi.useCoupon(
-    //       loggedInUser?._id,
-    //       dataCouponProduct?._id
-    //     );
-    //     console.log(requestUseCoupon);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchUseCouponProduct();
-    // //addOrder
-    // const fetchAddOrder = async () => {
-    //   try {
-    //     const requestAddOrder = await orderApi.addOrder({
-    //       userId: loggedInUser._id,
-    //       products: state.dataCart.map((data) => {
-    //         return {
-    //           productDetailId: data.product.productDetailId,
-    //           quantity: data.product.quantity,
-    //           priceAfter: data.product.priceAfter,
-    //           priceBefore: data.product.priceBefore,
-    //         };
-    //       }),
-    //       amount: totalMoney,
-    //       address: dataAddress._id,
-    //       status: "Đang Xử Lý",
-    //       discountShip:
-    //         dataCouponShip?.discount === undefined
-    //           ? 0
-    //           : dataCouponShip?.discount,
-    //       discountProduct:
-    //         dataCouponProduct?.discount === undefined
-    //           ? 0
-    //           : dataCouponProduct?.discount,
-    //       priceShip: priceShipByProvince,
-    //       paymentMethod: paymentMethod,
-    //     });
-    //     localStorage.removeItem("dataCoupon");
-    //     localStorage.removeItem("dataCouponShip");
-    //     if (requestAddOrder.status === 200) {
-    //       navigate("/customer/myorder/");
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //     toast.error(error, {
-    //       position: toast.POSITION.BOTTOM_LEFT,
-    //       autoClose: 2000,
-    //     });
-    //   }
-    // };
-    // fetchAddOrder();
+    if (paymentMethod === "Thanh toán bằng tiền mặt") {
+      //useCouponShip
+      const fetchUseCouponShip = async () => {
+        try {
+          const requestUseCoupon = await couponApi.useCoupon(
+            loggedInUser?._id,
+            dataCouponShip?._id
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchUseCouponShip();
+      //useCouponProduct
+      const fetchUseCouponProduct = async () => {
+        try {
+          const requestUseCoupon = await couponApi.useCoupon(
+            loggedInUser?._id,
+            dataCouponProduct?._id
+          );
+          console.log(requestUseCoupon);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchUseCouponProduct();
+      //addOrder
+      const fetchAddOrder = async () => {
+        try {
+          const requestAddOrder = await orderApi.addOrder({
+            userId: loggedInUser._id,
+            products: state.dataCart.map((data) => {
+              return {
+                productDetailId: data.product.productDetailId,
+                quantity: data.product.quantity,
+                priceAfter: data.product.priceAfter,
+                priceBefore: data.product.priceBefore,
+              };
+            }),
+            amount: totalMoney,
+            address: dataAddress._id,
+            status: "Đang Xử Lý",
+            discountShip:
+              dataCouponShip?.discount === undefined
+                ? 0
+                : dataCouponShip?.discount,
+            discountProduct:
+              dataCouponProduct?.discount === undefined
+                ? 0
+                : dataCouponProduct?.discount,
+            priceShip: priceShipByProvince,
+            paymentMethod: paymentMethod,
+          });
+          localStorage.removeItem("dataCoupon");
+          localStorage.removeItem("dataCouponShip");
+          if (requestAddOrder.status === 200) {
+            navigate("/customer/myorder/");
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(error, {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 2000,
+          });
+        }
+      };
+      fetchAddOrder();
+    } else {
+      //Thanh toán bằng tài khoản ngân hàng
+      const fetchCheckoutPayment = async () => {
+        try {
+          const requestCheckoutPayment = await orderApi.checkoutPayment({
+            userId: loggedInUser._id,
+            products: state.dataCart.map((data) => {
+              return {
+                productDetailId: data.product.productDetailId,
+                quantity: data.product.quantity,
+                priceAfter: data.product.priceAfter,
+                priceBefore: data.product.priceBefore,
+              };
+            }),
+            amount: totalMoney,
+            address: dataAddress._id,
+            status: "Đang Xử Lý",
+            discountShip:
+              dataCouponShip?.discount === undefined
+                ? 0
+                : dataCouponShip?.discount,
+            discountProduct:
+              dataCouponProduct?.discount === undefined
+                ? 0
+                : dataCouponProduct?.discount,
+            priceShip: priceShipByProvince,
+            paymentMethod: paymentMethod,
+          });
+          console.log(requestCheckoutPayment);
+        } catch (error) {
+          console.log(error);
+          toast.error(error, {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 2000,
+          });
+        }
+      };
+      fetchCheckoutPayment();
+    }
   };
 
   const showMyCart = (e) => {
