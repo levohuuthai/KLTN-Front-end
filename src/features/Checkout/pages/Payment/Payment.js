@@ -251,8 +251,31 @@ function Payment(props) {
       fetchCheckoutPayment();
     }
   };
-
+  console.log(
+    state.dataCart.map((data) => {
+      return {
+        productDetailId: data.product.productDetailId,
+        quantity: data.product.quantity,
+        priceAfter: data.product.priceAfter,
+        priceBefore: data.product.priceBefore,
+      };
+    })
+  );
+  console.log(totalMoney);
+  console.log(dataAddress);
   useEffect(() => {
+    console.log(
+      state.dataCart.map((data) => {
+        return {
+          productDetailId: data.product.productDetailId,
+          quantity: data.product.quantity,
+          priceAfter: data.product.priceAfter,
+          priceBefore: data.product.priceBefore,
+        };
+      })
+    );
+    console.log(totalMoney);
+    console.log(dataAddress);
     if (new URL(document.location).searchParams.get("code") !== null) {
       console.log(
         state.dataCart.map((data) => {
