@@ -239,6 +239,7 @@ function Payment(props) {
             paymentMethod: paymentMethod,
           });
           console.log(requestCheckoutPayment);
+          window.location = requestCheckoutPayment.data.message;
         } catch (error) {
           console.log(error);
           toast.error(error, {
