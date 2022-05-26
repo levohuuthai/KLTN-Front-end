@@ -26,7 +26,7 @@ function Login(props) {
       console.log(user);
       if (user.role === "admin") {
         navigate("/admin/dashboard");
-      } else {
+      } else if(user.role === "user") {
         navigate("/");
       }
     } catch (error) {
