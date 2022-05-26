@@ -163,7 +163,6 @@ function AddProductAdmin(props) {
   }, []);
   const handleClickItemFirst = () => {
     setActiveDropdown("");
-    setNameProduct("");
     setBrand({ ...brand, value: "" });
     setOrigin({ ...origin, value: "" });
     setCollar({ ...collar, value: "" });
