@@ -225,7 +225,7 @@ function ListOrderDetailAdmin(props) {
                   <div
                     className={`${style.frameMethodpayment}  d-flex flex-column`}
                   >
-                    Thanh toán tiền mặt khi nhận hàng
+                    {dataOrder?.paymentMethod}
                   </div>
                 </div>
               </div>
@@ -352,9 +352,10 @@ function ListOrderDetailAdmin(props) {
                           style: "currency",
                           currency: "VND",
                         }).format(
-                          dataOrder?.discountProduct + dataOrder?.discountShip > priceShipByProvince
-                          ? priceShipByProvince
-                          : dataOrder?.discountShip
+                          dataOrder?.discountProduct + dataOrder?.discountShip >
+                            priceShipByProvince
+                            ? priceShipByProvince
+                            : dataOrder?.discountShip
                         )}
                       </span>
                     </div>
