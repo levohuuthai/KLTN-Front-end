@@ -66,6 +66,8 @@ function MyOrderDetail(props) {
   useEffect(() => {
     setPriceShipByProvince(city === "Thành phố Hồ Chí Minh" ? 20000 : 30000);
   }, [city]);
+  console.log(dataOrder);
+
   return (
     <div>
       {/* <div className={`${style.background_slider} `}>
@@ -103,7 +105,7 @@ function MyOrderDetail(props) {
               <div
                 className={`${style.frameMethodpayment}  d-flex flex-column`}
               >
-                Thanh toán tiền mặt khi nhận hàng
+                {dataOrder?.paymentMethod}
               </div>
             </div>
           </div>
