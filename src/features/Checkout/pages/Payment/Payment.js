@@ -318,9 +318,11 @@ function Payment(props) {
           const requestAddOrder = await orderApi.addOrder(
             JSON.parse(localStorage.getItem("dataAddOrder"))
           );
-          localStorage.removeItem("dataCoupon");
-          localStorage.removeItem("dataCouponShip");
+
           if (requestAddOrder.status === 200) {
+            localStorage.removeItem("dataCoupon");
+            localStorage.removeItem("dataCouponShip");
+            localStorage.removeItem("dataAddOrder");
             navigate("/customer/myorder/");
           }
         } catch (error) {
