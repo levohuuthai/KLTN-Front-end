@@ -193,41 +193,45 @@ function ListUserAdmin(props) {
       }
     };
     fetchRequestGetUserByName();
-    const fetchRequestGetUserByPhone = async () => {
-      try {
-        const requestGetUserByPhone = await userAdminApi.getUserByPhone(phone);
-        console.log(requestGetUserByPhone);
-        if (requestGetUserByPhone.data.length !== 0) {
-          dispatch({
-            type: ACTIOS.dataAllUser,
-            payload: requestGetUserByPhone.data,
-          });
-          setLoadingSearch(false);
-        } else {
-          const fetchRequestGetAllUser = async () => {
-            try {
-              const requestGetAllUser = await userAdminApi.getAllUser(
-                state.filterPaginationAllUser._page,
-                state.filterPaginationAllUser._limit
-              );
+    if (name === "") {
+      const fetchRequestGetUserByPhone = async () => {
+        try {
+          const requestGetUserByPhone = await userAdminApi.getUserByPhone(
+            phone
+          );
+          console.log(requestGetUserByPhone);
+          if (requestGetUserByPhone.data.length !== 0) {
+            dispatch({
+              type: ACTIOS.dataAllUser,
+              payload: requestGetUserByPhone.data,
+            });
+            setLoadingSearch(false);
+          } else {
+            const fetchRequestGetAllUser = async () => {
+              try {
+                const requestGetAllUser = await userAdminApi.getAllUser(
+                  state.filterPaginationAllUser._page,
+                  state.filterPaginationAllUser._limit
+                );
 
-              dispatch({
-                type: ACTIOS.dataAllUser,
-                payload: requestGetAllUser.data.users,
-              });
-              setPagination(requestGetAllUser.pagination);
-              setLoadingSearch(false);
-            } catch (error) {
-              console.log(error);
-            }
-          };
-          fetchRequestGetAllUser();
+                dispatch({
+                  type: ACTIOS.dataAllUser,
+                  payload: requestGetAllUser.data.users,
+                });
+                setPagination(requestGetAllUser.pagination);
+                setLoadingSearch(false);
+              } catch (error) {
+                console.log(error);
+              }
+            };
+            fetchRequestGetAllUser();
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchRequestGetUserByPhone();
+      };
+      fetchRequestGetUserByPhone();
+    }
   };
   const [loadingAll, setLoadingAll] = useState(false);
   const handleLoadingAll = () => {
