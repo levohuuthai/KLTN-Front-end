@@ -212,6 +212,33 @@ function Payment(props) {
       fetchAddOrder();
     } else {
       //Thanh toán bằng tài khoản ngân hàng
+      localStorage.setItem(
+        "dataAddOrder",
+        JSON.stringify({
+          userId: loggedInUser._id,
+          products: state.dataCart.map((data) => {
+            return {
+              productDetailId: data.product.productDetailId,
+              quantity: data.product.quantity,
+              priceAfter: data.product.priceAfter,
+              priceBefore: data.product.priceBefore,
+            };
+          }),
+          amount: totalMoney,
+          address: dataAddress._id,
+          status: "Đang Xử Lý",
+          discountShip:
+            dataCouponShip?.discount === undefined
+              ? 0
+              : dataCouponShip?.discount,
+          discountProduct:
+            dataCouponProduct?.discount === undefined
+              ? 0
+              : dataCouponProduct?.discount,
+          priceShip: priceShipByProvince,
+          paymentMethod: paymentMethod,
+        })
+      );
       const fetchCheckoutPayment = async () => {
         try {
           const requestCheckoutPayment = await orderApi.checkoutPayment({
@@ -239,31 +266,6 @@ function Payment(props) {
             paymentMethod: paymentMethod,
           });
           console.log(requestCheckoutPayment);
-          localStorage.setItem("dataAddOrder", {
-            userId: loggedInUser._id,
-            products: state.dataCart.map((data) => {
-              return {
-                productDetailId: data.product.productDetailId,
-                quantity: data.product.quantity,
-                priceAfter: data.product.priceAfter,
-                priceBefore: data.product.priceBefore,
-              };
-            }),
-            amount: totalMoney,
-            address: dataAddress._id,
-            status: "Đang Xử Lý",
-            discountShip:
-              dataCouponShip?.discount === undefined
-                ? 0
-                : dataCouponShip?.discount,
-            discountProduct:
-              dataCouponProduct?.discount === undefined
-                ? 0
-                : dataCouponProduct?.discount,
-            priceShip: priceShipByProvince,
-            paymentMethod: paymentMethod,
-          });
-
           window.location = requestCheckoutPayment.data.message;
         } catch (error) {
           console.log(error);
