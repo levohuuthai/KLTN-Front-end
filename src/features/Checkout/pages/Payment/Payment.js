@@ -239,6 +239,31 @@ function Payment(props) {
             paymentMethod: paymentMethod,
           });
           console.log(requestCheckoutPayment);
+          localStorage.setItem("dataAddOrder", {
+            userId: loggedInUser._id,
+            products: state.dataCart.map((data) => {
+              return {
+                productDetailId: data.product.productDetailId,
+                quantity: data.product.quantity,
+                priceAfter: data.product.priceAfter,
+                priceBefore: data.product.priceBefore,
+              };
+            }),
+            amount: totalMoney,
+            address: dataAddress._id,
+            status: "Đang Xử Lý",
+            discountShip:
+              dataCouponShip?.discount === undefined
+                ? 0
+                : dataCouponShip?.discount,
+            discountProduct:
+              dataCouponProduct?.discount === undefined
+                ? 0
+                : dataCouponProduct?.discount,
+            priceShip: priceShipByProvince,
+            paymentMethod: paymentMethod,
+          });
+
           window.location = requestCheckoutPayment.data.message;
         } catch (error) {
           console.log(error);
@@ -251,21 +276,10 @@ function Payment(props) {
       fetchCheckoutPayment();
     }
   };
-  console.log(
-    state.dataCart.map((data) => {
-      return {
-        productDetailId: data.product.productDetailId,
-        quantity: data.product.quantity,
-        priceAfter: data.product.priceAfter,
-        priceBefore: data.product.priceBefore,
-      };
-    })
-  );
-  console.log(totalMoney);
-  console.log(dataAddress);
+
   useEffect(() => {
     if (new URL(document.location).searchParams.get("code") !== null) {
-      localStorage.setItem("dataOrder", JSON.stringify(props.data));
+      console.log(JSON.parse(localStorage.getItem("dataAddOrder")));
     }
   }, [new URL(document.location).searchParams.get("code")]);
 
