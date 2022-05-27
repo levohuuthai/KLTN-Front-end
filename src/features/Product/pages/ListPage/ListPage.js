@@ -80,7 +80,7 @@ function ListPage(props) {
     };
     fetchRequestGetAllBrandByCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nameTypeProduct,state.dataFilterStyle]);
+  }, [,nameTypeProduct,state.dataFilterStyle]);
   console.log(state.dataFilterStyle);
   console.log(nameTypeProduct);
 
