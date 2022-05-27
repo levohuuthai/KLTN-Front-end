@@ -210,7 +210,7 @@ function Payment(props) {
         }
       };
       fetchAddOrder();
-    } else {
+    } else if (paymentMethod === "Thanh toán bằng tài khoản ngân hàng") {
       //Thanh toán bằng tài khoản ngân hàng
       localStorage.setItem(
         "dataAddOrder",
@@ -276,12 +276,62 @@ function Payment(props) {
         }
       };
       fetchCheckoutPayment();
+    } else {
+      toast.error("Bạn cần chọn phương thức thanh toán", {
+        position: toast.POSITION.BOTTOM_LEFT,
+        autoClose: 2000,
+      });
     }
   };
 
   useEffect(() => {
     if (new URL(document.location).searchParams.get("code") !== null) {
       console.log(JSON.parse(localStorage.getItem("dataAddOrder")));
+      //useCouponShip
+      const fetchUseCouponShip = async () => {
+        try {
+          const requestUseCoupon = await couponApi.useCoupon(
+            loggedInUser?._id,
+            dataCouponShip?._id
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchUseCouponShip();
+      //useCouponProduct
+      const fetchUseCouponProduct = async () => {
+        try {
+          const requestUseCoupon = await couponApi.useCoupon(
+            loggedInUser?._id,
+            dataCouponProduct?._id
+          );
+          console.log(requestUseCoupon);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchUseCouponProduct();
+      //addOrder
+      const fetchAddOrder = async () => {
+        try {
+          const requestAddOrder = await orderApi.addOrder(
+            JSON.parse(localStorage.getItem("dataAddOrder"))
+          );
+          localStorage.removeItem("dataCoupon");
+          localStorage.removeItem("dataCouponShip");
+          if (requestAddOrder.status === 200) {
+            navigate("/customer/myorder/");
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(error, {
+            position: toast.POSITION.BOTTOM_LEFT,
+            autoClose: 2000,
+          });
+        }
+      };
+      fetchAddOrder();
     }
   }, [new URL(document.location).searchParams.get("code")]);
 
