@@ -356,9 +356,8 @@ function ListOrderDetailAdmin(props) {
                           style: "currency",
                           currency: "VND",
                         }).format(
-                          dataOrder?.discountProduct + dataOrder?.discountShip >
-                            priceShipByProvince
-                            ? priceShipByProvince
+                          dataOrder?.discountShip > priceShipByProvince
+                            ? priceShipByProvince + dataOrder?.discountProduct
                             : dataOrder?.discountShip +
                                 dataOrder?.discountProduct
                         )}
