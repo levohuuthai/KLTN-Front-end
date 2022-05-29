@@ -176,7 +176,7 @@ function MyOrderDetail(props) {
                   dataOrder?.discountProduct + dataOrder?.discountShip >
                     priceShipByProvince
                     ? priceShipByProvince
-                    : dataOrder?.discountShip
+                    : dataOrder?.discountShip + dataOrder?.discountProduct
                 )}
               </span>
             </div>{" "}

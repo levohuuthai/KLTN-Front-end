@@ -255,6 +255,10 @@ function ListOrderDetailAdmin(props) {
                 </div>
                 <div className={`${style.list_product_order}`}>
                   {dataOrder?.products?.map((data, idx) => {
+                    console.log(
+                      dataOrder?.discountProduct + dataOrder?.discountShip
+                    );
+                    console.log(priceShipByProvince);
                     return (
                       <div key={idx}>
                         <ItemOrderDetailAdmin data={data} />
@@ -355,7 +359,8 @@ function ListOrderDetailAdmin(props) {
                           dataOrder?.discountProduct + dataOrder?.discountShip >
                             priceShipByProvince
                             ? priceShipByProvince
-                            : dataOrder?.discountShip
+                            : dataOrder?.discountShip +
+                                dataOrder?.discountProduct
                         )}
                       </span>
                     </div>

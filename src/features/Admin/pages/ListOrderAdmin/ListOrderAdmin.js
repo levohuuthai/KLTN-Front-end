@@ -83,13 +83,15 @@ function ListOrderAdmin(props) {
 
   const handleFilter = (e) => {
     setDayFilter(e.target.value);
+
     const fetchRequestGetAllOrder = async () => {
       try {
         const requestGetAllOrder = await orderAdminApi.getAllOrder(
           state.filterPaginationAllOrder._page,
           state.filterPaginationAllOrder._limit,
           e.target.value,
-          e.target.value
+          e.target.value,
+          statusFilter
         );
         console.log(requestGetAllOrder);
         setPagination(requestGetAllOrder.pagination);
@@ -105,41 +107,45 @@ function ListOrderAdmin(props) {
   };
   const handleFilterStatus = (e) => {
     setStatusFilter(e.target.value);
-    const fetchRequestGetOrderByStatus = async () => {
+    const fetchRequestGetAllOrder = async () => {
       try {
-        const requestGetOrderByStatus = await orderAdminApi.getOrderByStatus(
+        const requestGetAllOrder = await orderAdminApi.getAllOrder(
+          state.filterPaginationAllOrder._page,
+          state.filterPaginationAllOrder._limit,
+          dayFilter,
+          dayFilter,
           e.target.value
         );
-        console.log(requestGetOrderByStatus);
-        // setPagination(requestGetOrderByStatus.pagination);
+        console.log(requestGetAllOrder);
+        setPagination(requestGetAllOrder.pagination);
         dispatch({
           type: ACTIOS.dataAllOrder,
-          payload: requestGetOrderByStatus.data,
+          payload: requestGetAllOrder.data,
         });
       } catch (error) {
         console.log(error);
       }
     };
-    fetchRequestGetOrderByStatus();
+    fetchRequestGetAllOrder();
   };
   const handleSearch = () => {
     setLoadingSearch(true);
 
-    const fetchRequestGetOrderById = async () => {
-      try {
-        const requestGetOrderById = await orderAdminApi.getOrderById(idOrder);
-        console.log(requestGetOrderById);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchRequestGetOrderById();
+    // const fetchRequestGetOrderById = async () => {
+    //   try {
+    //     const requestGetOrderById = await orderAdminApi.getOrderById(idOrder);
+    //     console.log(requestGetOrderById);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchRequestGetOrderById();
     const fetchRequestGetOrderByPhone = async () => {
       try {
         const requestGetOrderByPhone = await orderAdminApi.getOrderByPhone(
           phone
         );
-        // console.log(requestGetOrderByPhone.status === 200);
+        console.log(requestGetOrderByPhone.status === 200);
         if (requestGetOrderByPhone.status === 200) {
           dispatch({
             type: ACTIOS.dataAllOrder,
@@ -168,6 +174,7 @@ function ListOrderAdmin(props) {
     };
     fetchRequestGetOrderByPhone();
   };
+
   return (
     <div className="d-flex wrap">
       <AsideAdmin />

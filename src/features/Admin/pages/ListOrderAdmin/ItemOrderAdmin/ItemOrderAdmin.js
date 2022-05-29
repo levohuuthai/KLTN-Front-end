@@ -11,6 +11,8 @@ function ItemOrderAdmin(props) {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [activeDropdown, setActiveDropdown] = useState(false);
+  const { dispatch, state } = useContext(GlobalContext);
+
   const handleActiveDropdown = () => {
     setActiveDropdown(!activeDropdown);
   };
@@ -21,13 +23,14 @@ function ItemOrderAdmin(props) {
         const requestGetUserById = await userAdminApi.getUserById(
           props.data.userId
         );
+        console.log(requestGetUserById);
         setUser(requestGetUserById.data.users);
       } catch (error) {
         console.log(error);
       }
     };
     fetchRequestGetUserById();
-  }, []);
+  }, [state.dataAllOrder]);
   useEffect(() => {
     var date = new Date(props.data.createdAt);
     setDay(date.getDate());
@@ -43,7 +46,6 @@ function ItemOrderAdmin(props) {
       },
     });
   };
-  const { dispatch, state } = useContext(GlobalContext);
 
   // useEffect(() => {
   //   dispatch({
