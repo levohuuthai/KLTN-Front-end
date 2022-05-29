@@ -66,13 +66,15 @@ function ListPage(props) {
   }, []);
 
   useEffect(() => {
+    console.log(nameTypeProduct);
     const fetchRequestGetAllBrandByCategory = async () => {
       try {
         const requestGetAllBrandByCategory = await productApi.getAllBrand(
           state.dataFilterStyle.length === 0
-            ? nameTypeProduct
+            ? [nameTypeProduct]
             : state.dataFilterStyle
         );
+        console.log(requestGetAllBrandByCategory);
         setDataArrayBrand(requestGetAllBrandByCategory.data.brands);
       } catch (error) {
         console.log(error);
@@ -80,9 +82,9 @@ function ListPage(props) {
     };
     fetchRequestGetAllBrandByCategory();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [,nameTypeProduct,state.dataFilterStyle]);
-  console.log(state.dataFilterStyle);
-  console.log(nameTypeProduct);
+  }, [, nameTypeProduct, state.dataFilterStyle]);
+  // console.log(state.dataFilterStyle);
+  // console.log(nameTypeProduct);
 
   const handleReciveDataFilter = (data) => {
     // let arrayDataFilter = data.split(",");
