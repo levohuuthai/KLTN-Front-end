@@ -14,12 +14,12 @@
   }
   .viewInformation {
     position: fixed;
-    top: 2%;
+    top: 10%;
     left: 20%;
     transform: translateX(-20%) translateY(-50%);
     background: white;
     width: 780px;
-    height: 700px;
+    // height: 700px;
     box-shadow: 4px 2px -5px 5px rgba($color: #1a1a1a, $alpha: 0.5);
     z-index: 999;
     border-radius: 4px;

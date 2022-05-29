@@ -16,6 +16,7 @@ import axios from "axios";
 import couponAdminApi from "api/admin/couponAdminApi";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import NumberFormat from "react-number-format";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
@@ -38,6 +39,48 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+function NumberFormatCustom(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+      suffix=" đ"
+    />
+  );
+}
+function NumberFormatCustomCount(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+      suffix=""
+    />
+  );
+}
 function FormUpdateCoupon(props) {
   const classes = useStyles();
   const [isOpenForm, setIsOpenForm] = useState("");
@@ -79,98 +122,44 @@ function FormUpdateCoupon(props) {
     }
   };
   const handlePriceToDiscount = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value <= 0) {
       setPriceToDiscount({
         value: e.target.value,
-        errorPriceToDiscount: "Vui lòng nhập điều kiện giảm giá",
+        errorPriceToDiscount: "Điều kiện giảm giá phải lớn hơn 0",
       });
     } else {
-      let val = e.target.value;
-      val = val.replace(/,/g, "");
-      if (val.length > 3) {
-        let noCommas = Math.ceil(val.length / 3) - 1;
-        let remain = val.length - noCommas * 3;
-        let newVal = [];
-        for (let i = 0; i < noCommas; i++) {
-          newVal.unshift(val.substr(val.length - i * 3 - 3, 3));
-        }
-        newVal.unshift(val.substr(0, remain));
-        setPriceToDiscount({
-          value: newVal,
-          errorPriceToDiscount: undefined,
-        });
-      } else {
-        setPriceToDiscount({
-          value: val,
-          errorPriceToDiscount: undefined,
-        });
-      }
+      setPriceToDiscount({
+        value: e.target.value,
+        errorPriceToDiscount: undefined,
+      });
     }
-
-    // setPrice(e.target.value);
   };
 
   const handlePrice = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value <= 0) {
       setPrice({
         value: e.target.value,
-        errorPrice: "Vui lòng nhập giá tiền",
+        errorPrice: "Số tiền giảm giá phải lớn hơn 0",
       });
     } else {
-      let val = e.target.value;
-      val = val.replace(/,/g, "");
-      if (val.length > 3) {
-        let noCommas = Math.ceil(val.length / 3) - 1;
-        let remain = val.length - noCommas * 3;
-        let newVal = [];
-        for (let i = 0; i < noCommas; i++) {
-          newVal.unshift(val.substr(val.length - i * 3 - 3, 3));
-        }
-        newVal.unshift(val.substr(0, remain));
-        setPrice({
-          value: newVal,
-          errorPrice: undefined,
-        });
-      } else {
-        setPrice({
-          value: val,
-          errorPrice: undefined,
-        });
-      }
+      setPrice({
+        value: e.target.value,
+        errorPrice: undefined,
+      });
     }
-
-    // setPrice(e.target.value);
   };
   const handleCount = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value <= 0) {
       setCount({
         value: e.target.value,
-        errorCount: "Vui lòng nhập số lượng giảm giá",
+        errorCount: "Mã giảm giá phải lớn hơn 0",
       });
     } else {
-      let val = e.target.value;
-      val = val.replace(/,/g, "");
-      if (val.length > 3) {
-        let noCommas = Math.ceil(val.length / 3) - 1;
-        let remain = val.length - noCommas * 3;
-        let newVal = [];
-        for (let i = 0; i < noCommas; i++) {
-          newVal.unshift(val.substr(val.length - i * 3 - 3, 3));
-        }
-        newVal.unshift(val.substr(0, remain));
-        setCount({
-          value: newVal,
-          errorCount: undefined,
-        });
-      } else {
-        setCount({
-          value: val,
-          errorCount: undefined,
-        });
-      }
+      setCount({
+        value: e.target.value,
+        errorCount: undefined,
+      });
     }
-
-    // setPrice(e.target.value);
   };
 
   function pad2(n) {
@@ -213,25 +202,10 @@ function FormUpdateCoupon(props) {
     e.preventDefault();
     const coupon = {
       endDate: endDate.value,
-      discount:
-        typeof price.value == "string"
-          ? price.value
-          : typeof price.value == "number"
-          ? price.value
-          : price.value.join(""),
+      discount: price.value,
       type: type.value,
-      count:
-        typeof count.value == "string"
-          ? count.value
-          : typeof count.value == "number"
-          ? count.value
-          : count.value.join(""),
-      priceToDiscount:
-        typeof priceToDiscount.value == "string"
-          ? priceToDiscount.value
-          : typeof priceToDiscount.value == "number"
-          ? priceToDiscount.value
-          : priceToDiscount.value.join(""),
+      count: count.value,
+      priceToDiscount: priceToDiscount.value,
     };
 
     if (priceToDiscount.value === "") {
@@ -251,9 +225,12 @@ function FormUpdateCoupon(props) {
     }
     if (
       priceToDiscount.value !== "" &&
+      priceToDiscount.value > 0 &&
       price.value !== "" &&
+      price.value > 0 &&
       type.value !== "" &&
-      count.value !== ""
+      count.value !== "" &&
+      count.value > 0
     ) {
       const fetchRequestUpdateCoupon = async () => {
         try {
@@ -308,11 +285,14 @@ function FormUpdateCoupon(props) {
               <TextField
                 name="conditionPriceToDiscount"
                 label="Đơn hàng từ"
-                margin="normal"
                 variant="outlined"
-                fullWidth
+                margin="normal"
                 value={priceToDiscount.value}
                 onChange={handlePriceToDiscount}
+                id="formatted-numberformat-input"
+                InputProps={{
+                  inputComponent: NumberFormatCustom,
+                }}
                 error={!!priceToDiscount.errorPriceToDiscount}
                 helperText={
                   priceToDiscount.errorPriceToDiscount !== undefined
@@ -328,11 +308,14 @@ function FormUpdateCoupon(props) {
               <TextField
                 name="discountPrice"
                 label="Nhập số tiền giảm giá"
-                margin="normal"
                 variant="outlined"
-                fullWidth
+                margin="normal"
                 value={price.value}
                 onChange={handlePrice}
+                id="formatted-numberformat-input"
+                InputProps={{
+                  inputComponent: NumberFormatCustom,
+                }}
                 error={!!price.errorPrice}
                 helperText={
                   price.errorPrice !== undefined ? price.errorPrice : ""
@@ -393,11 +376,14 @@ function FormUpdateCoupon(props) {
               <TextField
                 name="discountPrice"
                 label="Nhập số lượng"
-                margin="normal"
                 variant="outlined"
-                fullWidth
+                margin="normal"
                 value={count.value}
                 onChange={handleCount}
+                id="formatted-numberformat-input"
+                InputProps={{
+                  inputComponent: NumberFormatCustomCount,
+                }}
                 error={!!count.errorCount}
                 helperText={
                   count.errorCount !== undefined ? count.errorCount : ""

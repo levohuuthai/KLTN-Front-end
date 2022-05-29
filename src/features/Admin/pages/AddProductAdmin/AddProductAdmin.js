@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/styles";
 import productAdminApi from "api/admin/productAdminApi";
 import typeProductApi from "api/typeProductApi";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import NumberFormat from "react-number-format";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -41,6 +42,69 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "30px",
   },
 }));
+function NumberFormatCustom(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+      suffix=" đ"
+    />
+  );
+}
+function NumberFormatCustomCount(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+      suffix=""
+    />
+  );
+}
+function NumberFormatCustomPercent(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+      suffix=" %"
+    />
+  );
+}
 function AddProductAdmin(props) {
   const classes = useStyles();
   const schema = yup.object().shape({
@@ -103,7 +167,7 @@ function AddProductAdmin(props) {
     errorQuantity: undefined,
   });
   const [describe, setDescribe] = useState();
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState("");
   const [imageFront, setImageFront] = useState({ img: "" });
   const [imageBack, setImageBack] = useState({ img: "" });
   const [imageDetail, setImageDetail] = useState({ img: "" });
@@ -272,41 +336,23 @@ function AddProductAdmin(props) {
     }
   };
   const handlePrice = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value < 10000) {
       setPrice({
         value: e.target.value,
-        errorPrice: "Vui lòng nhập giá tiền",
+        errorPrice: "Giá tiền phải lớn hơn 10000",
       });
     } else {
-      let val = e.target.value;
-      val = val.replace(/,/g, "");
-      if (val.length > 3) {
-        let noCommas = Math.ceil(val.length / 3) - 1;
-        let remain = val.length - noCommas * 3;
-        let newVal = [];
-        for (let i = 0; i < noCommas; i++) {
-          newVal.unshift(val.substr(val.length - i * 3 - 3, 3));
-        }
-        newVal.unshift(val.substr(0, remain));
-        setPrice({
-          value: newVal,
-          errorPrice: undefined,
-        });
-      } else {
-        setPrice({
-          value: val,
-          errorPrice: undefined,
-        });
-      }
+      setPrice({
+        value: e.target.value,
+        errorPrice: undefined,
+      });
     }
-
-    // setPrice(e.target.value);
   };
   const handleQuantity = (e) => {
-    if (e.target.value === "") {
+    if (e.target.value <= 0) {
       setQuantity({
         value: e.target.value,
-        errorQuantity: "Vui lòng nhập số lượng",
+        errorQuantity: "Số lượng phải lớn hơn 0",
       });
     } else {
       setQuantity({
@@ -320,6 +366,17 @@ function AddProductAdmin(props) {
       setPercentSaleOff({
         value: e.target.value,
         errorPercentSaleOff: "Vui lòng nhập phần trăm giảm giá",
+      });
+    } else {
+      setPercentSaleOff({
+        value: e.target.value,
+        errorPercentSaleOff: undefined,
+      });
+    }
+    if (e.target.value < 0 || e.target.value > 100) {
+      setPercentSaleOff({
+        value: e.target.value,
+        errorPercentSaleOff: "Phần trăm giảm giá > 0 hoặc < 100",
       });
     } else {
       setPercentSaleOff({
@@ -417,21 +474,37 @@ function AddProductAdmin(props) {
       imageBack.img === "" ||
       imageDetail.img === ""
     ) {
-      toast.error("Cần chọn dầy đủ hình ảnh", {
+      toast.error("Cần chọn đầy đủ hình ảnh", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 2000,
       });
     }
+    if (category === "") {
+      toast.error("Cần chọn loại sản phẩm", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+    }
+
     if (
       brand.value !== "" &&
       origin.value !== "" &&
       collar.value !== "" &&
       fabricMaterial.value !== "" &&
       size.value !== "" &&
+      price.value !== "" &&
+      price.value > 10000 &&
+      quantity.value !== "" &&
+      quantity.value > 0 &&
+      percentSaleOff.value !== "" &&
+      percentSaleOff.value >= 0 &&
+      percentSaleOff.value <= 100 &&
       imageDetail.img !== "" &&
       imageBack.img !== "" &&
-      imageFront.img !== ""
+      imageFront.img !== "" &&
+      category !== ""
     ) {
+      console.log("haha");
       const fetchRequestGetAddProduct1 = async () => {
         try {
           const requestGetAddProduct1 = await productAdminApi.addProduct({
@@ -454,10 +527,7 @@ function AddProductAdmin(props) {
                   {
                     size: size.value,
                     price: {
-                      original:
-                        typeof price == "string"
-                          ? price.value
-                          : price.value.join(""),
+                      original: price.value,
                       discount: percentSaleOff.value / 100,
                       currency: "VNĐ",
                     },
@@ -482,7 +552,8 @@ function AddProductAdmin(props) {
                   setImageFront({ ...imageFront, img: "" });
                   setImageBack({ ...imageBack, img: "" });
                   setImageDetail({ ...imageDetail, img: "" });
-                  setPrice({ ...price, value: "" });
+                  // setPrice({ value: "", errorPrice: undefined });
+                  // setQuantity({ value: "", errorQuantity: undefined });
                   setDescribe("");
                   setColor({ ...color, value: "" });
                   setSize({ ...size, value: "" });
@@ -509,10 +580,6 @@ function AddProductAdmin(props) {
       setHeight(false);
     }
   }, [arrayTitleProduct]);
-  console.log(imageFront);
-  console.log(imageBack);
-  console.log(imageDetail);
-  console.log(disable);
 
   return (
     <div className="d-flex wrap">
@@ -559,12 +626,20 @@ function AddProductAdmin(props) {
                             setIdProduct(data._id);
                             setNameProduct(data.title);
                             setDescribe(data.desc);
-                            setBrand({ ...brand, value: data.brand });
-                            setOrigin({ ...origin, value: data.origin });
-                            setCollar({ ...collar, value: data.collar });
+                            setBrand({
+                              value: data.brand,
+                            });
+                            setOrigin({
+                              value: data.origin,
+                              errorOrigin: undefined,
+                            });
+                            setCollar({
+                              value: data.collar,
+                              errorCollar: undefined,
+                            });
                             setFabricMaterial({
-                              ...fabricMaterial,
                               value: data.fabricMaterial,
+                              errorFabricMaterial: undefined,
                             });
                             setCategory(data.category);
                             setImageFront({ img: data.image_front });
@@ -925,12 +1000,16 @@ function AddProductAdmin(props) {
                   </Typography>
                   <TextField
                     name="price"
-                    label="Nhập giá tiền"
-                    margin="normal"
+                    label="Nhập số tiền giảm giá"
                     variant="outlined"
+                    margin="normal"
                     fullWidth
                     value={price.value}
                     onChange={handlePrice}
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatCustom,
+                    }}
                     error={!!price.errorPrice}
                     helperText={
                       price.errorPrice !== undefined ? price.errorPrice : ""
@@ -941,15 +1020,18 @@ function AddProductAdmin(props) {
                   <Typography className={classes.title}>
                     Phần trăm giảm giá <span style={{ color: "red" }}>*</span>
                   </Typography>
-
                   <TextField
                     name="percentSaleOff"
                     label="Nhập phần trăm giảm giá"
-                    margin="normal"
                     variant="outlined"
+                    margin="normal"
                     fullWidth
                     value={percentSaleOff.value}
                     onChange={handlePercentSaleOff}
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatCustomPercent,
+                    }}
                     error={!!percentSaleOff.errorPercentSaleOff}
                     helperText={
                       percentSaleOff.errorPercentSaleOff !== undefined
@@ -965,12 +1047,15 @@ function AddProductAdmin(props) {
                   <TextField
                     name="quantity"
                     label="Nhập số lượng"
-                    margin="normal"
                     variant="outlined"
+                    margin="normal"
                     fullWidth
-                    type="number"
                     value={quantity.value}
                     onChange={handleQuantity}
+                    id="formatted-numberformat-input"
+                    InputProps={{
+                      inputComponent: NumberFormatCustomCount,
+                    }}
                     error={!!quantity.errorQuantity}
                     helperText={
                       quantity.errorQuantity !== undefined

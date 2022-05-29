@@ -1,8 +1,8 @@
 import axiosClient from "../axiosClient";
 const orderAdminApi = {
-  async getAllOrder(_page, _limit, price, date) {
+  async getAllOrder(_page, _limit, price, date,status) {
     const getAllOrder = await axiosClient.get("/orders", {
-      params: { price, date, _page, _limit },
+      params: { price, date,status, _page, _limit },
     });
     const count = await axiosClient.get("/orders");
     return {

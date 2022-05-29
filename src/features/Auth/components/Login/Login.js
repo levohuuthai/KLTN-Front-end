@@ -26,24 +26,24 @@ function Login(props) {
       console.log(user);
       if (user.role === "admin") {
         navigate("/admin/dashboard");
-      } else if(user.role === "user") {
+      } else if (user.role === "user") {
         navigate("/");
       }
     } catch (error) {
       console.log(error);
-      const action = signin({
-        phone: values.SDT,
-        password: values.password,
-      });
+      // const action = signin({
+      //   phone: values.SDT,
+      //   password: values.password,
+      // });
 
-      const resultAction = await dispatch(action);
-      user = unwrapResult(resultAction);
-      if (user !== undefined) {
-        toast.error(error.message, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 2000,
-        });
-      }
+      // const resultAction = await dispatch(action);
+      // user = unwrapResult(resultAction);
+      // if (user !== undefined) {
+      toast.error(error.message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 2000,
+      });
+      // }
     }
   };
   React.useEffect(() => {
