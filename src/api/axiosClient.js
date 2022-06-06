@@ -7,8 +7,8 @@ const header = {
   'Access-Control-Allow-Methods': '*',
 };
 const axiosClient = axios.create({
-  // baseURL: "https://hientranbackend22.tk/",
-  baseURL: 'http://localhost:5000/',
+  baseURL: 'https://hientranbackend22.tk/',
+  //baseURL: 'http://localhost:5000/',
   headers: header,
 });
 axiosClient.refreshToken = async () => {
