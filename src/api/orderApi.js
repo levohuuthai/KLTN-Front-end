@@ -29,6 +29,17 @@ const cartApi = {
     const url = "/checkout/pay";
     return axiosClient.post(url, data);
   },
+  addShipper(idOrder, idShipper) {
+    console.log(idOrder);
+    console.log(idShipper);
+
+    const url = "/orders/" + idOrder + "/addShipper";
+    return axiosClient.get(url, {
+      params: {
+        shipperId: idShipper,
+      },
+    });
+  },
 };
 
 export default cartApi;

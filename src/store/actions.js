@@ -34,13 +34,16 @@ export const ACTIOS = {
   dataAllUser: "dataAllUser",
   dataAllTypeProduct: "dataAllTypeProduct",
   dataAllOrder: "dataAllOrder",
+  dataAllOrderShipper: "dataAllOrderShipper",
+  dataSelectOrder: "dataSelectOrder",
   filterPaginationAllOrder: "filterPaginationAllOrder",
   dataAllOrderDetail: "dataAllOrderDetail",
   dataAllCoupon: "dataAllCoupon",
   arrayMess: "arrayMess",
   arrayChat: "arrayChat",
   dataBoxChat: "dataBoxChat",
-
+  dataAllShipper: "dataAllShipper",
+  dataSelectShipper: "dataSelectShipper",
   //component
   activeNotify: "activeNotify",
   // dataProductSearch: "dataProductSearch",

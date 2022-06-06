@@ -9,7 +9,7 @@ import orderApi from "api/orderApi";
 
 toast.configure();
 const FormUpdateStatusOrder = (props) => {
-  const { idOrder, status } = props;
+  const { idOrder, status, idShipper } = props;
   const [isOpenForm, setIsOpenForm] = useState("");
   const { dispatch, state } = useContext(GlobalContext);
 
@@ -28,7 +28,6 @@ const FormUpdateStatusOrder = (props) => {
   }, [props.isOpenFormUpdateStatus]);
   console.log(status);
   const hanleUpdateStatus = () => {
-    props.onFormFalse(false);
     dispatch({
       type: ACTIOS.loadingOrderClient,
       payload: true,
@@ -47,6 +46,7 @@ const FormUpdateStatusOrder = (props) => {
           }
         );
         console.log(requestUpdateStatusOrder);
+
         if (requestUpdateStatusOrder.status === 200) {
           //   setDataOrder(requestUpdateStatusOrder.data);
           props.onReceiveDataOrder(requestUpdateStatusOrder.data);
@@ -56,12 +56,28 @@ const FormUpdateStatusOrder = (props) => {
               payload: false,
             });
           }, 300);
+          props.onFormFalse(false);
         }
       } catch (error) {
         console.log(error);
       }
     };
     fetchUpdateStatusOrder();
+    if (status === "Đang Xử Lý") {
+      const fetchUpdateStatusOrder = async () => {
+        try {
+          const requestUpdateStatusOrder = await orderApi.addShipper(
+            idOrder,
+            idShipper
+          );
+          console.log(idShipper);
+          console.log(requestUpdateStatusOrder);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchUpdateStatusOrder();
+    }
   };
 
   return (

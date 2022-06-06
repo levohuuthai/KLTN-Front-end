@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import style from "../ListUserAdmin.module.scss";
+import style from "../ListShipperAdmin.module.scss";
 import productAdminApi from "api/admin/productAdminApi";
 import userAdminApi from "api/admin/userAdminApi";
 import { GlobalContext } from "store/store";
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 toast.configure();
 
-function ItemUserAdmin(props) {
+function ItemShipper(props) {
   const [activeDropdown, setActiveDropdown] = useState(false);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
@@ -61,17 +61,17 @@ function ItemUserAdmin(props) {
           props.data._id
         );
         if (requestLockedUser.status === 200) {
-          const fetchRequestGetAllUser = async () => {
+          const fetchRequestGetAllShipper = async () => {
             try {
-              const requestGetAllUser = await userAdminApi.getAllUser(
+              const requestGetAllShipper = await userAdminApi.getAllShipper(
                 state.filterPaginationAllUser._page,
                 state.filterPaginationAllUser._limit,
-                "user"
+                "shipper"
               );
-              console.log(requestGetAllUser);
+
               dispatch({
-                type: ACTIOS.dataAllUser,
-                payload: requestGetAllUser.data.users,
+                type: ACTIOS.dataAllShipper,
+                payload: requestGetAllShipper.data.users,
               });
               toast.success("Mở khóa thành công", {
                 position: toast.POSITION.BOTTOM_RIGHT,
@@ -81,7 +81,7 @@ function ItemUserAdmin(props) {
               console.log(error);
             }
           };
-          fetchRequestGetAllUser();
+          fetchRequestGetAllShipper();
         }
       } catch (error) {
         console.log(error);
@@ -168,18 +168,17 @@ function ItemUserAdmin(props) {
         dataGetApi={{
           _page: state.filterPaginationAllUser._page,
           _limit: state.filterPaginationAllUser._limit,
-          type: "user",
+          type: "shipper",
         }}
-        action={ACTIOS.dataAllUser}
+        action={ACTIOS.dataAllShipper}
       >
-        Bạn có muốn khóa
+        Bạn có muốn khóa tài khoản
         <b>
-          <i> tài khoản </i>
+          <i>{props.data.userName}? </i>
         </b>
-        này
       </FormDelete>
     </>
   );
 }
 
-export default ItemUserAdmin;
+export default ItemShipper;

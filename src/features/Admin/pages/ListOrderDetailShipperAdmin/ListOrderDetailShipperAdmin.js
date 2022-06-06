@@ -1,21 +1,21 @@
 import AsideAdmin from "features/Admin/components/AsideAdmin/AsideAdmin";
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import style from "./ListOrderDetailAdmin.module.scss";
+import style from "./ListOrderDetailShipperAdmin.module.scss";
 import addressAPI from "api/addressAPI";
 import orderApi from "api/orderApi";
 import userAdminApi from "api/admin/userAdminApi";
-import ItemOrderDetailAdmin from "./ItemOrderDetailAdmin/ItemOrderDetailAdmin";
+import ItemOrderDetailShipperAdmin from "./ItemOrderDetailShipperAdmin/ItemOrderDetailShipperAdmin";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 import Loading from "components/Loading";
 import orderAdminApi from "api/admin/orderAdminApi";
 import FormUpdateStatusOrder from "../FormUpdateStatusOrder/FormUpdateStatusOrder";
 import FormCancelOrder from "../FormCancelOrder/FormCancelOrder";
-import FormListShipper from "./FormListShipper/FormListShipper";
+// import FormListShipper from "./FormListShipper/FormListShipper";
 import aothuninhinh from "assets/images/type/aothuninhinh.jpg";
 
-function ListOrderDetailAdmin(props) {
+function ListOrderDetailShipperAdmin(props) {
   const [activeTimeline1, setActiveTimeLine1] = useState(false);
   const [activeTimeline2, setActiveTimeLine2] = useState(false);
   const [activeTimeline3, setActiveTimeLine3] = useState(false);
@@ -33,14 +33,7 @@ function ListOrderDetailAdmin(props) {
   const location = useLocation();
   const dataOrderNavigate = location.state?.dataOrder;
   const [dataOrder, setDataOrder] = useState(dataOrderNavigate); //dataOrder này là cái arrayOrderDeatail
-  // console.log(dataOrderNavigate);
-  // console.log(state.dataSelectOrder);
-  // useEffect(() => {
-  //   setDataOrder(dataOrderNavigate);
-  // }, [dataOrderNavigate]);
 
-  //getOrderDetailById
-  // console.log(dataOrderNavigate._id);
   useEffect(() => {
     const fetchRequestGetOrderDetailByID = async () => {
       try {
@@ -109,7 +102,7 @@ function ListOrderDetailAdmin(props) {
   }, [dataOrder]);
   const [tempTotalMoney, setTempTotalMoney] = useState();
   useEffect(() => {
-    var rs = dataOrder.products?.reduce((acc, val) => {
+    var rs = dataOrder.products.reduce((acc, val) => {
       return acc + val.priceAfter * val.quantity;
     }, 0);
     setTempTotalMoney(rs);
@@ -132,7 +125,6 @@ function ListOrderDetailAdmin(props) {
     seIsOpenFormCancelOrder(false);
   };
   const handleReceiveDataOrder = (data) => {
-    console.log(data);
     setDataOrder(data);
   };
   const handleReceiveDataOrderFromCancelOrder = (data) => {
@@ -145,12 +137,12 @@ function ListOrderDetailAdmin(props) {
     );
   }, [address]);
 
-  const handleShowFormListShipper = () => {
-    setIsOpenFormListShipper(true);
-  };
-  const falseFromListShipper = () => {
-    setIsOpenFormListShipper(false);
-  };
+  // const handleShowFormListShipper = () => {
+  //   setIsOpenFormListShipper(true);
+  // };
+  // const falseFromListShipper = () => {
+  //   setIsOpenFormListShipper(false);
+  // };
   console.log(dataOrder);
   return (
     <>
@@ -291,7 +283,7 @@ function ListOrderDetailAdmin(props) {
                     console.log(priceShipByProvince);
                     return (
                       <div key={idx}>
-                        <ItemOrderDetailAdmin data={data} />
+                        <ItemOrderDetailShipperAdmin data={data} />
                       </div>
                     );
                   })}
@@ -299,48 +291,6 @@ function ListOrderDetailAdmin(props) {
                 {/* xác nhận đơn hàng */}
                 <div className="d-flex justify-content-between align-items-center">
                   <div className={style.buttonUpdate}>
-                    {state.dataSelectShipper !== undefined &&
-                      dataOrder?.status !== "Đã Giao" && (
-                        <div className={style.info_shipper}>
-                          <p style={{ paddingRight: "40px" }}>
-                            Người giao hàng:{" "}
-                          </p>
-                          <p className={style.image}>
-                            <img
-                              src={state.dataSelectShipper?.avatar}
-                              alt="avatar"
-                            />
-                          </p>
-                          <p style={{ padding: "0px 40px" }}>
-                            {state.dataSelectShipper?.userName}
-                          </p>
-                          {dataOrder?.status === "Đang Xử Lý" && (
-                            <p
-                              className={style.buttonConfirm}
-                              onClick={handleShowFormUpdateStatus}
-                            >
-                              Xác nhận
-                            </p>
-                          )}
-                        </div>
-                      )}{" "}
-                    {dataOrder?.shipperName &&
-                    (dataOrder?.status === "Đang Giao Hàng" ||
-                      dataOrder?.status === "Đã Giao") ? (
-                      <div className={style.info_shipper}>
-                        <p style={{ paddingRight: "40px" }}>
-                          Người giao hàng:{" "}
-                        </p>
-                        <p className={style.image}>
-                          <img src={dataOrder?.shipperAvatar} alt="avatar" />
-                        </p>
-                        <p style={{ padding: "0px 40px" }}>
-                          {dataOrder?.shipperName}
-                        </p>
-                      </div>
-                    ) : (
-                      ""
-                    )}
                     <div>
                       {" "}
                       {dataOrder?.status !== "Đã Hủy" &&
@@ -356,19 +306,19 @@ function ListOrderDetailAdmin(props) {
                             Hủy đơn
                           </span>
                         )}
-                      {dataOrder?.status === "Đang Xử Lý" && (
+                      {/* {dataOrder?.status === "Đang Xử Lý" && (
                         <span
                           className={style.buttonShipping}
-                          onClick={handleShowFormListShipper}
+                          // onClick={handleShowFormListShipper}
                         >
                           <i
                             class="fas fa-check-circle"
                             style={{ marginRight: "10px" }}
                           ></i>
-                          Chọn người giao hàng
+                          Đang giao hàng
                         </span>
-                      )}
-                      {/* {dataOrder?.status === "Đang Giao Hàng" && (
+                      )} */}
+                      {dataOrder?.status === "Đang Giao Hàng" && (
                         <span
                           className={style.buttonShipping}
                           onClick={handleShowFormUpdateStatus}
@@ -379,7 +329,7 @@ function ListOrderDetailAdmin(props) {
                           ></i>
                           Đã giao
                         </span>
-                      )} */}
+                      )}
                       {dataOrder?.status === "Đã Giao" && (
                         <span className={style.buttonShipping}>
                           <i
@@ -480,12 +430,12 @@ function ListOrderDetailAdmin(props) {
       >
         Bạn có chắc chắn <b>Hủy</b> đơn hàng này không?
       </FormCancelOrder>
-      <FormListShipper
+      {/* <FormListShipper
         isOpenFormListShipper={isOpenFormListShipper}
         onFormFalse={falseFromListShipper}
-      ></FormListShipper>
+      ></FormListShipper> */}
     </>
   );
 }
 
-export default ListOrderDetailAdmin;
+export default ListOrderDetailShipperAdmin;

@@ -4,11 +4,31 @@ const userAdminApi = {
   //   const url = "/users";
   //   return axiosClient.get(url);
   // },
-  async getAllUser(_page, _limit) {
-    const getAllUser = await axiosClient.get("/users", {
-      params: { _page, _limit },
+  async getAllUser(_page, _limit, role) {
+    console.log({ type: role });
+    const getAllUser = await axiosClient.get("/users/", {
+      params: { _page, _limit, type: role },
     });
-    const count = await axiosClient.get("/users");
+    const count = await axiosClient.get("/users", {
+      params: { type: role },
+    });
+    return {
+      data: getAllUser.data,
+      pagination: {
+        page: _page,
+        limit: _limit,
+        total: count.data.users.length,
+      },
+    };
+  },
+  async getAllShipper(_page, _limit, role) {
+    console.log({ type: role });
+    const getAllUser = await axiosClient.get("/users/", {
+      params: { _page, _limit, type: role },
+    });
+    const count = await axiosClient.get("/users", {
+      params: { type: role },
+    });
     return {
       data: getAllUser.data,
       pagination: {
@@ -21,8 +41,9 @@ const userAdminApi = {
   async getAllUserToLocked(data) {
     const _page = data._page;
     const _limit = data._limit;
+    const role = data.type;
     const getAllUser = await axiosClient.get("/users", {
-      params: { _page, _limit },
+      params: { _page, _limit, type: role },
     });
     const count = await axiosClient.get("/users");
     return {
@@ -86,6 +107,13 @@ const userAdminApi = {
   getNewUser() {
     const url = "/users/getUserMoiNhat";
     return axiosClient.get(url);
+  },
+
+  //them shipperr
+  addShipper(data) {
+    console.log(data);
+    const url = "/users/";
+    return axiosClient.post(url, data);
   },
 };
 

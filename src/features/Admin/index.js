@@ -10,9 +10,11 @@ import ListProductDetailAdmin from "./pages/ListProductDetailAdmin/ListProductDe
 import ListTypeProductAdmin from "./pages/ListTypeProductAdmin/ListTypeProductAdmin";
 import ListUserAdmin from "./pages/ListUserAdmin/ListUserAdmin";
 import ListMess from "./pages/ListMess/ListMess";
-
+import ListShipperAdmin from "./pages/ListShipperAdmin/ListShipperAdmin";
 import UpdateProductAdmin from "./pages/UpdateProductAdmin/UpdateProductAdmin";
 import Statistic from "./pages/Statistic/Statistic";
+import ListOrderShipperAdmin from "./pages/ListOrderShipperAdmin/ListOrderShipperAdmin";
+import ListOrderDetailShipperAdmin from "./pages/ListOrderDetailShipperAdmin/ListOrderDetailShipperAdmin";
 
 function Admin(props) {
   return (
@@ -30,7 +32,13 @@ function Admin(props) {
         <Route path="/listorderDetail" element={<ListOrderDetailAdmin />} />{" "}
         <Route path="/listcoupon" element={<ListCoupon />} />{" "}
         <Route path="/listmess" element={<ListMess />} />{" "}
-        <Route path="/statistic" element={<Statistic />} />
+        <Route path="/statistic" element={<Statistic />} />{" "}
+        <Route path="/listshipper" element={<ListShipperAdmin />} />{" "}
+        <Route path="/listordershipper" element={<ListOrderShipperAdmin />} />{" "}
+        <Route
+          path="/listorderDetailshipper"
+          element={<ListOrderDetailShipperAdmin />}
+        />
       </Routes>
       {/* <AsideAdmin /> */}
     </div>

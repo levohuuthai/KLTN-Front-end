@@ -15,6 +15,8 @@ function AsideAdmin(props) {
   // const handleLinkListProduct = () => {
   //   navigate("/admin/addproduct");
   // };
+  const loggedInUser = useSelector((state) => state.user.current);
+
   const data = [
     {
       name: "Trang chủ",
@@ -26,10 +28,6 @@ function AsideAdmin(props) {
       link: "/admin/statistic",
       icon: "fas fa-chart-bar",
     },
-    // {
-    //   name: "Bán hàng",
-    //   link: "#",
-    // },
     {
       title: "Quick Menu",
       name: "Người dùng",
@@ -61,19 +59,18 @@ function AsideAdmin(props) {
       link: "/admin/listmess",
       icon: "fas fa-comment",
     },
-    // {
-    //   title: "Notifiction",
-    //   name: "Mail",
-    //   link: "#",
-    // },
-    // {
-    //   name: "Phản hồi",
-    //   link: "#",
-    // },
-    // {
-    //   name: "Tin nhắn",
-    //   link: "#",
-    // },
+    {
+      name: "Người giao hàng",
+      link: "/admin/listshipper",
+      icon: "fas fa-biking",
+    },
+  ];
+  const dataShipper = [
+    {
+      name: "Hóa đơn",
+      link: "/admin/listordershipper",
+      icon: "fas fa-receipt",
+    },
   ];
 
   const [link, setLink] = useState("");
@@ -82,7 +79,6 @@ function AsideAdmin(props) {
   // };
   // console.log(link);
   const location = useLocation();
-  const loggedInUser = useSelector((state) => state.user.current);
   const [isOpenFormLogOut, seIsOpenFormLogOut] = useState(false);
   const handleLogout = () => {
     seIsOpenFormLogOut(true);
@@ -90,6 +86,7 @@ function AsideAdmin(props) {
   const falseFromLogOut = () => {
     seIsOpenFormLogOut(false);
   };
+
   return (
     <>
       <div className={style.aside_admin}>
@@ -113,25 +110,45 @@ function AsideAdmin(props) {
             Đăng xuất
           </p>
           <div className={style.content_aside}>
-            {data.map((data, index) => {
-              return (
-                <div key={index}>
-                  <h6>{data.title}</h6>
-                  {data.name != undefined && (
-                    <p
-                      className={
-                        data.link === location.pathname ? style.active : ""
-                      }
-                    >
-                      <Link to={data.link}>
-                        <i className={data.icon}></i>
-                        {data.name}
-                      </Link>
-                    </p>
-                  )}
-                </div>
-              );
-            })}
+            {loggedInUser.role === "admin"
+              ? data.map((data, index) => {
+                  return (
+                    <div key={index}>
+                      <h6>{data.title}</h6>
+                      {data.name != undefined && (
+                        <p
+                          className={
+                            data.link === location.pathname ? style.active : ""
+                          }
+                        >
+                          <Link to={data.link}>
+                            <i className={data.icon}></i>
+                            {data.name}
+                          </Link>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })
+              : dataShipper.map((data, index) => {
+                  return (
+                    <div key={index}>
+                      <h6>{data.title}</h6>
+                      {data.name != undefined && (
+                        <p
+                          className={
+                            data.link === location.pathname ? style.active : ""
+                          }
+                        >
+                          <Link to={data.link}>
+                            <i className={data.icon}></i>
+                            {data.name}
+                          </Link>
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>{" "}

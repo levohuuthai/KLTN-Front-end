@@ -212,10 +212,10 @@ function ItemCart(props) {
         className={`${style.item_cart} d-flex justify-content-between align-items-center`}
         //   key={idx}
       >
-        <div className={`${style.checkbox} d-flex align-items-center`}>
+        {/* <div className={`${style.checkbox} d-flex align-items-center`}>
           <input type="checkbox" id="item" />
           <label htmlFor="item"></label>
-        </div>
+        </div> */}
         <p className={`${style.image_item_cart}`}>
           <img src={props.data?.product.image}></img>
         </p>

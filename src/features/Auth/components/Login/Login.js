@@ -26,6 +26,9 @@ function Login(props) {
       console.log(user);
       if (user.role === "admin") {
         navigate("/admin/dashboard");
+      }
+      if (user.role === "shipper") {
+        navigate("/admin/listordershipper");
       } else if (user.role === "user") {
         navigate("/");
       }

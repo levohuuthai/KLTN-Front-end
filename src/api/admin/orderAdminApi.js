@@ -1,10 +1,28 @@
 import axiosClient from "../axiosClient";
 const orderAdminApi = {
-  async getAllOrder(_page, _limit, price, date,status) {
+  async getAllOrder(_page, _limit, price, date, status) {
     const getAllOrder = await axiosClient.get("/orders", {
-      params: { price, date,status, _page, _limit },
+      params: { price, date, status, _page, _limit },
     });
-    const count = await axiosClient.get("/orders");
+    const count = await axiosClient.get("/orders", {
+      params: { status },
+    });
+    return {
+      data: getAllOrder.data,
+      pagination: {
+        page: _page,
+        limit: _limit,
+        total: count.data.length,
+      },
+    };
+  },
+  async getAllOrderShipper(_page, _limit, price, date, status, shipperId) {
+    const getAllOrder = await axiosClient.get("/orders", {
+      params: { price, date, status, _page, _limit, shipperId },
+    });
+    const count = await axiosClient.get("/orders", {
+      params: { status, shipperId },
+    });
     return {
       data: getAllOrder.data,
       pagination: {
@@ -15,6 +33,7 @@ const orderAdminApi = {
     };
   },
   getOrderById(id) {
+    console.log(id);
     const url = "/orders/" + id;
     return axiosClient.get(url);
   },
