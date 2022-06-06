@@ -67,7 +67,8 @@ function ListUserAdmin(props) {
       try {
         const requestGetAllUser = await userAdminApi.getAllUser(
           state.filterPaginationAllUser._page,
-          state.filterPaginationAllUser._limit
+          state.filterPaginationAllUser._limit,
+          "user"
         );
 
         dispatch({
@@ -95,82 +96,9 @@ function ListUserAdmin(props) {
 
   const handleSearchPhone = (e) => {
     setPhone(e.target.value);
-    // const fetchRequestGetUserByPhone = async () => {
-    //   try {
-    //     const requestGetUserByPhone = await userAdminApi.getUserByPhone(
-    //       e.target.value
-    //       // state.filterPagination._page,
-    //       // state.filterPagination._limit
-    //     );
-    //     if (requestGetUserByPhone.data.length !== 0) {
-    //       dispatch({
-    //         type: ACTIOS.dataAllUser,
-    //         payload: requestGetUserByPhone.data,
-    //       });
-    //     } else {
-    //       const fetchRequestGetAllUser = async () => {
-    //         try {
-    //           const requestGetAllUser = await userAdminApi.getAllUser(
-    //             state.filterPaginationAllUser._page,
-    //             state.filterPaginationAllUser._limit
-    //           );
-
-    //           dispatch({
-    //             type: ACTIOS.dataAllUser,
-    //             payload: requestGetAllUser.data.users,
-    //           });
-    //           setPagination(requestGetAllUser.pagination);
-    //         } catch (error) {
-    //           console.log(error);
-    //         }
-    //       };
-    //       fetchRequestGetAllUser();
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchRequestGetUserByPhone();
   };
   const handleSearchName = (e) => {
     setName(e.target.value);
-    // const fetchRequestGetUserByName = async () => {
-    //   try {
-    //     const requestGetUserByName = await userAdminApi.getUserByName(
-    //       e.target.value,
-    //       state.filterPaginationAllUser._page,
-    //       state.filterPaginationAllUser._limit
-    //     );
-    //     console.log(requestGetUserByName);
-    //     if (requestGetUserByName.data.users.length !== 0) {
-    //       dispatch({
-    //         type: ACTIOS.dataAllUser,
-    //         payload: requestGetUserByName.data.users,
-    //       });
-    //     } else {
-    //       const fetchRequestGetAllUser = async () => {
-    //         try {
-    //           const requestGetAllUser = await userAdminApi.getAllUser(
-    //             state.filterPaginationAllUser._page,
-    //             state.filterPaginationAllUser._limit
-    //           );
-
-    //           dispatch({
-    //             type: ACTIOS.dataAllUser,
-    //             payload: requestGetAllUser.data.users,
-    //           });
-    //           setPagination(requestGetAllUser.pagination);
-    //         } catch (error) {
-    //           console.log(error);
-    //         }
-    //       };
-    //       fetchRequestGetAllUser();
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // fetchRequestGetUserByName();
   };
   const [loadingSearch, setLoadingSearch] = useState(false);
 

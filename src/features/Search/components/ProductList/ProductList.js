@@ -22,6 +22,7 @@ function ProductList(props) {
       try {
         const requestGetAllProductBySearch =
           await productApi.getAllProductBySearch(dataTitle);
+        console.log(requestGetAllProductBySearch);
         setArrProductSearch(requestGetAllProductBySearch.data);
       } catch (error) {
         console.log(error);
@@ -29,7 +30,7 @@ function ProductList(props) {
     };
     fetchRequestGetAllProductBySearch();
   }, [, dataTitle]);
-
+  console.log(dataTitle);
   return (
     <div>
       <div

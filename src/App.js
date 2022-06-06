@@ -24,7 +24,7 @@ function App() {
     <Fragment>
       <DataProvider>
         {location.pathname.match(/\/admin/) ? (
-          loggedInUser?.role === "admin" ? (
+          loggedInUser?.role === "admin" ||  loggedInUser?.role === "shipper" ? (
             <Routes>
               <Route path="/admin/*" element={<Admin />} />
             </Routes>

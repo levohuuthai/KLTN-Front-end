@@ -52,7 +52,7 @@ function ItemCoupon(props) {
         className={`${
           priceCart < props.data?.priceToDiscount
             ? style.activeBackdrop
-            : notCondition
+            : !props.data?.active
             ? style.activeBackdrop
             : dataCouponLocal?._id === props.data?._id
             ? style.activeBackdrop

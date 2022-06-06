@@ -133,10 +133,10 @@ function CartFeature(props) {
         <div className="d-flex flex-start">
           <div className={`${style.cart_left}`}>
             <div className={style.title_item_cart}>
-              <div className={`${style.checkbox} d-flex align-items-center`}>
+              {/* <div className={`${style.checkbox} d-flex align-items-center`}>
                 <input type="checkbox" id="all" />
                 <label htmlFor="all"></label>
-              </div>
+              </div> */}
               <span className={style.title_image_item}>
                 Tất cả({state.dataCart.length} sản phẩm)
               </span>
@@ -308,7 +308,7 @@ function CartFeature(props) {
                 </p>
               </div>
             </div>
-            {JSON.parse(localStorage.getItem('user'))?.phone !== null ? (
+            {JSON.parse(localStorage.getItem("user"))?.phone !== null ? (
               <Button
                 type="submit"
                 className={

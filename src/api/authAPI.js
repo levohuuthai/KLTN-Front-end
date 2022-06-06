@@ -10,6 +10,7 @@ const authAPI = {
     return axiosClient.post(url, phoneNumber);
   },
   signUp(data) {
+    console.log(data);
     const url = "/auth/signup";
     return axiosClient.post(url, data);
   },

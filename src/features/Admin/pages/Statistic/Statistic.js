@@ -100,22 +100,34 @@ function Statistic(props) {
   const handleFilterDateStatistic = () => {
     setLoadingDate(true);
     if (fromDay.getDate() === toDay.getDate()) {
-      setTitleTopProduct("Top sản phẩm đã bán trong ngày " + toDay.getDate());
+      setTitleTopProduct(
+        "Top sản phẩm đã bán trong ngày " +
+          toDay.getDate() +
+          " tháng " +
+          (toDay.getMonth() + 1)
+      );
       setTitleTopOrder(
-        "Top hóa đơn có doanh thu cao nhất trong ngày " + toDay.getDate()
+        "Top hóa đơn có doanh thu cao nhất trong ngày " +
+          toDay.getDate() +
+          " tháng " +
+          (toDay.getMonth() + 1)
       );
     } else {
       setTitleTopProduct(
         "Top sản phẩm đã bán từ ngày " +
           fromDay.getDate() +
           " đến ngày " +
-          toDay.getDate()
+          toDay.getDate() +
+          " tháng " +
+          (toDay.getMonth() + 1)
       );
       setTitleTopOrder(
         "Top hóa đơn có doanh thu cao nhất từ ngày " +
           fromDay.getDate() +
           " đến ngày " +
-          toDay.getDate()
+          toDay.getDate() +
+          " tháng " +
+          (toDay.getMonth() + 1)
       );
     }
     const fetchRequestGetAllOrderThongKe = async () => {
@@ -337,7 +349,7 @@ function Statistic(props) {
                 </div>
               </div>
               <div className={style.list_order_right}>
-                <h5> {titleTopOrder} </h5>
+                <h5 style={{ fontSize: "19px" }}> {titleTopOrder} </h5>
                 <div className={style.list_order_frame}>
                   <div className={`${style.title_item_order} d-flex`}>
                     <span

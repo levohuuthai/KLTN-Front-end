@@ -1,11 +1,11 @@
 import userAdminApi from "api/admin/userAdminApi";
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import style from "../ListOrderAdmin.module.scss";
+import style from "../ListOrderShipperAdmin.module.scss";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
 
-function ItemOrderAdmin(props) {
+function ItemShipperOrderAdmin(props) {
   const [user, setUser] = useState();
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
@@ -40,17 +40,13 @@ function ItemOrderAdmin(props) {
   let navigate = useNavigate();
 
   const handleUpdateStatus = () => {
-    navigate("/admin/listorderDetail", {
+    navigate("/admin/listorderDetailshipper", {
       state: {
         dataOrder: props.data,
       },
     });
-    dispatch({
-      type: ACTIOS.dataSelectOrder,
-      payload: props.data,
-    });
   };
-  
+
   // useEffect(() => {
   //   dispatch({
   //     type: ACTIOS.dataAllOrderDetail,
@@ -122,4 +118,4 @@ function ItemOrderAdmin(props) {
   );
 }
 
-export default ItemOrderAdmin;
+export default ItemShipperOrderAdmin;

@@ -179,6 +179,16 @@ const reducer = (state, action) => {
         ...state,
         dataAllOrder: action.payload,
       };
+    case ACTIOS.dataAllOrderShipper:
+      return {
+        ...state,
+        dataAllOrderShipper: action.payload,
+      };
+    case ACTIOS.dataSelectOrder:
+      return {
+        ...state,
+        dataSelectOrder: action.payload,
+      };
     case ACTIOS.filterPaginationAllOrder:
       return {
         ...state,
@@ -208,6 +218,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         dataBoxChat: action.payload,
+      };
+    case ACTIOS.dataAllShipper:
+      return {
+        ...state,
+        dataAllShipper: action.payload,
+      };
+    case ACTIOS.dataSelectShipper:
+      return {
+        ...state,
+        dataSelectShipper: action.payload,
       };
     //component
     case ACTIOS.activeNotify:

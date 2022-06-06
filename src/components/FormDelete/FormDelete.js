@@ -57,7 +57,13 @@ const FormDelete = (props) => {
           const fetchRequestGet = async () => {
             try {
               const requestGet = await methodGetApi(dataGetApi);
+              console.log(requestGet);
               if (action === "dataAllUser") {
+                dispatch({
+                  type: action,
+                  payload: requestGet.data?.users,
+                });
+              } else if (action === "dataAllShipper") {
                 dispatch({
                   type: action,
                   payload: requestGet.data?.users,

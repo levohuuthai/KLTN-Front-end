@@ -56,12 +56,17 @@ export const DataProvider = ({ children }) => {
     dataAllUser: [],
     dataAllTypeProduct: [],
     dataAllOrder: [],
+    dataAllOrderShipper: [],
+    dataSelectOrder: {},
     filterPaginationAllOrder: { _page: 1, _limit: 10 },
     dataAllOrderDetail: [], //chua dung
     dataAllCoupon: [],
     arrayMess: [],
     arrayChat: [],
     dataBoxChat: {},
+    dataAllShipper: [],
+    dataSelectShipper: undefined,
+
     //component
     activeNotify: false,
   };

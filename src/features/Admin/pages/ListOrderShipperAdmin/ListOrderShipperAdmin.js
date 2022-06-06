@@ -1,7 +1,7 @@
 import AsideAdmin from "features/Admin/components/AsideAdmin/AsideAdmin";
 import React, { useContext, useEffect, useState } from "react";
-import ItemOrderAdmin from "./ItemOrderAdmin/ItemOrderAdmin";
-import style from "./ListOrderAdmin.module.scss";
+import ItemShipperOrderAdmin from "./ItemShipperOrderAdmin/ItemShipperOrderAdmin";
+import style from "./ListOrderShipperAdmin.module.scss";
 import orderAdminApi from "api/admin/orderAdminApi";
 import { GlobalContext } from "store/store";
 import { ACTIOS } from "store/actions";
@@ -9,6 +9,7 @@ import { Pagination } from "@material-ui/lab";
 import { Button, makeStyles } from "@material-ui/core";
 import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   ul: {
@@ -33,8 +34,9 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-function ListOrderAdmin(props) {
+function ListOrderShipperAdmin(props) {
   const classes = useStyles();
+  const loggedInUser = useSelector((state) => state.user.current);
   const [phone, setPhone] = useState("");
   const [idOrder, setIdOrder] = useState("");
   const [loadingSearch, setLoadingSearch] = useState(false);
@@ -45,20 +47,20 @@ function ListOrderAdmin(props) {
     page: 1,
   });
   const [dayFilter, setDayFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("Đang Xử Lý");
+  const [statusFilter, setStatusFilter] = useState("Đang Giao Hàng");
   useEffect(() => {
     const fetchRequestGetAllOrder = async () => {
       try {
-        const requestGetAllOrder = await orderAdminApi.getAllOrder(
+        const requestGetAllOrder = await orderAdminApi.getAllOrderShipper(
           state.filterPaginationAllOrder._page,
           state.filterPaginationAllOrder._limit,
           "",
           "",
-          statusFilter
+          statusFilter,
+          loggedInUser._id
         );
-        setPagination(requestGetAllOrder.pagination);
         dispatch({
-          type: ACTIOS.dataAllOrder,
+          type: ACTIOS.dataAllOrderShipper,
           payload: requestGetAllOrder.data,
         });
       } catch (error) {
@@ -86,20 +88,20 @@ function ListOrderAdmin(props) {
 
   const handleFilter = (e) => {
     setDayFilter(e.target.value);
-
     const fetchRequestGetAllOrder = async () => {
       try {
-        const requestGetAllOrder = await orderAdminApi.getAllOrder(
+        const requestGetAllOrder = await orderAdminApi.getAllOrderShipper(
           state.filterPaginationAllOrder._page,
           state.filterPaginationAllOrder._limit,
           e.target.value,
           e.target.value,
-          statusFilter
+          statusFilter,
+          loggedInUser._id
         );
         console.log(requestGetAllOrder);
         setPagination(requestGetAllOrder.pagination);
         dispatch({
-          type: ACTIOS.dataAllOrder,
+          type: ACTIOS.dataAllOrderShipper,
           payload: requestGetAllOrder.data,
         });
       } catch (error) {
@@ -112,17 +114,18 @@ function ListOrderAdmin(props) {
     setStatusFilter(e.target.value);
     const fetchRequestGetAllOrder = async () => {
       try {
-        const requestGetAllOrder = await orderAdminApi.getAllOrder(
+        const requestGetAllOrder = await orderAdminApi.getAllOrderShipper(
           state.filterPaginationAllOrder._page,
           state.filterPaginationAllOrder._limit,
           dayFilter,
           dayFilter,
-          e.target.value
+          e.target.value,
+          loggedInUser._id
         );
         console.log(requestGetAllOrder);
         setPagination(requestGetAllOrder.pagination);
         dispatch({
-          type: ACTIOS.dataAllOrder,
+          type: ACTIOS.dataAllOrderShipper,
           payload: requestGetAllOrder.data,
         });
       } catch (error) {
@@ -151,7 +154,7 @@ function ListOrderAdmin(props) {
         console.log(requestGetOrderByPhone.status === 200);
         if (requestGetOrderByPhone.status === 200) {
           dispatch({
-            type: ACTIOS.dataAllOrder,
+            type: ACTIOS.dataAllOrderShipper,
             payload: requestGetOrderByPhone.data,
           });
           setLoadingSearch(false);
@@ -344,10 +347,10 @@ function ListOrderAdmin(props) {
               </span>
             </div>
             <div className={`${style.list_item_order}`}>
-              {state.dataAllOrder?.map((data, idx) => {
+              {state.dataAllOrderShipper?.map((data, idx) => {
                 return (
                   <div key={idx}>
-                    <ItemOrderAdmin data={data} idx={idx} />
+                    <ItemShipperOrderAdmin data={data} idx={idx} />
                   </div>
                 );
               })}
@@ -369,4 +372,4 @@ function ListOrderAdmin(props) {
   );
 }
 
-export default ListOrderAdmin;
+export default ListOrderShipperAdmin;
